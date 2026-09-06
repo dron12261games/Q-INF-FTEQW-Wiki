@@ -252,6 +252,7 @@
 ### 37. Встроенные функции QuakeC (builtins)
 
 - [Индекс раздела](37-quakec-builtins-reference/README.md)
+- [Точки входа: SSQC, CSQC, MenuQC](37-quakec-builtins-reference/00-entry-points.md)
 - [Математика и работа с векторами](37-quakec-builtins-reference/01-math-vector-builtins.md)
 - [Строки и текст](37-quakec-builtins-reference/02-string-builtins.md)
 - [Сущности и игровой мир](37-quakec-builtins-reference/03-entity-world-builtins.md)
@@ -265,6 +266,7 @@
 - [Скелетная анимация и модели](37-quakec-builtins-reference/10-skeletal-model-builtins.md)
 - [Браузер серверов и мастер-сервер](37-quakec-builtins-reference/11-server-browser-builtins.md)
 - [Системные функции, отладка и cvar](37-quakec-builtins-reference/12-system-debug-builtins.md)
+- [Редактор карт, криптография и разные редкие builtins](37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md)
 
 ### 38. Переменные движка (cvar reference)
 
@@ -275,6 +277,7 @@
 - [Сеть, сервер и мультиплеер](38-cvars-reference/04-network-server-cvars.md)
 - [Физика и игровой процесс](38-cvars-reference/05-physics-gameplay-cvars.md)
 - [Интерфейс, консоль и управление](38-cvars-reference/06-ui-console-input-cvars.md)
+- [Системные, отладочные и прочие cvar](38-cvars-reference/07-system-misc-cvars.md)
 
 ### 39. Ключи сущностей карты (entity keys)
 

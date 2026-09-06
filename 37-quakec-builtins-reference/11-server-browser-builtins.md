@@ -14,7 +14,7 @@
 * **key** — имя serverinfo-ключа, который меню собирается читать как дополнительное поле host cache.
 
 #### Описание и логика работы
-`addwantedhostcachekey` исторически предназначена для предварительной регистрации пользовательского ключа из serverinfo, чтобы браузер серверов знал, какие дополнительные данные вас интересуют. В текущей реализации FTEQW builtin фактически сводится к раннему вызову `gethostcacheindexforkey(key)`: полезного возвращаемого значения нет, но движок резервирует индекс для этого имени. Это удобно, когда вы хотите заранее договориться о нестандартных полях вроде `teamplay`, `skill` или ключей конкретного мода и потом читать их через `gethostcachestring` или `gethostcachenumber`.
+`addwantedhostcachekey` исторически предназначена для предварительной регистрации пользовательского ключа из serverinfo, чтобы браузер серверов знал, какие дополнительные данные вас интересуют. В текущей реализации FTEQW builtin фактически сводится к раннему вызову `gethostcacheindexforkey(key)`: полезного возвращаемого значения нет, но движок резервирует индекс для этого имени. Это удобно, когда вы хотите заранее договориться о нестандартных полях вроде [`teamplay`](../38-cvars-reference/04-network-server-cvars.md#teamplay), `skill` или ключей конкретного мода и потом читать их через `gethostcachestring` или `gethostcachenumber`.
 
 #### Практические сценарии использования
 ```
@@ -44,7 +44,7 @@ return "teamplay: " + value;
 * **key** — текстовое имя поля в host cache или serverinfo, которое нужно превратить в числовой индекс.
 
 #### Описание и логика работы
-`gethostcacheindexforkey` преобразует строковое имя поля в числовой handle, который потом дешевле передавать в `gethostcachestring`, `gethostcachenumber`, `sethostcachemaskstring`, `sethostcachemasknumber` и `sethostcachesort`. Для стандартных имён движок знает готовые соответствия: например, `name`/`hostname`, `address`/`cname`, `gamedir`/`game`, `numplayers`, `numhumans`, `map`, `ping`, `serverinfo`, `player0`, `player1` и так далее. Если имя не относится к стандартным ключам, движок регистрирует его как custom key, после чего этим же индексом можно пользоваться повторно во всех последующих вызовах.
+`gethostcacheindexforkey` преобразует строковое имя поля в числовой handle, который потом дешевле передавать в `gethostcachestring`, `gethostcachenumber`, `sethostcachemaskstring`, `sethostcachemasknumber` и `sethostcachesort`. Для стандартных имён движок знает готовые соответствия: например, `name`/[`hostname`](../38-cvars-reference/04-network-server-cvars.md#hostname), `address`/`cname`, `gamedir`/`game`, `numplayers`, `numhumans`, `map`, `ping`, `serverinfo`, `player0`, `player1` и так далее. Если имя не относится к стандартным ключам, движок регистрирует его как custom key, после чего этим же индексом можно пользоваться повторно во всех последующих вызовах.
 
 #### Практические сценарии использования
 ```
@@ -75,7 +75,7 @@ gethostcachestring(field_address, row));
 * **hostnr** — индекс строки в текущем видимом списке серверов после фильтрации и сортировки.
 
 #### Описание и логика работы
-`gethostcachenumber` читает числовое значение из выбранной записи host cache. Индекс `hostnr` относится не ко всем когда-либо найденным серверам, а именно к текущему **видимому** отсортированному списку; поэтому после `resorthostcache` и `refreshhostcache` прежние номера строк могут измениться. Функция особенно полезна для полей `ping`, `numplayers`, `numhumans`, `maxplayers`, `timelimit`, `fraglimit`, `protocol`, `isfavorite` и других числовых флагов. Если запись с таким номером сейчас не существует, текущая реализация возвращает `-1`.
+`gethostcachenumber` читает числовое значение из выбранной записи host cache. Индекс `hostnr` относится не ко всем когда-либо найденным серверам, а именно к текущему **видимому** отсортированному списку; поэтому после `resorthostcache` и `refreshhostcache` прежние номера строк могут измениться. Функция особенно полезна для полей `ping`, `numplayers`, `numhumans`, `maxplayers`, [`timelimit`](../38-cvars-reference/04-network-server-cvars.md#timelimit), [`fraglimit`](../38-cvars-reference/04-network-server-cvars.md#fraglimit), `protocol`, `isfavorite` и других числовых флагов. Если запись с таким номером сейчас не существует, текущая реализация возвращает `-1`.
 
 #### Практические сценарии использования
 ```
@@ -359,7 +359,7 @@ dprint(sprintf("mod %g: %s\n", i, getgamedirinfo(i, GGDI_DESCRIPTION)));
 * Аргументов нет.
 
 #### Описание и логика работы
-`getextresponse` присутствует в наборе `FTE_CSQC_SERVERBROWSER`, но в текущем FTEQW остаётся заглушкой: клиентская реализация просто возвращает пустую строку. Из-за этого builtin нельзя использовать как надёжный источник данных ни для браузера серверов, ни для внешних сетевых ответов. Если вы встретили её в старом или переносимом коде, рассматривайте как legacy API и сразу закладывайте безопасное поведение для пустого результата.
+[`getextresponse`](04-network-messages-builtins.md#getextresponse) присутствует в наборе `FTE_CSQC_SERVERBROWSER`, но в текущем FTEQW остаётся заглушкой: клиентская реализация просто возвращает пустую строку. Из-за этого builtin нельзя использовать как надёжный источник данных ни для браузера серверов, ни для внешних сетевых ответов. Если вы встретили её в старом или переносимом коде, рассматривайте как legacy API и сразу закладывайте безопасное поведение для пустого результата.
 
 #### Практические сценарии использования
 ```
@@ -381,7 +381,7 @@ dprint(sprintf("ext response: %s\n", s));
 * Аргументов нет.
 
 #### Описание и логика работы
-`calltimeofday` не относится к host cache и вообще не предназначена для MenuQC: в `fteextensions.qc` она объявлена для CSQC/SSQC и помечена как deprecated. При вызове движок немедленно ищет в вашем QuakeC функцию `timeofday`, а если она существует, синхронно вызывает её с аргументами `secs`, `mins`, `hour`, `day`, `mon`, `year`, `strvalue`. Если callback не объявлен, builtin просто ничего не делает. Для нового кода FTEQW прямо рекомендует `strftime`, потому что он гибче и не завязан на скрытый callback.
+`calltimeofday` не относится к host cache и вообще не предназначена для MenuQC: в `fteextensions.qc` она объявлена для CSQC/SSQC и помечена как deprecated. При вызове движок немедленно ищет в вашем QuakeC функцию `timeofday`, а если она существует, синхронно вызывает её с аргументами `secs`, `mins`, `hour`, `day`, `mon`, `year`, `strvalue`. Если callback не объявлен, builtin просто ничего не делает. Для нового кода FTEQW прямо рекомендует [`strftime`](02-string-builtins.md#strftime), потому что он гибче и не завязан на скрытый callback.
 
 #### Практические сценарии использования
 ```
@@ -410,7 +410,7 @@ dprint(sprintf("time now %g:%g (%s)\n", tod_hour, tod_minute, tod_stamp));
 * **state** — новое состояние портала: обычно `1` для открытия и `0` для закрытия.
 
 #### Описание и логика работы
-`openportal` тоже не имеет отношения к host cache и не является MenuQC builtin: она существует в игровой QuakeC для картовых порталов Q2/Q3. Её задача — сообщить движку, должен ли areaportal сейчас пропускать видимость и звук между областями карты. На Q2BSP builtin ориентируется на `style` у `func_areaportal`, а на Q3BSP использует дверь и ранее вычисленные области после `setorigin`. Для браузера серверов эта функция не нужна, но в исходном списке builtins она находится рядом и поэтому часто попадает в общие справочники.
+`openportal` тоже не имеет отношения к host cache и не является MenuQC builtin: она существует в игровой QuakeC для картовых порталов Q2/Q3. Её задача — сообщить движку, должен ли areaportal сейчас пропускать видимость и звук между областями карты. На Q2BSP builtin ориентируется на [`style`](../39-entity-keys-reference/01-worldspawn-common-keys.md#style) у `func_areaportal`, а на Q3BSP использует дверь и ранее вычисленные области после [`setorigin`](03-entity-world-builtins.md#setorigin). Для браузера серверов эта функция не нужна, но в исходном списке builtins она находится рядом и поэтому часто попадает в общие справочники.
 
 #### Практические сценарии использования
 ```
@@ -426,6 +426,29 @@ else
 self.frame = 0;
 openportal(self, 0); // закрыть areaportal
 }
+};
+```
+
+### getpackagemanagerinfo
+`string(int n, int prop) getpackagemanagerinfo = #0:getpackagemanagerinfo;`
+
+* **n** — `int`, индекс пакета в текущем списке package manager subsystem.
+* **prop** — `int`, какой атрибут пакета нужно вернуть; движок ожидает один из `GPMI_*` кодов вроде `GPMI_NAME`, `GPMI_TITLE`, `GPMI_VERSION`, `GPMI_INSTALLED`, `GPMI_ACTION`, `GPMI_MAPS`, `GPMI_PREVIEWIMG` и т.д.
+
+#### Описание и логика работы
+
+`getpackagemanagerinfo` даёт CSQC/MenuQC доступ к списку пакетов, которые знает встроенный package manager движка. Официальная докстрока говорит, что сама функция только читает данные, а реальные действия выполняются отдельными консольными командами `pkg ...`; по реализации видно, что все значения возвращаются строками, включая filesize, статус установки, проценты загрузки, действия и список карт. Перебор обычно делают с `n = 0` вверх до тех пор, пока `getpackagemanagerinfo(n, GPMI_NAME)` не вернёт пустую строку; при первом запросе `n == 0` движок ещё и пинает `PM_AreSourcesNew(true)`, чтобы обновить сведения об источниках. Если пакет скрыт и не находится в одном из активных состояний, либо индекс/поле некорректны, результат будет пустой строкой.
+
+#### Практические сценарии использования
+
+```
+void() ListKnownPackages =
+{
+    local float i;
+    local string name;
+
+    for (i = 0; (name = getpackagemanagerinfo(i, GPMI_NAME)) != ""; i = i + 1)
+        print(name, " -> ", getpackagemanagerinfo(i, GPMI_INSTALLED), "\n");
 };
 ```
 

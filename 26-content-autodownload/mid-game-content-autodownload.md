@@ -28,23 +28,23 @@
 
 | Переменная | По умолчанию | Что разрешает/блокирует |
 | :--- | :--- | :--- |
-| `allow_download_skins` | `1` | Файлы из папки `skins/`. |
-| `allow_download_models` | `1` | Файлы из папок `progs/`/`models/`. |
-| `allow_download_sounds` | `1` | Файлы из папки `sound/`. |
+| [`allow_download_skins`](../38-cvars-reference/04-network-server-cvars.md#allow_download_skins) | `1` | Файлы из папки `skins/`. |
+| [`allow_download_models`](../38-cvars-reference/04-network-server-cvars.md#allow_download_models) | `1` | Файлы из папок `progs/`/`models/`. |
+| [`allow_download_sounds`](../38-cvars-reference/04-network-server-cvars.md#allow_download_sounds) | `1` | Файлы из папки `sound/`. |
 | `allow_download_particles` | `1` | Файлы из папки `particles/`. |
-| `allow_download_demos` | `1` | Файлы из папки `demos/`. |
-| `allow_download_maps` | `1` | Файлы из папки `maps/`, лежащие прямо на диске (не внутри архивов). |
+| [`allow_download_demos`](../38-cvars-reference/04-network-server-cvars.md#allow_download_demos) | `1` | Файлы из папки `demos/`. |
+| [`allow_download_maps`](../38-cvars-reference/04-network-server-cvars.md#allow_download_maps) | `1` | Файлы из папки `maps/`, лежащие прямо на диске (не внутри архивов). |
 | `allow_download_textures` | `1` | Файлы из папки `textures/`. |
 | `allow_download_wads` | `1` | Файлы из папки `wads/` или файлы `.wad` в корне. |
 | `allow_download_locs` | `1` | Файлы из папки `locs/` (файлы именованных точек карты). |
 | `allow_download_packages` | `1` | Целые файлы архивов (`.pak`/`.pk3` и т.п.) с известным расширением. |
 | `allow_download_refpackages` | `1` | Автоматическая докачка архивов, из которых при заходе на карту реально требуются какие-то файлы («связанные» пакеты) — команда `path` помечает такие архивы тегом `(ref)`. |
 | `allow_download_root` | `0` | Разрешает докачку файлов прямо из корня игровой папки (не из специализированных подпапок) — по умолчанию запрещено. |
-| `allow_download_pakmaps` | `0` | Разрешает докачивать файлы карт, если они лежат внутри архивов сервера, а не отдельными файлами: `0` — запрещено, `1` — разрешено, если архив не помечен как содержащий защищённый авторским правом контент, `2` — разрешено всегда (не рекомендуется). |
-| `allow_download_pakcontents` | `0` | То же самое, но для остальных (не карт) файлов внутри архивов сервера. |
-| `allow_download_copyrighted` | `0` | Разрешает докачку архивов, имя которых начинается с `pak` (по соглашению считающихся содержащими защищённый контент оригинальных игр) — трогать эту настройку стоит только если вы уверены в юридической чистоте раздаваемых файлов. |
-| `allow_download_configs` | `0` | Разрешает докачку файлов `.cfg` или из папки `configs/` — **опасно**: конфиги могут содержать пароль RCON и другие приватные данные, включать не рекомендуется. |
-| `allow_download_logs` | `0` | Разрешает докачку файлов с расширением `.log` — **опасно** по той же причине (могут содержать пароли и приватные данные игроков); задаётся только через командную строку или `rcon`, не через обычный конфиг. |
+| [`allow_download_pakmaps`](../38-cvars-reference/04-network-server-cvars.md#allow_download_pakmaps) | `0` | Разрешает докачивать файлы карт, если они лежат внутри архивов сервера, а не отдельными файлами: `0` — запрещено, `1` — разрешено, если архив не помечен как содержащий защищённый авторским правом контент, `2` — разрешено всегда (не рекомендуется). |
+| [`allow_download_pakcontents`](../38-cvars-reference/04-network-server-cvars.md#allow_download_pakcontents) | `0` | То же самое, но для остальных (не карт) файлов внутри архивов сервера. |
+| [`allow_download_copyrighted`](../38-cvars-reference/04-network-server-cvars.md#allow_download_copyrighted) | `0` | Разрешает докачку архивов, имя которых начинается с `pak` (по соглашению считающихся содержащими защищённый контент оригинальных игр) — трогать эту настройку стоит только если вы уверены в юридической чистоте раздаваемых файлов. |
+| [`allow_download_configs`](../38-cvars-reference/04-network-server-cvars.md#allow_download_configs) | `0` | Разрешает докачку файлов `.cfg` или из папки `configs/` — **опасно**: конфиги могут содержать пароль RCON и другие приватные данные, включать не рекомендуется. |
+| [`allow_download_logs`](../38-cvars-reference/04-network-server-cvars.md#allow_download_logs) | `0` | Разрешает докачку файлов с расширением `.log` — **опасно** по той же причине (могут содержать пароли и приватные данные игроков); задаётся только через командную строку или `rcon`, не через обычный конфиг. |
 | `allow_download_other` | `0` | Разрешает докачку любых прочих файлов, не подпадающих ни под одну из категорий выше. |
 
 ## Примеры

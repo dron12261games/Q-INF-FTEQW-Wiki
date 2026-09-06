@@ -14,10 +14,61 @@
 
 ## Встроенные функции QuakeC (builtins)
 
-Всего задокументировано: **504** builtin-функций (включая отдельно посчитанные CSQC- и MenuQC-варианты одноимённых функций). Полный постатейный разбор — в разделе [«37. Встроенные функции QuakeC»](../37-quakec-builtins-reference/README.md).
+Всего задокументировано: **744** builtin-функций и точек входа (включая точки входа SSQC/CSQC/MenuQC и отдельно посчитанные CSQC- и MenuQC-варианты одноимённых функций). Полный постатейный разбор — в разделе [«37. Встроенные функции QuakeC»](../37-quakec-builtins-reference/README.md).
 
 | Функция | Сигнатура | Категория |
 |---|---|---|
+| [`SetNewParms`](../37-quakec-builtins-reference/00-entry-points.md#setnewparms) | `void() SetNewParms` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`SetChangeParms`](../37-quakec-builtins-reference/00-entry-points.md#setchangeparms) | `void() SetChangeParms` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`ClientConnect`](../37-quakec-builtins-reference/00-entry-points.md#clientconnect) | `void() ClientConnect` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`PutClientInServer`](../37-quakec-builtins-reference/00-entry-points.md#putclientinserver) | `void() PutClientInServer` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`ClientKill`](../37-quakec-builtins-reference/00-entry-points.md#clientkill) | `void() ClientKill` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`PlayerPreThink`](../37-quakec-builtins-reference/00-entry-points.md#playerprethink) | `void() PlayerPreThink` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`PlayerPostThink`](../37-quakec-builtins-reference/00-entry-points.md#playerpostthink) | `void() PlayerPostThink` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`StartFrame`](../37-quakec-builtins-reference/00-entry-points.md#startframe) | `void() StartFrame` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`EndFrame`](../37-quakec-builtins-reference/00-entry-points.md#endframe) | `void() EndFrame` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`ClientDisconnect`](../37-quakec-builtins-reference/00-entry-points.md#clientdisconnect) | `void() ClientDisconnect` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`main`](../37-quakec-builtins-reference/00-entry-points.md#main-устаревшая-не-вызывается) | `void() main` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Init`](../37-quakec-builtins-reference/00-entry-points.md#csqc_init) | `void(float apilevel, string enginename, float engineversion) CSQC_Init` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_WorldLoaded`](../37-quakec-builtins-reference/00-entry-points.md#csqc_worldloaded) | `void() CSQC_WorldLoaded` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_UpdateView`](../37-quakec-builtins-reference/00-entry-points.md#csqc_updateview) | `void(float vwidth, float vheight, float notmenu) CSQC_UpdateView` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_InputEvent`](../37-quakec-builtins-reference/00-entry-points.md#csqc_inputevent) | `float(float evtype, float scanx, float chary, float devid) CSQC_InputEvent` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_ConsoleCommand`](../37-quakec-builtins-reference/00-entry-points.md#csqc_consolecommand) | `float(string cmd) CSQC_ConsoleCommand` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_StuffCmd`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_stuffcmd) | `void(string msg) CSQC_Parse_StuffCmd` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_CenterPrint`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_centerprint) | `float(string msg) CSQC_Parse_CenterPrint` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_Print`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_print) | `void(string printmsg, float printlvl) CSQC_Parse_Print` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Ent_Update`](../37-quakec-builtins-reference/00-entry-points.md#csqc_ent_update) | `void(float isnew) CSQC_Ent_Update` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Event_Sound`](../37-quakec-builtins-reference/00-entry-points.md#csqc_event_sound) | `float(float entnum, float channel, string soundname, float vol, float attenuation, vector pos, float pitchmod, float flags) CSQC_Event_Sound` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Ent_Remove`](../37-quakec-builtins-reference/00-entry-points.md#csqc_ent_remove) | `void() CSQC_Ent_Remove` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Shutdown`](../37-quakec-builtins-reference/00-entry-points.md#csqc_shutdown) | `void() CSQC_Shutdown` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_UpdateViewLoading`](../37-quakec-builtins-reference/00-entry-points.md#csqc_updateviewloading) | `void(float vwidth, float vheight, float notmenu) CSQC_UpdateViewLoading` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_DrawHud`](../37-quakec-builtins-reference/00-entry-points.md#csqc_drawhud) | `void(vector viewsize, float scoresshown) CSQC_DrawHud` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_DrawScores`](../37-quakec-builtins-reference/00-entry-points.md#csqc_drawscores) | `void(vector viewsize, float scoresshown) CSQC_DrawScores` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_Event`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_event) | `void() CSQC_Parse_Event` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_Damage`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_damage) | `float(float save, float take, vector inflictororg) CSQC_Parse_Damage` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_SetAngles`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_setangles) | `float(vector angles, float isdelta) CSQC_Parse_SetAngles` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_PlayerInfoChanged`](../37-quakec-builtins-reference/00-entry-points.md#csqc_playerinfochanged) | `void(float playernum) CSQC_PlayerInfoChanged` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_ServerInfoChanged`](../37-quakec-builtins-reference/00-entry-points.md#csqc_serverinfochanged) | `void() CSQC_ServerInfoChanged` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Input_Frame`](../37-quakec-builtins-reference/00-entry-points.md#csqc_input_frame) | `void() CSQC_Input_Frame` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_RendererRestarted`](../37-quakec-builtins-reference/00-entry-points.md#csqc_rendererrestarted) | `void(string rendererdescription) CSQC_RendererRestarted` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_GenerateMaterial`](../37-quakec-builtins-reference/00-entry-points.md#csqc_generatematerial) | `string(string shadername) CSQC_GenerateMaterial` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_ConsoleLink`](../37-quakec-builtins-reference/00-entry-points.md#csqc_consolelink) | `float(string text, string info) CSQC_ConsoleLink` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Ent_Spawn`](../37-quakec-builtins-reference/00-entry-points.md#csqc_ent_spawn) | `void(float newentnum) CSQC_Ent_Spawn` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_ServerSound`](../37-quakec-builtins-reference/00-entry-points.md#csqc_serversound) | `float(float channel, string soundname, vector pos, float vol, float attenuation, float flags) CSQC_ServerSound` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_Parse_TempEntity`](../37-quakec-builtins-reference/00-entry-points.md#csqc_parse_tempentity) | `float() CSQC_Parse_TempEntity` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`CSQC_MapEntityEdited`](../37-quakec-builtins-reference/00-entry-points.md#csqc_mapentityedited) | `void(int entidx, string newentdata) CSQC_MapEntityEdited` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_init`](../37-quakec-builtins-reference/00-entry-points.md#m_init) | `void() m_init` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_shutdown`](../37-quakec-builtins-reference/00-entry-points.md#m_shutdown) | `void() m_shutdown` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_toggle`](../37-quakec-builtins-reference/00-entry-points.md#m_toggle) | `void(float show) m_toggle` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_draw`](../37-quakec-builtins-reference/00-entry-points.md#m_draw) | `void() m_draw` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_drawloading`](../37-quakec-builtins-reference/00-entry-points.md#m_drawloading) | `void() m_drawloading` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_keydown`](../37-quakec-builtins-reference/00-entry-points.md#m_keydown) | `float(float key, float char) m_keydown` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_keyup`](../37-quakec-builtins-reference/00-entry-points.md#m_keyup) | `float(float key, float char) m_keyup` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`Menu_InputEvent`](../37-quakec-builtins-reference/00-entry-points.md#menu_inputevent) | `float(float evtype, float scanx, float chary, float devid) Menu_InputEvent` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_consolecommand`](../37-quakec-builtins-reference/00-entry-points.md#m_consolecommand) | `float(string cmd) m_consolecommand` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`m_gethostcachecategory`](../37-quakec-builtins-reference/00-entry-points.md#m_gethostcachecategory) | `float(float hostcachenum) m_gethostcachecategory` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`Menu_RendererRestarted`](../37-quakec-builtins-reference/00-entry-points.md#menu_rendererrestarted) | `void(string rendererdescription) Menu_RendererRestarted` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
+| [`GameCommand`](../37-quakec-builtins-reference/00-entry-points.md#gamecommand) | `float(string cmd) GameCommand` | Точки входа QuakeC: SSQC, CSQC и MenuQC |
 | [`acos`](../37-quakec-builtins-reference/01-math-vector-builtins.md#acos) | `float(float c) acos = #472;` | Математика и работа с векторами |
 | [`asin`](../37-quakec-builtins-reference/01-math-vector-builtins.md#asin) | `float(float s) asin = #471;` | Математика и работа с векторами |
 | [`atan`](../37-quakec-builtins-reference/01-math-vector-builtins.md#atan) | `float(float t) atan = #473;` | Математика и работа с векторами |
@@ -62,6 +113,13 @@
 | [`stoh`](../37-quakec-builtins-reference/01-math-vector-builtins.md#stoh) | `int(string s) stoh = #261;` | Математика и работа с векторами |
 | [`str2chr`](../37-quakec-builtins-reference/01-math-vector-builtins.md#str2chr) | `float(string str, float index) str2chr = #222;` | Математика и работа с векторами |
 | [`chr2str`](../37-quakec-builtins-reference/01-math-vector-builtins.md#chr2str) | `string(float chr, ...) chr2str = #223;` | Математика и работа с векторами |
+| [`anglesub`](../37-quakec-builtins-reference/01-math-vector-builtins.md#anglesub) | `anglesub(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Математика и работа с векторами |
+| [`crossproduct`](../37-quakec-builtins-reference/01-math-vector-builtins.md#crossproduct) | `crossproduct(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Математика и работа с векторами |
+| [`ftoi`](../37-quakec-builtins-reference/01-math-vector-builtins.md#ftoi) | `ftoi(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Математика и работа с векторами |
+| [`ftou`](../37-quakec-builtins-reference/01-math-vector-builtins.md#ftou) | `ftou(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Математика и работа с векторами |
+| [`itof`](../37-quakec-builtins-reference/01-math-vector-builtins.md#itof) | `itof(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Математика и работа с векторами |
+| [`logarithm`](../37-quakec-builtins-reference/01-math-vector-builtins.md#logarithm) | `logarithm(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Математика и работа с векторами |
+| [`utof`](../37-quakec-builtins-reference/01-math-vector-builtins.md#utof) | `utof(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Математика и работа с векторами |
 | [`strlen`](../37-quakec-builtins-reference/02-string-builtins.md#strlen) | `float(string s) strlen = #114;` | Строки и текст |
 | [`strlennocol`](../37-quakec-builtins-reference/02-string-builtins.md#strlennocol) | `float(string s) strlennocol = #476;` | Строки и текст |
 | [`strcat`](../37-quakec-builtins-reference/02-string-builtins.md#strcat) | `string(string s1, optional string s2, optional string s3, optional string s4, optional string s5, optional string s6, optional string s7, optional string s8) strcat = #115;` | Строки и текст |
@@ -102,6 +160,13 @@
 | [`stringtokeynum`](../37-quakec-builtins-reference/02-string-builtins.md#stringtokeynum) | `float(string keyname) stringtokeynum = #341;` | Строки и текст |
 | [`str2chr`](../37-quakec-builtins-reference/02-string-builtins.md#str2chr) | `float(string str, float index) str2chr = #222;` | Строки и текст |
 | [`chr2str`](../37-quakec-builtins-reference/02-string-builtins.md#chr2str) | `string(float chr, ...) chr2str = #223;` | Строки и текст |
+| [`altstr_ins`](../37-quakec-builtins-reference/02-string-builtins.md#altstr_ins) | `altstr_ins(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#86).` | Строки и текст |
+| [`base64decode`](../37-quakec-builtins-reference/02-string-builtins.md#base64decode) | `base64decode(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Строки и текст |
+| [`base64encode`](../37-quakec-builtins-reference/02-string-builtins.md#base64encode) | `base64encode(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Строки и текст |
+| [`instr`](../37-quakec-builtins-reference/02-string-builtins.md#instr) | `instr(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#206).` | Строки и текст |
+| [`matchpattern`](../37-quakec-builtins-reference/02-string-builtins.md#matchpattern) | `float(string s, string pattern, float matchrule) matchpattern = #538;` | Строки и текст |
+| [`strcmp`](../37-quakec-builtins-reference/02-string-builtins.md#strcmp) | `strcmp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#228, MenuQC=#228).` | Строки и текст |
+| [`strtrim`](../37-quakec-builtins-reference/02-string-builtins.md#strtrim) | `strtrim(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Строки и текст |
 | [`spawn`](../37-quakec-builtins-reference/03-entity-world-builtins.md#spawn) | `entity() spawn = #14;` | Сущности и игровой мир |
 | [`remove`](../37-quakec-builtins-reference/03-entity-world-builtins.md#remove) | `void(entity e) remove = #15;` | Сущности и игровой мир |
 | [`find`](../37-quakec-builtins-reference/03-entity-world-builtins.md#find) | `entity(entity start, .string fld, string match) find = #18;` | Сущности и игровой мир |
@@ -175,6 +240,32 @@
 | [`externset`](../37-quakec-builtins-reference/03-entity-world-builtins.md#externset) | `void(float prnum, __variant newval, string varname) externset = #204;` | Сущности и игровой мир |
 | [`externvalue`](../37-quakec-builtins-reference/03-entity-world-builtins.md#externvalue) | `__variant(float prnum, string varname) externvalue = #203;` | Сущности и игровой мир |
 | [`builtin_find`](../37-quakec-builtins-reference/03-entity-world-builtins.md#builtin_find) | `float(string builtinname) builtin_find = #100;` | Сущности и игровой мир |
+| [`changelevel`](../37-quakec-builtins-reference/03-entity-world-builtins.md#changelevel) | `changelevel(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#70, MenuQC=#64).` | Сущности и игровой мир |
+| [`chat`](../37-quakec-builtins-reference/03-entity-world-builtins.md#chat) | `void(string filename, float starttag, entity edict) chat = #214;` | Сущности и игровой мир |
+| [`empty`](../37-quakec-builtins-reference/03-entity-world-builtins.md#empty) | `void() empty = #249;` | Сущности и игровой мир |
+| [`entityfieldref`](../37-quakec-builtins-reference/03-entity-world-builtins.md#entityfieldref) | `entityfieldref(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сущности и игровой мир |
+| [`entityprotection`](../37-quakec-builtins-reference/03-entity-world-builtins.md#entityprotection) | `entityprotection(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сущности и игровой мир |
+| [`eprint`](../37-quakec-builtins-reference/03-entity-world-builtins.md#eprint) | `void(entity) eprint = #33;` | Сущности и игровой мир |
+| [`find_list`](../37-quakec-builtins-reference/03-entity-world-builtins.md#find_list) | `find_list(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сущности и игровой мир |
+| [`findentity`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findentity) | `findentity(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#98, MenuQC=#25).` | Сущности и игровой мир |
+| [`findentityfield`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findentityfield) | `findentityfield(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сущности и игровой мир |
+| [`findradius_list`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findradius_list) | `findradius_list(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сущности и игровой мир |
+| [`generateentitydata`](../37-quakec-builtins-reference/03-entity-world-builtins.md#generateentitydata) | `generateentitydata(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сущности и игровой мир |
+| [`plaque_draw`](../37-quakec-builtins-reference/03-entity-world-builtins.md#plaque_draw) | `void(entity targ, float stringno) plaque_draw = #0;` | Сущности и игровой мир |
+| [`pushmove`](../37-quakec-builtins-reference/03-entity-world-builtins.md#pushmove) | `float(entity pusher, vector move, vector amove) pushmove = #0;` | Сущности и игровой мир |
+| [`qtest_canreach`](../37-quakec-builtins-reference/03-entity-world-builtins.md#qtest_canreach) | `DEP float(vector v) qtest_canreach = #0;` | Сущности и игровой мир |
+| [`readserverentitystate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#readserverentitystate) | `void(float flags, float simtime) readserverentitystate = #369;` | Сущности и игровой мир |
+| [`readsingleentitystate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#readsingleentitystate) | `readsingleentitystate(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#370).` | Сущности и игровой мир |
+| [`removeentity`](../37-quakec-builtins-reference/03-entity-world-builtins.md#removeentity) | `removeentity(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сущности и игровой мир |
+| [`route_calculate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#route_calculate) | `route_calculate(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сущности и игровой мир |
+| [`runclientphys`](../37-quakec-builtins-reference/03-entity-world-builtins.md#runclientphys) | `runclientphys(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#233).` | Сущности и игровой мир |
+| [`te_gunshotquad`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_gunshotquad) | `void(vector org) te_gunshotquad = #412;` | Сущности и игровой мир |
+| [`te_lightning2`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_lightning2) | `void(entity own, vector start, vector end) te_lightning2 = #429;` | Сущности и игровой мир |
+| [`te_lightning3`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_lightning3) | `void(entity own, vector start, vector end) te_lightning3 = #430;` | Сущности и игровой мир |
+| [`te_muzzleflash`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_muzzleflash) | `void(entity ent) te_muzzleflash = #0;` | Сущности и игровой мир |
+| [`te_spikequad`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_spikequad) | `void(vector org) te_spikequad = #413;` | Сущности и игровой мир |
+| [`te_superspikequad`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_superspikequad) | `void(vector org) te_superspikequad = #414;` | Сущности и игровой мир |
+| [`undefined`](../37-quakec-builtins-reference/03-entity-world-builtins.md#undefined) | `undefined(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#539, SSQC=#509).` | Сущности и игровой мир |
 | [`WriteByte`](../37-quakec-builtins-reference/04-network-messages-builtins.md#writebyte) | `void(float to, float val) WriteByte = #52;` | Сеть и сетевые сообщения |
 | [`WriteChar`](../37-quakec-builtins-reference/04-network-messages-builtins.md#writechar) | `void(float to, float val) WriteChar = #53;` | Сеть и сетевые сообщения |
 | [`WriteShort`](../37-quakec-builtins-reference/04-network-messages-builtins.md#writeshort) | `void(float to, float val) WriteShort = #54;` | Сеть и сетевые сообщения |
@@ -211,6 +302,28 @@
 | [`clienttype`](../37-quakec-builtins-reference/04-network-messages-builtins.md#clienttype) | `float(entity client) clienttype = #455;` | Сеть и сетевые сообщения |
 | [`isdemo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#isdemo) | `float() isdemo = #349;` | Сеть и сетевые сообщения |
 | [`isbackbuffered`](../37-quakec-builtins-reference/04-network-messages-builtins.md#isbackbuffered) | `float(entity player) isbackbuffered = #234;` | Сеть и сетевые сообщения |
+| [`csqc_cvar_defstring`](../37-quakec-builtins-reference/04-network-messages-builtins.md#csqc_cvar_defstring) | `csqc_cvar_defstring(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#482).` | Сеть и сетевые сообщения |
+| [`cvars_haveunsaved`](../37-quakec-builtins-reference/04-network-messages-builtins.md#cvars_haveunsaved) | `cvars_haveunsaved(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`findkeysforcommand_dp`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommand_dp) | `DEP string(string command, optional float bindmap) findkeysforcommand_dp = #610;` | Сеть и сетевые сообщения |
+| [`findkeysforcommand_menu`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommand_menu) | `findkeysforcommand_menu(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#610).` | Сеть и сетевые сообщения |
+| [`findkeysforcommandex`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommandex) | `findkeysforcommandex(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`forceinfokeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#forceinfokeyblob) | `forceinfokeyblob(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`getlocaluserinfo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getlocaluserinfo) | `getlocaluserinfo(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`getlocaluserinfoblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getlocaluserinfoblob) | `getlocaluserinfoblob(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`getplayerkeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyblob) | `getplayerkeyblob(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`getplayerkeyfloat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyfloat) | `getplayerkeyfloat(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`getplayerkeyvalue`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyvalue) | `getplayerkeyvalue(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#348).` | Сеть и сетевые сообщения |
+| [`getplayerstat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerstat) | `getplayerstat(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`readdouble`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readdouble) | `readdouble(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`readint`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readint) | `readint(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`readint64`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readint64) | `readint64(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`readuint64`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readuint64) | `readuint64(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Сеть и сетевые сообщения |
+| [`serverkeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#serverkeyblob) | `serverkeyblob(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`serverkeyfloat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#serverkeyfloat) | `serverkeyfloat(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`setlocaluserinfo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#setlocaluserinfo) | `setlocaluserinfo(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`setlocaluserinfoblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#setlocaluserinfoblob) | `setlocaluserinfoblob(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Сеть и сетевые сообщения |
+| [`uri_get`](../37-quakec-builtins-reference/04-network-messages-builtins.md#uri_get) | `uri_get(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#513, MenuQC=#513).` | Сеть и сетевые сообщения |
+| [`uri_post`](../37-quakec-builtins-reference/04-network-messages-builtins.md#uri_post) | `uri_post(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#513, MenuQC=#513).` | Сеть и сетевые сообщения |
 | [`sound`](../37-quakec-builtins-reference/05-sound-builtins.md#sound) | `void(entity e, float chan, string samp, float vol, float atten, optional float speedpct, optional float flags, optional float timeofs) sound = #8;` | Звук |
 | [`ambientsound`](../37-quakec-builtins-reference/05-sound-builtins.md#ambientsound) | `void (vector pos, string samp, float vol, float atten) ambientsound = #74;` | Звук |
 | [`localsound`](../37-quakec-builtins-reference/05-sound-builtins.md#localsound) | `void(string soundname, optional float channel, optional float volume) localsound = #177;` | Звук |
@@ -220,6 +333,14 @@
 | [`precache_sound`](../37-quakec-builtins-reference/05-sound-builtins.md#precache_sound) | `string(string s) precache_sound = #19;` | Звук |
 | [`precache_sound2`](../37-quakec-builtins-reference/05-sound-builtins.md#precache_sound2) | `string(string str) precache_sound2 = #76;` | Звук |
 | [`SetListener`](../37-quakec-builtins-reference/05-sound-builtins.md#setlistener) | `void(vector origin, vector forward, vector right, vector up, optional float reverbtype) SetListener = #351;` | Звук |
+| [`getchannellevel`](../37-quakec-builtins-reference/05-sound-builtins.md#getchannellevel) | `getchannellevel(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Звук |
+| [`getqueuedaudiotime`](../37-quakec-builtins-reference/05-sound-builtins.md#getqueuedaudiotime) | `getqueuedaudiotime(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Звук |
+| [`getsoundindex`](../37-quakec-builtins-reference/05-sound-builtins.md#getsoundindex) | `getsoundindex(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Звук |
+| [`queueaudio`](../37-quakec-builtins-reference/05-sound-builtins.md#queueaudio) | `queueaudio(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Звук |
+| [`setup_reverb`](../37-quakec-builtins-reference/05-sound-builtins.md#setup_reverb) | `setup_reverb(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Звук |
+| [`soundnameforindex`](../37-quakec-builtins-reference/05-sound-builtins.md#soundnameforindex) | `soundnameforindex(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Звук |
+| [`soundupdate`](../37-quakec-builtins-reference/05-sound-builtins.md#soundupdate) | `soundupdate(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Звук |
+| [`stopsound`](../37-quakec-builtins-reference/05-sound-builtins.md#stopsound) | `stopsound(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Звук |
 | [`fopen`](../37-quakec-builtins-reference/06-files-database-builtins.md#fopen) | `filestream(string filename, float mode, optional float mmapminsize) fopen = #110;` | Файлы, буферы, хеш-таблицы и базы данных |
 | [`fclose`](../37-quakec-builtins-reference/06-files-database-builtins.md#fclose) | `void(filestream fhandle) fclose = #111;` | Файлы, буферы, хеш-таблицы и базы данных |
 | [`fgets`](../37-quakec-builtins-reference/06-files-database-builtins.md#fgets) | `string(filestream fhandle) fgets = #112;` | Файлы, буферы, хеш-таблицы и базы данных |
@@ -276,6 +397,34 @@
 | [`digest_hex`](../37-quakec-builtins-reference/06-files-database-builtins.md#digest_hex) | `string(string digest, string data, ...) digest_hex = #639;` | Файлы, буферы, хеш-таблицы и базы данных |
 | [`fork`](../37-quakec-builtins-reference/06-files-database-builtins.md#fork) | `float(optional float sleeptime) fork = #210;` | Файлы, буферы, хеш-таблицы и базы данных |
 | [`sleep`](../37-quakec-builtins-reference/06-files-database-builtins.md#sleep) | `void(float sleeptime) sleep = #212;` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`createbuffer`](../37-quakec-builtins-reference/06-files-database-builtins.md#createbuffer) | `createbuffer(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`digest_ptr`](../37-quakec-builtins-reference/06-files-database-builtins.md#digest_ptr) | `digest_ptr(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`fread`](../37-quakec-builtins-reference/06-files-database-builtins.md#fread) | `fread(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`fseek`](../37-quakec-builtins-reference/06-files-database-builtins.md#fseek) | `fseek(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`fseek64`](../37-quakec-builtins-reference/06-files-database-builtins.md#fseek64) | `fseek64(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`fsize`](../37-quakec-builtins-reference/06-files-database-builtins.md#fsize) | `fsize(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`fsize64`](../37-quakec-builtins-reference/06-files-database-builtins.md#fsize64) | `fsize64(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`fwrite`](../37-quakec-builtins-reference/06-files-database-builtins.md#fwrite) | `fwrite(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`hash_getcb`](../37-quakec-builtins-reference/06-files-database-builtins.md#hash_getcb) | `hash_getcb(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#293, MenuQC=#293).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_find_object_child`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child) | `json_find_object_child(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_free`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_free) | `json_free(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_child_at_index`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index) | `json_get_child_at_index(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_float`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_float) | `json_get_float(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_integer`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_integer) | `json_get_integer(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_length`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_length) | `json_get_length(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_name`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_name) | `json_get_name(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_string`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_string) | `json_get_string(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_get_value_type`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_value_type) | `json_get_value_type(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`json_parse`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_parse) | `json_parse(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`memcmp`](../37-quakec-builtins-reference/06-files-database-builtins.md#memcmp) | `memcmp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`memrealloc`](../37-quakec-builtins-reference/06-files-database-builtins.md#memrealloc) | `memrealloc(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`memstrsize`](../37-quakec-builtins-reference/06-files-database-builtins.md#memstrsize) | `memstrsize(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`search_fopen`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_fopen) | `search_fopen(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`search_getfilemtime`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getfilemtime) | `search_getfilemtime(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`search_getfilesize`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getfilesize) | `search_getfilesize(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`search_getpackagename`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getpackagename) | `search_getpackagename(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`sqlescapeblob`](../37-quakec-builtins-reference/06-files-database-builtins.md#sqlescapeblob) | `string(float serveridx, __variant *ptr, int maxsize) sqlescapeblob = #0;` | Файлы, буферы, хеш-таблицы и базы данных |
+| [`sqlreadblob`](../37-quakec-builtins-reference/06-files-database-builtins.md#sqlreadblob) | `int(float serveridx, float queryidx, float row, float column, __variant *ptr, int maxsize) sqlreadblob = #0;` | Файлы, буферы, хеш-таблицы и базы данных |
 | [`precache_file`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#precache_file) | `string(string s) precache_file = #68;` | Прекэш и игровые ресурсы |
 | [`precache_file2`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#precache_file2) | `string(string str) precache_file2 = #77;` | Прекэш и игровые ресурсы |
 | [`precache_model`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#precache_model) | `string(string s) precache_model = #20;` | Прекэш и игровые ресурсы |
@@ -296,6 +445,13 @@
 | [`drawgetimagesize`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#drawgetimagesize) | `vector(string picname) drawgetimagesize = #318;` | Прекэш и игровые ресурсы |
 | [`iscachedpic`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#iscachedpic) | `float(string name) iscachedpic = #316;` | Прекэш и игровые ресурсы |
 | [`freepic`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#freepic) | `void(string name) freepic = #319;` | Прекэш и игровые ресурсы |
+| [`addprogs`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#addprogs) | `addprogs(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#202, MenuQC=#202).` | Прекэш и игровые ресурсы |
+| [`frameforaction`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#frameforaction) | `frameforaction(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Прекэш и игровые ресурсы |
+| [`getmodeleventidx`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#getmodeleventidx) | `getmodeleventidx(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Прекэш и игровые ресурсы |
+| [`getnextmodelevent`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#getnextmodelevent) | `getnextmodelevent(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Прекэш и игровые ресурсы |
+| [`modelframecount`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#modelframecount) | `modelframecount(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Прекэш и игровые ресурсы |
+| [`processmodelevents`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#processmodelevents) | `processmodelevents(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Прекэш и игровые ресурсы |
+| [`spriteframe`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#spriteframe) | `spriteframe(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Прекэш и игровые ресурсы |
 | [`addentity`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addentity) | `void(entity ent) addentity = #302;` | Рендеринг и сцена CSQC |
 | [`addentities`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addentities) | `void(float mask) addentities = #301;` | Рендеринг и сцена CSQC |
 | [`clearscene`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#clearscene) | `void() clearscene = #300;` | Рендеринг и сцена CSQC |
@@ -372,6 +528,25 @@
 | [`te_tarexplosion`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#te_tarexplosion) | `void(vector org) te_tarexplosion = #422;` | Рендеринг и сцена CSQC |
 | [`te_teleport`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#te_teleport) | `void(vector org) te_teleport = #426;` | Рендеринг и сцена CSQC |
 | [`te_wizspike`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#te_wizspike) | `void(vector org) te_wizspike = #423;` | Рендеринг и сцена CSQC |
+| [`addentity_lighting`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addentity_lighting) | `addentity_lighting(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Рендеринг и сцена CSQC |
+| [`addtrisoup_simple`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addtrisoup_simple) | `addtrisoup_simple(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`customtempent`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#customtempent) | `customtempent(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#209).` | Рендеринг и сцена CSQC |
+| [`drawrotpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotpic) | `drawrotpic(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Рендеринг и сцена CSQC |
+| [`drawrotpic_dp`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotpic_dp) | `drawrotpic_dp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#329, MenuQC=#470).` | Рендеринг и сцена CSQC |
+| [`drawrotsubpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotsubpic) | `drawrotsubpic(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Рендеринг и сцена CSQC |
+| [`dynamiclight_spawnstatic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#dynamiclight_spawnstatic) | `dynamiclight_spawnstatic(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`getlightstyle`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlightstyle) | `getlightstyle(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`getlightstylergb`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlightstylergb) | `getlightstylergb(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`getlocationname`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlocationname) | `getlocationname(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`pointcontentsmask`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#pointcontentsmask) | `pointcontentsmask(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`R_EndPolygonRibbon`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_endpolygonribbon) | `R_EndPolygonRibbon(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`r_readimage`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_readimage) | `r_readimage(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Рендеринг и сцена CSQC |
+| [`r_uploadimage`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_uploadimage) | `r_uploadimage(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Рендеринг и сцена CSQC |
+| [`registertempent`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#registertempent) | `registertempent(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#208).` | Рендеринг и сцена CSQC |
+| [`remapshader`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#remapshader) | `remapshader(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Рендеринг и сцена CSQC |
+| [`setcolor`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#setcolor) | `setcolor(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#401).` | Рендеринг и сцена CSQC |
+| [`trailparticles_dp`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#trailparticles_dp) | `trailparticles_dp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#336).` | Рендеринг и сцена CSQC |
+| [`V_CalcRefdef`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#v_calcrefdef) | `V_CalcRefdef(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#640).` | Рендеринг и сцена CSQC |
 | [`getinputstate`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getinputstate) | `float(float inputsequencenum) getinputstate = #345;` | Ввод, интерфейс и клавиатура CSQC |
 | [`getkeybind`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getkeybind) | `string(float keynum) getkeybind = #342;` | Ввод, интерфейс и клавиатура CSQC |
 | [`setkeybind`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setkeybind) | `float(float key, string bind, optional float bindmap, optional float modifier) setkeybind = #630;` | Ввод, интерфейс и клавиатура CSQC |
@@ -399,6 +574,14 @@
 | [`gecko_mousemove`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_mousemove) | `void(string name, float x, float y) gecko_mousemove = #491;` | Ввод, интерфейс и клавиатура CSQC |
 | [`gecko_resize`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_resize) | `void(string name, float w, float h) gecko_resize = #492;` | Ввод, интерфейс и клавиатура CSQC |
 | [`gecko_get_texture_extent`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_get_texture_extent) | `vector(string name) gecko_get_texture_extent = #493;` | Ввод, интерфейс и клавиатура CSQC |
+| [`CL_RotateMoves`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#cl_rotatemoves) | `CL_RotateMoves(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#638).` | Ввод, интерфейс и клавиатура CSQC |
+| [`clipboard_get`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#clipboard_get) | `clipboard_get(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
+| [`clipboard_set`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#clipboard_set) | `clipboard_set(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
+| [`drawtextfield`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#drawtextfield) | `drawtextfield(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
+| [`gecko_getproperty`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_getproperty) | `gecko_getproperty(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
+| [`getcursormode`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getcursormode) | `getcursormode(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
+| [`setmousepos`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setmousepos) | `setmousepos(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
+| [`setwindowcaption`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setwindowcaption) | `setwindowcaption(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Ввод, интерфейс и клавиатура CSQC |
 | [`skel_build`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build) | `float(float skel, entity ent, float modelindex, float retainfrac, float firstbone, float lastbone, optional float addfrac) skel_build = #264;` | Скелетная анимация и модели |
 | [`skel_copybones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_copybones) | `void(float skeldst, float skelsrc, float startbone, float entbone) skel_copybones = #274;` | Скелетная анимация и модели |
 | [`skel_create`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_create) | `float(float modlindex, optional float useabstransforms) skel_create = #263;` | Скелетная анимация и модели |
@@ -431,6 +614,9 @@
 | [`setcustomskin`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#setcustomskin) | `void(entity e, string skinfilename, optional string skindata) setcustomskin = #376;` | Скелетная анимация и модели |
 | [`releasecustomskin`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#releasecustomskin) | `void(float skinobj) releasecustomskin = #379;` | Скелетная анимация и модели |
 | [`setcolors`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#setcolors) | `__deprecated("No RGB support.") void(entity ent, float colours) setcolors = #401;` | Скелетная анимация и модели |
+| [`skel_build_ptr`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build_ptr) | `skel_build_ptr(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Скелетная анимация и модели |
+| [`skel_postmul_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bone) | `skel_postmul_bone(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Скелетная анимация и модели |
+| [`skel_postmul_bones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bones) | `skel_postmul_bones(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Скелетная анимация и модели |
 | [`addwantedhostcachekey`](../37-quakec-builtins-reference/11-server-browser-builtins.md#addwantedhostcachekey) | `void(string key) addwantedhostcachekey = #623;` | Браузер серверов и мастер-сервер |
 | [`gethostcacheindexforkey`](../37-quakec-builtins-reference/11-server-browser-builtins.md#gethostcacheindexforkey) | `float(string key) gethostcacheindexforkey = #622;` | Браузер серверов и мастер-сервер |
 | [`gethostcachenumber`](../37-quakec-builtins-reference/11-server-browser-builtins.md#gethostcachenumber) | `float(float fld, float hostnr) gethostcachenumber = #621;` | Браузер серверов и мастер-сервер |
@@ -446,6 +632,7 @@
 | [`getextresponse`](../37-quakec-builtins-reference/11-server-browser-builtins.md#getextresponse) | `string() getextresponse = #624;` | Браузер серверов и мастер-сервер |
 | [`calltimeofday`](../37-quakec-builtins-reference/11-server-browser-builtins.md#calltimeofday) | `__deprecated("Use strftime.") void() calltimeofday = #231;` | Браузер серверов и мастер-сервер |
 | [`openportal`](../37-quakec-builtins-reference/11-server-browser-builtins.md#openportal) | `void(entity portal, float state) openportal = #207;` | Браузер серверов и мастер-сервер |
+| [`getpackagemanagerinfo`](../37-quakec-builtins-reference/11-server-browser-builtins.md#getpackagemanagerinfo) | `getpackagemanagerinfo(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Браузер серверов и мастер-сервер |
 | [`error`](../37-quakec-builtins-reference/12-system-debug-builtins.md#error) | `void(string err, ...) error = #10;` | Системные функции, отладка и cvar |
 | [`objerror`](../37-quakec-builtins-reference/12-system-debug-builtins.md#objerror) | `void(string err, ...) objerror = #11;` | Системные функции, отладка и cvar |
 | [`print`](../37-quakec-builtins-reference/12-system-debug-builtins.md#print) | `void(string s, ...) print = #339;` | Системные функции, отладка и cvar |
@@ -471,6 +658,10 @@
 | [`logfrag`](../37-quakec-builtins-reference/12-system-debug-builtins.md#logfrag) | `void(entity killer, entity killee) logfrag = #79;` | Системные функции, отладка и cvar |
 | [`setpause`](../37-quakec-builtins-reference/12-system-debug-builtins.md#setpause) | `void(float pause) setpause = #531;` | Системные функции, отладка и cvar |
 | [`localcmd`](../37-quakec-builtins-reference/12-system-debug-builtins.md#localcmd) | `void(string s, ...) localcmd = #46;` | Системные функции, отладка и cvar |
+| [`abort`](../37-quakec-builtins-reference/12-system-debug-builtins.md#abort) | `abort(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#211, MenuQC=#211).` | Системные функции, отладка и cvar |
+| [`argc`](../37-quakec-builtins-reference/12-system-debug-builtins.md#argc) | `argc(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Системные функции, отладка и cvar |
+| [`checkbuiltin`](../37-quakec-builtins-reference/12-system-debug-builtins.md#checkbuiltin) | `checkbuiltin(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Системные функции, отладка и cvar |
+| [`externrefcall`](../37-quakec-builtins-reference/12-system-debug-builtins.md#externrefcall) | `externrefcall(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#205).` | Системные функции, отладка и cvar |
 | [`addentity`](../37-quakec-builtins-reference/13-menuqc-builtins.md#addentity) | `void(entity ent) addentity = #302;` | Функции MenuQC (меню, экран загрузки) |
 | [`addentities`](../37-quakec-builtins-reference/13-menuqc-builtins.md#addentities) | `void(float mask) addentities = #301;` | Функции MenuQC (меню, экран загрузки) |
 | [`clearscene`](../37-quakec-builtins-reference/13-menuqc-builtins.md#clearscene) | `void() clearscene = #300;` | Функции MenuQC (меню, экран загрузки) |
@@ -522,12 +713,61 @@
 | [`gecko_mousemove`](../37-quakec-builtins-reference/13-menuqc-builtins.md#gecko_mousemove) | `void(string name, float x, float y) gecko_mousemove = #491;` | Функции MenuQC (меню, экран загрузки) |
 | [`gecko_resize`](../37-quakec-builtins-reference/13-menuqc-builtins.md#gecko_resize) | `void(string name, float w, float h) gecko_resize = #492;` | Функции MenuQC (меню, экран загрузки) |
 | [`gecko_get_texture_extent`](../37-quakec-builtins-reference/13-menuqc-builtins.md#gecko_get_texture_extent) | `vector(string name) gecko_get_texture_extent = #493;` | Функции MenuQC (меню, экран загрузки) |
+| [`brush_calcfacepoints`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_calcfacepoints) | `brush_calcfacepoints(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`brush_create`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_create) | `brush_create(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`brush_delete`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_delete) | `brush_delete(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`brush_findinvolume`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_findinvolume) | `brush_findinvolume(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`brush_get`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_get) | `brush_get(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`brush_getfacepoints`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_getfacepoints) | `brush_getfacepoints(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`brush_selected`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_selected) | `brush_selected(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`bulleten`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#bulleten) | `bulleten(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#243).` | Редактор карт, криптография и разные редкие builtins |
+| [`cin_close`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_close) | `cin_close(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#462).` | Редактор карт, криптография и разные редкие builtins |
+| [`cin_getstate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_getstate) | `cin_getstate(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#464).` | Редактор карт, криптография и разные редкие builtins |
+| [`cin_open`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_open) | `cin_open(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#461).` | Редактор карт, криптография и разные редкие builtins |
+| [`cin_restart`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_restart) | `cin_restart(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#465).` | Редактор карт, криптография и разные редкие builtins |
+| [`cin_setstate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_setstate) | `cin_setstate(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#463).` | Редактор карт, криптография и разные редкие builtins |
+| [`controller_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_query) | `controller_query(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#740, MenuQC=#740).` | Редактор карт, криптография и разные редкие builtins |
+| [`controller_rumble`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_rumble) | `controller_rumble(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#741, MenuQC=#741).` | Редактор карт, криптография и разные редкие builtins |
+| [`controller_rumbletriggers`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_rumbletriggers) | `controller_rumbletriggers(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#742, MenuQC=#742).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getencryptlevel`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getencryptlevel) | `crypto_getencryptlevel(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#635).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getidfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getidfp) | `crypto_getidfp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#634).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getidstatus`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getidstatus) | `crypto_getidstatus(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#643).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getkeyfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getkeyfp) | `crypto_getkeyfp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#633).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getmyidfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmyidfp) | `crypto_getmyidfp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#637).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getmyidstatus`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmyidstatus) | `crypto_getmyidstatus(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#641).` | Редактор карт, криптография и разные редкие builtins |
+| [`crypto_getmykeyfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmykeyfp) | `crypto_getmykeyfp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#636).` | Редактор карт, криптография и разные редкие builtins |
+| [`free_pic`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#free_pic) | `free_pic(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#453).` | Редактор карт, криптография и разные редкие builtins |
+| [`gettime`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettime) | `float(optional float timetype) gettime = #519;` | Редактор карт, криптография и разные редкие builtins |
+| [`gettimed`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettimed) | `__double(optional int timetype) gettimed = #0;` | Редактор карт, криптография и разные редкие builtins |
+| [`gettimef`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettimef) | `gettimef(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#519).` | Редактор карт, криптография и разные редкие builtins |
+| [`gp_getlayout`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_getlayout) | `gp_getlayout(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`gp_rumble`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_rumble) | `gp_rumble(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`gp_rumbletriggers`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_rumbletriggers) | `gp_rumbletriggers(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`gp_setledcolor`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_setledcolor) | `gp_setledcolor(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`gp_settriggerfx`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_settriggerfx) | `gp_settriggerfx(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`js_run_script`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#js_run_script) | `js_run_script(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`map_builtin`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#map_builtin) | `map_builtin(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#220).` | Редактор карт, криптография и разные редкие builtins |
+| [`patch_create`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_create) | `patch_create(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`patch_evaluate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_evaluate) | `patch_evaluate(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`patch_getcp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_getcp) | `patch_getcp(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`patch_getmesh`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_getmesh) | `patch_getmesh(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`print_csqc`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#print_csqc) | `print_csqc(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#339).` | Редактор карт, криптография и разные редкие builtins |
+| [`removeinstant`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#removeinstant) | `removeinstant(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`setwatchpoint`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#setwatchpoint) | `setwatchpoint(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` | Редактор карт, криптография и разные редкие builtins |
+| [`stachievement_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_query) | `stachievement_query(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#731, MenuQC=#731).` | Редактор карт, криптография и разные редкие builtins |
+| [`stachievement_register`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_register) | `stachievement_register(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#735, MenuQC=#735).` | Редактор карт, криптография и разные редкие builtins |
+| [`stachievement_unlock`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_unlock) | `stachievement_unlock(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#730, MenuQC=#730).` | Редактор карт, криптография и разные редкие builtins |
+| [`ststat_increment`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_increment) | `ststat_increment(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#733, MenuQC=#733).` | Редактор карт, криптография и разные редкие builtins |
+| [`ststat_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_query) | `ststat_query(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#734, MenuQC=#734).` | Редактор карт, криптография и разные редкие builtins |
+| [`ststat_register`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_register) | `ststat_register(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#736, MenuQC=#736).` | Редактор карт, криптография и разные редкие builtins |
+| [`ststat_setvalue`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_setvalue) | `ststat_setvalue(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#732, MenuQC=#732).` | Редактор карт, криптография и разные редкие builtins |
+| [`videoplaying`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#videoplaying) | `videoplaying(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#355).` | Редактор карт, криптография и разные редкие builtins |
 
 ## Переменные движка (cvar)
 
-Всего задокументировано: **360** cvar. Полный постатейный разбор — в разделе [«38. Переменные движка»](../38-cvars-reference/README.md).
+Всего задокументировано: **1279** cvar. Полный постатейный разбор — в разделе [«38. Переменные движка»](../38-cvars-reference/README.md).
 
-| Cvar | Объявление | Категория |
+| Функция | Сигнатура | Категория |
 |---|---|---|
 | [`crosshair`](../38-cvars-reference/01-video-rendering-cvars.md#crosshair) | `cvar crosshair(boolean/int, "1")` | Видео, экран и общий рендеринг |
 | [`crosshaircorrect`](../38-cvars-reference/01-video-rendering-cvars.md#crosshaircorrect) | `cvar crosshaircorrect(boolean/int, "0")` | Видео, экран и общий рендеринг |
@@ -587,6 +827,247 @@
 | [`vid_srgb`](../38-cvars-reference/01-video-rendering-cvars.md#vid_srgb) | `cvar vid_srgb(int, "0")` | Видео, экран и общий рендеринг |
 | [`vid_vsync`](../38-cvars-reference/01-video-rendering-cvars.md#vid_vsync) | `cvar vid_vsync(int, "0")` | Видео, экран и общий рендеринг |
 | [`vid_width`](../38-cvars-reference/01-video-rendering-cvars.md#vid_width) | `cvar vid_width(int, "0")` | Видео, экран и общий рендеринг |
+| [`_vid_renderer_opts`](../38-cvars-reference/01-video-rendering-cvars.md#_vid_renderer_opts) | `cvar _vid_renderer_opts(string, "The possible video renderer apis, in \\"value\\" \\"description\\" pairs, for gamecode to read.")` | Видео, экран и общий рендеринг |
+| [`brightness`](../38-cvars-reference/01-video-rendering-cvars.md#brightness) | `cvar brightness(float, "0.0")` | Видео, экран и общий рендеринг |
+| [`gl_ati_truform_type`](../38-cvars-reference/01-video-rendering-cvars.md#gl_ati_truform_type) | `cvar gl_ati_truform_type(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_blacklist_texture_compression`](../38-cvars-reference/01-video-rendering-cvars.md#gl_blacklist_texture_compression) | `cvar gl_blacklist_texture_compression(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_blend2d`](../38-cvars-reference/01-video-rendering-cvars.md#gl_blend2d) | `cvar gl_blend2d(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_blendsprites`](../38-cvars-reference/01-video-rendering-cvars.md#gl_blendsprites) | `cvar gl_blendsprites(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_conback`](../38-cvars-reference/01-video-rendering-cvars.md#gl_conback) | `cvar gl_conback(string, "")` | Видео, экран и общий рендеринг |
+| [`gl_cshiftpercent`](../38-cvars-reference/01-video-rendering-cvars.md#gl_cshiftpercent) | `cvar gl_cshiftpercent(int, "100")` | Видео, экран и общий рендеринг |
+| [`gl_detail`](../38-cvars-reference/01-video-rendering-cvars.md#gl_detail) | `cvar gl_detail(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_detailscale`](../38-cvars-reference/01-video-rendering-cvars.md#gl_detailscale) | `cvar gl_detailscale(int, "5")` | Видео, экран и общий рендеринг |
+| [`gl_driver`](../38-cvars-reference/01-video-rendering-cvars.md#gl_driver) | `cvar gl_driver(string, "")` | Видео, экран и общий рендеринг |
+| [`gl_font`](../38-cvars-reference/01-video-rendering-cvars.md#gl_font) | `cvar gl_font(string, "")` | Видео, экран и общий рендеринг |
+| [`gl_immutable_buffers`](../38-cvars-reference/01-video-rendering-cvars.md#gl_immutable_buffers) | `cvar gl_immutable_buffers(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_immutable_textures`](../38-cvars-reference/01-video-rendering-cvars.md#gl_immutable_textures) | `cvar gl_immutable_textures(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_lateswap`](../38-cvars-reference/01-video-rendering-cvars.md#gl_lateswap) | `cvar gl_lateswap(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_lightmap_average`](../38-cvars-reference/01-video-rendering-cvars.md#gl_lightmap_average) | `cvar gl_lightmap_average(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_lightmap_nearest`](../38-cvars-reference/01-video-rendering-cvars.md#gl_lightmap_nearest) | `cvar gl_lightmap_nearest(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_load24bit`](../38-cvars-reference/01-video-rendering-cvars.md#gl_load24bit) | `cvar gl_load24bit(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_maxdist`](../38-cvars-reference/01-video-rendering-cvars.md#gl_maxdist) | `cvar gl_maxdist(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_mindist`](../38-cvars-reference/01-video-rendering-cvars.md#gl_mindist) | `cvar gl_mindist(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_nocolors`](../38-cvars-reference/01-video-rendering-cvars.md#gl_nocolors) | `cvar gl_nocolors(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_nohwblend`](../38-cvars-reference/01-video-rendering-cvars.md#gl_nohwblend) | `cvar gl_nohwblend(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_outline`](../38-cvars-reference/01-video-rendering-cvars.md#gl_outline) | `cvar gl_outline(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_outline_width`](../38-cvars-reference/01-video-rendering-cvars.md#gl_outline_width) | `cvar gl_outline_width(int, "2")` | Видео, экран и общий рендеринг |
+| [`gl_overbright_all`](../38-cvars-reference/01-video-rendering-cvars.md#gl_overbright_all) | `cvar gl_overbright_all(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_overbright_models`](../38-cvars-reference/01-video-rendering-cvars.md#gl_overbright_models) | `cvar gl_overbright_models(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_part_flame`](../38-cvars-reference/01-video-rendering-cvars.md#gl_part_flame) | `cvar gl_part_flame(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_pbolightmaps`](../38-cvars-reference/01-video-rendering-cvars.md#gl_pbolightmaps) | `cvar gl_pbolightmaps(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_polyblend_edgesize`](../38-cvars-reference/01-video-rendering-cvars.md#gl_polyblend_edgesize) | `cvar gl_polyblend_edgesize(int, "128")` | Видео, экран и общий рендеринг |
+| [`gl_schematics`](../38-cvars-reference/01-video-rendering-cvars.md#gl_schematics) | `cvar gl_schematics(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_screenangle`](../38-cvars-reference/01-video-rendering-cvars.md#gl_screenangle) | `cvar gl_screenangle(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_shadeq1_name`](../38-cvars-reference/01-video-rendering-cvars.md#gl_shadeq1_name) | `cvar gl_shadeq1_name(string, "*")` | Видео, экран и общий рендеринг |
+| [`gl_shaftlight`](../38-cvars-reference/01-video-rendering-cvars.md#gl_shaftlight) | `cvar gl_shaftlight(float, "0.8")` | Видео, экран и общий рендеринг |
+| [`gl_simpleitems`](../38-cvars-reference/01-video-rendering-cvars.md#gl_simpleitems) | `cvar gl_simpleitems(int, "0")` | Видео, экран и общий рендеринг |
+| [`gl_specular`](../38-cvars-reference/01-video-rendering-cvars.md#gl_specular) | `cvar gl_specular(float, "0.3")` | Видео, экран и общий рендеринг |
+| [`gl_specular_fallback`](../38-cvars-reference/01-video-rendering-cvars.md#gl_specular_fallback) | `cvar gl_specular_fallback(float, "0.05")` | Видео, экран и общий рендеринг |
+| [`gl_specular_fallbackexp`](../38-cvars-reference/01-video-rendering-cvars.md#gl_specular_fallbackexp) | `cvar gl_specular_fallbackexp(int, "1")` | Видео, экран и общий рендеринг |
+| [`gl_specular_power`](../38-cvars-reference/01-video-rendering-cvars.md#gl_specular_power) | `cvar gl_specular_power(int, "32")` | Видео, экран и общий рендеринг |
+| [`msg_filter_frags`](../38-cvars-reference/01-video-rendering-cvars.md#msg_filter_frags) | `cvar msg_filter_frags(int, "0")` | Видео, экран и общий рендеринг |
+| [`msg_filter_pickups`](../38-cvars-reference/01-video-rendering-cvars.md#msg_filter_pickups) | `cvar msg_filter_pickups(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_allowbutton1`](../38-cvars-reference/01-video-rendering-cvars.md#pr_allowbutton1) | `cvar pr_allowbutton1(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_autocreatecvars`](../38-cvars-reference/01-video-rendering-cvars.md#pr_autocreatecvars) | `cvar pr_autocreatecvars(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_brokenfloatconvert`](../38-cvars-reference/01-video-rendering-cvars.md#pr_brokenfloatconvert) | `cvar pr_brokenfloatconvert(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_compatabilitytest`](../38-cvars-reference/01-video-rendering-cvars.md#pr_compatabilitytest) | `cvar pr_compatabilitytest(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_coreonerror`](../38-cvars-reference/01-video-rendering-cvars.md#pr_coreonerror) | `cvar pr_coreonerror(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_csqc_coreonerror`](../38-cvars-reference/01-video-rendering-cvars.md#pr_csqc_coreonerror) | `cvar pr_csqc_coreonerror(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_csqc_formenus`](../38-cvars-reference/01-video-rendering-cvars.md#pr_csqc_formenus) | `cvar pr_csqc_formenus(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_csqc_maxedicts`](../38-cvars-reference/01-video-rendering-cvars.md#pr_csqc_maxedicts) | `cvar pr_csqc_maxedicts(int, "65536")` | Видео, экран и общий рендеринг |
+| [`pr_csqc_memsize`](../38-cvars-reference/01-video-rendering-cvars.md#pr_csqc_memsize) | `cvar pr_csqc_memsize(int, "-1")` | Видео, экран и общий рендеринг |
+| [`pr_debugger`](../38-cvars-reference/01-video-rendering-cvars.md#pr_debugger) | `cvar pr_debugger(string, "debugger")` | Видео, экран и общий рендеринг |
+| [`pr_droptofloorunits`](../38-cvars-reference/01-video-rendering-cvars.md#pr_droptofloorunits) | `cvar pr_droptofloorunits(int, "256")` | Видео, экран и общий рендеринг |
+| [`pr_enable_profiling`](../38-cvars-reference/01-video-rendering-cvars.md#pr_enable_profiling) | `cvar pr_enable_profiling(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_enable_uriget`](../38-cvars-reference/01-video-rendering-cvars.md#pr_enable_uriget) | `cvar pr_enable_uriget(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_engine`](../38-cvars-reference/01-video-rendering-cvars.md#pr_engine) | `cvar pr_engine(string, " -")` | Видео, экран и общий рендеринг |
+| [`pr_ext_dp_qc_getsurface`](../38-cvars-reference/01-video-rendering-cvars.md#pr_ext_dp_qc_getsurface) | `cvar pr_ext_dp_qc_getsurface(string, "")` | Видео, экран и общий рендеринг |
+| [`pr_fixbrokenqccarrays`](../38-cvars-reference/01-video-rendering-cvars.md#pr_fixbrokenqccarrays) | `cvar pr_fixbrokenqccarrays(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_gc_threaded`](../38-cvars-reference/01-video-rendering-cvars.md#pr_gc_threaded) | `cvar pr_gc_threaded(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_imitatemvdsv`](../38-cvars-reference/01-video-rendering-cvars.md#pr_imitatemvdsv) | `cvar pr_imitatemvdsv(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_maxedicts`](../38-cvars-reference/01-video-rendering-cvars.md#pr_maxedicts) | `cvar pr_maxedicts(int, "131072")` | Видео, экран и общий рендеринг |
+| [`pr_no_parsecommand`](../38-cvars-reference/01-video-rendering-cvars.md#pr_no_parsecommand) | `cvar pr_no_parsecommand(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_no_playerphysics`](../38-cvars-reference/01-video-rendering-cvars.md#pr_no_playerphysics) | `cvar pr_no_playerphysics(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_nonetaccess`](../38-cvars-reference/01-video-rendering-cvars.md#pr_nonetaccess) | `cvar pr_nonetaccess(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_overridebuiltins`](../38-cvars-reference/01-video-rendering-cvars.md#pr_overridebuiltins) | `cvar pr_overridebuiltins(int, "1")` | Видео, экран и общий рендеринг |
+| [`pr_precachepic_slow`](../38-cvars-reference/01-video-rendering-cvars.md#pr_precachepic_slow) | `cvar pr_precachepic_slow(int, "0")` | Видео, экран и общий рендеринг |
+| [`pr_sourcedir`](../38-cvars-reference/01-video-rendering-cvars.md#pr_sourcedir) | `cvar pr_sourcedir(string, "src")` | Видео, экран и общий рендеринг |
+| [`pr_ssqc_memsize`](../38-cvars-reference/01-video-rendering-cvars.md#pr_ssqc_memsize) | `cvar pr_ssqc_memsize(int, "-1")` | Видео, экран и общий рендеринг |
+| [`pr_tempstringcount`](../38-cvars-reference/01-video-rendering-cvars.md#pr_tempstringcount) | `cvar pr_tempstringcount(string, "")` | Видео, экран и общий рендеринг |
+| [`pr_tempstringsize`](../38-cvars-reference/01-video-rendering-cvars.md#pr_tempstringsize) | `cvar pr_tempstringsize(int, "4096")` | Видео, экран и общий рендеринг |
+| [`r_bloodstains`](../38-cvars-reference/01-video-rendering-cvars.md#r_bloodstains) | `cvar r_bloodstains(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_bluelight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_bluelight_colour) | `cvar r_bluelight_colour(string, "0.5 0.5 3.0 200")` | Видео, экран и общий рендеринг |
+| [`r_bouncysparks`](../38-cvars-reference/01-video-rendering-cvars.md#r_bouncysparks) | `cvar r_bouncysparks(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_brightlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_brightlight_colour) | `cvar r_brightlight_colour(string, "2.0 1.0 0.5 400")` | Видео, экран и общий рендеринг |
+| [`r_clear`](../38-cvars-reference/01-video-rendering-cvars.md#r_clear) | `cvar r_clear(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_clearcolour`](../38-cvars-reference/01-video-rendering-cvars.md#r_clearcolour) | `cvar r_clearcolour(string, "0.12 0.12 0.12")` | Видео, экран и общий рендеринг |
+| [`r_clutter_density`](../38-cvars-reference/01-video-rendering-cvars.md#r_clutter_density) | `cvar r_clutter_density(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_clutter_distance`](../38-cvars-reference/01-video-rendering-cvars.md#r_clutter_distance) | `cvar r_clutter_distance(int, "1024")` | Видео, экран и общий рендеринг |
+| [`r_coronas`](../38-cvars-reference/01-video-rendering-cvars.md#r_coronas) | `cvar r_coronas(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_decal_noperpendicular`](../38-cvars-reference/01-video-rendering-cvars.md#r_decal_noperpendicular) | `cvar r_decal_noperpendicular(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_deluxemapping`](../38-cvars-reference/01-video-rendering-cvars.md#r_deluxemapping) | `cvar r_deluxemapping(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_dimlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_dimlight_colour) | `cvar r_dimlight_colour(string, "2.0 1.0 0.5 200")` | Видео, экран и общий рендеринг |
+| [`r_dodgymiptex`](../38-cvars-reference/01-video-rendering-cvars.md#r_dodgymiptex) | `cvar r_dodgymiptex(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_dodgypcxfiles`](../38-cvars-reference/01-video-rendering-cvars.md#r_dodgypcxfiles) | `cvar r_dodgypcxfiles(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_dodgytgafiles`](../38-cvars-reference/01-video-rendering-cvars.md#r_dodgytgafiles) | `cvar r_dodgytgafiles(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_drawentities`](../38-cvars-reference/01-video-rendering-cvars.md#r_drawentities) | `cvar r_drawentities(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_drawflame`](../38-cvars-reference/01-video-rendering-cvars.md#r_drawflame) | `cvar r_drawflame(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_drawviewmodelinvis`](../38-cvars-reference/01-video-rendering-cvars.md#r_drawviewmodelinvis) | `cvar r_drawviewmodelinvis(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_editlights`](../38-cvars-reference/01-video-rendering-cvars.md#r_editlights) | `cvar r_editlights(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_explosionlight`](../38-cvars-reference/01-video-rendering-cvars.md#r_explosionlight) | `cvar r_explosionlight(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_explosionlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_explosionlight_colour) | `cvar r_explosionlight_colour(string, "4.0 2.0 0.5")` | Видео, экран и общий рендеринг |
+| [`r_explosionlight_fade`](../38-cvars-reference/01-video-rendering-cvars.md#r_explosionlight_fade) | `cvar r_explosionlight_fade(string, "0.784 0.92 0.48")` | Видео, экран и общий рендеринг |
+| [`r_fastturb`](../38-cvars-reference/01-video-rendering-cvars.md#r_fastturb) | `cvar r_fastturb(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_fastturbcolour`](../38-cvars-reference/01-video-rendering-cvars.md#r_fastturbcolour) | `cvar r_fastturbcolour(string, "0.1 0.2 0.3")` | Видео, экран и общий рендеринг |
+| [`r_fb_bmodels`](../38-cvars-reference/01-video-rendering-cvars.md#r_fb_bmodels) | `cvar r_fb_bmodels(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_fb_models`](../38-cvars-reference/01-video-rendering-cvars.md#r_fb_models) | `cvar r_fb_models(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_floorcolour`](../38-cvars-reference/01-video-rendering-cvars.md#r_floorcolour) | `cvar r_floorcolour(string, "64 64 128")` | Видео, экран и общий рендеринг |
+| [`r_fog_cullentities`](../38-cvars-reference/01-video-rendering-cvars.md#r_fog_cullentities) | `cvar r_fog_cullentities(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_fog_exp2`](../38-cvars-reference/01-video-rendering-cvars.md#r_fog_exp2) | `cvar r_fog_exp2(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_fog_linear`](../38-cvars-reference/01-video-rendering-cvars.md#r_fog_linear) | `cvar r_fog_linear(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_fog_permutation`](../38-cvars-reference/01-video-rendering-cvars.md#r_fog_permutation) | `cvar r_fog_permutation(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_font_linear`](../38-cvars-reference/01-video-rendering-cvars.md#r_font_linear) | `cvar r_font_linear(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_graphics`](../38-cvars-reference/01-video-rendering-cvars.md#r_graphics) | `cvar r_graphics(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_greenlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_greenlight_colour) | `cvar r_greenlight_colour(string, "0.5 3.0 0.5 200")` | Видео, экран и общий рендеринг |
+| [`r_grenadetrail`](../38-cvars-reference/01-video-rendering-cvars.md#r_grenadetrail) | `cvar r_grenadetrail(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_hdr_framebuffer`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_framebuffer) | `cvar r_hdr_framebuffer(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_hdr_irisadaptation`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation) | `cvar r_hdr_irisadaptation(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_hdr_irisadaptation_fade_down`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation_fade_down) | `cvar r_hdr_irisadaptation_fade_down(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`r_hdr_irisadaptation_fade_up`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation_fade_up) | `cvar r_hdr_irisadaptation_fade_up(float, "0.1")` | Видео, экран и общий рендеринг |
+| [`r_hdr_irisadaptation_maxvalue`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation_maxvalue) | `cvar r_hdr_irisadaptation_maxvalue(int, "4")` | Видео, экран и общий рендеринг |
+| [`r_hdr_irisadaptation_minvalue`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation_minvalue) | `cvar r_hdr_irisadaptation_minvalue(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`r_hdr_irisadaptation_multiplier`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation_multiplier) | `cvar r_hdr_irisadaptation_multiplier(int, "2")` | Видео, экран и общий рендеринг |
+| [`r_ignoreentpvs`](../38-cvars-reference/01-video-rendering-cvars.md#r_ignoreentpvs) | `cvar r_ignoreentpvs(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_ignoremapprefixes`](../38-cvars-reference/01-video-rendering-cvars.md#r_ignoremapprefixes) | `cvar r_ignoremapprefixes(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_imageextensions`](../38-cvars-reference/01-video-rendering-cvars.md#r_imageextensions) | `cvar r_imageextensions(string, "The list of image file extensions which might exist on disk (note that this does not list all supported formats, only the extensions that should be searched for).")` | Видео, экран и общий рендеринг |
+| [`r_keepimages`](../38-cvars-reference/01-video-rendering-cvars.md#r_keepimages) | `cvar r_keepimages(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_lavaalpha`](../38-cvars-reference/01-video-rendering-cvars.md#r_lavaalpha) | `cvar r_lavaalpha(string, "")` | Видео, экран и общий рендеринг |
+| [`r_lavastyle`](../38-cvars-reference/01-video-rendering-cvars.md#r_lavastyle) | `cvar r_lavastyle(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_lerpmuzzlehack`](../38-cvars-reference/01-video-rendering-cvars.md#r_lerpmuzzlehack) | `cvar r_lerpmuzzlehack(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_loadlit`](../38-cvars-reference/01-video-rendering-cvars.md#r_loadlit) | `cvar r_loadlit(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_loadsurfenvmaps`](../38-cvars-reference/01-video-rendering-cvars.md#r_loadsurfenvmaps) | `cvar r_loadsurfenvmaps(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_max_gpu_bones`](../38-cvars-reference/01-video-rendering-cvars.md#r_max_gpu_bones) | `cvar r_max_gpu_bones(string, "")` | Видео, экран и общий рендеринг |
+| [`r_menutint`](../38-cvars-reference/01-video-rendering-cvars.md#r_menutint) | `cvar r_menutint(string, "0.68 0.4 0.13")` | Видео, экран и общий рендеринг |
+| [`r_meshpitch`](../38-cvars-reference/01-video-rendering-cvars.md#r_meshpitch) | `cvar r_meshpitch(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_meshroll`](../38-cvars-reference/01-video-rendering-cvars.md#r_meshroll) | `cvar r_meshroll(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_mirroralpha`](../38-cvars-reference/01-video-rendering-cvars.md#r_mirroralpha) | `cvar r_mirroralpha(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_muzzleflash_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_muzzleflash_colour) | `cvar r_muzzleflash_colour(string, "1.5 1.3 1.0 200")` | Видео, экран и общий рендеринг |
+| [`r_muzzleflash_fade`](../38-cvars-reference/01-video-rendering-cvars.md#r_muzzleflash_fade) | `cvar r_muzzleflash_fade(string, "1.5 0.75 0.375 1000")` | Видео, экран и общий рендеринг |
+| [`r_netgraph`](../38-cvars-reference/01-video-rendering-cvars.md#r_netgraph) | `cvar r_netgraph(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_noaliasshadows`](../38-cvars-reference/01-video-rendering-cvars.md#r_noaliasshadows) | `cvar r_noaliasshadows(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_nolerp_list`](../38-cvars-reference/01-video-rendering-cvars.md#r_nolerp_list) | `cvar r_nolerp_list(string, "")` | Видео, экран и общий рендеринг |
+| [`r_nolightdir`](../38-cvars-reference/01-video-rendering-cvars.md#r_nolightdir) | `cvar r_nolightdir(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_norefresh`](../38-cvars-reference/01-video-rendering-cvars.md#r_norefresh) | `cvar r_norefresh(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_noshadow_list`](../38-cvars-reference/01-video-rendering-cvars.md#r_noshadow_list) | `cvar r_noshadow_list(string, "r_noEntityCastShadowList")` | Видео, экран и общий рендеринг |
+| [`r_novis`](../38-cvars-reference/01-video-rendering-cvars.md#r_novis) | `cvar r_novis(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_part_beams`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_beams) | `cvar r_part_beams(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_part_classic_expgrav`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_classic_expgrav) | `cvar r_part_classic_expgrav(int, "10")` | Видео, экран и общий рендеринг |
+| [`r_part_classic_opaque`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_classic_opaque) | `cvar r_part_classic_opaque(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_part_classic_square`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_classic_square) | `cvar r_part_classic_square(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_part_contentswitch`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_contentswitch) | `cvar r_part_contentswitch(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_part_density`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_density) | `cvar r_part_density(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_part_maxdecals`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_maxdecals) | `cvar r_part_maxdecals(int, "8192")` | Видео, экран и общий рендеринг |
+| [`r_part_maxparticles`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_maxparticles) | `cvar r_part_maxparticles(int, "65536")` | Видео, экран и общий рендеринг |
+| [`r_part_rain`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_rain) | `cvar r_part_rain(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_part_sparks`](../38-cvars-reference/01-video-rendering-cvars.md#r_part_sparks) | `cvar r_part_sparks(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_particle_tracelimit`](../38-cvars-reference/01-video-rendering-cvars.md#r_particle_tracelimit) | `cvar r_particle_tracelimit(string, "0x7fffffff")` | Видео, экран и общий рендеринг |
+| [`r_particlesystem`](../38-cvars-reference/01-video-rendering-cvars.md#r_particlesystem) | `cvar r_particlesystem(string, "script")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_shadowmap_factor`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_shadowmap_factor) | `cvar r_polygonoffset_shadowmap_factor(float, "0.05")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_shadowmap_offset`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_shadowmap_offset) | `cvar r_polygonoffset_shadowmap_offset(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_stencil_factor`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_stencil_factor) | `cvar r_polygonoffset_stencil_factor(float, "0.01")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_stencil_offset`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_stencil_offset) | `cvar r_polygonoffset_stencil_offset(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_submodel_factor`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_submodel_factor) | `cvar r_polygonoffset_submodel_factor(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_submodel_map`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_submodel_map) | `cvar r_polygonoffset_submodel_map(string, "e?m? r?m? hip?m?")` | Видео, экран и общий рендеринг |
+| [`r_polygonoffset_submodel_offset`](../38-cvars-reference/01-video-rendering-cvars.md#r_polygonoffset_submodel_offset) | `cvar r_polygonoffset_submodel_offset(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_portaldrawplanes`](../38-cvars-reference/01-video-rendering-cvars.md#r_portaldrawplanes) | `cvar r_portaldrawplanes(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_portalonly`](../38-cvars-reference/01-video-rendering-cvars.md#r_portalonly) | `cvar r_portalonly(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_portalrecursion`](../38-cvars-reference/01-video-rendering-cvars.md#r_portalrecursion) | `cvar r_portalrecursion(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_powerupglow`](../38-cvars-reference/01-video-rendering-cvars.md#r_powerupglow) | `cvar r_powerupglow(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_redlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_redlight_colour) | `cvar r_redlight_colour(string, "3.0 0.5 0.5 200")` | Видео, экран и общий рендеринг |
+| [`r_refract_fbo`](../38-cvars-reference/01-video-rendering-cvars.md#r_refract_fbo) | `cvar r_refract_fbo(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_refractreflect_scale`](../38-cvars-reference/01-video-rendering-cvars.md#r_refractreflect_scale) | `cvar r_refractreflect_scale(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`r_replacemodels`](../38-cvars-reference/01-video-rendering-cvars.md#r_replacemodels) | `cvar r_replacemodels(string, "")` | Видео, экран и общий рендеринг |
+| [`r_rocketlight`](../38-cvars-reference/01-video-rendering-cvars.md#r_rocketlight) | `cvar r_rocketlight(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_rocketlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_rocketlight_colour) | `cvar r_rocketlight_colour(string, "2.0 1.0 0.25 200")` | Видео, экран и общий рендеринг |
+| [`r_rockettrail`](../38-cvars-reference/01-video-rendering-cvars.md#r_rockettrail) | `cvar r_rockettrail(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_showbboxes`](../38-cvars-reference/01-video-rendering-cvars.md#r_showbboxes) | `cvar r_showbboxes(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_showfields`](../38-cvars-reference/01-video-rendering-cvars.md#r_showfields) | `cvar r_showfields(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_slimealpha`](../38-cvars-reference/01-video-rendering-cvars.md#r_slimealpha) | `cvar r_slimealpha(string, "")` | Видео, экран и общий рендеринг |
+| [`r_slimestyle`](../38-cvars-reference/01-video-rendering-cvars.md#r_slimestyle) | `cvar r_slimestyle(string, "")` | Видео, экран и общий рендеринг |
+| [`r_softwarebanding`](../38-cvars-reference/01-video-rendering-cvars.md#r_softwarebanding) | `cvar r_softwarebanding(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_speeds`](../38-cvars-reference/01-video-rendering-cvars.md#r_speeds) | `cvar r_speeds(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_sprite_backfacing`](../38-cvars-reference/01-video-rendering-cvars.md#r_sprite_backfacing) | `cvar r_sprite_backfacing(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_stainfadeammount`](../38-cvars-reference/01-video-rendering-cvars.md#r_stainfadeammount) | `cvar r_stainfadeammount(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_stainfadetime`](../38-cvars-reference/01-video-rendering-cvars.md#r_stainfadetime) | `cvar r_stainfadetime(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_stereo_convergence`](../38-cvars-reference/01-video-rendering-cvars.md#r_stereo_convergence) | `cvar r_stereo_convergence(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_stereo_method`](../38-cvars-reference/01-video-rendering-cvars.md#r_stereo_method) | `cvar r_stereo_method(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_stereo_separation`](../38-cvars-reference/01-video-rendering-cvars.md#r_stereo_separation) | `cvar r_stereo_separation(int, "4")` | Видео, экран и общий рендеринг |
+| [`r_subdivisions`](../38-cvars-reference/01-video-rendering-cvars.md#r_subdivisions) | `cvar r_subdivisions(int, "2")` | Видео, экран и общий рендеринг |
+| [`r_telealpha`](../38-cvars-reference/01-video-rendering-cvars.md#r_telealpha) | `cvar r_telealpha(string, "")` | Видео, экран и общий рендеринг |
+| [`r_telestyle`](../38-cvars-reference/01-video-rendering-cvars.md#r_telestyle) | `cvar r_telestyle(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_temporalscenecache`](../38-cvars-reference/01-video-rendering-cvars.md#r_temporalscenecache) | `cvar r_temporalscenecache(string, "")` | Видео, экран и общий рендеринг |
+| [`r_tessellation`](../38-cvars-reference/01-video-rendering-cvars.md#r_tessellation) | `cvar r_tessellation(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_tessellation_level`](../38-cvars-reference/01-video-rendering-cvars.md#r_tessellation_level) | `cvar r_tessellation_level(int, "5")` | Видео, экран и общий рендеринг |
+| [`r_torch`](../38-cvars-reference/01-video-rendering-cvars.md#r_torch) | `cvar r_torch(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_tracker_fadetime`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_fadetime) | `cvar r_tracker_fadetime(int, "1")` | Видео, экран и общий рендеринг |
+| [`r_tracker_frags`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_frags) | `cvar r_tracker_frags(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_tracker_lines`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_lines) | `cvar r_tracker_lines(int, "8")` | Видео, экран и общий рендеринг |
+| [`r_tracker_time`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_time) | `cvar r_tracker_time(int, "4")` | Видео, экран и общий рендеринг |
+| [`r_tracker_w`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_w) | `cvar r_tracker_w(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`r_tracker_x`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_x) | `cvar r_tracker_x(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`r_tracker_y`](../38-cvars-reference/01-video-rendering-cvars.md#r_tracker_y) | `cvar r_tracker_y(float, "0.333")` | Видео, экран и общий рендеринг |
+| [`r_vertexdlights`](../38-cvars-reference/01-video-rendering-cvars.md#r_vertexdlights) | `cvar r_vertexdlights(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_viewpreselgun`](../38-cvars-reference/01-video-rendering-cvars.md#r_viewpreselgun) | `cvar r_viewpreselgun(int, "0")` | Видео, экран и общий рендеринг |
+| [`r_wallcolour`](../38-cvars-reference/01-video-rendering-cvars.md#r_wallcolour) | `cvar r_wallcolour(string, "128 128 128")` | Видео, экран и общий рендеринг |
+| [`r_walltexture`](../38-cvars-reference/01-video-rendering-cvars.md#r_walltexture) | `cvar r_walltexture(string, "")` | Видео, экран и общий рендеринг |
+| [`r_wireframe_smooth`](../38-cvars-reference/01-video-rendering-cvars.md#r_wireframe_smooth) | `cvar r_wireframe_smooth(int, "0")` | Видео, экран и общий рендеринг |
+| [`ruleset_allow_larger_models`](../38-cvars-reference/01-video-rendering-cvars.md#ruleset_allow_larger_models) | `cvar ruleset_allow_larger_models(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_bonusflash`](../38-cvars-reference/01-video-rendering-cvars.md#v_bonusflash) | `cvar v_bonusflash(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_centermove`](../38-cvars-reference/01-video-rendering-cvars.md#v_centermove) | `cvar v_centermove(float, "0.15")` | Видео, экран и общий рендеринг |
+| [`v_centerspeed`](../38-cvars-reference/01-video-rendering-cvars.md#v_centerspeed) | `cvar v_centerspeed(int, "500")` | Видео, экран и общий рендеринг |
+| [`v_contentblend`](../38-cvars-reference/01-video-rendering-cvars.md#v_contentblend) | `cvar v_contentblend(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_cshift_empty`](../38-cvars-reference/01-video-rendering-cvars.md#v_cshift_empty) | `cvar v_cshift_empty(string, "130 80 50 0")` | Видео, экран и общий рендеринг |
+| [`v_cshift_lava`](../38-cvars-reference/01-video-rendering-cvars.md#v_cshift_lava) | `cvar v_cshift_lava(string, "255 80 0 150")` | Видео, экран и общий рендеринг |
+| [`v_cshift_slime`](../38-cvars-reference/01-video-rendering-cvars.md#v_cshift_slime) | `cvar v_cshift_slime(string, "0 25 5 150")` | Видео, экран и общий рендеринг |
+| [`v_cshift_water`](../38-cvars-reference/01-video-rendering-cvars.md#v_cshift_water) | `cvar v_cshift_water(string, "130 80 50 128")` | Видео, экран и общий рендеринг |
+| [`v_damagecshift`](../38-cvars-reference/01-video-rendering-cvars.md#v_damagecshift) | `cvar v_damagecshift(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_deathtilt`](../38-cvars-reference/01-video-rendering-cvars.md#v_deathtilt) | `cvar v_deathtilt(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_depthsortentities`](../38-cvars-reference/01-video-rendering-cvars.md#v_depthsortentities) | `cvar v_depthsortentities(int, "0")` | Видео, экран и общий рендеринг |
+| [`v_gunkick`](../38-cvars-reference/01-video-rendering-cvars.md#v_gunkick) | `cvar v_gunkick(int, "0")` | Видео, экран и общий рендеринг |
+| [`v_gunkick_q2`](../38-cvars-reference/01-video-rendering-cvars.md#v_gunkick_q2) | `cvar v_gunkick_q2(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_idlescale`](../38-cvars-reference/01-video-rendering-cvars.md#v_idlescale) | `cvar v_idlescale(int, "0")` | Видео, экран и общий рендеринг |
+| [`v_ipitch_cycle`](../38-cvars-reference/01-video-rendering-cvars.md#v_ipitch_cycle) | `cvar v_ipitch_cycle(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_ipitch_level`](../38-cvars-reference/01-video-rendering-cvars.md#v_ipitch_level) | `cvar v_ipitch_level(float, "0.3")` | Видео, экран и общий рендеринг |
+| [`v_iroll_cycle`](../38-cvars-reference/01-video-rendering-cvars.md#v_iroll_cycle) | `cvar v_iroll_cycle(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`v_iroll_level`](../38-cvars-reference/01-video-rendering-cvars.md#v_iroll_level) | `cvar v_iroll_level(float, "0.1")` | Видео, экран и общий рендеринг |
+| [`v_iyaw_cycle`](../38-cvars-reference/01-video-rendering-cvars.md#v_iyaw_cycle) | `cvar v_iyaw_cycle(int, "2")` | Видео, экран и общий рендеринг |
+| [`v_iyaw_level`](../38-cvars-reference/01-video-rendering-cvars.md#v_iyaw_level) | `cvar v_iyaw_level(float, "0.3")` | Видео, экран и общий рендеринг |
+| [`v_kickpitch`](../38-cvars-reference/01-video-rendering-cvars.md#v_kickpitch) | `cvar v_kickpitch(float, "0.6")` | Видео, экран и общий рендеринг |
+| [`v_kickroll`](../38-cvars-reference/01-video-rendering-cvars.md#v_kickroll) | `cvar v_kickroll(float, "0.6")` | Видео, экран и общий рендеринг |
+| [`v_kicktime`](../38-cvars-reference/01-video-rendering-cvars.md#v_kicktime) | `cvar v_kicktime(float, "0.5")` | Видео, экран и общий рендеринг |
+| [`v_pentcshift`](../38-cvars-reference/01-video-rendering-cvars.md#v_pentcshift) | `cvar v_pentcshift(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_powerupshell`](../38-cvars-reference/01-video-rendering-cvars.md#v_powerupshell) | `cvar v_powerupshell(int, "0")` | Видео, экран и общий рендеринг |
+| [`v_projectionmode`](../38-cvars-reference/01-video-rendering-cvars.md#v_projectionmode) | `cvar v_projectionmode(int, "0")` | Видео, экран и общий рендеринг |
+| [`v_quadcshift`](../38-cvars-reference/01-video-rendering-cvars.md#v_quadcshift) | `cvar v_quadcshift(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_ringcshift`](../38-cvars-reference/01-video-rendering-cvars.md#v_ringcshift) | `cvar v_ringcshift(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_suitcshift`](../38-cvars-reference/01-video-rendering-cvars.md#v_suitcshift) | `cvar v_suitcshift(int, "1")` | Видео, экран и общий рендеринг |
+| [`v_viewheight`](../38-cvars-reference/01-video-rendering-cvars.md#v_viewheight) | `cvar v_viewheight(int, "0")` | Видео, экран и общий рендеринг |
+| [`vid_baseheight`](../38-cvars-reference/01-video-rendering-cvars.md#vid_baseheight) | `cvar vid_baseheight(string, "")` | Видео, экран и общий рендеринг |
+| [`vid_devicename`](../38-cvars-reference/01-video-rendering-cvars.md#vid_devicename) | `cvar vid_devicename(string, "")` | Видео, экран и общий рендеринг |
+| [`vid_dpi_x`](../38-cvars-reference/01-video-rendering-cvars.md#vid_dpi_x) | `cvar vid_dpi_x(int, "0")` | Видео, экран и общий рендеринг |
+| [`vid_dpi_y`](../38-cvars-reference/01-video-rendering-cvars.md#vid_dpi_y) | `cvar vid_dpi_y(int, "0")` | Видео, экран и общий рендеринг |
+| [`vid_minsize`](../38-cvars-reference/01-video-rendering-cvars.md#vid_minsize) | `cvar vid_minsize(string, "320 200")` | Видео, экран и общий рендеринг |
+| [`vid_triplebuffer`](../38-cvars-reference/01-video-rendering-cvars.md#vid_triplebuffer) | `cvar vid_triplebuffer(int, "1")` | Видео, экран и общий рендеринг |
+| [`vid_winthread`](../38-cvars-reference/01-video-rendering-cvars.md#vid_winthread) | `cvar vid_winthread(string, "")` | Видео, экран и общий рендеринг |
+| [`vid_wndalpha`](../38-cvars-reference/01-video-rendering-cvars.md#vid_wndalpha) | `cvar vid_wndalpha(int, "1")` | Видео, экран и общий рендеринг |
+| [`viewsize`](../38-cvars-reference/01-video-rendering-cvars.md#viewsize) | `cvar viewsize(int, "100")` | Видео, экран и общий рендеринг |
+| [`vk_khr_dedicated_allocation`](../38-cvars-reference/01-video-rendering-cvars.md#vk_khr_dedicated_allocation) | `cvar vk_khr_dedicated_allocation(string, "")` | Видео, экран и общий рендеринг |
+| [`vk_khr_get_memory_requirements2`](../38-cvars-reference/01-video-rendering-cvars.md#vk_khr_get_memory_requirements2) | `cvar vk_khr_get_memory_requirements2(string, "")` | Видео, экран и общий рендеринг |
+| [`vk_khr_push_descriptor`](../38-cvars-reference/01-video-rendering-cvars.md#vk_khr_push_descriptor) | `cvar vk_khr_push_descriptor(string, "")` | Видео, экран и общий рендеринг |
+| [`vk_khr_ray_query`](../38-cvars-reference/01-video-rendering-cvars.md#vk_khr_ray_query) | `cvar vk_khr_ray_query(string, "")` | Видео, экран и общий рендеринг |
+| [`worker_count`](../38-cvars-reference/01-video-rendering-cvars.md#worker_count) | `cvar worker_count(string, "")` | Видео, экран и общий рендеринг |
+| [`worker_flush`](../38-cvars-reference/01-video-rendering-cvars.md#worker_flush) | `cvar worker_flush(int, "1")` | Видео, экран и общий рендеринг |
+| [`worker_sleeptime`](../38-cvars-reference/01-video-rendering-cvars.md#worker_sleeptime) | `cvar worker_sleeptime(int, "0")` | Видео, экран и общий рендеринг |
 | [`gl_skyboxdist`](../38-cvars-reference/02-lighting-materials-cvars.md#gl_skyboxdist) | `cvar gl_skyboxdist(float, "0")` | Освещение, тени и материалы |
 | [`mod_map_lights`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_map_lights) | `cvar mod_map_lights(int, "0")` | Освещение, тени и материалы |
 | [`mod_map_texscale`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_map_texscale) | `cvar mod_map_texscale(float, "1")` | Освещение, тени и материалы |
@@ -633,6 +1114,45 @@
 | [`r_sun_colour`](../38-cvars-reference/02-lighting-materials-cvars.md#r_sun_colour) | `cvar r_sun_colour(vector3, "0 0 0")` | Освещение, тени и материалы |
 | [`r_sun_dir`](../38-cvars-reference/02-lighting-materials-cvars.md#r_sun_dir) | `cvar r_sun_dir(vector3, "0.2 0.5 0.8")` | Освещение, тени и материалы |
 | [`r_vertexlight`](../38-cvars-reference/02-lighting-materials-cvars.md#r_vertexlight) | `cvar r_vertexlight(bool, "0")` | Освещение, тени и материалы |
+| [`gl_flashblend`](../38-cvars-reference/02-lighting-materials-cvars.md#gl_flashblend) | `cvar gl_flashblend(int, "0")` | Освещение, тени и материалы |
+| [`gl_flashblendscale`](../38-cvars-reference/02-lighting-materials-cvars.md#gl_flashblendscale) | `cvar gl_flashblendscale(float, "0.35")` | Освещение, тени и материалы |
+| [`gl_menutint_shader`](../38-cvars-reference/02-lighting-materials-cvars.md#gl_menutint_shader) | `cvar gl_menutint_shader(int, "1")` | Освещение, тени и материалы |
+| [`gl_workaround_ati_shadersource`](../38-cvars-reference/02-lighting-materials-cvars.md#gl_workaround_ati_shadersource) | `cvar gl_workaround_ati_shadersource(int, "1")` | Освещение, тени и материалы |
+| [`mod_terrain_defaulttexture`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_terrain_defaulttexture) | `cvar mod_terrain_defaulttexture(string, "")` | Освещение, тени и материалы |
+| [`mod_terrain_networked`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_terrain_networked) | `cvar mod_terrain_networked(int, "0")` | Освещение, тени и материалы |
+| [`mod_terrain_savever`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_terrain_savever) | `cvar mod_terrain_savever(string, "")` | Освещение, тени и материалы |
+| [`r_ambient`](../38-cvars-reference/02-lighting-materials-cvars.md#r_ambient) | `cvar r_ambient(int, "0")` | Освещение, тени и материалы |
+| [`r_dynamic`](../38-cvars-reference/02-lighting-materials-cvars.md#r_dynamic) | `cvar r_dynamic(int, "0")` | Освещение, тени и материалы |
+| [`r_fullbright`](../38-cvars-reference/02-lighting-materials-cvars.md#r_fullbright) | `cvar r_fullbright(int, "0")` | Освещение, тени и материалы |
+| [`r_fullbrightSkins`](../38-cvars-reference/02-lighting-materials-cvars.md#r_fullbrightskins) | `cvar r_fullbrightSkins(float, "0.8")` | Освещение, тени и материалы |
+| [`r_glsl_emissive`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_emissive) | `cvar r_glsl_emissive(int, "1")` | Освещение, тени и материалы |
+| [`r_glsl_offsetmapping`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_offsetmapping) | `cvar r_glsl_offsetmapping(int, "0")` | Освещение, тени и материалы |
+| [`r_glsl_offsetmapping_reliefmapping`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_offsetmapping_reliefmapping) | `cvar r_glsl_offsetmapping_reliefmapping(int, "0")` | Освещение, тени и материалы |
+| [`r_glsl_offsetmapping_scale`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_offsetmapping_scale) | `cvar r_glsl_offsetmapping_scale(float, "0.04")` | Освещение, тени и материалы |
+| [`r_glsl_pbr`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_pbr) | `cvar r_glsl_pbr(int, "0")` | Освещение, тени и материалы |
+| [`r_glsl_turbscale_reflect`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_turbscale_reflect) | `cvar r_glsl_turbscale_reflect(int, "1")` | Освещение, тени и материалы |
+| [`r_glsl_turbscale_refract`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_turbscale_refract) | `cvar r_glsl_turbscale_refract(int, "1")` | Освещение, тени и материалы |
+| [`r_lightflicker`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightflicker) | `cvar r_lightflicker(int, "1")` | Освещение, тени и материалы |
+| [`r_lightmap`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightmap) | `cvar r_lightmap(int, "0")` | Освещение, тени и материалы |
+| [`r_lightmap_format`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightmap_format) | `cvar r_lightmap_format(string, "")` | Освещение, тени и материалы |
+| [`r_lightmap_saturation`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightmap_saturation) | `cvar r_lightmap_saturation(int, "1")` | Освещение, тени и материалы |
+| [`r_lightprepass`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightprepass) | `cvar r_lightprepass(int, "0")` | Освещение, тени и материалы |
+| [`r_lightstylescale`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightstylescale) | `cvar r_lightstylescale(int, "1")` | Освещение, тени и материалы |
+| [`r_lightstylesmooth`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightstylesmooth) | `cvar r_lightstylesmooth(int, "0")` | Освещение, тени и материалы |
+| [`r_lightstylesmooth_limit`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightstylesmooth_limit) | `cvar r_lightstylesmooth_limit(int, "2")` | Освещение, тени и материалы |
+| [`r_lightstylespeed`](../38-cvars-reference/02-lighting-materials-cvars.md#r_lightstylespeed) | `cvar r_lightstylespeed(int, "10")` | Освещение, тени и материалы |
+| [`r_particledesc`](../38-cvars-reference/02-lighting-materials-cvars.md#r_particledesc) | `cvar r_particledesc(string, "")` | Освещение, тени и материалы |
+| [`r_postprocshader`](../38-cvars-reference/02-lighting-materials-cvars.md#r_postprocshader) | `cvar r_postprocshader(string, "")` | Освещение, тени и материалы |
+| [`r_shaderblobs`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shaderblobs) | `cvar r_shaderblobs(int, "0")` | Освещение, тени и материалы |
+| [`r_shadow_bumpscale_basetexture`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shadow_bumpscale_basetexture) | `cvar r_shadow_bumpscale_basetexture(int, "0")` | Освещение, тени и материалы |
+| [`r_shadow_bumpscale_bumpmap`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shadow_bumpscale_bumpmap) | `cvar r_shadow_bumpscale_bumpmap(int, "4")` | Освещение, тени и материалы |
+| [`r_shadow_heightscale_basetexture`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shadow_heightscale_basetexture) | `cvar r_shadow_heightscale_basetexture(int, "0")` | Освещение, тени и материалы |
+| [`r_shadow_heightscale_bumpmap`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shadow_heightscale_bumpmap) | `cvar r_shadow_heightscale_bumpmap(int, "1")` | Освещение, тени и материалы |
+| [`r_shadow_realtime_nonworld_lightmaps`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shadow_realtime_nonworld_lightmaps) | `cvar r_shadow_realtime_nonworld_lightmaps(int, "1")` | Освещение, тени и материалы |
+| [`r_shadows`](../38-cvars-reference/02-lighting-materials-cvars.md#r_shadows) | `cvar r_shadows(int, "0")` | Освещение, тени и материалы |
+| [`r_showshaders`](../38-cvars-reference/02-lighting-materials-cvars.md#r_showshaders) | `cvar r_showshaders(int, "0")` | Освещение, тени и материалы |
+| [`r_stains`](../38-cvars-reference/02-lighting-materials-cvars.md#r_stains) | `cvar r_stains(int, "0")` | Освещение, тени и материалы |
+| [`ruleset_allow_shaders`](../38-cvars-reference/02-lighting-materials-cvars.md#ruleset_allow_shaders) | `cvar ruleset_allow_shaders(int, "1")` | Освещение, тени и материалы |
 | [`capturesound`](../38-cvars-reference/03-audio-cvars.md#capturesound) | `cvar capturesound(целое, "1")` | Звук |
 | [`capturesoundbits`](../38-cvars-reference/03-audio-cvars.md#capturesoundbits) | `cvar capturesoundbits(целое, "16")` | Звук |
 | [`capturesoundchannels`](../38-cvars-reference/03-audio-cvars.md#capturesoundchannels) | `cvar capturesoundchannels(целое, "2")` | Звук |
@@ -663,6 +1183,122 @@
 | [`wasapi_exclusive`](../38-cvars-reference/03-audio-cvars.md#wasapi_exclusive) | `cvar wasapi_exclusive(целое, "0")` | Звук |
 | [`wasapi_forcechannels`](../38-cvars-reference/03-audio-cvars.md#wasapi_forcechannels) | `cvar wasapi_forcechannels(целое, "0")` | Звук |
 | [`wasapi_forcerate`](../38-cvars-reference/03-audio-cvars.md#wasapi_forcerate) | `cvar wasapi_forcerate(целое, "0")` | Звук |
+| [`_cl_voip_capturedevice_opts`](../38-cvars-reference/03-audio-cvars.md#_cl_voip_capturedevice_opts) | `cvar _cl_voip_capturedevice_opts(string, "")` | Звук |
+| [`_s_device_opts`](../38-cvars-reference/03-audio-cvars.md#_s_device_opts) | `cvar _s_device_opts(string, "")` | Звук |
+| [`cl_chatsound`](../38-cvars-reference/03-audio-cvars.md#cl_chatsound) | `cvar cl_chatsound(int, "1")` | Звук |
+| [`cl_cursor_bias_x`](../38-cvars-reference/03-audio-cvars.md#cl_cursor_bias_x) | `cvar cl_cursor_bias_x(float, "0.0")` | Звук |
+| [`cl_cursor_bias_y`](../38-cvars-reference/03-audio-cvars.md#cl_cursor_bias_y) | `cvar cl_cursor_bias_y(float, "0.0")` | Звук |
+| [`cl_enemychatsound`](../38-cvars-reference/03-audio-cvars.md#cl_enemychatsound) | `cvar cl_enemychatsound(string, "misc/talk.wav")` | Звук |
+| [`cl_maxfps_slop`](../38-cvars-reference/03-audio-cvars.md#cl_maxfps_slop) | `cvar cl_maxfps_slop(int, "3")` | Звук |
+| [`cl_predict_players_frac`](../38-cvars-reference/03-audio-cvars.md#cl_predict_players_frac) | `cvar cl_predict_players_frac(float, "0.9")` | Звук |
+| [`cl_predict_players_latency`](../38-cvars-reference/03-audio-cvars.md#cl_predict_players_latency) | `cvar cl_predict_players_latency(float, "1.0")` | Звук |
+| [`cl_predict_players_nudge`](../38-cvars-reference/03-audio-cvars.md#cl_predict_players_nudge) | `cvar cl_predict_players_nudge(float, "0.02")` | Звук |
+| [`cl_staticsounds`](../38-cvars-reference/03-audio-cvars.md#cl_staticsounds) | `cvar cl_staticsounds(int, "1")` | Звук |
+| [`cl_teamchatsound`](../38-cvars-reference/03-audio-cvars.md#cl_teamchatsound) | `cvar cl_teamchatsound(string, "misc/talk.wav")` | Звук |
+| [`cl_voip_autogain`](../38-cvars-reference/03-audio-cvars.md#cl_voip_autogain) | `cvar cl_voip_autogain(int, "0")` | Звук |
+| [`cl_voip_bitrate`](../38-cvars-reference/03-audio-cvars.md#cl_voip_bitrate) | `cvar cl_voip_bitrate(int, "3000")` | Звук |
+| [`cl_voip_capturingvol`](../38-cvars-reference/03-audio-cvars.md#cl_voip_capturingvol) | `cvar cl_voip_capturingvol(float, "0.5")` | Звук |
+| [`cl_voip_codec`](../38-cvars-reference/03-audio-cvars.md#cl_voip_codec) | `cvar cl_voip_codec(string, "")` | Звук |
+| [`cl_voip_ducking`](../38-cvars-reference/03-audio-cvars.md#cl_voip_ducking) | `cvar cl_voip_ducking(float, "0.5")` | Звук |
+| [`cl_voip_micamp`](../38-cvars-reference/03-audio-cvars.md#cl_voip_micamp) | `cvar cl_voip_micamp(int, "2")` | Звук |
+| [`cl_voip_noisefilter`](../38-cvars-reference/03-audio-cvars.md#cl_voip_noisefilter) | `cvar cl_voip_noisefilter(int, "1")` | Звук |
+| [`cl_voip_play`](../38-cvars-reference/03-audio-cvars.md#cl_voip_play) | `cvar cl_voip_play(int, "1")` | Звук |
+| [`cl_voip_showmeter`](../38-cvars-reference/03-audio-cvars.md#cl_voip_showmeter) | `cvar cl_voip_showmeter(int, "1")` | Звук |
+| [`dpcompat_precachesoundhack`](../38-cvars-reference/03-audio-cvars.md#dpcompat_precachesoundhack) | `cvar dpcompat_precachesoundhack(int, "0")` | Звук |
+| [`dtls_psk_hint`](../38-cvars-reference/03-audio-cvars.md#dtls_psk_hint) | `cvar dtls_psk_hint(string, "")` | Звук |
+| [`dtls_psk_key`](../38-cvars-reference/03-audio-cvars.md#dtls_psk_key) | `cvar dtls_psk_key(string, "")` | Звук |
+| [`dtls_psk_user`](../38-cvars-reference/03-audio-cvars.md#dtls_psk_user) | `cvar dtls_psk_user(string, "")` | Звук |
+| [`fs_basepath`](../38-cvars-reference/03-audio-cvars.md#fs_basepath) | `cvar fs_basepath(string, "")` | Звук |
+| [`fs_cache`](../38-cvars-reference/03-audio-cvars.md#fs_cache) | `cvar fs_cache(int, "2")` | Звук |
+| [`fs_game`](../38-cvars-reference/03-audio-cvars.md#fs_game) | `cvar fs_game(string, "")` | Звук |
+| [`fs_gamepath`](../38-cvars-reference/03-audio-cvars.md#fs_gamepath) | `cvar fs_gamepath(string, "")` | Звук |
+| [`fs_hidesyspaths`](../38-cvars-reference/03-audio-cvars.md#fs_hidesyspaths) | `cvar fs_hidesyspaths(int, "0")` | Звук |
+| [`fs_homepath`](../38-cvars-reference/03-audio-cvars.md#fs_homepath) | `cvar fs_homepath(string, "")` | Звук |
+| [`fs_noreexec`](../38-cvars-reference/03-audio-cvars.md#fs_noreexec) | `cvar fs_noreexec(int, "0")` | Звук |
+| [`fs_packageprioritisation`](../38-cvars-reference/03-audio-cvars.md#fs_packageprioritisation) | `cvar fs_packageprioritisation(int, "1")` | Звук |
+| [`mod_litsprites_force`](../38-cvars-reference/03-audio-cvars.md#mod_litsprites_force) | `cvar mod_litsprites_force(int, "0")` | Звук |
+| [`net_dns_ipv4`](../38-cvars-reference/03-audio-cvars.md#net_dns_ipv4) | `cvar net_dns_ipv4(int, "1")` | Звук |
+| [`net_dns_ipv6`](../38-cvars-reference/03-audio-cvars.md#net_dns_ipv6) | `cvar net_dns_ipv6(int, "1")` | Звук |
+| [`qws_builddate`](../38-cvars-reference/03-audio-cvars.md#qws_builddate) | `cvar qws_builddate(string, "")` | Звук |
+| [`qws_buildnum`](../38-cvars-reference/03-audio-cvars.md#qws_buildnum) | `cvar qws_buildnum(string, "")` | Звук |
+| [`qws_fullname`](../38-cvars-reference/03-audio-cvars.md#qws_fullname) | `cvar qws_fullname(string, "")` | Звук |
+| [`qws_homepage`](../38-cvars-reference/03-audio-cvars.md#qws_homepage) | `cvar qws_homepage(string, "")` | Звук |
+| [`qws_name`](../38-cvars-reference/03-audio-cvars.md#qws_name) | `cvar qws_name(string, "")` | Звук |
+| [`qws_platform`](../38-cvars-reference/03-audio-cvars.md#qws_platform) | `cvar qws_platform(string, "")` | Звук |
+| [`qws_version`](../38-cvars-reference/03-audio-cvars.md#qws_version) | `cvar qws_version(string, ".")` | Звук |
+| [`r_coronas_fadedist`](../38-cvars-reference/03-audio-cvars.md#r_coronas_fadedist) | `cvar r_coronas_fadedist(int, "256")` | Звук |
+| [`r_coronas_intensity`](../38-cvars-reference/03-audio-cvars.md#r_coronas_intensity) | `cvar r_coronas_intensity(int, "1")` | Звук |
+| [`r_coronas_mindist`](../38-cvars-reference/03-audio-cvars.md#r_coronas_mindist) | `cvar r_coronas_mindist(int, "128")` | Звук |
+| [`r_coronas_occlusion`](../38-cvars-reference/03-audio-cvars.md#r_coronas_occlusion) | `cvar r_coronas_occlusion(string, "")` | Звук |
+| [`r_editlights_cursordistance`](../38-cvars-reference/03-audio-cvars.md#r_editlights_cursordistance) | `cvar r_editlights_cursordistance(int, "1024")` | Звук |
+| [`r_editlights_cursorgrid`](../38-cvars-reference/03-audio-cvars.md#r_editlights_cursorgrid) | `cvar r_editlights_cursorgrid(int, "1")` | Звук |
+| [`r_editlights_cursorpushback`](../38-cvars-reference/03-audio-cvars.md#r_editlights_cursorpushback) | `cvar r_editlights_cursorpushback(int, "0")` | Звук |
+| [`r_editlights_cursorpushoff`](../38-cvars-reference/03-audio-cvars.md#r_editlights_cursorpushoff) | `cvar r_editlights_cursorpushoff(int, "4")` | Звук |
+| [`r_editlights_import_ambient`](../38-cvars-reference/03-audio-cvars.md#r_editlights_import_ambient) | `cvar r_editlights_import_ambient(int, "0")` | Звук |
+| [`r_editlights_import_diffuse`](../38-cvars-reference/03-audio-cvars.md#r_editlights_import_diffuse) | `cvar r_editlights_import_diffuse(int, "1")` | Звук |
+| [`r_editlights_import_radius`](../38-cvars-reference/03-audio-cvars.md#r_editlights_import_radius) | `cvar r_editlights_import_radius(int, "1")` | Звук |
+| [`r_editlights_import_specular`](../38-cvars-reference/03-audio-cvars.md#r_editlights_import_specular) | `cvar r_editlights_import_specular(int, "1")` | Звук |
+| [`r_font_postprocess_mono`](../38-cvars-reference/03-audio-cvars.md#r_font_postprocess_mono) | `cvar r_font_postprocess_mono(int, "0")` | Звук |
+| [`r_font_postprocess_outline`](../38-cvars-reference/03-audio-cvars.md#r_font_postprocess_outline) | `cvar r_font_postprocess_outline(int, "0")` | Звук |
+| [`r_part_sparks_textured`](../38-cvars-reference/03-audio-cvars.md#r_part_sparks_textured) | `cvar r_part_sparks_textured(int, "1")` | Звук |
+| [`r_part_sparks_trifan`](../38-cvars-reference/03-audio-cvars.md#r_part_sparks_trifan) | `cvar r_part_sparks_trifan(int, "1")` | Звук |
+| [`rank_parms_first`](../38-cvars-reference/03-audio-cvars.md#rank_parms_first) | `cvar rank_parms_first(int, "0")` | Звук |
+| [`rank_parms_last`](../38-cvars-reference/03-audio-cvars.md#rank_parms_last) | `cvar rank_parms_last(int, "31")` | Звук |
+| [`ruleset_allow_overlong_sounds`](../38-cvars-reference/03-audio-cvars.md#ruleset_allow_overlong_sounds) | `cvar ruleset_allow_overlong_sounds(int, "1")` | Звук |
+| [`s_al_distancemodel`](../38-cvars-reference/03-audio-cvars.md#s_al_distancemodel) | `cvar s_al_distancemodel(int, "2")` | Звук |
+| [`s_al_dopplerfactor`](../38-cvars-reference/03-audio-cvars.md#s_al_dopplerfactor) | `cvar s_al_dopplerfactor(float, "1.0")` | Звук |
+| [`s_al_max_distance`](../38-cvars-reference/03-audio-cvars.md#s_al_max_distance) | `cvar s_al_max_distance(int, "1000")` | Звук |
+| [`s_al_rolloff_factor`](../38-cvars-reference/03-audio-cvars.md#s_al_rolloff_factor) | `cvar s_al_rolloff_factor(int, "1")` | Звук |
+| [`s_al_speedofsound`](../38-cvars-reference/03-audio-cvars.md#s_al_speedofsound) | `cvar s_al_speedofsound(float, "343.3")` | Звук |
+| [`s_al_static_listener`](../38-cvars-reference/03-audio-cvars.md#s_al_static_listener) | `cvar s_al_static_listener(int, "0")` | Звук |
+| [`s_ambientfade`](../38-cvars-reference/03-audio-cvars.md#s_ambientfade) | `cvar s_ambientfade(int, "100")` | Звук |
+| [`s_ambientlevel`](../38-cvars-reference/03-audio-cvars.md#s_ambientlevel) | `cvar s_ambientlevel(float, "0.3")` | Звук |
+| [`s_bits`](../38-cvars-reference/03-audio-cvars.md#s_bits) | `cvar s_bits(int, "32")` | Звук |
+| [`s_buffersize`](../38-cvars-reference/03-audio-cvars.md#s_buffersize) | `cvar s_buffersize(int, "0")` | Звук |
+| [`s_device`](../38-cvars-reference/03-audio-cvars.md#s_device) | `cvar s_device(string, "")` | Звук |
+| [`s_doppler`](../38-cvars-reference/03-audio-cvars.md#s_doppler) | `cvar s_doppler(int, "0")` | Звук |
+| [`s_doppler_max`](../38-cvars-reference/03-audio-cvars.md#s_doppler_max) | `cvar s_doppler_max(int, "2")` | Звук |
+| [`s_doppler_min`](../38-cvars-reference/03-audio-cvars.md#s_doppler_min) | `cvar s_doppler_min(float, "0.5")` | Звук |
+| [`s_eax`](../38-cvars-reference/03-audio-cvars.md#s_eax) | `cvar s_eax(int, "0")` | Звук |
+| [`s_inactive`](../38-cvars-reference/03-audio-cvars.md#s_inactive) | `cvar s_inactive(int, "1")` | Звук |
+| [`s_khz`](../38-cvars-reference/03-audio-cvars.md#s_khz) | `cvar s_khz(string, "snd_khz")` | Звук |
+| [`s_linearresample`](../38-cvars-reference/03-audio-cvars.md#s_linearresample) | `cvar s_linearresample(int, "1")` | Звук |
+| [`s_linearresample_stream`](../38-cvars-reference/03-audio-cvars.md#s_linearresample_stream) | `cvar s_linearresample_stream(int, "0")` | Звук |
+| [`s_loadas8bit`](../38-cvars-reference/03-audio-cvars.md#s_loadas8bit) | `cvar s_loadas8bit(int, "0")` | Звук |
+| [`s_localvolume`](../38-cvars-reference/03-audio-cvars.md#s_localvolume) | `cvar s_localvolume(int, "1")` | Звук |
+| [`s_mixahead`](../38-cvars-reference/03-audio-cvars.md#s_mixahead) | `cvar s_mixahead(float, "0.1")` | Звук |
+| [`s_mixerthread`](../38-cvars-reference/03-audio-cvars.md#s_mixerthread) | `cvar s_mixerthread(int, "1")` | Звук |
+| [`s_noextraupdate`](../38-cvars-reference/03-audio-cvars.md#s_noextraupdate) | `cvar s_noextraupdate(int, "0")` | Звук |
+| [`s_nominaldistance`](../38-cvars-reference/03-audio-cvars.md#s_nominaldistance) | `cvar s_nominaldistance(int, "1000")` | Звук |
+| [`s_numspeakers`](../38-cvars-reference/03-audio-cvars.md#s_numspeakers) | `cvar s_numspeakers(int, "2")` | Звук |
+| [`s_precache`](../38-cvars-reference/03-audio-cvars.md#s_precache) | `cvar s_precache(int, "1")` | Звук |
+| [`s_show`](../38-cvars-reference/03-audio-cvars.md#s_show) | `cvar s_show(int, "0")` | Звук |
+| [`s_swapstereo`](../38-cvars-reference/03-audio-cvars.md#s_swapstereo) | `cvar s_swapstereo(int, "0")` | Звук |
+| [`show_fps_x`](../38-cvars-reference/03-audio-cvars.md#show_fps_x) | `cvar show_fps_x(int, "-1")` | Звук |
+| [`show_fps_y`](../38-cvars-reference/03-audio-cvars.md#show_fps_y) | `cvar show_fps_y(int, "-1")` | Звук |
+| [`sv_cullentities_trace`](../38-cvars-reference/03-audio-cvars.md#sv_cullentities_trace) | `cvar sv_cullentities_trace(string, "")` | Звук |
+| [`sv_loadentfiles_dir`](../38-cvars-reference/03-audio-cvars.md#sv_loadentfiles_dir) | `cvar sv_loadentfiles_dir(string, "")` | Звук |
+| [`sv_sound_land`](../38-cvars-reference/03-audio-cvars.md#sv_sound_land) | `cvar sv_sound_land(string, "demon/dland2.wav")` | Звук |
+| [`sv_sound_watersplash`](../38-cvars-reference/03-audio-cvars.md#sv_sound_watersplash) | `cvar sv_sound_watersplash(string, "misc/h2ohit1.wav")` | Звук |
+| [`sv_voip`](../38-cvars-reference/03-audio-cvars.md#sv_voip) | `cvar sv_voip(int, "1")` | Звук |
+| [`sv_voip_echo`](../38-cvars-reference/03-audio-cvars.md#sv_voip_echo) | `cvar sv_voip_echo(int, "0")` | Звук |
+| [`sv_voip_record`](../38-cvars-reference/03-audio-cvars.md#sv_voip_record) | `cvar sv_voip_record(int, "0")` | Звук |
+| [`sys_clockprecision`](../38-cvars-reference/03-audio-cvars.md#sys_clockprecision) | `cvar sys_clockprecision(int, "1")` | Звук |
+| [`sys_clocktype`](../38-cvars-reference/03-audio-cvars.md#sys_clocktype) | `cvar sys_clocktype(string, "")` | Звук |
+| [`sys_colorconsole`](../38-cvars-reference/03-audio-cvars.md#sys_colorconsole) | `cvar sys_colorconsole(int, "1")` | Звук |
+| [`sys_disableTaskSwitch`](../38-cvars-reference/03-audio-cvars.md#sys_disabletaskswitch) | `cvar sys_disableTaskSwitch(int, "0")` | Звук |
+| [`sys_disableWinKeys`](../38-cvars-reference/03-audio-cvars.md#sys_disablewinkeys) | `cvar sys_disableWinKeys(int, "0")` | Звук |
+| [`sys_extrasleep`](../38-cvars-reference/03-audio-cvars.md#sys_extrasleep) | `cvar sys_extrasleep(int, "0")` | Звук |
+| [`sys_highpriority`](../38-cvars-reference/03-audio-cvars.md#sys_highpriority) | `cvar sys_highpriority(int, "0")` | Звук |
+| [`sys_keepscreenon`](../38-cvars-reference/03-audio-cvars.md#sys_keepscreenon) | `cvar sys_keepscreenon(int, "1")` | Звук |
+| [`sys_linebuffer`](../38-cvars-reference/03-audio-cvars.md#sys_linebuffer) | `cvar sys_linebuffer(int, "1")` | Звук |
+| [`sys_nostdout`](../38-cvars-reference/03-audio-cvars.md#sys_nostdout) | `cvar sys_nostdout(int, "0")` | Звук |
+| [`sys_orientation`](../38-cvars-reference/03-audio-cvars.md#sys_orientation) | `cvar sys_orientation(string, "landscape")` | Звук |
+| [`sys_platform`](../38-cvars-reference/03-audio-cvars.md#sys_platform) | `cvar sys_platform(string, "")` | Звук |
+| [`sys_timestamps`](../38-cvars-reference/03-audio-cvars.md#sys_timestamps) | `cvar sys_timestamps(int, "0")` | Звук |
+| [`sys_vibrate`](../38-cvars-reference/03-audio-cvars.md#sys_vibrate) | `cvar sys_vibrate(int, "1")` | Звук |
+| [`tls_ignorecertificateerrors`](../38-cvars-reference/03-audio-cvars.md#tls_ignorecertificateerrors) | `cvar tls_ignorecertificateerrors(int, "0")` | Звук |
+| [`tls_provider`](../38-cvars-reference/03-audio-cvars.md#tls_provider) | `cvar tls_provider(string, "")` | Звук |
 | [`allow_download_configs`](../38-cvars-reference/04-network-server-cvars.md#allow_download_configs) | `cvar allow_download_configs(булево, "0")` | Сеть, сервер и мультиплеер |
 | [`allow_download_copyrighted`](../38-cvars-reference/04-network-server-cvars.md#allow_download_copyrighted) | `cvar allow_download_copyrighted(булево, "0")` | Сеть, сервер и мультиплеер |
 | [`allow_download_demos`](../38-cvars-reference/04-network-server-cvars.md#allow_download_demos) | `cvar allow_download_demos(булево, "1")` | Сеть, сервер и мультиплеер |
@@ -743,6 +1379,144 @@
 | [`timelimit`](../38-cvars-reference/04-network-server-cvars.md#timelimit) | `cvar timelimit(целое, "")` | Сеть, сервер и мультиплеер |
 | [`timeout`](../38-cvars-reference/04-network-server-cvars.md#timeout) | `cvar timeout(целое, "65")` | Сеть, сервер и мультиплеер |
 | [`zombietime`](../38-cvars-reference/04-network-server-cvars.md#zombietime) | `cvar zombietime(целое, "2")` | Сеть, сервер и мультиплеер |
+| [`allow_download`](../38-cvars-reference/04-network-server-cvars.md#allow_download) | `cvar allow_download(int, "1")` | Сеть, сервер и мультиплеер |
+| [`allow_download_locs`](../38-cvars-reference/04-network-server-cvars.md#allow_download_locs) | `cvar allow_download_locs(int, "1")` | Сеть, сервер и мультиплеер |
+| [`allow_download_other`](../38-cvars-reference/04-network-server-cvars.md#allow_download_other) | `cvar allow_download_other(int, "0")` | Сеть, сервер и мультиплеер |
+| [`allow_download_packages`](../38-cvars-reference/04-network-server-cvars.md#allow_download_packages) | `cvar allow_download_packages(int, "1")` | Сеть, сервер и мультиплеер |
+| [`allow_download_particles`](../38-cvars-reference/04-network-server-cvars.md#allow_download_particles) | `cvar allow_download_particles(int, "1")` | Сеть, сервер и мультиплеер |
+| [`allow_download_refpackages`](../38-cvars-reference/04-network-server-cvars.md#allow_download_refpackages) | `cvar allow_download_refpackages(int, "1")` | Сеть, сервер и мультиплеер |
+| [`allow_download_root`](../38-cvars-reference/04-network-server-cvars.md#allow_download_root) | `cvar allow_download_root(int, "0")` | Сеть, сервер и мультиплеер |
+| [`allow_download_textures`](../38-cvars-reference/04-network-server-cvars.md#allow_download_textures) | `cvar allow_download_textures(int, "1")` | Сеть, сервер и мультиплеер |
+| [`allow_download_wads`](../38-cvars-reference/04-network-server-cvars.md#allow_download_wads) | `cvar allow_download_wads(int, "1")` | Сеть, сервер и мультиплеер |
+| [`capturerate`](../38-cvars-reference/04-network-server-cvars.md#capturerate) | `cvar capturerate(int, "30")` | Сеть, сервер и мультиплеер |
+| [`cl_download_csprogs`](../38-cvars-reference/04-network-server-cvars.md#cl_download_csprogs) | `cvar cl_download_csprogs(int, "1")` | Сеть, сервер и мультиплеер |
+| [`cl_download_mapsrc`](../38-cvars-reference/04-network-server-cvars.md#cl_download_mapsrc) | `cvar cl_download_mapsrc(string, "")` | Сеть, сервер и мультиплеер |
+| [`cl_download_packages`](../38-cvars-reference/04-network-server-cvars.md#cl_download_packages) | `cvar cl_download_packages(int, "1")` | Сеть, сервер и мультиплеер |
+| [`cl_download_redirection`](../38-cvars-reference/04-network-server-cvars.md#cl_download_redirection) | `cvar cl_download_redirection(int, "2")` | Сеть, сервер и мультиплеер |
+| [`cl_download_wait`](../38-cvars-reference/04-network-server-cvars.md#cl_download_wait) | `cvar cl_download_wait(int, "1")` | Сеть, сервер и мультиплеер |
+| [`cl_downloads`](../38-cvars-reference/04-network-server-cvars.md#cl_downloads) | `cvar cl_downloads(int, "1")` | Сеть, сервер и мультиплеер |
+| [`com_fullgamename`](../38-cvars-reference/04-network-server-cvars.md#com_fullgamename) | `cvar com_fullgamename(string, "fs_gamename")` | Сеть, сервер и мультиплеер |
+| [`com_gamedirnativecode`](../38-cvars-reference/04-network-server-cvars.md#com_gamedirnativecode) | `cvar com_gamedirnativecode(int, "0")` | Сеть, сервер и мультиплеер |
+| [`com_highlightcolor`](../38-cvars-reference/04-network-server-cvars.md#com_highlightcolor) | `cvar com_highlightcolor(string, "ANSI colour to be used for highlighted text, used when com_parseutf8 is active.")` | Сеть, сервер и мультиплеер |
+| [`com_parseutf8`](../38-cvars-reference/04-network-server-cvars.md#com_parseutf8) | `cvar com_parseutf8(int, "1")` | Сеть, сервер и мультиплеер |
+| [`com_protocolname`](../38-cvars-reference/04-network-server-cvars.md#com_protocolname) | `cvar com_protocolname(string, "com_gamename")` | Сеть, сервер и мультиплеер |
+| [`com_protocolversion`](../38-cvars-reference/04-network-server-cvars.md#com_protocolversion) | `cvar com_protocolversion(int, "3")` | Сеть, сервер и мультиплеер |
+| [`drate`](../38-cvars-reference/04-network-server-cvars.md#drate) | `cvar drate(int, "3000000")` | Сеть, сервер и мультиплеер |
+| [`fraglog_public`](../38-cvars-reference/04-network-server-cvars.md#fraglog_public) | `cvar fraglog_public(int, "1")` | Сеть, сервер и мультиплеер |
+| [`gl_blacklist_generatemipmap`](../38-cvars-reference/04-network-server-cvars.md#gl_blacklist_generatemipmap) | `cvar gl_blacklist_generatemipmap(int, "1")` | Сеть, сервер и мультиплеер |
+| [`host_speeds`](../38-cvars-reference/04-network-server-cvars.md#host_speeds) | `cvar host_speeds(int, "0")` | Сеть, сервер и мультиплеер |
+| [`net_enable_`](../38-cvars-reference/04-network-server-cvars.md#net_enable_) | `cvar net_enable_(int, "0")` | Сеть, сервер и мультиплеер |
+| [`net_enable_dtls`](../38-cvars-reference/04-network-server-cvars.md#net_enable_dtls) | `cvar net_enable_dtls(string, "")` | Сеть, сервер и мультиплеер |
+| [`net_enable_qizmo`](../38-cvars-reference/04-network-server-cvars.md#net_enable_qizmo) | `cvar net_enable_qizmo(int, "1")` | Сеть, сервер и мультиплеер |
+| [`net_fakeloss`](../38-cvars-reference/04-network-server-cvars.md#net_fakeloss) | `cvar net_fakeloss(int, "0")` | Сеть, сервер и мультиплеер |
+| [`net_fakemtu`](../38-cvars-reference/04-network-server-cvars.md#net_fakemtu) | `cvar net_fakemtu(int, "0")` | Сеть, сервер и мультиплеер |
+| [`net_ice_debug`](../38-cvars-reference/04-network-server-cvars.md#net_ice_debug) | `cvar net_ice_debug(int, "0")` | Сеть, сервер и мультиплеер |
+| [`net_ice_exchangeprivateips`](../38-cvars-reference/04-network-server-cvars.md#net_ice_exchangeprivateips) | `cvar net_ice_exchangeprivateips(int, "0")` | Сеть, сервер и мультиплеер |
+| [`net_ice_usewebrtc`](../38-cvars-reference/04-network-server-cvars.md#net_ice_usewebrtc) | `cvar net_ice_usewebrtc(string, "")` | Сеть, сервер и мультиплеер |
+| [`net_upnpigp`](../38-cvars-reference/04-network-server-cvars.md#net_upnpigp) | `cvar net_upnpigp(int, "0")` | Сеть, сервер и мультиплеер |
+| [`pausable`](../38-cvars-reference/04-network-server-cvars.md#pausable) | `cvar pausable(string, "")` | Сеть, сервер и мультиплеер |
+| [`qtv_password`](../38-cvars-reference/04-network-server-cvars.md#qtv_password) | `cvar qtv_password(string, "")` | Сеть, сервер и мультиплеер |
+| [`qtv_streamport`](../38-cvars-reference/04-network-server-cvars.md#qtv_streamport) | `cvar qtv_streamport(string, "")` | Сеть, сервер и мультиплеер |
+| [`qtvcl_eztvextensions`](../38-cvars-reference/04-network-server-cvars.md#qtvcl_eztvextensions) | `cvar qtvcl_eztvextensions(int, "1")` | Сеть, сервер и мультиплеер |
+| [`qtvcl_forceversion1`](../38-cvars-reference/04-network-server-cvars.md#qtvcl_forceversion1) | `cvar qtvcl_forceversion1(int, "0")` | Сеть, сервер и мультиплеер |
+| [`r_image_downloadsizelimit`](../38-cvars-reference/04-network-server-cvars.md#r_image_downloadsizelimit) | `cvar r_image_downloadsizelimit(int, "131072")` | Сеть, сервер и мультиплеер |
+| [`rate`](../38-cvars-reference/04-network-server-cvars.md#rate) | `cvar rate(int, "30000")` | Сеть, сервер и мультиплеер |
+| [`samelevel`](../38-cvars-reference/04-network-server-cvars.md#samelevel) | `cvar samelevel(string, "")` | Сеть, сервер и мультиплеер |
+| [`sb_showfraglimit`](../38-cvars-reference/04-network-server-cvars.md#sb_showfraglimit) | `cvar sb_showfraglimit(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sb_showtimelimit`](../38-cvars-reference/04-network-server-cvars.md#sb_showtimelimit) | `cvar sb_showtimelimit(int, "0")` | Сеть, сервер и мультиплеер |
+| [`skill`](../38-cvars-reference/04-network-server-cvars.md#skill) | `cvar skill(string, "")` | Сеть, сервер и мультиплеер |
+| [`spawn`](../38-cvars-reference/04-network-server-cvars.md#spawn) | `cvar spawn(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_aim`](../38-cvars-reference/04-network-server-cvars.md#sv_aim) | `cvar sv_aim(int, "2")` | Сеть, сервер и мультиплеер |
+| [`sv_autooffload`](../38-cvars-reference/04-network-server-cvars.md#sv_autooffload) | `cvar sv_autooffload(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_autosave`](../38-cvars-reference/04-network-server-cvars.md#sv_autosave) | `cvar sv_autosave(int, "5")` | Сеть, сервер и мультиплеер |
+| [`sv_chatfilter`](../38-cvars-reference/04-network-server-cvars.md#sv_chatfilter) | `cvar sv_chatfilter(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_cheatpc`](../38-cvars-reference/04-network-server-cvars.md#sv_cheatpc) | `cvar sv_cheatpc(int, "125")` | Сеть, сервер и мультиплеер |
+| [`sv_cheats`](../38-cvars-reference/04-network-server-cvars.md#sv_cheats) | `cvar sv_cheats(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_cheatspeedchecktime`](../38-cvars-reference/04-network-server-cvars.md#sv_cheatspeedchecktime) | `cvar sv_cheatspeedchecktime(int, "30")` | Сеть, сервер и мультиплеер |
+| [`sv_cmdlikercon`](../38-cvars-reference/04-network-server-cvars.md#sv_cmdlikercon) | `cvar sv_cmdlikercon(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_compatiblehulls`](../38-cvars-reference/04-network-server-cvars.md#sv_compatiblehulls) | `cvar sv_compatiblehulls(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_csqc_progname`](../38-cvars-reference/04-network-server-cvars.md#sv_csqc_progname) | `cvar sv_csqc_progname(string, "csprogs.dat")` | Сеть, сервер и мультиплеер |
+| [`sv_csqcdebug`](../38-cvars-reference/04-network-server-cvars.md#sv_csqcdebug) | `cvar sv_csqcdebug(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_demoAutoCompress`](../38-cvars-reference/04-network-server-cvars.md#sv_demoautocompress) | `cvar sv_demoAutoCompress(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_demoAutoPrefix`](../38-cvars-reference/04-network-server-cvars.md#sv_demoautoprefix) | `cvar sv_demoAutoPrefix(string, "auto_")` | Сеть, сервер и мультиплеер |
+| [`sv_demoAutoRecord`](../38-cvars-reference/04-network-server-cvars.md#sv_demoautorecord) | `cvar sv_demoAutoRecord(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_demoCacheSize`](../38-cvars-reference/04-network-server-cvars.md#sv_democachesize) | `cvar sv_demoCacheSize(string, "0x80000")` | Сеть, сервер и мультиплеер |
+| [`sv_demoDir`](../38-cvars-reference/04-network-server-cvars.md#sv_demodir) | `cvar sv_demoDir(string, "demos")` | Сеть, сервер и мультиплеер |
+| [`sv_demoDirAlt`](../38-cvars-reference/04-network-server-cvars.md#sv_demodiralt) | `cvar sv_demoDirAlt(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_demoExtraNames`](../38-cvars-reference/04-network-server-cvars.md#sv_demoextranames) | `cvar sv_demoExtraNames(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_demoPings`](../38-cvars-reference/04-network-server-cvars.md#sv_demopings) | `cvar sv_demoPings(int, "10")` | Сеть, сервер и мультиплеер |
+| [`sv_demoPrefix`](../38-cvars-reference/04-network-server-cvars.md#sv_demoprefix) | `cvar sv_demoPrefix(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_demoSuffix`](../38-cvars-reference/04-network-server-cvars.md#sv_demosuffix) | `cvar sv_demoSuffix(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_demotxt`](../38-cvars-reference/04-network-server-cvars.md#sv_demotxt) | `cvar sv_demotxt(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_dlURL`](../38-cvars-reference/04-network-server-cvars.md#sv_dlurl) | `cvar sv_dlURL(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_floodprotect`](../38-cvars-reference/04-network-server-cvars.md#sv_floodprotect) | `cvar sv_floodprotect(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_floodprotect_interval`](../38-cvars-reference/04-network-server-cvars.md#sv_floodprotect_interval) | `cvar sv_floodprotect_interval(int, "4")` | Сеть, сервер и мультиплеер |
+| [`sv_floodprotect_messages`](../38-cvars-reference/04-network-server-cvars.md#sv_floodprotect_messages) | `cvar sv_floodprotect_messages(int, "4")` | Сеть, сервер и мультиплеер |
+| [`sv_floodprotect_sendmessage`](../38-cvars-reference/04-network-server-cvars.md#sv_floodprotect_sendmessage) | `cvar sv_floodprotect_sendmessage(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_floodprotect_silencetime`](../38-cvars-reference/04-network-server-cvars.md#sv_floodprotect_silencetime) | `cvar sv_floodprotect_silencetime(int, "10")` | Сеть, сервер и мультиплеер |
+| [`sv_floodprotect_suicide`](../38-cvars-reference/04-network-server-cvars.md#sv_floodprotect_suicide) | `cvar sv_floodprotect_suicide(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_ftp`](../38-cvars-reference/04-network-server-cvars.md#sv_ftp) | `cvar sv_ftp(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_ftp_port`](../38-cvars-reference/04-network-server-cvars.md#sv_ftp_port) | `cvar sv_ftp_port(int, "21")` | Сеть, сервер и мультиплеер |
+| [`sv_ftp_port_range`](../38-cvars-reference/04-network-server-cvars.md#sv_ftp_port_range) | `cvar sv_ftp_port_range(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_fulllevel`](../38-cvars-reference/04-network-server-cvars.md#sv_fulllevel) | `cvar sv_fulllevel(int, "51")` | Сеть, сервер и мультиплеер |
+| [`sv_fullredirect`](../38-cvars-reference/04-network-server-cvars.md#sv_fullredirect) | `cvar sv_fullredirect(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_gameplayfix_honest_tracelines`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_honest_tracelines) | `cvar sv_gameplayfix_honest_tracelines(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_gameplayfix_radialmaxvelocity`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_radialmaxvelocity) | `cvar sv_gameplayfix_radialmaxvelocity(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_gameplayfix_setmodelrealbox`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_setmodelrealbox) | `cvar sv_gameplayfix_setmodelrealbox(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_gameplayfix_setmodelsize_qw`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_setmodelsize_qw) | `cvar sv_gameplayfix_setmodelsize_qw(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_gameplayfix_spawnbeforethinks`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_spawnbeforethinks) | `cvar sv_gameplayfix_spawnbeforethinks(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_gameplayfix_stepdown`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_stepdown) | `cvar sv_gameplayfix_stepdown(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_gamespeed`](../38-cvars-reference/04-network-server-cvars.md#sv_gamespeed) | `cvar sv_gamespeed(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_getrealip`](../38-cvars-reference/04-network-server-cvars.md#sv_getrealip) | `cvar sv_getrealip(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_hideinactivegames`](../38-cvars-reference/04-network-server-cvars.md#sv_hideinactivegames) | `cvar sv_hideinactivegames(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_highchars`](../38-cvars-reference/04-network-server-cvars.md#sv_highchars) | `cvar sv_highchars(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_http`](../38-cvars-reference/04-network-server-cvars.md#sv_http) | `cvar sv_http(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_http_port`](../38-cvars-reference/04-network-server-cvars.md#sv_http_port) | `cvar sv_http_port(int, "80")` | Сеть, сервер и мультиплеер |
+| [`sv_listen_q3`](../38-cvars-reference/04-network-server-cvars.md#sv_listen_q3) | `cvar sv_listen_q3(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_listen_qw`](../38-cvars-reference/04-network-server-cvars.md#sv_listen_qw) | `cvar sv_listen_qw(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_loadentfiles`](../38-cvars-reference/04-network-server-cvars.md#sv_loadentfiles) | `cvar sv_loadentfiles(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_mapcheck`](../38-cvars-reference/04-network-server-cvars.md#sv_mapcheck) | `cvar sv_mapcheck(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_master`](../38-cvars-reference/04-network-server-cvars.md#sv_master) | `cvar sv_master(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_masterport`](../38-cvars-reference/04-network-server-cvars.md#sv_masterport) | `cvar sv_masterport(string, " ")` | Сеть, сервер и мультиплеер |
+| [`sv_masterport_tcp`](../38-cvars-reference/04-network-server-cvars.md#sv_masterport_tcp) | `cvar sv_masterport_tcp(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_maxaim`](../38-cvars-reference/04-network-server-cvars.md#sv_maxaim) | `cvar sv_maxaim(int, "22")` | Сеть, сервер и мультиплеер |
+| [`sv_nopvs`](../38-cvars-reference/04-network-server-cvars.md#sv_nopvs) | `cvar sv_nopvs(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_phs`](../38-cvars-reference/04-network-server-cvars.md#sv_phs) | `cvar sv_phs(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_ping_ignorepl`](../38-cvars-reference/04-network-server-cvars.md#sv_ping_ignorepl) | `cvar sv_ping_ignorepl(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_playermodelchecks`](../38-cvars-reference/04-network-server-cvars.md#sv_playermodelchecks) | `cvar sv_playermodelchecks(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_port`](../38-cvars-reference/04-network-server-cvars.md#sv_port) | `cvar sv_port(string, "Port number to list on for inbound udp-based connections (including dtls variants). Can be a list for multiple ports. If ips are included then binds to that specific interface. Whether any specific protocol is accepted depends upon other settings.")` | Сеть, сервер и мультиплеер |
+| [`sv_port_ipv6`](../38-cvars-reference/04-network-server-cvars.md#sv_port_ipv6) | `cvar sv_port_ipv6(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_port_ipx`](../38-cvars-reference/04-network-server-cvars.md#sv_port_ipx) | `cvar sv_port_ipx(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_port_natpmp`](../38-cvars-reference/04-network-server-cvars.md#sv_port_natpmp) | `cvar sv_port_natpmp(string, "If set (typically to 5351), automatically configures your router's port forwarding. You can instead specify the full ip address of your router (192.168.1.1:5351 for example). Your router must have NAT-PMP supported and enabled.")` | Сеть, сервер и мультиплеер |
+| [`sv_port_rtc`](../38-cvars-reference/04-network-server-cvars.md#sv_port_rtc) | `cvar sv_port_rtc(string, "/")` | Сеть, сервер и мультиплеер |
+| [`sv_port_tcp`](../38-cvars-reference/04-network-server-cvars.md#sv_port_tcp) | `cvar sv_port_tcp(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_port_tcp6`](../38-cvars-reference/04-network-server-cvars.md#sv_port_tcp6) | `cvar sv_port_tcp6(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_port_unix`](../38-cvars-reference/04-network-server-cvars.md#sv_port_unix) | `cvar sv_port_unix(string, "@qsock.fte")` | Сеть, сервер и мультиплеер |
+| [`sv_progs`](../38-cvars-reference/04-network-server-cvars.md#sv_progs) | `cvar sv_progs(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_protocol_nq`](../38-cvars-reference/04-network-server-cvars.md#sv_protocol_nq) | `cvar sv_protocol_nq(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_pupglow`](../38-cvars-reference/04-network-server-cvars.md#sv_pupglow) | `cvar sv_pupglow(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_pure`](../38-cvars-reference/04-network-server-cvars.md#sv_pure) | `cvar sv_pure(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_readlevel`](../38-cvars-reference/04-network-server-cvars.md#sv_readlevel) | `cvar sv_readlevel(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_realip_kick`](../38-cvars-reference/04-network-server-cvars.md#sv_realip_kick) | `cvar sv_realip_kick(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_realip_timeout`](../38-cvars-reference/04-network-server-cvars.md#sv_realip_timeout) | `cvar sv_realip_timeout(int, "10")` | Сеть, сервер и мультиплеер |
+| [`sv_realiphostname_ipv4`](../38-cvars-reference/04-network-server-cvars.md#sv_realiphostname_ipv4) | `cvar sv_realiphostname_ipv4(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_realiphostname_ipv6`](../38-cvars-reference/04-network-server-cvars.md#sv_realiphostname_ipv6) | `cvar sv_realiphostname_ipv6(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_resetparms`](../38-cvars-reference/04-network-server-cvars.md#sv_resetparms) | `cvar sv_resetparms(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_savefmt`](../38-cvars-reference/04-network-server-cvars.md#sv_savefmt) | `cvar sv_savefmt(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_showconnectionlessmessages`](../38-cvars-reference/04-network-server-cvars.md#sv_showconnectionlessmessages) | `cvar sv_showconnectionlessmessages(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_showpredloss`](../38-cvars-reference/04-network-server-cvars.md#sv_showpredloss) | `cvar sv_showpredloss(int, "0")` | Сеть, сервер и мультиплеер |
+| [`sv_sortlist`](../38-cvars-reference/04-network-server-cvars.md#sv_sortlist) | `cvar sv_sortlist(int, "3")` | Сеть, сервер и мультиплеер |
+| [`sv_specprint`](../38-cvars-reference/04-network-server-cvars.md#sv_specprint) | `cvar sv_specprint(int, "3")` | Сеть, сервер и мультиплеер |
+| [`sv_spectalk`](../38-cvars-reference/04-network-server-cvars.md#sv_spectalk) | `cvar sv_spectalk(int, "1")` | Сеть, сервер и мультиплеер |
+| [`sv_sql_defaultdb`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_defaultdb) | `cvar sv_sql_defaultdb(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_sql_driver`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_driver) | `cvar sv_sql_driver(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_sql_host`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_host) | `cvar sv_sql_host(string, "127.0.0.1")` | Сеть, сервер и мультиплеер |
+| [`sv_sql_password`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_password) | `cvar sv_sql_password(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_sql_username`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_username) | `cvar sv_sql_username(string, "")` | Сеть, сервер и мультиплеер |
+| [`sv_userinfo_bytelimit`](../38-cvars-reference/04-network-server-cvars.md#sv_userinfo_bytelimit) | `cvar sv_userinfo_bytelimit(int, "8192")` | Сеть, сервер и мультиплеер |
+| [`sv_userinfo_keylimit`](../38-cvars-reference/04-network-server-cvars.md#sv_userinfo_keylimit) | `cvar sv_userinfo_keylimit(int, "128")` | Сеть, сервер и мультиплеер |
+| [`sv_writelevel`](../38-cvars-reference/04-network-server-cvars.md#sv_writelevel) | `cvar sv_writelevel(int, "35")` | Сеть, сервер и мультиплеер |
+| [`vK_khr_fragment_shading_rate`](../38-cvars-reference/04-network-server-cvars.md#vk_khr_fragment_shading_rate) | `cvar vK_khr_fragment_shading_rate(string, "")` | Сеть, сервер и мультиплеер |
 | [`cl_anglespeedkey`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_anglespeedkey) | `cvar cl_anglespeedkey(float, "1.5")` | Физика и игровой процесс |
 | [`cl_backspeed`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_backspeed) | `cvar cl_backspeed(float/string, "")` | Физика и игровой процесс |
 | [`cl_fastaccel`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_fastaccel) | `cvar cl_fastaccel(boolean/int, "1")` | Физика и игровой процесс |
@@ -803,6 +1577,21 @@
 | [`sv_wallfriction`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_wallfriction) | `cvar sv_wallfriction(float, "1")` | Физика и игровой процесс |
 | [`sv_wateraccelerate`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_wateraccelerate) | `cvar sv_wateraccelerate(float, "10")` | Физика и игровой процесс |
 | [`sv_waterfriction`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_waterfriction) | `cvar sv_waterfriction(float, "4")` | Физика и игровой процесс |
+| [`chase_active`](../38-cvars-reference/05-physics-gameplay-cvars.md#chase_active) | `cvar chase_active(int, "0")` | Физика и игровой процесс |
+| [`chase_back`](../38-cvars-reference/05-physics-gameplay-cvars.md#chase_back) | `cvar chase_back(int, "48")` | Физика и игровой процесс |
+| [`chase_right`](../38-cvars-reference/05-physics-gameplay-cvars.md#chase_right) | `cvar chase_right(int, "0")` | Физика и игровой процесс |
+| [`chase_up`](../38-cvars-reference/05-physics-gameplay-cvars.md#chase_up) | `cvar chase_up(int, "24")` | Физика и игровой процесс |
+| [`cl_bob`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bob) | `cvar cl_bob(float, "0.02")` | Физика и игровой процесс |
+| [`cl_bobcycle`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bobcycle) | `cvar cl_bobcycle(float, "0.6")` | Физика и игровой процесс |
+| [`cl_bobmodel`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bobmodel) | `cvar cl_bobmodel(int, "0")` | Физика и игровой процесс |
+| [`cl_bobmodel_side`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bobmodel_side) | `cvar cl_bobmodel_side(float, "0.15")` | Физика и игровой процесс |
+| [`cl_bobmodel_speed`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bobmodel_speed) | `cvar cl_bobmodel_speed(int, "7")` | Физика и игровой процесс |
+| [`cl_bobmodel_up`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bobmodel_up) | `cvar cl_bobmodel_up(float, "0.06")` | Физика и игровой процесс |
+| [`cl_bobup`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_bobup) | `cvar cl_bobup(float, "0.5")` | Физика и игровой процесс |
+| [`cl_predict_players`](../38-cvars-reference/05-physics-gameplay-cvars.md#cl_predict_players) | `cvar cl_predict_players(int, "1")` | Физика и игровой процесс |
+| [`pm_noround`](../38-cvars-reference/05-physics-gameplay-cvars.md#pm_noround) | `cvar pm_noround(int, "0")` | Физика и игровой процесс |
+| [`pm_stepheight`](../38-cvars-reference/05-physics-gameplay-cvars.md#pm_stepheight) | `cvar pm_stepheight(string, "")` | Физика и игровой процесс |
+| [`temp1`](../38-cvars-reference/05-physics-gameplay-cvars.md#temp1) | `cvar temp1(int, "0")` | Физика и игровой процесс |
 | [`cl_anglespeedkey`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_anglespeedkey) | `cvar cl_anglespeedkey(дробное, "1.5")` | Интерфейс, консоль и управление |
 | [`cl_backspeed`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_backspeed) | `cvar cl_backspeed(дробное/пустая строка, "")` | Интерфейс, консоль и управление |
 | [`cl_chatmode`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_chatmode) | `cvar cl_chatmode(целое 0-2, "2")` | Интерфейс, консоль и управление |
@@ -889,12 +1678,382 @@
 | [`scr_showobituaries`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_showobituaries) | `cvar scr_showobituaries(логическое, "0")` | Интерфейс, консоль и управление |
 | [`show_speed`](../38-cvars-reference/06-ui-console-input-cvars.md#show_speed) | `cvar show_speed(логическое, "0")` | Интерфейс, консоль и управление |
 | [`sys_osk`](../38-cvars-reference/06-ui-console-input-cvars.md#sys_osk) | `cvar sys_osk(логическое, "0")` | Интерфейс, консоль и управление |
+| [`cl_clock_x`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_clock_x) | `cvar cl_clock_x(int, "0")` | Интерфейс, консоль и управление |
+| [`cl_clock_y`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_clock_y) | `cvar cl_clock_y(int, "-1")` | Интерфейс, консоль и управление |
+| [`cl_cursor`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_cursor) | `cvar cl_cursor(string, "")` | Интерфейс, консоль и управление |
+| [`cl_cursor_scale`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_cursor_scale) | `cvar cl_cursor_scale(float, "1.0")` | Интерфейс, консоль и управление |
+| [`cl_gameclock_x`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_gameclock_x) | `cvar cl_gameclock_x(int, "0")` | Интерфейс, консоль и управление |
+| [`cl_gameclock_y`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_gameclock_y) | `cvar cl_gameclock_y(int, "-1")` | Интерфейс, консоль и управление |
+| [`cl_prydoncursor`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_prydoncursor) | `cvar cl_prydoncursor(string, "")` | Интерфейс, консоль и управление |
+| [`cl_standardchat`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_standardchat) | `cvar cl_standardchat(int, "0")` | Интерфейс, консоль и управление |
+| [`cl_vrui_force`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_vrui_force) | `cvar cl_vrui_force(int, "0")` | Интерфейс, консоль и управление |
+| [`cl_vrui_lock`](../38-cvars-reference/06-ui-console-input-cvars.md#cl_vrui_lock) | `cvar cl_vrui_lock(int, "1")` | Интерфейс, консоль и управление |
+| [`con_logcenterprint`](../38-cvars-reference/06-ui-console-input-cvars.md#con_logcenterprint) | `cvar con_logcenterprint(int, "1")` | Интерфейс, консоль и управление |
+| [`con_ocranaleds`](../38-cvars-reference/06-ui-console-input-cvars.md#con_ocranaleds) | `cvar con_ocranaleds(int, "2")` | Интерфейс, консоль и управление |
+| [`con_textfont`](../38-cvars-reference/06-ui-console-input-cvars.md#con_textfont) | `cvar con_textfont(string, "")` | Интерфейс, консоль и управление |
+| [`con_window`](../38-cvars-reference/06-ui-console-input-cvars.md#con_window) | `cvar con_window(int, "0")` | Интерфейс, консоль и управление |
+| [`contrast`](../38-cvars-reference/06-ui-console-input-cvars.md#contrast) | `cvar contrast(float, "1.0")` | Интерфейс, консоль и управление |
+| [`crosshairalpha`](../38-cvars-reference/06-ui-console-input-cvars.md#crosshairalpha) | `cvar crosshairalpha(int, "1")` | Интерфейс, консоль и управление |
+| [`crosshaircolor`](../38-cvars-reference/06-ui-console-input-cvars.md#crosshaircolor) | `cvar crosshaircolor(string, "255 255 255")` | Интерфейс, консоль и управление |
+| [`dpcompat_console`](../38-cvars-reference/06-ui-console-input-cvars.md#dpcompat_console) | `cvar dpcompat_console(int, "0")` | Интерфейс, консоль и управление |
+| [`gamma`](../38-cvars-reference/06-ui-console-input-cvars.md#gamma) | `cvar gamma(float, "1.0")` | Интерфейс, консоль и управление |
+| [`in_forceseat`](../38-cvars-reference/06-ui-console-input-cvars.md#in_forceseat) | `cvar in_forceseat(int, "0")` | Интерфейс, консоль и управление |
+| [`in_rawinput_rdp`](../38-cvars-reference/06-ui-console-input-cvars.md#in_rawinput_rdp) | `cvar in_rawinput_rdp(int, "0")` | Интерфейс, консоль и управление |
+| [`in_skipplayerone`](../38-cvars-reference/06-ui-console-input-cvars.md#in_skipplayerone) | `cvar in_skipplayerone(int, "1")` | Интерфейс, консоль и управление |
+| [`in_vraim`](../38-cvars-reference/06-ui-console-input-cvars.md#in_vraim) | `cvar in_vraim(int, "1")` | Интерфейс, консоль и управление |
+| [`in_windowed_mouse`](../38-cvars-reference/06-ui-console-input-cvars.md#in_windowed_mouse) | `cvar in_windowed_mouse(int, "1")` | Интерфейс, консоль и управление |
+| [`joystick`](../38-cvars-reference/06-ui-console-input-cvars.md#joystick) | `cvar joystick(int, "0")` | Интерфейс, консоль и управление |
+| [`m_forward`](../38-cvars-reference/06-ui-console-input-cvars.md#m_forward) | `cvar m_forward(int, "1")` | Интерфейс, консоль и управление |
+| [`m_pitch`](../38-cvars-reference/06-ui-console-input-cvars.md#m_pitch) | `cvar m_pitch(float, "0.022")` | Интерфейс, консоль и управление |
+| [`m_side`](../38-cvars-reference/06-ui-console-input-cvars.md#m_side) | `cvar m_side(float, "0.8")` | Интерфейс, консоль и управление |
+| [`m_yaw`](../38-cvars-reference/06-ui-console-input-cvars.md#m_yaw) | `cvar m_yaw(float, "0.022")` | Интерфейс, консоль и управление |
+| [`pr_menu_coreonerror`](../38-cvars-reference/06-ui-console-input-cvars.md#pr_menu_coreonerror) | `cvar pr_menu_coreonerror(int, "1")` | Интерфейс, консоль и управление |
+| [`pr_menu_memsize`](../38-cvars-reference/06-ui-console-input-cvars.md#pr_menu_memsize) | `cvar pr_menu_memsize(string, "64m")` | Интерфейс, консоль и управление |
+| [`r_globalskin_count`](../38-cvars-reference/06-ui-console-input-cvars.md#r_globalskin_count) | `cvar r_globalskin_count(int, "10")` | Интерфейс, консоль и управление |
+| [`r_globalskin_first`](../38-cvars-reference/06-ui-console-input-cvars.md#r_globalskin_first) | `cvar r_globalskin_first(int, "100")` | Интерфейс, консоль и управление |
+| [`r_part_rain_quantity`](../38-cvars-reference/06-ui-console-input-cvars.md#r_part_rain_quantity) | `cvar r_part_rain_quantity(int, "1")` | Интерфейс, консоль и управление |
+| [`r_skin_overlays`](../38-cvars-reference/06-ui-console-input-cvars.md#r_skin_overlays) | `cvar r_skin_overlays(int, "1")` | Интерфейс, консоль и управление |
+| [`rcon_address`](../38-cvars-reference/06-ui-console-input-cvars.md#rcon_address) | `cvar rcon_address(string, "")` | Интерфейс, консоль и управление |
+| [`rcon_level`](../38-cvars-reference/06-ui-console-input-cvars.md#rcon_level) | `cvar rcon_level(int, "20")` | Интерфейс, консоль и управление |
+| [`scr_allowsnap`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_allowsnap) | `cvar scr_allowsnap(int, "0")` | Интерфейс, консоль и управление |
+| [`scr_autoid`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid) | `cvar scr_autoid(int, "1")` | Интерфейс, консоль и управление |
+| [`scr_autoid_armor`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_armor) | `cvar scr_autoid_armor(int, "1")` | Интерфейс, консоль и управление |
+| [`scr_autoid_enemycolour`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_enemycolour) | `cvar scr_autoid_enemycolour(string, "The colour for the text on the nametags of non-team members.")` | Интерфейс, консоль и управление |
+| [`scr_autoid_health`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_health) | `cvar scr_autoid_health(int, "1")` | Интерфейс, консоль и управление |
+| [`scr_autoid_team`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_team) | `cvar scr_autoid_team(int, "0")` | Интерфейс, консоль и управление |
+| [`scr_autoid_teamcolour`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_teamcolour) | `cvar scr_autoid_teamcolour(string, "The colour for the text on the nametags of team members.")` | Интерфейс, консоль и управление |
+| [`scr_autoid_weapon`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_weapon) | `cvar scr_autoid_weapon(int, "1")` | Интерфейс, консоль и управление |
+| [`scr_autoid_weapon_mask`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_autoid_weapon_mask) | `cvar scr_autoid_weapon_mask(int, "126")` | Интерфейс, консоль и управление |
+| [`scr_centersbar`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_centersbar) | `cvar scr_centersbar(int, "2")` | Интерфейс, консоль и управление |
+| [`scr_centertime`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_centertime) | `cvar scr_centertime(int, "2")` | Интерфейс, консоль и управление |
+| [`scr_conalpha`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_conalpha) | `cvar scr_conalpha(float, "0.7")` | Интерфейс, консоль и управление |
+| [`scr_consize`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_consize) | `cvar scr_consize(float, "0.5")` | Интерфейс, консоль и управление |
+| [`scr_conspeed`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_conspeed) | `cvar scr_conspeed(int, "2000")` | Интерфейс, консоль и управление |
+| [`scr_diskicontimeout`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_diskicontimeout) | `cvar scr_diskicontimeout(float, "0.3")` | Интерфейс, консоль и управление |
+| [`scr_neticontimeout`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_neticontimeout) | `cvar scr_neticontimeout(float, "0.3")` | Интерфейс, консоль и управление |
+| [`scr_printspeed`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_printspeed) | `cvar scr_printspeed(int, "16")` | Интерфейс, консоль и управление |
+| [`scr_showdisk_x`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_showdisk_x) | `cvar scr_showdisk_x(int, "-24")` | Интерфейс, консоль и управление |
+| [`scr_showdisk_y`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_showdisk_y) | `cvar scr_showdisk_y(int, "0")` | Интерфейс, консоль и управление |
+| [`scr_sshot_compression`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_sshot_compression) | `cvar scr_sshot_compression(int, "75")` | Интерфейс, консоль и управление |
+| [`scr_sshot_prefix`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_sshot_prefix) | `cvar scr_sshot_prefix(string, "screenshots/fte-")` | Интерфейс, консоль и управление |
+| [`scr_sshot_type`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_sshot_type) | `cvar scr_sshot_type(string, "png")` | Интерфейс, консоль и управление |
+| [`scr_turtlefps`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_turtlefps) | `cvar scr_turtlefps(int, "10")` | Интерфейс, консоль и управление |
+| [`scr_usekfont`](../38-cvars-reference/06-ui-console-input-cvars.md#scr_usekfont) | `cvar scr_usekfont(int, "0")` | Интерфейс, консоль и управление |
+| [`v_contrastboost`](../38-cvars-reference/06-ui-console-input-cvars.md#v_contrastboost) | `cvar v_contrastboost(float, "1.0")` | Интерфейс, консоль и управление |
+| [`v_gammainverted`](../38-cvars-reference/06-ui-console-input-cvars.md#v_gammainverted) | `cvar v_gammainverted(int, "0")` | Интерфейс, консоль и управление |
+| [`vid_desktopgamma`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_desktopgamma) | `cvar vid_desktopgamma(int, "0")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_compatibility`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_compatibility) | `cvar vid_gl_context_compatibility(int, "1")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_debug`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_debug) | `cvar vid_gl_context_debug(int, "0")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_es`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_es) | `cvar vid_gl_context_es(int, "0")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_forwardcompatible`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_forwardcompatible) | `cvar vid_gl_context_forwardcompatible(int, "0")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_noerror`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_noerror) | `cvar vid_gl_context_noerror(string, "")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_robustness`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_robustness) | `cvar vid_gl_context_robustness(int, "1")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_selfreset`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_selfreset) | `cvar vid_gl_context_selfreset(int, "1")` | Интерфейс, консоль и управление |
+| [`vid_gl_context_version`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_gl_context_version) | `cvar vid_gl_context_version(string, "")` | Интерфейс, консоль и управление |
+| [`vid_preservegamma`](../38-cvars-reference/06-ui-console-input-cvars.md#vid_preservegamma) | `cvar vid_preservegamma(int, "0")` | Интерфейс, консоль и управление |
+| [`_cl_disconnectreason`](../38-cvars-reference/07-system-misc-cvars.md#_cl_disconnectreason) | `cvar _cl_disconnectreason(string, "")` | Системные, отладочные и прочие cvar |
+| [`_pext_infoblobs`](../38-cvars-reference/07-system-misc-cvars.md#_pext_infoblobs) | `cvar _pext_infoblobs(int, "0")` | Системные, отладочные и прочие cvar |
+| [`_pext_lerptime`](../38-cvars-reference/07-system-misc-cvars.md#_pext_lerptime) | `cvar _pext_lerptime(int, "0")` | Системные, отладочные и прочие cvar |
+| [`_pext_vrinputs`](../38-cvars-reference/07-system-misc-cvars.md#_pext_vrinputs) | `cvar _pext_vrinputs(int, "0")` | Системные, отладочные и прочие cvar |
+| [`_q3bsp_bihtraces`](../38-cvars-reference/07-system-misc-cvars.md#_q3bsp_bihtraces) | `cvar _q3bsp_bihtraces(int, "0")` | Системные, отладочные и прочие cvar |
+| [`allow_f_cmdline`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_cmdline) | `cvar allow_f_cmdline(int, "0")` | Системные, отладочные и прочие cvar |
+| [`allow_f_fakeshaft`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_fakeshaft) | `cvar allow_f_fakeshaft(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_f_modified`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_modified) | `cvar allow_f_modified(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_f_ruleset`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_ruleset) | `cvar allow_f_ruleset(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_f_scripts`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_scripts) | `cvar allow_f_scripts(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_f_server`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_server) | `cvar allow_f_server(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_f_skins`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_skins) | `cvar allow_f_skins(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_f_system`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_system) | `cvar allow_f_system(int, "0")` | Системные, отладочные и прочие cvar |
+| [`allow_f_version`](../38-cvars-reference/07-system-misc-cvars.md#allow_f_version) | `cvar allow_f_version(int, "1")` | Системные, отладочные и прочие cvar |
+| [`allow_skybox`](../38-cvars-reference/07-system-misc-cvars.md#allow_skybox) | `cvar allow_skybox(string, "")` | Системные, отладочные и прочие cvar |
+| [`allow_splitscreen`](../38-cvars-reference/07-system-misc-cvars.md#allow_splitscreen) | `cvar allow_splitscreen(string, "")` | Системные, отладочные и прочие cvar |
+| [`auth_validateclients`](../38-cvars-reference/07-system-misc-cvars.md#auth_validateclients) | `cvar auth_validateclients(int, "1")` | Системные, отладочные и прочие cvar |
+| [`b_switch`](../38-cvars-reference/07-system-misc-cvars.md#b_switch) | `cvar b_switch(string, "")` | Системные, отладочные и прочие cvar |
+| [`baseskin`](../38-cvars-reference/07-system-misc-cvars.md#baseskin) | `cvar baseskin(string, "")` | Системные, отладочные и прочие cvar |
+| [`bottomcolor`](../38-cvars-reference/07-system-misc-cvars.md#bottomcolor) | `cvar bottomcolor(int, "12")` | Системные, отладочные и прочие cvar |
+| [`capturecodec`](../38-cvars-reference/07-system-misc-cvars.md#capturecodec) | `cvar capturecodec(string, "the compression/encoding codec to use.\\n")` | Системные, отладочные и прочие cvar |
+| [`capturedemoheight`](../38-cvars-reference/07-system-misc-cvars.md#capturedemoheight) | `cvar capturedemoheight(int, "0")` | Системные, отладочные и прочие cvar |
+| [`capturedemowidth`](../38-cvars-reference/07-system-misc-cvars.md#capturedemowidth) | `cvar capturedemowidth(int, "0")` | Системные, отладочные и прочие cvar |
+| [`capturedriver`](../38-cvars-reference/07-system-misc-cvars.md#capturedriver) | `cvar capturedriver(string, "")` | Системные, отладочные и прочие cvar |
+| [`capturemessage`](../38-cvars-reference/07-system-misc-cvars.md#capturemessage) | `cvar capturemessage(string, "")` | Системные, отладочные и прочие cvar |
+| [`capturethrottlesize`](../38-cvars-reference/07-system-misc-cvars.md#capturethrottlesize) | `cvar capturethrottlesize(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cfg_reload_on_gamedir`](../38-cvars-reference/07-system-misc-cvars.md#cfg_reload_on_gamedir) | `cvar cfg_reload_on_gamedir(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_aliases`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_aliases) | `cvar cfg_save_aliases(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_all`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_all) | `cvar cfg_save_all(string, "")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_auto`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_auto) | `cvar cfg_save_auto(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_binds`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_binds) | `cvar cfg_save_binds(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_buttons`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_buttons) | `cvar cfg_save_buttons(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_infos`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_infos) | `cvar cfg_save_infos(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cfg_save_name`](../38-cvars-reference/07-system-misc-cvars.md#cfg_save_name) | `cvar cfg_save_name(string, "fte")` | Системные, отладочные и прочие cvar |
+| [`cl_aliasoverlap`](../38-cvars-reference/07-system-misc-cvars.md#cl_aliasoverlap) | `cvar cl_aliasoverlap(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_autotrack`](../38-cvars-reference/07-system-misc-cvars.md#cl_autotrack) | `cvar cl_autotrack(string, "auto")` | Системные, отладочные и прочие cvar |
+| [`cl_autotrack_team`](../38-cvars-reference/07-system-misc-cvars.md#cl_autotrack_team) | `cvar cl_autotrack_team(string, "")` | Системные, отладочные и прочие cvar |
+| [`cl_beam_alpha`](../38-cvars-reference/07-system-misc-cvars.md#cl_beam_alpha) | `cvar cl_beam_alpha(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_beam_trace`](../38-cvars-reference/07-system-misc-cvars.md#cl_beam_trace) | `cvar cl_beam_trace(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_c2sdupe`](../38-cvars-reference/07-system-misc-cvars.md#cl_c2sdupe) | `cvar cl_c2sdupe(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_c2sImpulseBackup`](../38-cvars-reference/07-system-misc-cvars.md#cl_c2simpulsebackup) | `cvar cl_c2sImpulseBackup(int, "3")` | Системные, отладочные и прочие cvar |
+| [`cl_c2sMaxRedundancy`](../38-cvars-reference/07-system-misc-cvars.md#cl_c2smaxredundancy) | `cvar cl_c2sMaxRedundancy(int, "5")` | Системные, отладочные и прочие cvar |
+| [`cl_c2spps`](../38-cvars-reference/07-system-misc-cvars.md#cl_c2spps) | `cvar cl_c2spps(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_chasecam`](../38-cvars-reference/07-system-misc-cvars.md#cl_chasecam) | `cvar cl_chasecam(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_countpendingpl`](../38-cvars-reference/07-system-misc-cvars.md#cl_countpendingpl) | `cvar cl_countpendingpl(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_crossx`](../38-cvars-reference/07-system-misc-cvars.md#cl_crossx) | `cvar cl_crossx(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_crossy`](../38-cvars-reference/07-system-misc-cvars.md#cl_crossy) | `cvar cl_crossy(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_crypt_rcon`](../38-cvars-reference/07-system-misc-cvars.md#cl_crypt_rcon) | `cvar cl_crypt_rcon(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_csqc_nodeprecate`](../38-cvars-reference/07-system-misc-cvars.md#cl_csqc_nodeprecate) | `cvar cl_csqc_nodeprecate(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_csqcdebug`](../38-cvars-reference/07-system-misc-cvars.md#cl_csqcdebug) | `cvar cl_csqcdebug(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_deadbodyfilter`](../38-cvars-reference/07-system-misc-cvars.md#cl_deadbodyfilter) | `cvar cl_deadbodyfilter(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_delay_packets`](../38-cvars-reference/07-system-misc-cvars.md#cl_delay_packets) | `cvar cl_delay_packets(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_demoreel`](../38-cvars-reference/07-system-misc-cvars.md#cl_demoreel) | `cvar cl_demoreel(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_demospeed`](../38-cvars-reference/07-system-misc-cvars.md#cl_demospeed) | `cvar cl_demospeed(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_dlemptyterminate`](../38-cvars-reference/07-system-misc-cvars.md#cl_dlemptyterminate) | `cvar cl_dlemptyterminate(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_expsprite`](../38-cvars-reference/07-system-misc-cvars.md#cl_expsprite) | `cvar cl_expsprite(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_fakeframes`](../38-cvars-reference/07-system-misc-cvars.md#cl_fakeframes) | `cvar cl_fakeframes(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_fullpitch`](../38-cvars-reference/07-system-misc-cvars.md#cl_fullpitch) | `cvar cl_fullpitch(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_gibfilter`](../38-cvars-reference/07-system-misc-cvars.md#cl_gibfilter) | `cvar cl_gibfilter(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_gunanglex`](../38-cvars-reference/07-system-misc-cvars.md#cl_gunanglex) | `cvar cl_gunanglex(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_gunangley`](../38-cvars-reference/07-system-misc-cvars.md#cl_gunangley) | `cvar cl_gunangley(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_gunanglez`](../38-cvars-reference/07-system-misc-cvars.md#cl_gunanglez) | `cvar cl_gunanglez(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_gunx`](../38-cvars-reference/07-system-misc-cvars.md#cl_gunx) | `cvar cl_gunx(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_guny`](../38-cvars-reference/07-system-misc-cvars.md#cl_guny) | `cvar cl_guny(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_gunz`](../38-cvars-reference/07-system-misc-cvars.md#cl_gunz) | `cvar cl_gunz(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_hightrack`](../38-cvars-reference/07-system-misc-cvars.md#cl_hightrack) | `cvar cl_hightrack(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_hudswap`](../38-cvars-reference/07-system-misc-cvars.md#cl_hudswap) | `cvar cl_hudswap(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_idlefps`](../38-cvars-reference/07-system-misc-cvars.md#cl_idlefps) | `cvar cl_idlefps(int, "60")` | Системные, отладочные и прочие cvar |
+| [`cl_legacystains`](../38-cvars-reference/07-system-misc-cvars.md#cl_legacystains) | `cvar cl_legacystains(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_lerp_maxdistance`](../38-cvars-reference/07-system-misc-cvars.md#cl_lerp_maxdistance) | `cvar cl_lerp_maxdistance(int, "200")` | Системные, отладочные и прочие cvar |
+| [`cl_lerp_maxinterval`](../38-cvars-reference/07-system-misc-cvars.md#cl_lerp_maxinterval) | `cvar cl_lerp_maxinterval(float, "0.3")` | Системные, отладочные и прочие cvar |
+| [`cl_lerp_players`](../38-cvars-reference/07-system-misc-cvars.md#cl_lerp_players) | `cvar cl_lerp_players(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_loopbackprotocol`](../38-cvars-reference/07-system-misc-cvars.md#cl_loopbackprotocol) | `cvar cl_loopbackprotocol(string, "qw")` | Системные, отладочные и прочие cvar |
+| [`cl_maxfps`](../38-cvars-reference/07-system-misc-cvars.md#cl_maxfps) | `cvar cl_maxfps(int, "250")` | Системные, отладочные и прочие cvar |
+| [`cl_model_bobbing`](../38-cvars-reference/07-system-misc-cvars.md#cl_model_bobbing) | `cvar cl_model_bobbing(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_muzzleflash`](../38-cvars-reference/07-system-misc-cvars.md#cl_muzzleflash) | `cvar cl_muzzleflash(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_netfps`](../38-cvars-reference/07-system-misc-cvars.md#cl_netfps) | `cvar cl_netfps(int, "150")` | Системные, отладочные и прочие cvar |
+| [`cl_noblink`](../38-cvars-reference/07-system-misc-cvars.md#cl_noblink) | `cvar cl_noblink(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_nocsqc`](../38-cvars-reference/07-system-misc-cvars.md#cl_nocsqc) | `cvar cl_nocsqc(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_nodelta`](../38-cvars-reference/07-system-misc-cvars.md#cl_nodelta) | `cvar cl_nodelta(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_nofake`](../38-cvars-reference/07-system-misc-cvars.md#cl_nofake) | `cvar cl_nofake(int, "2")` | Системные, отладочные и прочие cvar |
+| [`cl_nolerp`](../38-cvars-reference/07-system-misc-cvars.md#cl_nolerp) | `cvar cl_nolerp(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_nolerp_netquake`](../38-cvars-reference/07-system-misc-cvars.md#cl_nolerp_netquake) | `cvar cl_nolerp_netquake(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_nopext`](../38-cvars-reference/07-system-misc-cvars.md#cl_nopext) | `cvar cl_nopext(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_parsewhitetext`](../38-cvars-reference/07-system-misc-cvars.md#cl_parsewhitetext) | `cvar cl_parsewhitetext(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_part_density_fade`](../38-cvars-reference/07-system-misc-cvars.md#cl_part_density_fade) | `cvar cl_part_density_fade(int, "1024")` | Системные, отладочные и прочие cvar |
+| [`cl_part_density_fade_start`](../38-cvars-reference/07-system-misc-cvars.md#cl_part_density_fade_start) | `cvar cl_part_density_fade_start(int, "1024")` | Системные, отладочные и прочие cvar |
+| [`cl_pext_mask`](../38-cvars-reference/07-system-misc-cvars.md#cl_pext_mask) | `cvar cl_pext_mask(string, "0xffffffff")` | Системные, отладочные и прочие cvar |
+| [`cl_playerclass`](../38-cvars-reference/07-system-misc-cvars.md#cl_playerclass) | `cvar cl_playerclass(string, "")` | Системные, отладочные и прочие cvar |
+| [`cl_proxyaddr`](../38-cvars-reference/07-system-misc-cvars.md#cl_proxyaddr) | `cvar cl_proxyaddr(string, "")` | Системные, отладочные и прочие cvar |
+| [`cl_pure`](../38-cvars-reference/07-system-misc-cvars.md#cl_pure) | `cvar cl_pure(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_queueimpulses`](../38-cvars-reference/07-system-misc-cvars.md#cl_queueimpulses) | `cvar cl_queueimpulses(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_r2g`](../38-cvars-reference/07-system-misc-cvars.md#cl_r2g) | `cvar cl_r2g(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_rollalpha`](../38-cvars-reference/07-system-misc-cvars.md#cl_rollalpha) | `cvar cl_rollalpha(int, "20")` | Системные, отладочные и прочие cvar |
+| [`cl_sbar`](../38-cvars-reference/07-system-misc-cvars.md#cl_sbar) | `cvar cl_sbar(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_sbaralpha`](../38-cvars-reference/07-system-misc-cvars.md#cl_sbaralpha) | `cvar cl_sbaralpha(float, "0.75")` | Системные, отладочные и прочие cvar |
+| [`cl_selfcam`](../38-cvars-reference/07-system-misc-cvars.md#cl_selfcam) | `cvar cl_selfcam(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_sendguid`](../38-cvars-reference/07-system-misc-cvars.md#cl_sendguid) | `cvar cl_sendguid(string, "")` | Системные, отладочные и прочие cvar |
+| [`cl_serveraddress`](../38-cvars-reference/07-system-misc-cvars.md#cl_serveraddress) | `cvar cl_serveraddress(string, "none")` | Системные, отладочные и прочие cvar |
+| [`cl_servername`](../38-cvars-reference/07-system-misc-cvars.md#cl_servername) | `cvar cl_servername(string, "")` | Системные, отладочные и прочие cvar |
+| [`cl_shownet`](../38-cvars-reference/07-system-misc-cvars.md#cl_shownet) | `cvar cl_shownet(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_solid_players`](../38-cvars-reference/07-system-misc-cvars.md#cl_solid_players) | `cvar cl_solid_players(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_splitscreen`](../38-cvars-reference/07-system-misc-cvars.md#cl_splitscreen) | `cvar cl_splitscreen(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_standardmsg`](../38-cvars-reference/07-system-misc-cvars.md#cl_standardmsg) | `cvar cl_standardmsg(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_threadedphysics`](../38-cvars-reference/07-system-misc-cvars.md#cl_threadedphysics) | `cvar cl_threadedphysics(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_timeout`](../38-cvars-reference/07-system-misc-cvars.md#cl_timeout) | `cvar cl_timeout(int, "60")` | Системные, отладочные и прочие cvar |
+| [`cl_truelightning`](../38-cvars-reference/07-system-misc-cvars.md#cl_truelightning) | `cvar cl_truelightning(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_verify_urischeme`](../38-cvars-reference/07-system-misc-cvars.md#cl_verify_urischeme) | `cvar cl_verify_urischeme(int, "2")` | Системные, отладочные и прочие cvar |
+| [`cl_warncmd`](../38-cvars-reference/07-system-misc-cvars.md#cl_warncmd) | `cvar cl_warncmd(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cl_weaponforgetorder`](../38-cvars-reference/07-system-misc-cvars.md#cl_weaponforgetorder) | `cvar cl_weaponforgetorder(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_weaponhide`](../38-cvars-reference/07-system-misc-cvars.md#cl_weaponhide) | `cvar cl_weaponhide(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_weaponhide_preference`](../38-cvars-reference/07-system-misc-cvars.md#cl_weaponhide_preference) | `cvar cl_weaponhide_preference(string, "2 1")` | Системные, отладочные и прочие cvar |
+| [`cl_weaponpreselect`](../38-cvars-reference/07-system-misc-cvars.md#cl_weaponpreselect) | `cvar cl_weaponpreselect(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cl_yieldcpu`](../38-cvars-reference/07-system-misc-cvars.md#cl_yieldcpu) | `cvar cl_yieldcpu(int, "1")` | Системные, отладочные и прочие cvar |
+| [`cmd_allowaccess`](../38-cvars-reference/07-system-misc-cvars.md#cmd_allowaccess) | `cvar cmd_allowaccess(int, "0")` | Системные, отладочные и прочие cvar |
+| [`cmd_gamecodelevel`](../38-cvars-reference/07-system-misc-cvars.md#cmd_gamecodelevel) | `cvar cmd_gamecodelevel(string, "")` | Системные, отладочные и прочие cvar |
+| [`cmd_maxbuffersize`](../38-cvars-reference/07-system-misc-cvars.md#cmd_maxbuffersize) | `cvar cmd_maxbuffersize(int, "65536")` | Системные, отладочные и прочие cvar |
+| [`d3d_hlsl`](../38-cvars-reference/07-system-misc-cvars.md#d3d_hlsl) | `cvar d3d_hlsl(int, "1")` | Системные, отладочные и прочие cvar |
+| [`d_mipcap`](../38-cvars-reference/07-system-misc-cvars.md#d_mipcap) | `cvar d_mipcap(string, "0 1000")` | Системные, отладочные и прочие cvar |
+| [`developer`](../38-cvars-reference/07-system-misc-cvars.md#developer) | `cvar developer(int, "1")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_csqcinputeventtypes`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_csqcinputeventtypes) | `cvar dpcompat_csqcinputeventtypes(int, "999999")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_findradiusarealinks`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_findradiusarealinks) | `cvar dpcompat_findradiusarealinks(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_nofloodfill`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_nofloodfill) | `cvar dpcompat_nofloodfill(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_nopremulpics`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_nopremulpics) | `cvar dpcompat_nopremulpics(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_nopreparse`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_nopreparse) | `cvar dpcompat_nopreparse(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_noretouchground`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_noretouchground) | `cvar dpcompat_noretouchground(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_psa_ungroup`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_psa_ungroup) | `cvar dpcompat_psa_ungroup(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_set`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_set) | `cvar dpcompat_set(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_skinfiles`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_skinfiles) | `cvar dpcompat_skinfiles(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_smallerfonts`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_smallerfonts) | `cvar dpcompat_smallerfonts(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_stats`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_stats) | `cvar dpcompat_stats(int, "0")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_strcat_limit`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_strcat_limit) | `cvar dpcompat_strcat_limit(string, "")` | Системные, отладочные и прочие cvar |
+| [`dpcompat_traceontouch`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_traceontouch) | `cvar dpcompat_traceontouch(int, "0")` | Системные, отладочные и прочие cvar |
+| [`edit_addcr`](../38-cvars-reference/07-system-misc-cvars.md#edit_addcr) | `cvar edit_addcr(string, "")` | Системные, отладочные и прочие cvar |
+| [`edit_stripcr`](../38-cvars-reference/07-system-misc-cvars.md#edit_stripcr) | `cvar edit_stripcr(int, "1")` | Системные, отладочные и прочие cvar |
+| [`edit_tabsize`](../38-cvars-reference/07-system-misc-cvars.md#edit_tabsize) | `cvar edit_tabsize(int, "4")` | Системные, отладочные и прочие cvar |
+| [`enemyforceskins`](../38-cvars-reference/07-system-misc-cvars.md#enemyforceskins) | `cvar enemyforceskins(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ezcompat_markup`](../38-cvars-reference/07-system-misc-cvars.md#ezcompat_markup) | `cvar ezcompat_markup(int, "1")` | Системные, отладочные и прочие cvar |
+| [`fbskins`](../38-cvars-reference/07-system-misc-cvars.md#fbskins) | `cvar fbskins(string, "")` | Системные, отладочные и прочие cvar |
+| [`forceqmenu`](../38-cvars-reference/07-system-misc-cvars.md#forceqmenu) | `cvar forceqmenu(int, "0")` | Системные, отладочные и прочие cvar |
+| [`fraglog_details`](../38-cvars-reference/07-system-misc-cvars.md#fraglog_details) | `cvar fraglog_details(int, "1")` | Системные, отладочные и прочие cvar |
+| [`gamecfg`](../38-cvars-reference/07-system-misc-cvars.md#gamecfg) | `cvar gamecfg(int, "0")` | Системные, отладочные и прочие cvar |
+| [`gameversion`](../38-cvars-reference/07-system-misc-cvars.md#gameversion) | `cvar gameversion(string, "")` | Системные, отладочные и прочие cvar |
+| [`gameversion_max`](../38-cvars-reference/07-system-misc-cvars.md#gameversion_max) | `cvar gameversion_max(string, "")` | Системные, отладочные и прочие cvar |
+| [`gameversion_min`](../38-cvars-reference/07-system-misc-cvars.md#gameversion_min) | `cvar gameversion_min(string, "")` | Системные, отладочные и прочие cvar |
+| [`hand`](../38-cvars-reference/07-system-misc-cvars.md#hand) | `cvar hand(string, "")` | Системные, отладочные и прочие cvar |
+| [`ignore_flood`](../38-cvars-reference/07-system-misc-cvars.md#ignore_flood) | `cvar ignore_flood(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ignore_flood_duration`](../38-cvars-reference/07-system-misc-cvars.md#ignore_flood_duration) | `cvar ignore_flood_duration(int, "4")` | Системные, отладочные и прочие cvar |
+| [`ignore_mode`](../38-cvars-reference/07-system-misc-cvars.md#ignore_mode) | `cvar ignore_mode(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ignore_opponents`](../38-cvars-reference/07-system-misc-cvars.md#ignore_opponents) | `cvar ignore_opponents(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ignore_qizmo_spec`](../38-cvars-reference/07-system-misc-cvars.md#ignore_qizmo_spec) | `cvar ignore_qizmo_spec(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ignore_spec`](../38-cvars-reference/07-system-misc-cvars.md#ignore_spec) | `cvar ignore_spec(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ipautodump`](../38-cvars-reference/07-system-misc-cvars.md#ipautodump) | `cvar ipautodump(int, "0")` | Системные, отладочные и прочие cvar |
+| [`itburnsitburnsmakeitstop`](../38-cvars-reference/07-system-misc-cvars.md#itburnsitburnsmakeitstop) | `cvar itburnsitburnsmakeitstop(int, "0")` | Системные, отладочные и прочие cvar |
+| [`joyradialdeadzone`](../38-cvars-reference/07-system-misc-cvars.md#joyradialdeadzone) | `cvar joyradialdeadzone(string, "")` | Системные, отладочные и прочие cvar |
+| [`lang`](../38-cvars-reference/07-system-misc-cvars.md#lang) | `cvar lang(string, "prvm_language")` | Системные, отладочные и прочие cvar |
+| [`leftisright`](../38-cvars-reference/07-system-misc-cvars.md#leftisright) | `cvar leftisright(int, "0")` | Системные, отладочные и прочие cvar |
+| [`log_developer`](../38-cvars-reference/07-system-misc-cvars.md#log_developer) | `cvar log_developer(int, "0")` | Системные, отладочные и прочие cvar |
+| [`log_dir`](../38-cvars-reference/07-system-misc-cvars.md#log_dir) | `cvar log_dir(string, "")` | Системные, отладочные и прочие cvar |
+| [`log_dosformat`](../38-cvars-reference/07-system-misc-cvars.md#log_dosformat) | `cvar log_dosformat(int, "1")` | Системные, отладочные и прочие cvar |
+| [`log_readable`](../38-cvars-reference/07-system-misc-cvars.md#log_readable) | `cvar log_readable(int, "7")` | Системные, отладочные и прочие cvar |
+| [`log_rotate_files`](../38-cvars-reference/07-system-misc-cvars.md#log_rotate_files) | `cvar log_rotate_files(int, "0")` | Системные, отладочные и прочие cvar |
+| [`log_rotate_size`](../38-cvars-reference/07-system-misc-cvars.md#log_rotate_size) | `cvar log_rotate_size(int, "131072")` | Системные, отладочные и прочие cvar |
+| [`log_timestamps`](../38-cvars-reference/07-system-misc-cvars.md#log_timestamps) | `cvar log_timestamps(int, "1")` | Системные, отладочные и прочие cvar |
+| [`lookspring`](../38-cvars-reference/07-system-misc-cvars.md#lookspring) | `cvar lookspring(int, "0")` | Системные, отладочные и прочие cvar |
+| [`lookstrafe`](../38-cvars-reference/07-system-misc-cvars.md#lookstrafe) | `cvar lookstrafe(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_accel`](../38-cvars-reference/07-system-misc-cvars.md#m_accel) | `cvar m_accel(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_accel_noforce`](../38-cvars-reference/07-system-misc-cvars.md#m_accel_noforce) | `cvar m_accel_noforce(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_accel_offset`](../38-cvars-reference/07-system-misc-cvars.md#m_accel_offset) | `cvar m_accel_offset(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_accel_power`](../38-cvars-reference/07-system-misc-cvars.md#m_accel_power) | `cvar m_accel_power(int, "2")` | Системные, отладочные и прочие cvar |
+| [`m_accel_senscap`](../38-cvars-reference/07-system-misc-cvars.md#m_accel_senscap) | `cvar m_accel_senscap(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_accel_style`](../38-cvars-reference/07-system-misc-cvars.md#m_accel_style) | `cvar m_accel_style(int, "1")` | Системные, отладочные и прочие cvar |
+| [`m_fatpressthreshold`](../38-cvars-reference/07-system-misc-cvars.md#m_fatpressthreshold) | `cvar m_fatpressthreshold(float, "0.2")` | Системные, отладочные и прочие cvar |
+| [`m_preset_chosen`](../38-cvars-reference/07-system-misc-cvars.md#m_preset_chosen) | `cvar m_preset_chosen(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_threshold_noforce`](../38-cvars-reference/07-system-misc-cvars.md#m_threshold_noforce) | `cvar m_threshold_noforce(int, "0")` | Системные, отладочные и прочие cvar |
+| [`m_touchstrafe`](../38-cvars-reference/07-system-misc-cvars.md#m_touchstrafe) | `cvar m_touchstrafe(int, "0")` | Системные, отладочные и прочие cvar |
+| [`map_autoopenportals`](../38-cvars-reference/07-system-misc-cvars.md#map_autoopenportals) | `cvar map_autoopenportals(int, "0")` | Системные, отладочные и прочие cvar |
+| [`map_noareas`](../38-cvars-reference/07-system-misc-cvars.md#map_noareas) | `cvar map_noareas(int, "0")` | Системные, отладочные и прочие cvar |
+| [`map_noCurves`](../38-cvars-reference/07-system-misc-cvars.md#map_nocurves) | `cvar map_noCurves(int, "0")` | Системные, отладочные и прочие cvar |
+| [`mapname`](../38-cvars-reference/07-system-misc-cvars.md#mapname) | `cvar mapname(string, "")` | Системные, отладочные и прочие cvar |
+| [`maxpitch`](../38-cvars-reference/07-system-misc-cvars.md#maxpitch) | `cvar maxpitch(string, "")` | Системные, отладочные и прочие cvar |
+| [`minpitch`](../38-cvars-reference/07-system-misc-cvars.md#minpitch) | `cvar minpitch(string, "")` | Системные, отладочные и прочие cvar |
+| [`mod_h2holey_bugged`](../38-cvars-reference/07-system-misc-cvars.md#mod_h2holey_bugged) | `cvar mod_h2holey_bugged(int, "0")` | Системные, отладочные и прочие cvar |
+| [`mod_halftexel`](../38-cvars-reference/07-system-misc-cvars.md#mod_halftexel) | `cvar mod_halftexel(int, "1")` | Системные, отладочные и прочие cvar |
+| [`mod_lightpoint_distance`](../38-cvars-reference/07-system-misc-cvars.md#mod_lightpoint_distance) | `cvar mod_lightpoint_distance(int, "8192")` | Системные, отладочные и прочие cvar |
+| [`mod_lightscale_broken`](../38-cvars-reference/07-system-misc-cvars.md#mod_lightscale_broken) | `cvar mod_lightscale_broken(int, "0")` | Системные, отладочные и прочие cvar |
+| [`mod_loadmappackages`](../38-cvars-reference/07-system-misc-cvars.md#mod_loadmappackages) | `cvar mod_loadmappackages(int, "1")` | Системные, отладочные и прочие cvar |
+| [`mod_md3flags`](../38-cvars-reference/07-system-misc-cvars.md#mod_md3flags) | `cvar mod_md3flags(int, "1")` | Системные, отладочные и прочие cvar |
+| [`mod_md5_singleanimation`](../38-cvars-reference/07-system-misc-cvars.md#mod_md5_singleanimation) | `cvar mod_md5_singleanimation(int, "1")` | Системные, отладочные и прочие cvar |
+| [`mod_nomipmap`](../38-cvars-reference/07-system-misc-cvars.md#mod_nomipmap) | `cvar mod_nomipmap(int, "0")` | Системные, отладочные и прочие cvar |
+| [`mod_obj_orientation`](../38-cvars-reference/07-system-misc-cvars.md#mod_obj_orientation) | `cvar mod_obj_orientation(int, "1")` | Системные, отладочные и прочие cvar |
+| [`mod_precache`](../38-cvars-reference/07-system-misc-cvars.md#mod_precache) | `cvar mod_precache(int, "1")` | Системные, отладочные и прочие cvar |
+| [`mod_warnmodels`](../38-cvars-reference/07-system-misc-cvars.md#mod_warnmodels) | `cvar mod_warnmodels(int, "1")` | Системные, отладочные и прочие cvar |
+| [`model`](../38-cvars-reference/07-system-misc-cvars.md#model) | `cvar model(string, "")` | Системные, отладочные и прочие cvar |
+| [`msg`](../38-cvars-reference/07-system-misc-cvars.md#msg) | `cvar msg(int, "1")` | Системные, отладочные и прочие cvar |
+| [`msg_filter`](../38-cvars-reference/07-system-misc-cvars.md#msg_filter) | `cvar msg_filter(int, "0")` | Системные, отладочные и прочие cvar |
+| [`musicvolume`](../38-cvars-reference/07-system-misc-cvars.md#musicvolume) | `cvar musicvolume(float, "0.3")` | Системные, отладочные и прочие cvar |
+| [`name`](../38-cvars-reference/07-system-misc-cvars.md#name) | `cvar name(string, "Player")` | Системные, отладочные и прочие cvar |
+| [`noaim`](../38-cvars-reference/07-system-misc-cvars.md#noaim) | `cvar noaim(string, "")` | Системные, отладочные и прочие cvar |
+| [`noexit`](../38-cvars-reference/07-system-misc-cvars.md#noexit) | `cvar noexit(int, "0")` | Системные, отладочные и прочие cvar |
+| [`nomonsters`](../38-cvars-reference/07-system-misc-cvars.md#nomonsters) | `cvar nomonsters(int, "0")` | Системные, отладочные и прочие cvar |
+| [`noskins`](../38-cvars-reference/07-system-misc-cvars.md#noskins) | `cvar noskins(int, "0")` | Системные, отладочные и прочие cvar |
+| [`pext_ezquake_nochunks`](../38-cvars-reference/07-system-misc-cvars.md#pext_ezquake_nochunks) | `cvar pext_ezquake_nochunks(int, "0")` | Системные, отладочные и прочие cvar |
+| [`pext_ezquake_verfortrans`](../38-cvars-reference/07-system-misc-cvars.md#pext_ezquake_verfortrans) | `cvar pext_ezquake_verfortrans(int, "7088")` | Системные, отладочные и прочие cvar |
+| [`pext_predinfo`](../38-cvars-reference/07-system-misc-cvars.md#pext_predinfo) | `cvar pext_predinfo(int, "1")` | Системные, отладочные и прочие cvar |
+| [`pext_replacementdeltas`](../38-cvars-reference/07-system-misc-cvars.md#pext_replacementdeltas) | `cvar pext_replacementdeltas(int, "1")` | Системные, отладочные и прочие cvar |
+| [`pkg_autoupdate`](../38-cvars-reference/07-system-misc-cvars.md#pkg_autoupdate) | `cvar pkg_autoupdate(int, "1")` | Системные, отладочные и прочие cvar |
+| [`plug_loaddefault`](../38-cvars-reference/07-system-misc-cvars.md#plug_loaddefault) | `cvar plug_loaddefault(int, "1")` | Системные, отладочные и прочие cvar |
+| [`plug_sbar`](../38-cvars-reference/07-system-misc-cvars.md#plug_sbar) | `cvar plug_sbar(int, "0")` | Системные, отладочные и прочие cvar |
+| [`prox_inmenu`](../38-cvars-reference/07-system-misc-cvars.md#prox_inmenu) | `cvar prox_inmenu(int, "0")` | Системные, отладочные и прочие cvar |
+| [`q3bsp_ignorestyles`](../38-cvars-reference/07-system-misc-cvars.md#q3bsp_ignorestyles) | `cvar q3bsp_ignorestyles(int, "0")` | Системные, отладочные и прочие cvar |
+| [`q3bsp_mergelightmaps`](../38-cvars-reference/07-system-misc-cvars.md#q3bsp_mergelightmaps) | `cvar q3bsp_mergelightmaps(int, "1")` | Системные, отладочные и прочие cvar |
+| [`q3bsp_surf_meshcollision_flag`](../38-cvars-reference/07-system-misc-cvars.md#q3bsp_surf_meshcollision_flag) | `cvar q3bsp_surf_meshcollision_flag(string, "0x80000000")` | Системные, отладочные и прочие cvar |
+| [`q3bsp_surf_meshcollision_force`](../38-cvars-reference/07-system-misc-cvars.md#q3bsp_surf_meshcollision_force) | `cvar q3bsp_surf_meshcollision_force(int, "0")` | Системные, отладочные и прочие cvar |
+| [`qport_`](../38-cvars-reference/07-system-misc-cvars.md#qport_) | `cvar qport_(int, "0")` | Системные, отладочные и прочие cvar |
+| [`rank_autoadd`](../38-cvars-reference/07-system-misc-cvars.md#rank_autoadd) | `cvar rank_autoadd(int, "1")` | Системные, отладочные и прочие cvar |
+| [`rank_filename`](../38-cvars-reference/07-system-misc-cvars.md#rank_filename) | `cvar rank_filename(string, "")` | Системные, отладочные и прочие cvar |
+| [`rank_needlogin`](../38-cvars-reference/07-system-misc-cvars.md#rank_needlogin) | `cvar rank_needlogin(int, "0")` | Системные, отладочные и прочие cvar |
+| [`record_flush`](../38-cvars-reference/07-system-misc-cvars.md#record_flush) | `cvar record_flush(int, "0")` | Системные, отладочные и прочие cvar |
+| [`registered`](../38-cvars-reference/07-system-misc-cvars.md#registered) | `cvar registered(int, "0")` | Системные, отладочные и прочие cvar |
+| [`route_shownodes`](../38-cvars-reference/07-system-misc-cvars.md#route_shownodes) | `cvar route_shownodes(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ruleset`](../38-cvars-reference/07-system-misc-cvars.md#ruleset) | `cvar ruleset(string, "none")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_fbmodels`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_fbmodels) | `cvar ruleset_allow_fbmodels(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_frj`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_frj) | `cvar ruleset_allow_frj(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_in`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_in) | `cvar ruleset_allow_in(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_localvolume`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_localvolume) | `cvar ruleset_allow_localvolume(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_modified_eyes`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_modified_eyes) | `cvar ruleset_allow_modified_eyes(int, "0")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_packet`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_packet) | `cvar ruleset_allow_packet(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_particle_lightning`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_particle_lightning) | `cvar ruleset_allow_particle_lightning(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_playercount`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_playercount) | `cvar ruleset_allow_playercount(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_semicheats`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_semicheats) | `cvar ruleset_allow_semicheats(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_sensitive_texture_replacements`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_sensitive_texture_replacements) | `cvar ruleset_allow_sensitive_texture_replacements(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_triggers`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_triggers) | `cvar ruleset_allow_triggers(int, "1")` | Системные, отладочные и прочие cvar |
+| [`ruleset_allow_watervis`](../38-cvars-reference/07-system-misc-cvars.md#ruleset_allow_watervis) | `cvar ruleset_allow_watervis(int, "1")` | Системные, отладочные и прочие cvar |
+| [`saved1`](../38-cvars-reference/07-system-misc-cvars.md#saved1) | `cvar saved1(int, "0")` | Системные, отладочные и прочие cvar |
+| [`saved2`](../38-cvars-reference/07-system-misc-cvars.md#saved2) | `cvar saved2(int, "0")` | Системные, отладочные и прочие cvar |
+| [`saved3`](../38-cvars-reference/07-system-misc-cvars.md#saved3) | `cvar saved3(int, "0")` | Системные, отладочные и прочие cvar |
+| [`saved4`](../38-cvars-reference/07-system-misc-cvars.md#saved4) | `cvar saved4(int, "0")` | Системные, отладочные и прочие cvar |
+| [`savedgamecfg`](../38-cvars-reference/07-system-misc-cvars.md#savedgamecfg) | `cvar savedgamecfg(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_alpha`](../38-cvars-reference/07-system-misc-cvars.md#sb_alpha) | `cvar sb_alpha(float, "0.7")` | Системные, отладочные и прочие cvar |
+| [`sb_filtertext`](../38-cvars-reference/07-system-misc-cvars.md#sb_filtertext) | `cvar sb_filtertext(string, "")` | Системные, отладочные и прочие cvar |
+| [`sb_hidedead`](../38-cvars-reference/07-system-misc-cvars.md#sb_hidedead) | `cvar sb_hidedead(int, "1")` | Системные, отладочные и прочие cvar |
+| [`sb_hideempty`](../38-cvars-reference/07-system-misc-cvars.md#sb_hideempty) | `cvar sb_hideempty(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_hidefull`](../38-cvars-reference/07-system-misc-cvars.md#sb_hidefull) | `cvar sb_hidefull(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_hidenetquake`](../38-cvars-reference/07-system-misc-cvars.md#sb_hidenetquake) | `cvar sb_hidenetquake(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_hidenotempty`](../38-cvars-reference/07-system-misc-cvars.md#sb_hidenotempty) | `cvar sb_hidenotempty(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_hideproxies`](../38-cvars-reference/07-system-misc-cvars.md#sb_hideproxies) | `cvar sb_hideproxies(int, "1")` | Системные, отладочные и прочие cvar |
+| [`sb_hidequakeworld`](../38-cvars-reference/07-system-misc-cvars.md#sb_hidequakeworld) | `cvar sb_hidequakeworld(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_showaddress`](../38-cvars-reference/07-system-misc-cvars.md#sb_showaddress) | `cvar sb_showaddress(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_showgamedir`](../38-cvars-reference/07-system-misc-cvars.md#sb_showgamedir) | `cvar sb_showgamedir(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_showmap`](../38-cvars-reference/07-system-misc-cvars.md#sb_showmap) | `cvar sb_showmap(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_showping`](../38-cvars-reference/07-system-misc-cvars.md#sb_showping) | `cvar sb_showping(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sb_showplayers`](../38-cvars-reference/07-system-misc-cvars.md#sb_showplayers) | `cvar sb_showplayers(int, "1")` | Системные, отладочные и прочие cvar |
+| [`sb_sortcolumn`](../38-cvars-reference/07-system-misc-cvars.md#sb_sortcolumn) | `cvar sb_sortcolumn(int, "0")` | Системные, отладочные и прочие cvar |
+| [`scratch1`](../38-cvars-reference/07-system-misc-cvars.md#scratch1) | `cvar scratch1(int, "0")` | Системные, отладочные и прочие cvar |
+| [`scratch2`](../38-cvars-reference/07-system-misc-cvars.md#scratch2) | `cvar scratch2(int, "0")` | Системные, отладочные и прочие cvar |
+| [`scratch3`](../38-cvars-reference/07-system-misc-cvars.md#scratch3) | `cvar scratch3(int, "0")` | Системные, отладочные и прочие cvar |
+| [`scratch4`](../38-cvars-reference/07-system-misc-cvars.md#scratch4) | `cvar scratch4(int, "0")` | Системные, отладочные и прочие cvar |
+| [`secure`](../38-cvars-reference/07-system-misc-cvars.md#secure) | `cvar secure(string, "")` | Системные, отладочные и прочие cvar |
+| [`sensitivity`](../38-cvars-reference/07-system-misc-cvars.md#sensitivity) | `cvar sensitivity(int, "10")` | Системные, отладочные и прочие cvar |
+| [`show_fps`](../38-cvars-reference/07-system-misc-cvars.md#show_fps) | `cvar show_fps(int, "0")` | Системные, отладочные и прочие cvar |
+| [`show_speed_x`](../38-cvars-reference/07-system-misc-cvars.md#show_speed_x) | `cvar show_speed_x(int, "-1")` | Системные, отладочные и прочие cvar |
+| [`show_speed_y`](../38-cvars-reference/07-system-misc-cvars.md#show_speed_y) | `cvar show_speed_y(int, "-9")` | Системные, отладочные и прочие cvar |
+| [`showdrop`](../38-cvars-reference/07-system-misc-cvars.md#showdrop) | `cvar showdrop(int, "0")` | Системные, отладочные и прочие cvar |
+| [`showpackets`](../38-cvars-reference/07-system-misc-cvars.md#showpackets) | `cvar showpackets(int, "0")` | Системные, отладочные и прочие cvar |
+| [`showpause`](../38-cvars-reference/07-system-misc-cvars.md#showpause) | `cvar showpause(int, "1")` | Системные, отладочные и прочие cvar |
+| [`showturtle`](../38-cvars-reference/07-system-misc-cvars.md#showturtle) | `cvar showturtle(int, "0")` | Системные, отладочные и прочие cvar |
+| [`skin`](../38-cvars-reference/07-system-misc-cvars.md#skin) | `cvar skin(string, "")` | Системные, отладочные и прочие cvar |
+| [`skyroom`](../38-cvars-reference/07-system-misc-cvars.md#skyroom) | `cvar skyroom(string, "")` | Системные, отладочные и прочие cvar |
+| [`slist_cacheinfo`](../38-cvars-reference/07-system-misc-cvars.md#slist_cacheinfo) | `cvar slist_cacheinfo(int, "0")` | Системные, отладочные и прочие cvar |
+| [`slist_writeservers`](../38-cvars-reference/07-system-misc-cvars.md#slist_writeservers) | `cvar slist_writeservers(int, "1")` | Системные, отладочные и прочие cvar |
+| [`spectator`](../38-cvars-reference/07-system-misc-cvars.md#spectator) | `cvar spectator(string, "")` | Системные, отладочные и прочие cvar |
+| [`sw_fthreads`](../38-cvars-reference/07-system-misc-cvars.md#sw_fthreads) | `cvar sw_fthreads(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sw_interlace`](../38-cvars-reference/07-system-misc-cvars.md#sw_interlace) | `cvar sw_interlace(int, "0")` | Системные, отладочные и прочие cvar |
+| [`sw_vthread`](../38-cvars-reference/07-system-misc-cvars.md#sw_vthread) | `cvar sw_vthread(int, "0")` | Системные, отладочные и прочие cvar |
+| [`team`](../38-cvars-reference/07-system-misc-cvars.md#team) | `cvar team(string, "")` | Системные, отладочные и прочие cvar |
+| [`topcolor`](../38-cvars-reference/07-system-misc-cvars.md#topcolor) | `cvar topcolor(int, "13")` | Системные, отладочные и прочие cvar |
+| [`tp_disputablemacros`](../38-cvars-reference/07-system-misc-cvars.md#tp_disputablemacros) | `cvar tp_disputablemacros(int, "1")` | Системные, отладочные и прочие cvar |
+| [`utf8_enable`](../38-cvars-reference/07-system-misc-cvars.md#utf8_enable) | `cvar utf8_enable(int, "0")` | Системные, отладочные и прочие cvar |
+| [`vk_amd_rasterization_order`](../38-cvars-reference/07-system-misc-cvars.md#vk_amd_rasterization_order) | `cvar vk_amd_rasterization_order(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_busywait`](../38-cvars-reference/07-system-misc-cvars.md#vk_busywait) | `cvar vk_busywait(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_debug`](../38-cvars-reference/07-system-misc-cvars.md#vk_debug) | `cvar vk_debug(int, "0")` | Системные, отладочные и прочие cvar |
+| [`vk_dualqueue`](../38-cvars-reference/07-system-misc-cvars.md#vk_dualqueue) | `cvar vk_dualqueue(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_ext_astc_decode_mode`](../38-cvars-reference/07-system-misc-cvars.md#vk_ext_astc_decode_mode) | `cvar vk_ext_astc_decode_mode(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_stagingbuffers`](../38-cvars-reference/07-system-misc-cvars.md#vk_stagingbuffers) | `cvar vk_stagingbuffers(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_submissionthread`](../38-cvars-reference/07-system-misc-cvars.md#vk_submissionthread) | `cvar vk_submissionthread(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_usememorypools`](../38-cvars-reference/07-system-misc-cvars.md#vk_usememorypools) | `cvar vk_usememorypools(string, "")` | Системные, отладочные и прочие cvar |
+| [`vk_waitfence`](../38-cvars-reference/07-system-misc-cvars.md#vk_waitfence) | `cvar vk_waitfence(string, "")` | Системные, отладочные и прочие cvar |
+| [`volume`](../38-cvars-reference/07-system-misc-cvars.md#volume) | `cvar volume(float, "0.7")` | Системные, отладочные и прочие cvar |
+| [`votelevel`](../38-cvars-reference/07-system-misc-cvars.md#votelevel) | `cvar votelevel(int, "0")` | Системные, отладочные и прочие cvar |
+| [`voteminimum`](../38-cvars-reference/07-system-misc-cvars.md#voteminimum) | `cvar voteminimum(int, "4")` | Системные, отладочные и прочие cvar |
+| [`votepercent`](../38-cvars-reference/07-system-misc-cvars.md#votepercent) | `cvar votepercent(int, "-1")` | Системные, отладочные и прочие cvar |
+| [`votetime`](../38-cvars-reference/07-system-misc-cvars.md#votetime) | `cvar votetime(int, "10")` | Системные, отладочные и прочие cvar |
+| [`w_switch`](../38-cvars-reference/07-system-misc-cvars.md#w_switch) | `cvar w_switch(string, "")` | Системные, отладочные и прочие cvar |
+| [`watervis`](../38-cvars-reference/07-system-misc-cvars.md#watervis) | `cvar watervis(string, "")` | Системные, отладочные и прочие cvar |
+| [`xinput_leftvibrator`](../38-cvars-reference/07-system-misc-cvars.md#xinput_leftvibrator) | `cvar xinput_leftvibrator(int, "0")` | Системные, отладочные и прочие cvar |
+| [`xinput_rightvibrator`](../38-cvars-reference/07-system-misc-cvars.md#xinput_rightvibrator) | `cvar xinput_rightvibrator(int, "0")` | Системные, отладочные и прочие cvar |
 
 ## Ключи сущностей карты (entity keys)
 
 Всего задокументировано: **146** ключей. Полный постатейный разбор — в разделе [«39. Ключи сущностей карты»](../39-entity-keys-reference/README.md).
 
-| Ключ | Тип значения | Категория |
+| Функция | Сигнатура | Категория |
 |---|---|---|
 | [`classname`](../39-entity-keys-reference/01-worldspawn-common-keys.md#classname) | `тип значения: string` | Общие ключи, worldspawn и глобальные настройки уровня |
 | [`origin`](../39-entity-keys-reference/01-worldspawn-common-keys.md#origin) | `тип значения: vector("x y z")` | Общие ключи, worldspawn и глобальные настройки уровня |
@@ -971,12 +2130,12 @@
 | [`origin`](../39-entity-keys-reference/03-trigger-logic-keys.md#origin) | `тип значения: vector` | Триггеры и логические сущности |
 | [`model`](../39-entity-keys-reference/03-trigger-logic-keys.md#model) | `тип значения: string` | Триггеры и логические сущности |
 | [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags) | `тип значения: integer` | Триггеры и логические сущности |
-| [`spawnflags (NOTOUCH)`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-notouch) | `тип значения: integer` | Триггеры и логические сущности |
-| [`spawnflags (NOMESSAGE)`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-nomessage) | `тип значения: integer` | Триггеры и логические сущности |
-| [`spawnflags (PLAYER_ONLY)`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-player_only) | `тип значения: integer` | Триггеры и логические сущности |
-| [`spawnflags (SILENT)`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-silent) | `тип значения: integer` | Триггеры и логические сущности |
-| [`spawnflags (PUSH_ONCE)`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-push_once) | `тип значения: integer` | Триггеры и логические сущности |
-| [`spawnflags (NO_INTERMISSION)`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-no_intermission) | `тип значения: integer` | Триггеры и логические сущности |
+| [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-notouch) | `тип значения: integer` | Триггеры и логические сущности |
+| [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-nomessage) | `тип значения: integer` | Триггеры и логические сущности |
+| [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-player_only) | `тип значения: integer` | Триггеры и логические сущности |
+| [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-silent) | `тип значения: integer` | Триггеры и логические сущности |
+| [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-push_once) | `тип значения: integer` | Триггеры и логические сущности |
+| [`spawnflags`](../39-entity-keys-reference/03-trigger-logic-keys.md#spawnflags-no_intermission) | `тип значения: integer` | Триггеры и логические сущности |
 | [`path_corner`](../39-entity-keys-reference/03-trigger-logic-keys.md#path_corner) | `тип значения: string` | Триггеры и логические сущности |
 | [`info_notnull`](../39-entity-keys-reference/03-trigger-logic-keys.md#info_notnull) | `тип значения: string` | Триггеры и логические сущности |
 | [`info_null`](../39-entity-keys-reference/03-trigger-logic-keys.md#info_null) | `тип значения: string` | Триггеры и логические сущности |
@@ -997,17 +2156,17 @@
 | [`height`](../39-entity-keys-reference/04-func-brush-entity-keys.md#height) | `тип значения: float` | Двери, платформы и подвижная геометрия |
 | [`t_width`](../39-entity-keys-reference/04-func-brush-entity-keys.md#t_width) | `тип значения: float` | Двери, платформы и подвижная геометрия |
 | [`t_length`](../39-entity-keys-reference/04-func-brush-entity-keys.md#t_length) | `тип значения: float` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (START_OPEN)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-start_open) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (DOOR_DONT_LINK)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-door_dont_link) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (GOLD_KEY)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-gold_key) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (SILVER_KEY)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-silver_key) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (TOGGLE)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-toggle) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (open_once)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-open_once) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (1st_left)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-1st_left) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (1st_down)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-1st_down) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (no_shoot)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-no_shoot) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (always_shoot)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-always_shoot) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
-| [`spawnflags (PLAT_LOW_TRIGGER)`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-plat_low_trigger) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-start_open) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-door_dont_link) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-gold_key) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-silver_key) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-toggle) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-open_once) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-1st_left) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-1st_down) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-no_shoot) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-always_shoot) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
+| [`spawnflags`](../39-entity-keys-reference/04-func-brush-entity-keys.md#spawnflags-plat_low_trigger) | `тип значения: integer` | Двери, платформы и подвижная геометрия |
 | [`classname`](../39-entity-keys-reference/05-monster-player-keys.md#classname) | `тип значения: string` | Монстры, NPC и точки появления игрока |
 | [`origin`](../39-entity-keys-reference/05-monster-player-keys.md#origin) | `тип значения: vector` | Монстры, NPC и точки появления игрока |
 | [`angle`](../39-entity-keys-reference/05-monster-player-keys.md#angle) | `тип значения: float` | Монстры, NPC и точки появления игрока |
@@ -1047,7 +2206,7 @@
 
 Всего задокументировано: **75** директив. Полный постатейный разбор — в разделе [«40. Директивы языка материалов»](../40-shader-directives-reference/README.md).
 
-| Директива | Синтаксис | Категория |
+| Функция | Сигнатура | Категория |
 |---|---|---|
 | [`cull`](../40-shader-directives-reference/01-shader-toplevel-directives.md#cull) | `cull disable\|none\|twosided\|front\|back\|backside\|backsided` | Директивы уровня материала |
 | [`skyparms`](../40-shader-directives-reference/01-shader-toplevel-directives.md#skyparms) | `skyparms farbox height nearbox` | Директивы уровня материала |
@@ -1129,7 +2288,7 @@
 
 Всего задокументировано: **76** директив. Полный постатейный разбор — в разделе [«41. Директивы языка частиц»](../41-particle-directives-reference/README.md).
 
-| Директива | Синтаксис | Категория |
+| Функция | Сигнатура | Категория |
 |---|---|---|
 | [`shader`](../41-particle-directives-reference/01-particle-effect-directives.md#shader) | `shader [shaderName]` | Директивы эффекта |
 | [`texture`](../41-particle-directives-reference/01-particle-effect-directives.md#texture) | `texture path` | Директивы эффекта |

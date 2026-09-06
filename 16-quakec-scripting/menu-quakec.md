@@ -18,11 +18,11 @@ MenuQC — это третий вид игровой логики на том ж
 
 | Функция | Когда вызывается |
 |---|---|
-| `m_init()` | один раз при первой загрузке логики меню — здесь создаются экраны и структуры данных |
-| `m_shutdown()` | при выгрузке логики меню |
+| [`m_init()`](../37-quakec-builtins-reference/00-entry-points.md#m_init) | один раз при первой загрузке логики меню — здесь создаются экраны и структуры данных |
+| [`m_shutdown()`](../37-quakec-builtins-reference/00-entry-points.md#m_shutdown) | при выгрузке логики меню |
 | `m_toggle(...)` | при открытии/закрытии меню (например, по клавише Esc) |
-| `m_draw()` | каждый кадр, пока меню открыто — здесь описывается вся отрисовка текущего экрана меню теми же функциями рисования, что и в CSQC (`drawpic`, `drawstring`/`drawcolorcodedstring`, `drawfill` и т.д.) |
-| `m_drawloading()` | во время экрана загрузки карты — отдельная точка входа, вызываемая, даже если основное меню закрыто |
+| [`m_draw()`](../37-quakec-builtins-reference/00-entry-points.md#m_draw) | каждый кадр, пока меню открыто — здесь описывается вся отрисовка текущего экрана меню теми же функциями рисования, что и в CSQC ([`drawpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawpic), [`drawstring`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawstring)/`drawcolorcodedstring`, [`drawfill`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawfill) и т.д.) |
+| [`m_drawloading()`](../37-quakec-builtins-reference/00-entry-points.md#m_drawloading) | во время экрана загрузки карты — отдельная точка входа, вызываемая, даже если основное меню закрыто |
 | `m_keydown(...)` / `m_keyup(...)` | при нажатии/отпускании клавиши, пока меню открыто |
 
 ### Дополнительные встроенные функции, доступные именно логике меню
@@ -31,14 +31,14 @@ MenuQC — это третий вид игровой логики на том ж
 
 - **`getresolution(...)`** — получение списка поддерживаемых видеорежимов/разрешений экрана — для построения экрана настроек видео.
 - **`getgamedirinfo(...)`** — получение информации об установленных играх/модах в системе — для построения экрана выбора мода.
-- **Работа со списком серверов**: **`refreshhostcache()`** (запросить обновление списка публичных серверов), **`gethostcachenumber()`** (сколько серверов сейчас известно), **`gethostcachevalue(...)`** / **`gethostcachestring(...)`** (числовое/строковое поле конкретного найденного сервера — имя, карта, число игроков и т.п.), **`resethostcachemasks()`** / **`sethostcachemaskstring(...)`** (задать фильтры отображаемых серверов), **`gethostcacheindexforkey(...)`** — этот набор функций — основа для полностью кастомного экрана браузера серверов внутри меню (см. [«Браузер серверов и избранное»](../25-server-browser-masters/server-browser-favorites.md)).
+- **Работа со списком серверов**: **[`refreshhostcache()`](../37-quakec-builtins-reference/11-server-browser-builtins.md#refreshhostcache)** (запросить обновление списка публичных серверов), **[`gethostcachenumber()`](../37-quakec-builtins-reference/11-server-browser-builtins.md#gethostcachenumber)** (сколько серверов сейчас известно), **`gethostcachevalue(...)`** / **`gethostcachestring(...)`** (числовое/строковое поле конкретного найденного сервера — имя, карта, число игроков и т.п.), **[`resethostcachemasks()`](../37-quakec-builtins-reference/11-server-browser-builtins.md#resethostcachemasks)** / **`sethostcachemaskstring(...)`** (задать фильтры отображаемых серверов), **`gethostcacheindexforkey(...)`** — этот набор функций — основа для полностью кастомного экрана браузера серверов внутри меню (см. [«Браузер серверов и избранное»](../25-server-browser-masters/server-browser-favorites.md)).
 - **`cvar_set(...)`**, **`localsound(...)`**, **`registercommand(...)`** — доступны так же, как в CSQC, для изменения настроек, проигрывания звуков интерфейса и регистрации собственных консольных команд меню.
 
 ## Примеры
 
 - Мод заменяет стандартное меню на брендированное — со своим фоном, музыкальным сопровождением и структурой разделов, соответствующей именно его режимам игры.
-- Кастомный экран выбора сервера в меню использует `refreshhostcache`/`gethostcachevalue`, чтобы показать дополнительную информацию (например, текущий счёт турнира), которой нет в стандартном меню движка.
-- Экран настроек видео построен через `getresolution`, чтобы предложить игроку список реально поддерживаемых его монитором разрешений.
+- Кастомный экран выбора сервера в меню использует `refreshhostcache`/[`gethostcachevalue`](../37-quakec-builtins-reference/11-server-browser-builtins.md#gethostcachevalue), чтобы показать дополнительную информацию (например, текущий счёт турнира), которой нет в стандартном меню движка.
+- Экран настроек видео построен через [`getresolution`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getresolution), чтобы предложить игроку список реально поддерживаемых его монитором разрешений.
 
 ## Более простая альтернатива: меню на основе консольных команд
 

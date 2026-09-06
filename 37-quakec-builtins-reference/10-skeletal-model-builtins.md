@@ -87,7 +87,7 @@ void() ClonePoseAndBendNeck =
 * **useabstransforms** — `float`, необязательный режим хранения; `0` создаёт обычный relative skeleton, ненулевое значение запрашивает absolute transforms.
 
 #### Описание и логика работы
-`skel_create` выделяет новый skeletal object и возвращает его числовой handle. Сам объект не «живёт» внутри сущности автоматически: обычно мод хранит этот id в своём поле вроде `.skeletonobject` или `.skeletonindex`, а затем передаёт его в `addentity`/рендерный путь конкретной entity. По умолчанию создаётся relative skeleton, где каждая кость задаётся относительно родителя — именно этот режим ожидают `skel_build`, `skel_set_bone` и большинство процедурных операций. Ненулевой `useabstransforms` просит движок выделить объект для абсолютных матриц относительно самой entity; это полезно для некоторых специализированных сценариев, но хуже подходит для обычного поэтапного блендинга.
+`skel_create` выделяет новый skeletal object и возвращает его числовой handle. Сам объект не «живёт» внутри сущности автоматически: обычно мод хранит этот id в своём поле вроде `.skeletonobject` или `.skeletonindex`, а затем передаёт его в [`addentity`](08-csqc-rendering-builtins.md#addentity)/рендерный путь конкретной entity. По умолчанию создаётся relative skeleton, где каждая кость задаётся относительно родителя — именно этот режим ожидают `skel_build`, `skel_set_bone` и большинство процедурных операций. Ненулевой `useabstransforms` просит движок выделить объект для абсолютных матриц относительно самой entity; это полезно для некоторых специализированных сценариев, но хуже подходит для обычного поэтапного блендинга.
 
 Если модель не существует или не содержит скелета, builtin возвращает `0`. Создание лишь резервирует структуру данных; фактическую позу туда нужно загрузить отдельным вызовом `skel_build` или заполнить вручную через `skel_set_bone`. После завершения работы объект нужно освобождать через `skel_delete`.
 
@@ -113,7 +113,7 @@ float() Player_InitSkeleton =
 * **skel** — `float`, идентификатор skeletal object, который больше не нужен.
 
 #### Описание и логика работы
-`skel_delete` помечает skeletal object на удаление. Важный нюанс реализации FTEQW: освобождение откладывается до безопасного момента, поэтому builtin можно вызывать даже в том кадре, где объект ещё участвует в рендеринге, не ломая следующий `addentity`/`renderscene`. Если на этом skeleton был активен ragdoll, он тоже снимается. Повторный вызов с уже невалидным id ничего полезного не делает, но и не должен ломать VM.
+`skel_delete` помечает skeletal object на удаление. Важный нюанс реализации FTEQW: освобождение откладывается до безопасного момента, поэтому builtin можно вызывать даже в том кадре, где объект ещё участвует в рендеринге, не ломая следующий `addentity`/[`renderscene`](08-csqc-rendering-builtins.md#renderscene). Если на этом skeleton был активен ragdoll, он тоже снимается. Повторный вызов с уже невалидным id ничего полезного не делает, но и не должен ломать VM.
 
 Практическое правило простое: создали skeletal object — удалите его при уничтожении сущности, смене модели на нескелетную или полном пересоздании визуального представления. Оставленный handle сам по себе не «протухает» автоматически и будет занимать слот/память до освобождения.
 
@@ -318,7 +318,7 @@ void() Debug_DumpFirstBoneMatrix =
 * **up** — `vector`, up-ось матрицы; если не указана, используется `v_up`.
 
 #### Описание и логика работы
-`skel_premul_bone` домножает существующую матрицу кости новой матрицей слева, то есть модификатор применяется «до» уже накопленной локальной позы. На практике это хороший builtin для процедурных поворотов вроде доворота головы, хвоста или оружейной кости поверх анимации. Матрицу-модификатор удобно строить через `makevectors` из нужных углов, а затем передавать либо явно, либо неявно через текущие `v_forward`, `v_right`, `v_up`.
+`skel_premul_bone` домножает существующую матрицу кости новой матрицей слева, то есть модификатор применяется «до» уже накопленной локальной позы. На практике это хороший builtin для процедурных поворотов вроде доворота головы, хвоста или оружейной кости поверх анимации. Матрицу-модификатор удобно строить через [`makevectors`](01-math-vector-builtins.md#makevectors) из нужных углов, а затем передавать либо явно, либо неявно через текущие `v_forward`, `v_right`, `v_up`.
 
 В реализации есть важный практический нюанс: premultiply вращает уже существующую позу вокруг переданного transform, поэтому при заметном `org` результат может быть не тем, что ожидается от «простого добавить угол». Для безопасного корректирующего поворота поверх анимации чаще всего передают `org = '0 0 0'`. При неверном `skel` или индексе кости builtin просто ничего не меняет.
 
@@ -889,6 +889,98 @@ void() GivePlayerBlueShirtRedPants =
 	// lower = 4, upper = 13.
 	colours = 4 + (13 * 16);
 	setcolors(self, colours);
+};
+```
+
+### skel_build_ptr
+`float(float skel, int numblends, skelblend_t *weights, int structsize) skel_build_ptr = #0:skel_build_ptr;`
+
+* **skel** — `float`, skeletal object, индекс целевого скелета; в отличие от `skel_build`, передача `0` здесь не вызовет полного пересоздания.
+* **numblends** — `int`, количество передаваемых структур `skelblend_t` для смешивания.
+* **weights** — `skelblend_t *`, указатель на массив blend-дескрипторов; каждая структура должна содержать `sourcemodelindex`, базовый фрейм, `prescale`, а также массивы frame/weight/time для HL-подобных костей типа controller/subblend.
+* **structsize** — `int`, размер одной структуры массива; обычно передается `sizeof(skelblend_t)`.
+
+#### Описание и особенности работы
+
+`skel_build_ptr` является аналогом функции `skel_build` для тех, кому удобнее передавать blend-параметры в виде прямого указателя. Оригинальное описание функции гласит, что она работает *"slightly simpler"*, но на самом деле имеет ряд специфических ограничений: массив должен быть четко структурирован, содержать корректные ссылки на индексы моделей, prescale и тайминги анимации. При выполнении кода происходит цепочка внутренних проверок: skeleton должен быть инициализирован, `structsize` не должен быть меньше `sizeof(skelblend_t)`, указатель массива не должен ссылаться на нулевой адрес, а non-relative skeleton не приведет к генерации костей и вызовет немедленный `return`. Рекомендуется проверять и сам handle `skel`, если он `0`, во избежание сбоев/ошибок выполнения.
+
+#### Пример использования
+
+```quakec
+skelblend_t player_blends[1];
+
+void() RebuildPoseWithBlendArray =
+{
+    if (!self.skeletonobject)
+        self.skeletonobject = skel_create(self.modelindex);
+
+    player_blends[0].sourcemodelindex = self.modelindex;
+    player_blends[0].firstbone = 0;
+    player_blends[0].lastbone = 0;
+    player_blends[0].prescale = 0;
+    player_blends[0].scale[0] = 1;
+    player_blends[0].animation[0] = self.frame;
+    player_blends[0].animationtime[0] = 0;
+
+    skel_build_ptr(self.skeletonobject, 1, &player_blends[0], sizeof(player_blends[0]));
+};
+```
+
+### skel_postmul_bone
+`void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up) skel_postmul_bone = #0:skel_postmul_bone;`
+
+* **skel** — `float`, skeletal object, в котором будет изменена кость.
+* **bonenum** — `float`, 1-based индекс кости (начиная с 1).
+* **org** — `vector`, вектор смещения для матрицы трансформации.
+* **fwd** — `vector`, вектор направления forward для матрицы.
+* **right** — `vector`, вектор направления right для матрицы.
+* **up** — `vector`, вектор направления up для матрицы.
+
+#### Описание и особенности работы
+
+`skel_postmul_bone` применяет дополнительную матрицу трансформации после текущих вычислений кости, то есть выполняет пост-умножение (post-multiplication) геометрических преобразований для одной конкретной кости. Если векторы `fwd/right/up` не переданы, builtin автоматически использует глобальные переменные `v_forward`, `v_right`, `v_up`, что упрощает рабочий процесс с использованием базовой функции `makevectors` перед вызовом `skel_postmul_bone`. В отличие от `skel_premul_bone`, где трансформация применяется до основных вычислений родительских костей, этот метод идеален для симуляции динамических эффектов вроде sway (покачивание), recoil (отдача) или twisting (скручивание) кистей. При неверном skeleton id или некорректном bone index вызов просто игнорируется движком.
+
+#### Пример использования
+
+```quakec
+void() TwistRightHand =
+{
+    local float handbone;
+
+    handbone = skel_find_bone(self.skeletonobject, "Bip01 R Hand");
+    if (!handbone)
+        return;
+
+    makevectors('0 0 15');
+    skel_postmul_bone(self.skeletonobject, handbone, '0 0 0', v_forward, v_right, v_up);
+};
+```
+
+### skel_postmul_bones
+`void(float skel, float startbone, float endbone, vector org, optional vector fwd, optional vector right, optional vector up) skel_postmul_bones = #0:skel_postmul_bones;`
+
+* **skel** — `float`, skeletal object, скелет для массовой трансформации.
+* **startbone** — `float`, индекс начала последовательного диапазона костей.
+* **endbone** — `float`, индекс конца диапазона.
+* **org** — `vector`, вектор смещения.
+* **fwd** — `vector`, вектор направления forward.
+* **right** — `vector`, вектор направления right.
+* **up** — `vector`, вектор направления up.
+
+#### Описание и особенности работы
+
+`skel_postmul_bones` — это потенциально полезный builtin метод для групповой трансформации цепочки костей. В таблицах встроенных функций движка (server/client builtin tables) он описан как *"Transforms an entire consecutive range of bones by a matrix"*, однако в коде движка присутствует критический баг со связыванием в контекстах CSQC/MenuQC, из-за чего вызов падает. Суть проблемы: в `fteextensions.qc` объявление функции есть, однако в builtin-таблицах файлов `pr_csqc.c`/`pr_menu.c` привязка пропущена, а в `pr_common.h` макрос `PF_skel_postmul_bones` вместо вызова реальной функции указывает на `PF_Fixme`. По этой причине вызывать данный builtin напрямую нельзя, и разработчикам приходится писать обертку, которая в цикле выполняет поэлементную трансформацию с помощью стабильно работающей `skel_postmul_bone`.
+
+#### Пример использования
+
+```quakec
+void() BendTailRange_Workaround =
+{
+    local float bone;
+
+    makevectors('0 3 0');
+    for (bone = self.tail_firstbone; bone <= self.tail_lastbone; bone = bone + 1)
+        skel_postmul_bone(self.skeletonobject, bone, '0 0 0', v_forward, v_right, v_up);
 };
 ```
 

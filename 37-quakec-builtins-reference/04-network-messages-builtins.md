@@ -321,7 +321,7 @@ void() CSQC_Parse_Event =
 * **fl** — 32-битный float без дополнительного сетевого сжатия.
 
 #### Описание и логика работы
-`WriteFloat` всегда пишет полный IEEE-like 32-битный float без промежуточного округления в `short`, `coord` или `angle`. Это дороже, чем `WriteByte`, `WriteShort`, `WriteCoord` и `WriteAngle`, но сохраняет дробную часть полностью. Используйте его для значений, где действительно нужна точность: коэффициенты отдачи, интерполяционные веса, нестандартные временные метки. Читаться такой формат должен только через `readfloat`.
+`WriteFloat` всегда пишет полный IEEE-like 32-битный float без промежуточного округления в `short`, `coord` или [`angle`](../39-entity-keys-reference/01-worldspawn-common-keys.md#angle). Это дороже, чем `WriteByte`, `WriteShort`, `WriteCoord` и `WriteAngle`, но сохраняет дробную часть полностью. Используйте его для значений, где действительно нужна точность: коэффициенты отдачи, интерполяционные веса, нестандартные временные метки. Читаться такой формат должен только через `readfloat`.
 
 #### Практические сценарии использования
 ```
@@ -757,7 +757,7 @@ void() CSQC_Parse_Event =
 ### ReadPicture
 `string() ReadPicture = #501;`
 
-* **возвращаемое значение** — имя картинки, пригодное для `drawpic` и похожих 2D-функций.
+* **возвращаемое значение** — имя картинки, пригодное для [`drawpic`](08-csqc-rendering-builtins.md#drawpic) и похожих 2D-функций.
 
 #### Описание и логика работы
 `ReadPicture` читает payload от `WritePicture`. Внутри FTEQW это чтение имени изображения, затем short-размера, затем пропуск самого blob-а. Так как `WritePicture` в FTEQW фактически посылает имя картинки и size `0`, builtin играет роль `readstring` с дополнительной download/precache-логикой: картинка может начать отображаться корректно только после догрузки ресурса, а до этого её размеры бывают неточными.
@@ -838,7 +838,7 @@ void() CSQC_Parse_Event =
 * **s..s7** — части итоговой команды; в конце обязательно нужен `\n`.
 
 #### Описание и логика работы
-`stuffcmd` отправляет строку в клиентскую консоль на исполнение. Это мощный, но опасный механизм: команды зависят от конкретного клиента и легко ломают UX или безопасность мода. В отличие от custom `SVC_CGAMEPACKET`, тут вы фактически удалённо нажимаете команды в клиентском console buffer. Для массовой рассылки и demo-фильтров есть отдельный `stuffcmdflags`, но он в эту статью не входит. Если клиент перехватывает stuffcmd в `CSQC_Parse_StuffCmd`, можно построить более контролируемый протокол поверх текстовых команд.
+`stuffcmd` отправляет строку в клиентскую консоль на исполнение. Это мощный, но опасный механизм: команды зависят от конкретного клиента и легко ломают UX или безопасность мода. В отличие от custom `SVC_CGAMEPACKET`, тут вы фактически удалённо нажимаете команды в клиентском console buffer. Для массовой рассылки и demo-фильтров есть отдельный `stuffcmdflags`, но он в эту статью не входит. Если клиент перехватывает stuffcmd в [`CSQC_Parse_StuffCmd`](00-entry-points.md#csqc_parse_stuffcmd), можно построить более контролируемый протокол поверх текстовых команд.
 
 #### Практические сценарии использования
 ```
@@ -1267,6 +1267,568 @@ void() CSQC_Parse_Event =
 {
 	if (readbyte() == 26)
 		queued_hint = readstring();
+};
+```
+
+### csqc_cvar_defstring
+`string(string s) csqc_cvar_defstring = #482;`
+
+* **s** — `string`, имя cvar, для которого нужен исходный default value.
+
+#### Описание и логика работы
+
+`csqc_cvar_defstring` — MenuQC-имя для того же builtin, который в CSQC обычно объявляется как `cvar_defstring` на номере `#482`. Функция возвращает именно строку по умолчанию, зарегистрированную движком для cvar, а не текущее значение и не latched-значение. Если cvar не существует или скрыт флагами безопасности, builtin возвращает пустой/null string.
+
+#### Практические сценарии использования
+
+```
+// код MenuQC
+void() ShowCrosshairResetHint =
+{
+string def = csqc_cvar_defstring("cl_crosshair");
+string cur = cvar_string("cl_crosshair");
+
+if (def && cur != def)
+print("cl_crosshair differs from default: ", def, "\n");
+};
+```
+
+### cvars_haveunsaved
+`float() cvars_haveunsaved = #0:cvars_haveunsaved;`
+
+* Аргументы отсутствуют.
+
+#### Описание и логика работы
+
+`cvars_haveunsaved` возвращает ненулевое значение, если у любого archived cvar текущее значение изменено, но ещё не сохранено в конфиг. Это удобный индикатор для меню настроек: можно подсветить кнопку Apply/Save или предупредить игрока перед выходом. Сам builtin ничего не сохраняет — он только проверяет общее состояние dirty-конфига.
+
+#### Практические сценарии использования
+
+```
+// код MenuQC или CSQC
+void() DrawSettingsWarning =
+{
+if (cvars_haveunsaved())
+print("There are unsaved archived cvars\n");
+};
+```
+
+### findkeysforcommand_dp
+`DEP string(string command, optional float bindmap) findkeysforcommand_dp = #610;`
+
+* **command** — `string`, команда или bind-строка, для которой ищутся клавиши.
+* **bindmap** — `float`, необязательный номер bindmap; если не указан, используется `0`.
+
+#### Описание и логика работы
+
+Это deprecated DP-совместимое имя присутствует в серверной builtin-таблице FTEQW, но реальной серверной реализации у него нет: слот привязан к `PF_Fixme`. То есть в SSQC это честная функция-пустышка для совместимости по имени, а не рабочий API для поиска bind-ов. Для реального поиска клавиш в FTEQW используйте клиентские `findkeysforcommandex` или старый `findkeysforcommand`/`findkeysforcommand_menu` на стороне CSQC/MenuQC.
+
+#### Практические сценарии использования
+
+```
+// код CSQC или MenuQC
+// В SSQC на findkeysforcommand_dp полагаться нельзя: это заглушка.
+string keys = findkeysforcommandex("+jump");
+if (keys != "")
+print("Jump is bound to: ", keys, "\n");
+```
+
+### findkeysforcommand_menu
+`string(string command, optional float bindmap) findkeysforcommand_menu = #610;`
+
+* **command** — `string`, команда, для которой нужно найти bind-ы.
+* **bindmap** — `float`, необязательный номер bindmap.
+
+#### Описание и логика работы
+
+`findkeysforcommand_menu` — совместимый alias к старому builtin формата DarkPlaces/MenuQC, который возвращает не имена клавиш, а список их числовых keycode-ов. По поведению он эквивалентен устаревшему `findkeysforcommand`: результат надо разбирать через `tokenize`, а не через `tokenize_console`, и модификаторы в таком формате полноценно не описываются. Использовать builtin имеет смысл только ради совместимости со старым кодом; для нового UI удобнее `findkeysforcommandex`.
+
+#### Практические сценарии использования
+
+```
+// код CSQC
+void() ShowLegacyJumpKey =
+{
+string list = findkeysforcommand_menu("+jump");
+if (tokenize(list) > 0)
+print("Primary jump keycode: ", argv(0), "\n");
+};
+```
+
+### findkeysforcommandex
+`string(string command, optional float bindmap) findkeysforcommandex = #0:findkeysforcommandex;`
+
+* **command** — `string`, команда или полная bind-строка.
+* **bindmap** — `float`, необязательный номер bindmap.
+
+#### Описание и логика работы
+
+`findkeysforcommandex` ищет все клавиши, на которые привязана указанная команда, и возвращает результат в человекочитаемом keyname-формате. В отличие от старого `findkeysforcommand`, здесь могут присутствовать модификаторы, а список может быть длиннее двух клавиш. Возвращённую строку следует разбирать через `tokenize`; если bind-ов нет, обычно возвращается пустая строка.
+
+#### Практические сценарии использования
+
+```
+// код CSQC или MenuQC
+void() ShowReloadBinds =
+{
+float i, argc;
+string list = findkeysforcommandex("+reload");
+
+argc = tokenize(list);
+for (i = 0; i < argc; i = i + 1)
+print("Reload bind: ", argv(i), "\n");
+};
+```
+
+### forceinfokeyblob
+`void(entity player, string key, void *data, int size) forceinfokeyblob = #0:forceinfokeyblob;`
+
+* **player** — `entity`, клиент, чей userinfo ключ меняется напрямую на сервере.
+* **key** — `string`, имя userinfo-ключа.
+* **data** — `void *`, адрес данных или строкового буфера, который будет записан как значение.
+* **size** — `int`, число байт для записи.
+
+#### Описание и логика работы
+
+`forceinfokeyblob` — серверный вариант `forceinfokey`, который пишет в userinfo произвольный blob, а не только обычную строку. Изменение происходит сразу на сервере, без round-trip к клиенту; допустимы и специальные `*`-ключи вроде `*spectator`. Это удобно для FTE-расширений с бинарными infoblob-данными, но изменение не переписывает локальный конфиг игрока и не переносится на другие серверы автоматически.
+
+#### Практические сценарии использования
+
+```
+// код SSQC
+void(entity pl) MarkAuthenticated =
+{
+string tag = "trusted";
+forceinfokeyblob(pl, "*auth", tag, strlen(tag));
+};
+```
+
+### getlocaluserinfo
+`string(float seat, string keyname) getlocaluserinfo = #0:getlocaluserinfo;`
+
+* **seat** — `float`, номер локального player seat (`0` для первого игрока в обычной игре).
+* **keyname** — `string`, имя userinfo-ключа.
+
+#### Описание и логика работы
+
+`getlocaluserinfo` читает локальный userinfo выбранного seat прямо на клиенте. Это не совсем то же самое, что `getplayerkeyvalue`: локальная копия может отличаться от того, что уже подтвердил сервер, из-за задержки или серверной фильтрации ключей. Builtin особенно полезен в меню настроек и split-screen интерфейсах, где нужно показать ещё не подтверждённые локальные значения.
+
+#### Практические сценарии использования
+
+```
+// код MenuQC или CSQC
+void() ShowPendingPlayerName =
+{
+string name = getlocaluserinfo(0, "name");
+print("Local seat 0 name: ", name, "\n");
+};
+```
+
+### getlocaluserinfoblob
+`int(float seat, string keyname, void *outptr, int maxsize) getlocaluserinfoblob = #0:getlocaluserinfoblob;`
+
+* **seat** — `float`, номер локального player seat.
+* **keyname** — `string`, имя userinfo-ключа.
+* **outptr** — `void *`, адрес буфера для копирования данных; можно передать `0`, чтобы только узнать нужный размер.
+* **maxsize** — `int`, максимум байт, который разрешено записать в `outptr`.
+
+#### Описание и логика работы
+
+`getlocaluserinfoblob` возвращает полный raw blob выбранного локального userinfo-ключа. Builtin копирует не больше `maxsize` байт, но возвращает полный размер значения даже при усечении; это стандартный шаблон FTEQW для blob-API. Нулевой байт автоматически не дописывается, а специальные синтетические ключи игнорируются — читается только реально сохранённый blob.
+
+#### Практические сценарии использования
+
+```
+// код MenuQC или CSQC
+void() DumpAvatarBlobSize =
+{
+void *buf = memalloc(256);
+float got = getlocaluserinfoblob(0, "_avatar", buf, 256);
+print("Local _avatar bytes: ", ftos(got), "\n");
+memfree(buf);
+};
+```
+
+### getplayerkeyblob
+`int(float playernum, string keyname, optional void *outptr, int size) getplayerkeyblob = #0:getplayerkeyblob;`
+
+* **playernum** — `float`, индекс игрока; отрицательные значения интерпретируются как позиция в отсортированном scoreboard.
+* **keyname** — `string`, имя userinfo-ключа.
+* **outptr** — `void *`, необязательный буфер назначения; `0` позволяет только узнать размер blob-а.
+* **size** — `int`, сколько байт максимум можно записать в `outptr`.
+
+#### Описание и логика работы
+
+`getplayerkeyblob` читает raw userinfo-данные другого игрока без преобразования в tempstring. Возвращаемое число — полный размер значения; если буфер меньше, копия усечётся, но размер всё равно сообщается полностью. В отличие от `getplayerkeyvalue`, builtin игнорирует синтетические scoreboard-ключи вроде `ping` или `frags` и смотрит только на фактически сохранённый infoblob.
+
+#### Практические сценарии использования
+
+```
+// код CSQC
+void(float pnum) ReadRemoteAvatar =
+{
+void *buf = memalloc(512);
+float got = getplayerkeyblob(pnum, "_avatar", buf, 512);
+print("Remote avatar bytes: ", ftos(got), "\n");
+memfree(buf);
+};
+```
+
+### getplayerkeyfloat
+`float(float playernum, string keyname, optional float assumevalue) getplayerkeyfloat = #0:getplayerkeyfloat;`
+
+* **playernum** — `float`, индекс игрока; отрицательные значения используют отсортированный scoreboard-порядок.
+* **keyname** — `string`, имя числового ключа или scoreboard-поля.
+* **assumevalue** — `float`, значение по умолчанию, если ключ отсутствует или пуст.
+
+#### Описание и логика работы
+
+`getplayerkeyfloat` — более дешёвая числовая версия `getplayerkeyvalue`, которая не создаёт tempstring только ради последующего `stof`. Она удобна для часто опрашиваемых scoreboard-полей: `ping`, `pl`, `frags`, `userid`, `voiploudness` и числовых userinfo-значений. Если ключ отсутствует, возвращается `assumevalue`, а при его отсутствии — `0`.
+
+#### Практические сценарии использования
+
+```
+// код CSQC
+void() ShowOwnPing =
+{
+float ping = getplayerkeyfloat(player_localnum, "ping", -1);
+print("Ping: ", ftos(ping), "\n");
+};
+```
+
+### getplayerkeyvalue
+`string(float playernum, string keyname) getplayerkeyvalue = #348;`
+
+* **playernum** — `float`, индекс игрока; `-1`, `-2` и т. д. означают места в отсортированном scoreboard.
+* **keyname** — `string`, userinfo-ключ или одно из поддерживаемых scoreboard-полей.
+
+#### Описание и логика работы
+
+`getplayerkeyvalue` читает строковое значение из userinfo игрока и из нескольких клиентских псевдоключей scoreboard-системы. Через него можно получить не только обычные поля вроде `name`, `team`, `skin`, `*ver`, но и вычисляемые значения `frags`, `ping`, `pl`, `userid`, `activetime`, `voipspeaking`, `voiploudness`. Отрицательный `playernum` удобен для HUD-таблиц: `-1` означает первого игрока после текущей сортировки фрагов.
+
+#### Практические сценарии использования
+
+```
+// код CSQC
+void() ShowScoreboardLeader =
+{
+string leader = getplayerkeyvalue(-1, "name");
+string frags = getplayerkeyvalue(-1, "frags");
+print("Leader: ", leader, " (", frags, ")\n");
+};
+```
+
+### getplayerstat
+`__variant(float playernum, float statnum, float stattype) getplayerstat = #0:getplayerstat;`
+
+* **playernum** — `float`, индекс игрока, чьи stats нужно прочитать.
+* **statnum** — `float`, номер stat-а.
+* **stattype** — `float`, ожидаемый тип результата (`EV_INTEGER`, `EV_FLOAT`, `EV_VECTOR`, `EV_ENTITY` и т. д.).
+
+#### Описание и логика работы
+
+`getplayerstat` возвращает конкретный stat указанного игрока в том типе, который вы запросили через `EV_*`. Builtin в первую очередь предназначен для CSQC при MVD playback, когда клиент знает stats всех игроков, а не только локального. Для `EV_ENTITY` движок возвращает `world`, если соответствующая сущность сейчас не находится в PVS; если нужен именно сырой номер entity, безопаснее запрашивать тот же stat как `EV_INTEGER`.
+
+#### Практические сценарии использования
+
+```
+// код CSQC
+void(float pnum) ShowTrackedItems =
+{
+int items = getplayerstat(pnum, STAT_ITEMS, EV_INTEGER);
+print("STAT_ITEMS bits: ", itos(items), "\n");
+};
+```
+
+### readdouble
+`__double() readdouble = #0:readdouble;`
+
+* Аргументы отсутствуют.
+
+#### Описание и логика работы
+
+`readdouble` читает следующее значение из входящего сетевого сообщения как полноценный 64-битный `double`. Формат чтения обязан точно совпадать с серверной записью через `WriteDouble`; смешивать его с `readfloat` нельзя. Как и остальные `read*` builtins CSQC, функция допустима только пока движок действительно разбирает пакет (`CSQC_Parse_Event`, `CSQC_Parse_Delta` и т. п.), иначе builtin аварийно прервёт выполнение.
+
+#### Практические сценарии использования
+
+```
+// код SSQC
+const float EV_PRECISE_TIME = 40;
+
+void(entity pl, __double t) SendPreciseTime =
+{
+msg_entity = pl;
+WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
+WriteByte(MSG_MULTICAST, EV_PRECISE_TIME);
+WriteDouble(MSG_MULTICAST, t);
+multicast(pl.origin, MULTICAST_ONE_R);
+};
+```
+```
+// код CSQC
+const float EV_PRECISE_TIME = 40;
+__double net_time;
+
+void() CSQC_Parse_Event =
+{
+if (readbyte() == EV_PRECISE_TIME)
+net_time = readdouble();
+};
+```
+
+### readint
+`int() readint = #0:readint;`
+
+* Аргументы отсутствуют.
+
+#### Описание и логика работы
+
+`readint` читает следующее 32-битное целое без промежуточного преобразования к QuakeC `float`. По байтовому формату он совместим с `WriteInt` и по смыслу близок к `readlong`, но полезен там, где вам важны точные integer-биты, а не float-представление. Вызывать builtin вне активного разбора входящего сообщения нельзя.
+
+#### Практические сценарии использования
+
+```
+// код SSQC
+const float EV_FLAGS32 = 41;
+
+void(entity pl, int bits) SendFlags32 =
+{
+msg_entity = pl;
+WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
+WriteByte(MSG_MULTICAST, EV_FLAGS32);
+WriteInt(MSG_MULTICAST, bits);
+multicast(pl.origin, MULTICAST_ONE_R);
+};
+```
+```
+// код CSQC
+const float EV_FLAGS32 = 41;
+int cached_bits;
+
+void() CSQC_Parse_Event =
+{
+if (readbyte() == EV_FLAGS32)
+cached_bits = readint();
+};
+```
+
+### readint64
+`__int64() readint64 = #0:readint64;`
+
+* Аргументы отсутствуют.
+
+#### Описание и логика работы
+
+`readint64` читает 64-битное signed integer из текущего входящего сообщения. Это парный builtin к `WriteInt64`, предназначенный для случаев, где уже не хватает диапазона обычного `int` или `float`: большие счётчики, GUID-фрагменты, битовые маски расширенного формата. Как и остальное семейство `read*`, builtin валиден только внутри сетевого parser-контекста CSQC.
+
+#### Практические сценарии использования
+
+```
+// код SSQC
+const float EV_BIGCOUNT = 42;
+
+void(entity pl, __int64 counter) SendBigCounter =
+{
+msg_entity = pl;
+WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
+WriteByte(MSG_MULTICAST, EV_BIGCOUNT);
+WriteInt64(MSG_MULTICAST, counter);
+multicast(pl.origin, MULTICAST_ONE_R);
+};
+```
+```
+// код CSQC
+const float EV_BIGCOUNT = 42;
+__int64 remote_counter;
+
+void() CSQC_Parse_Event =
+{
+if (readbyte() == EV_BIGCOUNT)
+remote_counter = readint64();
+};
+```
+
+### readuint64
+`__uint64() readuint64 = #0;`
+
+* Аргументы отсутствуют.
+
+#### Описание и логика работы
+
+`readuint64` — unsigned-вариант для чтения 64-битного целого, парный к `WriteUInt64`. В `fteextensions.qc` отдельного объявления для него сейчас нет, но CSQC builtin-таблица движка экспортирует эту функцию напрямую, а реализация читает пакет через `MSG_ReadUInt64()`. Использовать builtin нужно в том же месте и по тем же правилам, что `readint64`: только во время разбора входящего сообщения и только в точном соответствии с форматом записи на сервере.
+
+#### Практические сценарии использования
+
+```
+// код SSQC
+const float EV_MASK64 = 43;
+
+void(entity pl, __uint64 mask) SendMask64 =
+{
+msg_entity = pl;
+WriteByte(MSG_MULTICAST, SVC_CGAMEPACKET);
+WriteByte(MSG_MULTICAST, EV_MASK64);
+WriteUInt64(MSG_MULTICAST, mask);
+multicast(pl.origin, MULTICAST_ONE_R);
+};
+```
+```
+// код CSQC
+const float EV_MASK64 = 43;
+__uint64 visible_mask;
+
+void() CSQC_Parse_Event =
+{
+if (readbyte() == EV_MASK64)
+visible_mask = readuint64();
+};
+```
+
+### serverkeyblob
+`int(string key, optional void *ptr, int maxsize) serverkeyblob = #0:serverkeyblob;`
+
+* **key** — `string`, имя serverinfo-ключа.
+* **ptr** — `void *`, необязательный буфер назначения; `0` позволяет только узнать размер blob-а.
+* **maxsize** — `int`, максимум байт для копирования в `ptr`.
+
+#### Описание и логика работы
+
+`serverkeyblob` — бинарный вариант `serverkey`, предназначенный для чтения raw serverinfo-значений, которые могут содержать нули и другие служебные байты. Функция возвращает полный размер blob-а даже тогда, когда фактически скопировала только первые `maxsize` байт. В отличие от строкового `serverkey`/`serverkeyfloat`, этот builtin ориентирован именно на реальные данные из infobuf и не нужен для псевдоключей вроде `maxplayers` или `servername`.
+
+#### Практические сценарии использования
+
+```
+// код CSQC или MenuQC
+void() QueryServerBlob =
+{
+float need = serverkeyblob("_motd_blob", 0, 0);
+if (need > 0)
+{
+void *buf = memalloc(need);
+serverkeyblob("_motd_blob", buf, need);
+memfree(buf);
+}
+};
+```
+
+### serverkeyfloat
+`float(string key, optional float assumevalue) serverkeyfloat = #0:serverkeyfloat;`
+
+* **key** — `string`, имя serverinfo-ключа или одного из поддерживаемых клиентских псевдоключей.
+* **assumevalue** — `float`, значение по умолчанию для пустого/отсутствующего ключа.
+
+#### Описание и логика работы
+
+`serverkeyfloat` читает серверный ключ сразу как число и избегает лишней tempstring-аллокации. Помимо обычных serverinfo-полей, клиентская реализация также умеет отдавать некоторые вычисляемые значения вроде `maxplayers`, `pausestate` или `challenge`. Если ключ пустой или отсутствует, builtin вернёт `assumevalue`, а при его отсутствии — `0`.
+
+#### Практические сценарии использования
+
+```
+// код CSQC или MenuQC
+void() PrintServerCapacity =
+{
+float maxpl = serverkeyfloat("maxplayers", 1);
+print("Server slots: ", ftos(maxpl), "\n");
+};
+```
+
+### setlocaluserinfo
+`void(float seat, string keyname, string newvalue) setlocaluserinfo = #0:setlocaluserinfo;`
+
+* **seat** — `float`, номер локального player seat.
+* **keyname** — `string`, имя userinfo-ключа.
+* **newvalue** — `string`, новое строковое значение.
+
+#### Описание и логика работы
+
+`setlocaluserinfo` меняет локальный userinfo выбранного seat так же, как консольная команда `setinfo`. После этого движок обычно синхронизирует изменение с сервером и другими клиентами по обычным правилам протокола. Builtin подходит для меню профиля, смены ника, команды, скина и любых других строковых настроек игрока.
+
+#### Практические сценарии использования
+
+```
+// код MenuQC или CSQC
+void(string newname) ApplyPlayerName =
+{
+setlocaluserinfo(0, "name", newname);
+};
+```
+
+### setlocaluserinfoblob
+`void(float seat, string keyname, void *outptr, int size) setlocaluserinfoblob = #0:setlocaluserinfoblob;`
+
+* **seat** — `float`, номер локального player seat.
+* **keyname** — `string`, имя userinfo-ключа.
+* **outptr** — `void *`, адрес данных, которые нужно записать.
+* **size** — `int`, длина blob-а в байтах.
+
+#### Описание и логика работы
+
+`setlocaluserinfoblob` записывает в локальный userinfo произвольный blob вместо обычной текстовой строки. Это полезно для FTE-расширений, где в userinfo хранятся бинарные настройки, мини-аватары или другие данные с embedded null. Ключи, начинающиеся с `_`, движок рассматривает как сервер-видимые, но не публичные пользовательские blob-значения.
+
+#### Практические сценарии использования
+
+```
+// код MenuQC или CSQC
+void() UploadAvatarTag =
+{
+string blob = "avatar-v1";
+setlocaluserinfoblob(0, "_avatar", blob, strlen(blob));
+};
+```
+
+### uri_get
+`float(string uril, float id, optional string postmimetype, optional string postdata) uri_get = #513;`
+
+* **uril** — `string`, URL для запроса.
+* **id** — `float`, произвольный идентификатор запроса, который вернётся в callback.
+* **postmimetype** — `string`, MIME-тип тела запроса; для обычного GET аргумент нужно опустить.
+* **postdata** — `string`, тело POST-запроса; для GET аргумент не нужен.
+
+#### Описание и логика работы
+
+`uri_get` запускает асинхронную HTTP-загрузку и при завершении вызывает callback `URI_Get_Callback(reqid, responsecode, resourcebody, resourcebytes)`. Возвращаемое значение `1` означает, что запрос успешно поставлен в очередь; `0` — что builtin не смог стартовать загрузку (например, `WEBCLIENT` не собран, `pr_enable_uriget` выключен или превышен лимит pending downloads). Для GET-запроса MIME и body не передаются вообще.
+
+#### Практические сценарии использования
+
+```
+// код CSQC или MenuQC
+void(float reqid, float responsecode, string resourcebody, int resourcebytes) URI_Get_Callback =
+{
+if (reqid == 100 && (responsecode == 0 || responsecode == 200))
+print("News: ", resourcebody, "\n");
+};
+
+void() RefreshNews =
+{
+uri_get("https://example.org/news.txt", 100);
+};
+```
+
+### uri_post
+`float(string uril, float id, optional string postmimetype, optional string postdata, optional float strbuf) uri_post = #513;`
+
+* **uril** — `string`, URL для POST-запроса.
+* **id** — `float`, идентификатор запроса для callback.
+* **postmimetype** — `string`, MIME-тип тела, обычно `application/x-www-form-urlencoded` или `application/json`.
+* **postdata** — `string`, тело POST-запроса; если указан `strbuf`, используется как разделитель между строками буфера.
+* **strbuf** — `float`, необязательный id string buffer, содержимое которого будет склеено в тело запроса.
+
+#### Описание и логика работы
+
+`uri_post` использует тот же builtin, что и `uri_get` — в заголовках FTE он даже объявлен как `#define uri_post uri_get` — но вызывает его в режиме HTTP POST. Если передан `strbuf`, движок собирает тело запроса из строк buffer-а, вставляя между ними строку `postdata` как разделитель; без `strbuf` `postdata` отправляется как готовое тело целиком. Результат также приходит через `URI_Get_Callback`, а возврат `1`/`0` означает только успешный старт запроса, а не HTTP-статус ответа.
+
+#### Практические сценарии использования
+
+```
+// код CSQC или MenuQC
+void() SubmitScore =
+{
+uri_post(
+"https://example.org/api/score",
+200,
+"application/x-www-form-urlencoded",
+"name=Ranger&score=42"
+);
 };
 ```
 

@@ -10,6 +10,7 @@
 
 ## Категории
 
+- [Точки входа: SSQC, CSQC, MenuQC](./00-entry-points.md)
 - [Математика и работа с векторами](./01-math-vector-builtins.md)
 - [Строки и текст](./02-string-builtins.md)
 - [Сущности и игровой мир](./03-entity-world-builtins.md)
@@ -23,6 +24,7 @@
 - [Скелетная анимация и модели](./10-skeletal-model-builtins.md)
 - [Браузер серверов и мастер-сервер](./11-server-browser-builtins.md)
 - [Системные функции, отладка и cvar](./12-system-debug-builtins.md)
+- [Редактор карт, криптография и разные редкие builtins](./14-editor-crypto-misc-builtins.md)
 
 ## Как читать эти статьи
 
