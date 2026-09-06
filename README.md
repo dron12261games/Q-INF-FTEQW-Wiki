@@ -249,7 +249,11 @@
 
 Отдельная группа разделов — не по возможностям движка, а по конкретным элементам, с которыми моддер и картостроитель работают руками: функции QuakeC, переменные консоли, ключи сущностей на карте, директивы файлов материалов и частиц. Каждый элемент API описан отдельной, максимально подробной статьёй-руководством.
 
-### 37. Встроенные функции QuakeC (builtins)
+### Быстрая навигация по API (сводные таблицы)
+
+- [Все функции, cvar, ключи и директивы одной таблицей со ссылками](42-api-quick-reference/README.md)
+
+### Встроенные функции QuakeC (builtins)
 
 - [Индекс раздела](37-quakec-builtins-reference/README.md)
 - [Точки входа: SSQC, CSQC, MenuQC](37-quakec-builtins-reference/00-entry-points.md)
@@ -268,7 +272,7 @@
 - [Системные функции, отладка и cvar](37-quakec-builtins-reference/12-system-debug-builtins.md)
 - [Редактор карт, криптография и разные редкие builtins](37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md)
 
-### 38. Переменные движка (cvar reference)
+### Переменные движка (cvar reference)
 
 - [Индекс раздела](38-cvars-reference/README.md)
 - [Видео, экран и общий рендеринг](38-cvars-reference/01-video-rendering-cvars.md)
@@ -279,7 +283,7 @@
 - [Интерфейс, консоль и управление](38-cvars-reference/06-ui-console-input-cvars.md)
 - [Системные, отладочные и прочие cvar](38-cvars-reference/07-system-misc-cvars.md)
 
-### 39. Ключи сущностей карты (entity keys)
+### Ключи сущностей карты (entity keys)
 
 - [Индекс раздела](39-entity-keys-reference/README.md)
 - [Общие ключи, worldspawn и глобальные настройки уровня](39-entity-keys-reference/01-worldspawn-common-keys.md)
@@ -289,18 +293,14 @@
 - [Монстры, NPC и точки появления игрока](39-entity-keys-reference/05-monster-player-keys.md)
 - [Предметы и оружие](39-entity-keys-reference/06-item-weapon-keys.md)
 
-### 40. Директивы языка материалов (.shader)
+### Директивы языка материалов (.shader)
 
 - [Индекс раздела](40-shader-directives-reference/README.md)
 - [Директивы уровня материала](40-shader-directives-reference/01-shader-toplevel-directives.md)
 - [Директивы уровня стадии](40-shader-directives-reference/02-shader-stage-directives.md)
 
-### 41. Директивы языка частиц (.particles)
+### Директивы языка частиц (.particles)
 
 - [Индекс раздела](41-particle-directives-reference/README.md)
 - [Директивы эффекта](41-particle-directives-reference/01-particle-effect-directives.md)
 - [Директивы поведения и появления](41-particle-directives-reference/02-particle-spawn-behaviour-directives.md)
-
-### 42. Быстрая навигация по API (сводные таблицы)
-
-- [Все функции, cvar, ключи и директивы одной таблицей со ссылками](42-api-quick-reference/README.md)
