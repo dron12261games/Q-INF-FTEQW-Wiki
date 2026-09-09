@@ -1,42 +1,52 @@
 ﻿# Разбор данных в формате JSON
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](file-read-write-from-scripts.md) | [Следующая страница ➡](../19-config-console/autoexec-config-files.md)
 
-> Раздел: [Работа с данными из игровой логики](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
 
 ## Что это даёт геймдизайнеру
 
 JSON — один из самых распространённых в мире форматов структурированных текстовых данных (используется на веб-сайтах, в конфигурациях множества программ, при обмене данными между сервисами). Игровая логика умеет разбирать готовый текст в этом формате и удобно перебирать получившуюся структуру данных — это упрощает обмен информацией мода с внешними веб-сервисами, а также позволяет использовать JSON как формат для собственных файлов конфигурации или сохранённых данных мода.
 
+---
+
 ## Интерфейс настройки
 
-Игровой логике доступны встроенные команды разбора JSON, работающие с деревом узлов документа. Отдельного специального «генератора JSON» в этих builtin'ах нет: если мод хочет сформировать JSON обратно, его обычно собирают обычными строковыми функциями вроде `sprintf`/`strcat`.
+Игровой логике доступны встроенные команды разбора JSON, работающие с деревом узлов документа. Отдельного специального «генератора JSON» в этих builtin'ах нет: если мод хочет сформировать JSON обратно, его обычно собирают обычными строковыми функциями вроде [`sprintf`](../37-quakec-builtins-reference/02-string-builtins.md#sprintf)/[`strcat`](../37-quakec-builtins-reference/02-string-builtins.md#strcat).
 
 ### Полный список функций
 
-- **`json_parse(text)`** — разбирает текстовую строку в дереве JSON-узлов и возвращает узел корня дерева (`jsonnode`).
-- **`json_free(node)`** — освобождает разобранное дерево целиком; вызывается только на корневом узле (не на дочерних).
-- **`json_get_value_type(node)`** — определяет тип конкретного узла: **`JSON_TYPE_STRING`** (строка), **`JSON_TYPE_NUMBER`** (число), **`JSON_TYPE_OBJECT`** (вложенный объект с именованными полями), **`JSON_TYPE_ARRAY`** (список элементов), **`JSON_TYPE_TRUE`**/**`JSON_TYPE_FALSE`** (логическое значение), **`JSON_TYPE_NULL`** (пустое значение).
-- **`json_get_string(node)`** — получает значение узла как текстовую строку (пустая строка, если узел не является строкой).
-- **`json_get_integer(node)`** — получает значение узла как целое число.
-- **`json_get_float(node)`** — получает значение узла как число с плавающей точкой.
-- **`json_get_length(node)`** — узнаёт количество элементов, если узел — список или объект (0, если это не список).
-- **`json_get_child_at_index(node, childindex)`** — получает N-ый дочерний элемент списка или объекта по порядковому номеру.
-- **`json_find_object_child(node, name)`** — находит дочерний элемент объекта по имени поля (возвращает пустой узел, если поле с таким именем не найдено).
-- **`json_get_name(node)`** — узнаёт имя поля объекта у конкретного дочернего узла — полезно при переборе всех полей объекта через `json_get_child_at_index` по порядку, когда заранее неизвестны их имена.
+- **[`json_parse(text)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_parse)** — разбирает текстовую строку в дереве JSON-узлов и возвращает узел корня дерева (`jsonnode`).
+- **[`json_free(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_free)** — освобождает разобранное дерево целиком; вызывается только на корневом узле (не на дочерних).
+- **[`json_get_value_type(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_value_type)** — определяет тип конкретного узла: **`JSON_TYPE_STRING`** (строка), **`JSON_TYPE_NUMBER`** (число), **`JSON_TYPE_OBJECT`** (вложенный объект с именованными полями), **`JSON_TYPE_ARRAY`** (список элементов), **`JSON_TYPE_TRUE`**/**`JSON_TYPE_FALSE`** (логическое значение), **`JSON_TYPE_NULL`** (пустое значение).
+- **[`json_get_string(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_string)** — получает значение узла как текстовую строку (пустая строка, если узел не является строкой).
+- **[`json_get_integer(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_integer)** — получает значение узла как целое число.
+- **[`json_get_float(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_float)** — получает значение узла как число с плавающей точкой.
+- **[`json_get_length(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_length)** — узнаёт количество элементов, если узел — список или объект (0, если это не список).
+- **[`json_get_child_at_index(node, childindex)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index)** — получает N-ый дочерний элемент списка или объекта по порядковому номеру.
+- **[`json_find_object_child(node, name)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child)** — находит дочерний элемент объекта по имени поля (возвращает пустой узел, если поле с таким именем не найдено).
+- **[`json_get_name(node)`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_name)** — узнаёт имя поля объекта у конкретного дочернего узла — полезно при переборе всех полей объекта через [`json_get_child_at_index`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index) по порядку, когда заранее неизвестны их имена.
 
 ### Типичный порядок работы
 
-Игровая логика сначала вызывает `json_parse` на всей полученной текстовой строке (например, ответе внешнего веб-сервиса или содержимом прочитанного файла конфигурации), затем проверяет тип корневого узла через `json_get_value_type`, а после этого либо напрямую запрашивает нужное поле по имени через `json_find_object_child`, либо перебирает все элементы списка/объекта в цикле через `json_get_length` и `json_get_child_at_index`. По завершении работы с деревом обязательно вызывается `json_free` на корневом узле, чтобы не накапливать неиспользуемую память.
+Игровая логика сначала вызывает [`json_parse`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_parse) на всей полученной текстовой строке (например, ответе внешнего веб-сервиса или содержимом прочитанного файла конфигурации), затем проверяет тип корневого узла через [`json_get_value_type`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_value_type), а после этого либо напрямую запрашивает нужное поле по имени через [`json_find_object_child`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child), либо перебирает все элементы списка/объекта в цикле через [`json_get_length`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_length) и [`json_get_child_at_index`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index). По завершении работы с деревом обязательно вызывается [`json_free`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_free) на корневом узле, чтобы не накапливать неиспользуемую память.
+
+---
 
 ## Примеры
 
-- Мод хранит список достижений и их описаний в одном JSON-файле, а игровая логика при старте разбирает этот файл функцией `json_parse` и заполняет по нему внутренние структуры данных, вместо того чтобы жёстко прописывать каждое достижение прямо в коде.
-- Игровая логика получает от внешнего веб-сервиса статистики ответ в формате JSON и разбирает его прямо на лету через `json_find_object_child`, чтобы показать игроку его текущий рейтинг в глобальной таблице.
-- Скрипт-обработчик перебирает JSON-массив предметов инвентаря через `json_get_length`/`json_get_child_at_index`, читая для каждого элемента поля `name` и `count` через `json_find_object_child`.
+- Мод хранит список достижений и их описаний в одном JSON-файле, а игровая логика при старте разбирает этот файл функцией [`json_parse`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_parse) и заполняет по нему внутренние структуры данных, вместо того чтобы жёстко прописывать каждое достижение прямо в коде.
+- Игровая логика получает от внешнего веб-сервиса статистики ответ в формате JSON и разбирает его прямо на лету через [`json_find_object_child`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child), чтобы показать игроку его текущий рейтинг в глобальной таблице.
+- Скрипт-обработчик перебирает JSON-массив предметов инвентаря через [`json_get_length`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_length)/[`json_get_child_at_index`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index), читая для каждого элемента поля `name` и `count` через [`json_find_object_child`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child).
+
+---
 
 ## Смежные страницы
 
 - [Чтение и запись файлов из игровой логики](./file-read-write-from-scripts.md)
 - [Встроенная база данных (SQLite/MySQL)](./embedded-database-sql.md)
-- [Игровая логика: язык QuakeC](../16-quakec-scripting/README.md)
+- [Игровая логика: язык QuakeC](../README.md#игровая-логика-язык-quakec)
+
+> [⬅ Предыдущая страница](file-read-write-from-scripts.md) | [Следующая страница ➡](../19-config-console/autoexec-config-files.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

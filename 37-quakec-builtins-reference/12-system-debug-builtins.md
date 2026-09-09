@@ -1,10 +1,11 @@
 ﻿# Системные функции, отладка и cvar
 
+> [⬅ Предыдущая страница](11-server-browser-builtins.md) | [Следующая страница ➡](14-editor-crypto-misc-builtins.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
-> [Индекс справочника builtins](./README.md)
-
-Эта группа builtins отвечает за вывод текста, аварийную диагностику, доступ к cvar и отправку консольных команд в очередь движка. Здесь особенно важно различать контекст выполнения: часть функций рассчитана на серверный SSQC, часть — на локальный CSQC/MenuQC, а некоторые имеют исторические NQ/QW-варианты с разными сигнатурами. Для `print`, `bprint`, `sprint`, `cprint` и `centerprint` главное различие состоит в том, куда именно попадёт сообщение: в локальную консоль, всем игрокам, одному игроку или в центр экрана. Отладочные builtins вроде `error`, `objerror`, `breakpoint`, `stackdump`, `coredump` и `crash` стоит вызывать только осознанно, потому что они либо ломают текущий ход выполнения, либо специально провоцируют аварийную ситуацию ради диагностики.
+Эта группа builtins отвечает за вывод текста, аварийную диагностику, доступ к cvar и отправку консольных команд в очередь движка. Здесь особенно важно различать контекст выполнения: часть функций рассчитана на серверный SSQC, часть — на локальный CSQC/MenuQC, а некоторые имеют исторические NQ/QW-варианты с разными сигнатурами. Для `print`, `bprint`, `sprint`, `cprint` и `centerprint` главное различие состоит в том, куда именно попадёт сообщение: в локальную консоль, всем игрокам, одному игроку или в центр экрана. Отладочные builtins вроде `error`, `objerror`, [`breakpoint`](#breakpoint), `stackdump`, `coredump` и `crash` стоит вызывать только осознанно, потому что они либо ломают текущий ход выполнения, либо специально провоцируют аварийную ситуацию ради диагностики.
 
 ## Функции
 
@@ -30,6 +31,8 @@ void() WorldSpawn =
 };
 ```
 
+---
+
 ### objerror
 `void(string err, ...) objerror = #11;`
 
@@ -52,6 +55,8 @@ void() monster_ogre =
 };
 ```
 
+---
+
 ### print
 `void(string s, ...) print = #339;`
 
@@ -70,6 +75,8 @@ void(entity player) DebugJoin =
 };
 ```
 
+---
+
 ### bprint
 `void(float msglvl, string s, optional string s2, optional string s3, optional string s4, optional string s5, optional string s6, optional string s7) bprint = #23;`
 
@@ -78,7 +85,7 @@ void(entity player) DebugJoin =
 
 #### Описание и логика работы
 
-`bprint` рассылает текст всем подключённым игрокам. Это главное отличие от `print`: `print` остаётся локальным для консоли движка, а `bprint` идёт в клиентские консоли/сообщения всех игроков. В `fteextensions.qc` отдельно описаны две исторические формы: NQ-вариант без `msglvl` и QW-вариант с уровнем сообщения. Для FTEQW полезно помнить именно про QW-модель: клиент может фильтровать такие сообщения по своему `msg` infokey, поэтому системные уведомления лучше слать с `PRINT_HIGH`, а обычный шум — с более низким уровнем.
+`bprint` рассылает текст всем подключённым игрокам. Это главное отличие от `print`: `print` остаётся локальным для консоли движка, а `bprint` идёт в клиентские консоли/сообщения всех игроков. В `fteextensions.qc` отдельно описаны две исторические формы: NQ-вариант без `msglvl` и QW-вариант с уровнем сообщения. Для FTEQW полезно помнить именно про QW-модель: клиент может фильтровать такие сообщения по своему `msg` [infokey](03-entity-world-builtins.md#infokey), поэтому системные уведомления лучше слать с `PRINT_HIGH`, а обычный шум — с более низким уровнем.
 
 #### Практические сценарии использования
 
@@ -88,6 +95,8 @@ void(entity killer, entity victim) AnnounceFrag =
     bprint(PRINT_HIGH, killer.netname, " fragged ", victim.netname, "\n");
 };
 ```
+
+---
 
 ### msprint
 `void(float clientnum, string text, ...) msprint = #6;`
@@ -109,6 +118,8 @@ void() Menu_ShowSplitScreenHint =
 };
 ```
 
+---
+
 ### cprint
 `void(string s, ...) cprint = #338;`
 
@@ -127,6 +138,8 @@ void(float loading) CSQC_ShowDownloadState =
         cprint("Downloading custom assets...\n");
 };
 ```
+
+---
 
 ### sprint
 `void(entity client, float msglvl, string s, optional string s2, optional string s3, optional string s4, optional string s5, optional string s6) sprint = #24;`
@@ -151,6 +164,8 @@ void() trigger_secret_touch =
 };
 ```
 
+---
+
 ### centerprint
 `void(entity ent, string text, optional string text2, optional string text3, optional string text4, optional string text5, optional string text6, optional string text7) centerprint = #73;`
 
@@ -173,6 +188,8 @@ void() trigger_exit_touch =
 };
 ```
 
+---
+
 ### dprint
 `void(string s, ...) dprint = #25;`
 
@@ -180,7 +197,7 @@ void() trigger_exit_touch =
 
 #### Описание и логика работы
 
-`dprint` — отладочный вывод, который в нормальном рабочем режиме не должен заспамливать консоль. По смыслу им пользуются для сообщений, которые нужны только при включённой диагностике, обычно с `developer 1`. В `fteextensions.qc` сохранены исторические NQ/QW-комментарии, но в практической документации FTEQW безопаснее воспринимать `dprint` именно как «debug-only print»: пользователь без developer-режима не должен зависеть от этих сообщений. Если текст нужен игрокам или админам всегда, используйте `print`, `sprint` или `bprint`; если нужен только разработчику мода — `dprint`.
+`dprint` — отладочный вывод, который в нормальном рабочем режиме не должен заспамливать консоль. По смыслу им пользуются для сообщений, которые нужны только при включённой диагностике, обычно с [`developer 1`](../38-cvars-reference/07-system-misc-cvars.md#developer). В `fteextensions.qc` сохранены исторические NQ/QW-комментарии, но в практической документации FTEQW безопаснее воспринимать `dprint` именно как «debug-only print»: пользователь без developer-режима не должен зависеть от этих сообщений. Если текст нужен игрокам или админам всегда, используйте `print`, `sprint` или `bprint`; если нужен только разработчику мода — `dprint`.
 
 #### Практические сценарии использования
 
@@ -192,6 +209,8 @@ void() monster_demon1 =
     setmodel(self, "progs/demon.mdl");
 };
 ```
+
+---
 
 ### coredump
 `void() coredump = #28;`
@@ -215,6 +234,8 @@ void() DumpWorldState =
 };
 ```
 
+---
+
 ### crash
 `void() crash = #72;`
 
@@ -237,6 +258,8 @@ void() Cmd_TestCrash =
 };
 ```
 
+---
+
 ### stackdump
 `void() stackdump = #73;`
 
@@ -255,6 +278,8 @@ void() DebugUnexpectedState =
     stackdump();
 };
 ```
+
+---
 
 ### breakpoint
 `void() breakpoint = #6;`
@@ -278,6 +303,8 @@ void() DebugTeleportTarget =
 };
 ```
 
+---
+
 ### cvar
 `float(string name) cvar = #45;`
 
@@ -285,7 +312,7 @@ void() DebugTeleportTarget =
 
 #### Описание и логика работы
 
-`cvar` читает текущее значение консольной переменной и возвращает его как `float`. Если сама переменная строковая, движок всё равно попытается интерпретировать её как число по обычным правилам преобразования. Это простой способ быстро получать числовые настройки геймплея, например [`sv_gravity`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_gravity), `skill` или собственные переменные мода. Важно не путать builtin с `cvar_string`: `cvar` нужен для числовой логики, тогда как `cvar_string` возвращает исходный текст без потери форматирования.
+`cvar` читает текущее значение консольной переменной и возвращает его как `float`. Если сама переменная строковая, движок всё равно попытается интерпретировать её как число по обычным правилам преобразования. Это простой способ быстро получать числовые настройки геймплея, например [`sv_gravity`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_gravity), [`skill`](../38-cvars-reference/04-network-server-cvars.md#skill) или собственные переменные мода. Важно не путать builtin с `cvar_string`: `cvar` нужен для числовой логики, тогда как `cvar_string` возвращает исходный текст без потери форматирования.
 
 #### Практические сценарии использования
 
@@ -301,6 +328,8 @@ float() GetScaledJumpHeight =
     return 270 * (800 / gravity);
 };
 ```
+
+---
 
 ### cvar_set
 `void(string cvarname, string valuetoset) cvar_set = #72;`
@@ -322,6 +351,8 @@ void() EnableLowGravityMode =
 };
 ```
 
+---
+
 ### cvar_setf
 `void(string cvar, float val) cvar_setf = #176;`
 
@@ -342,6 +373,8 @@ void(float newskill) SetSkillFromVote =
 };
 ```
 
+---
+
 ### cvar_string
 `string(string cvarname) cvar_string = #448;`
 
@@ -349,7 +382,7 @@ void(float newskill) SetSkillFromVote =
 
 #### Описание и логика работы
 
-`cvar_string` возвращает текущее значение cvar как строку. В `fteextensions.qc` это описано отдельно от `cvar`, потому что задачи у них разные: `cvar` сразу приводит значение к `float`, а `cvar_string` сохраняет текстовую форму. Это особенно важно для переменных вроде `hostname`, `sv_mapcheck`, путей, цветовых кодов и любых значений, где число — не единственный смысл. В реализации FTEQW строковый builtin отдаёт пользовательски видимое текущее значение, включая latched-строку, если движок уже принял отложенное изменение и ждёт момента его применения.
+`cvar_string` возвращает текущее значение cvar как строку. В `fteextensions.qc` это описано отдельно от `cvar`, потому что задачи у них разные: `cvar` сразу приводит значение к `float`, а `cvar_string` сохраняет текстовую форму. Это особенно важно для переменных вроде [`hostname`](../38-cvars-reference/04-network-server-cvars.md#hostname), [`sv_mapcheck`](../38-cvars-reference/04-network-server-cvars.md#sv_mapcheck), путей, цветовых кодов и любых значений, где число — не единственный смысл. В реализации FTEQW строковый builtin отдаёт пользовательски видимое текущее значение, включая latched-строку, если движок уже принял отложенное изменение и ждёт момента его применения.
 
 #### Практические сценарии использования
 
@@ -359,6 +392,8 @@ void(entity who) ReportHostname =
     sprint(who, PRINT_HIGH, "Server name: ", cvar_string("hostname"), "\n");
 };
 ```
+
+---
 
 ### cvar_defstring
 `string(string name) cvar_defstring = #482;`
@@ -384,6 +419,8 @@ void(entity who) ReportGravityOverride =
 };
 ```
 
+---
+
 ### cvar_description
 `string(string cvarname) cvar_description = #518;`
 
@@ -405,6 +442,8 @@ void(entity who) ShowCvarHelp =
 };
 ```
 
+---
+
 ### cvar_type
 `float(string name) cvar_type = #495;`
 
@@ -412,7 +451,7 @@ void(entity who) ShowCvarHelp =
 
 #### Описание и логика работы
 
-`cvar_type` возвращает битовую маску с метаданными переменной и потому сильно отличается от `cvar`, `cvar_string` и `cvar_defstring`. Это builtin не для чтения значения, а для ответа на вопросы «существует ли такая cvar вообще», «архивируется ли она», «её создал движок или мод», «можно ли показать описание» и «доступна ли запись из QC». В `fteextensions.qc` и `pr_bgcmd.c` используются флаги `CVAR_TYPEFLAG_EXISTS = 1`, `CVAR_TYPEFLAG_SAVED = 2`, `CVAR_TYPEFLAG_PRIVATE = 4`, `CVAR_TYPEFLAG_ENGINE = 8`, `CVAR_TYPEFLAG_HASDESCRIPTION = 16`, `CVAR_TYPEFLAG_READONLY = 32`. Отдельно важно, что именно `cvar_type` не создаёт cvar неявно и поэтому подходит для безопасной проверки существования имени.
+В `fteextensions.qc` используются флаги `CVAR_TYPEFLAG_EXISTS = 1`
 
 #### Практические сценарии использования
 
@@ -434,6 +473,8 @@ void(entity who, string name) InspectCvar =
         sprint(who, PRINT_HIGH, "This cvar is read-only from QC\n");
 };
 ```
+
+---
 
 ### registercvar
 `float(string name, string value, optional float flags) registercvar = #93;`
@@ -460,6 +501,8 @@ void() InitModCvars =
 };
 ```
 
+---
+
 ### checkextension
 `float(string extname) checkextension = #99;`
 
@@ -482,6 +525,8 @@ void() ValidateRequiredExtensions =
 };
 ```
 
+---
+
 ### logfrag
 `void(entity killer, entity killee) logfrag = #79;`
 
@@ -502,6 +547,8 @@ void(entity killer, entity victim) FinishPlayerKill =
     bprint(PRINT_HIGH, killer.netname, " fragged ", victim.netname, "\n");
 };
 ```
+
+---
 
 ### setpause
 `void(float pause) setpause = #531;`
@@ -529,6 +576,8 @@ void() Cmd_ToggleMatchPause =
 };
 ```
 
+---
+
 ### localcmd
 `void(string s, ...) localcmd = #46;`
 
@@ -548,13 +597,15 @@ void() ReloadServerConfig =
 };
 ```
 
+---
+
 ### abort
 `void(optional __variant ret) abort = #211;`
 
 * **ret** — `__variant` (optional), необязательное возвращаемое значение, которое будет принудительно возвращено текущим потоком, если код QC не выполняет это в явном виде; если параметр опущен, подставляется `0`.
 
 #### Описание и особенности работы
-`abort` — это не признак фатального падения программы, а специализированный механизм завершения текущего контекста выполнения QuakeC через процедуру `AbortStack`. Спецификация системного Си-кода в `fteextensions.qc`/`pr_cmds.c` указывает, что данный builtin мгновенно останавливает выполнение текущей QC-функции на любом уровне вложенности и форсирует возврат значения `ret`, если вызывающая сторона ожидает результат от прогса. Чаще всего этот метод применяется при многопоточности совместно с функциями `fork`/`sleep` из расширения `FTE_MULTITHREADED`: он позволяет дочернему фоновому потоку изящно завершить себя и освободить стек без необходимости прописывать цепочку операторов `return` вверх по цепочке вызовов. Если вызвать `abort` внутри основного критического системного колбэка, движок выдаст предупреждение.
+Спецификация в `fteextensions.qc` указывает, что данный builtin мгновенно останавливает выполнение
 
 #### Пример использования
 ```qc
@@ -569,13 +620,15 @@ float() RunDeferredOnce =
 };
 ```
 
+---
+
 ### argc
 `float() argc = #0:argc;`
 
 * Параметры отсутствуют.
 
 #### Описание и особенности работы
-`argc` возвращает количество активных токенов (фрагментов строк) в текущем состоянии глобального системного токенизатора QC. На низком уровне функция `PF_ArgC` считывает значение внутренней переменной `qctoken_count`, которая обновляется каждый раз, когда скрипт выполняет методы `tokenize`, `tokenize_console`, `tokenizebyseparator` или смежные builtins. Оригинальный Си-комментарий разработчиков движка лаконично описывает этот метод как *"pointless, but whatever"*, поскольку большинство программистов QuakeC предпочитают считывать количество токенов напрямую как возвращаемое значение самой функции `tokenize(...)`. Тем не менее, `argc()` незаменим в изолированных функциях-обработчиках и колбэках, где у вас нет прямого доступа к результату выполнения парсера, но необходимо в цикле перебрать аргументы через `argv()` для чтения параметров командной строки.
+`argc` возвращает количество активных токенов (фрагментов строк) в текущем состоянии глобального системного токенизатора QC. На низком уровне функция `PF_ArgC` считывает значение внутренней переменной `qctoken_count`, которая обновляется каждый раз, когда скрипт выполняет методы [`tokenize`](02-string-builtins.md#tokenize), [`tokenize_console`](02-string-builtins.md#tokenize_console), [`tokenizebyseparator`](02-string-builtins.md#tokenizebyseparator) или смежные builtins. Оригинальный Си-комментарий разработчиков движка лаконично описывает этот метод как *"pointless, but whatever"*, поскольку большинство программистов QuakeC предпочитают считывать количество токенов напрямую как возвращаемое значение самой функции `tokenize(...)`. Тем не менее, `argc()` незаменим в изолированных функциях-обработчиках и колбэках, где у вас нет прямого доступа к результату выполнения парсера, но необходимо в цикле перебрать аргументы через [`argv()`](02-string-builtins.md#argv) для чтения параметров командной строки.
 
 #### Пример использования
 ```qc
@@ -589,10 +642,12 @@ void(string cmdline) DebugTokenDump =
 };
 ```
 
+---
+
 ### checkbuiltin
 `float(__variant funcref) checkbuiltin = #0:checkbuiltin;`
 
-* **funcref** — `__variant`, прямая ссылка на встроенную функцию, доступность которой необходимо проверить в текущей сборке движка; передается без кавычек и круглых скобок, например: `checkbuiltin(drawtextfield)`.
+* **funcref** — `__variant`, прямая ссылка на встроенную функцию, доступность которой необходимо проверить в текущей сборке движка; передается без кавычек и круглых скобок, например: `checkbuiltin(`[`drawtextfield`](09-csqc-input-ui-builtins.md#drawtextfield)`)`.
 
 #### Описание и особенности работы
 `checkbuiltin` осуществляет динамическую проверку (Feature Detection) того, реализована ли конкретная встроенная функция в запущенном исполняемом файле движка. Это критически важно при написании кроссплатформенного кода под современные расширения формата `#0:name`: если функция объявлена в QC-заголовках, но в текущем ядре (или в контексте конкретной VM) она отсутствует, заблокирована или подменена заглушками `PF_Fixme`/`PF_Ignore`, метод вернет `FALSE`. Использование этого механизма защищает программу от критических падений интерпретатора типа *Bad Builtin* при попытке вызова неподдерживаемого метода на старых клиентах. Позволяет гибко выстраивать логику фоллбэков (fallbacks) для продвинутых визуальных и файловых эффектов.
@@ -607,6 +662,8 @@ void() Menu_DrawWrappedTextSafely =
         drawstring('32 32 0', "wrapped text via fallback", '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### externrefcall
 `__deprecated("Redundant") __variant(float prnum, void() func, ...) externrefcall = #205;`
@@ -633,9 +690,15 @@ void() CallLegacyCompatPath =
 };
 ```
 
+---
+
 ## Смежные страницы
 
 - [Настраиваемые переменные движка (cvar)](../19-config-console/cvars-engine-variables.md)
-- [Hot reload и отладка QuakeC](../16-quakec-scripting/hot-reload-debugging.md)
-- [Справочник cvar](../38-cvars-reference/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Hot reload и отладка QuakeC](../16-quakec-scripting/fteqcc-compiler.md#отладка-и-горячая-пересборка-логики)
+- [Справочник cvar](../README.md#переменные-движка-cvar-reference)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](11-server-browser-builtins.md) | [Следующая страница ➡](14-editor-crypto-misc-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

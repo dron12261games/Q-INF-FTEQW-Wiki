@@ -1,8 +1,9 @@
 ﻿# Сущности и игровой мир
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](02-string-builtins.md) | [Следующая страница ➡](04-network-messages-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Эта страница собирает builtins, через которые SSQC и соседние модули QuakeC работают с entity, трассировкой, статами, userinfo и состоянием мира. Основа описаний — комментарии в `quakec\menusys\fteextensions.qc`, а спорные детали сверены по реализации движка. Хотя акцент страницы — SSQC, несколько функций из списка доступны только в CSQC или зависят от конкретной сборки/расширения FTEQW; это отмечено прямо в описаниях.
 
@@ -30,6 +31,8 @@ void() SpawnMarker =
 };
 ```
 
+---
+
 ### remove
 `void(entity e) remove = #15;`
 
@@ -55,6 +58,8 @@ void() SpawnTimedTrigger =
     e.think = RemoveSelfThink;
 };
 ```
+
+---
 
 ### find
 `entity(entity start, .string fld, string match) find = #18;`
@@ -82,6 +87,8 @@ void() PrintAllDemons =
 };
 ```
 
+---
+
 ### findchain
 `entity(.string field, string match, optional .entity chainfield) findchain = #402;`
 
@@ -104,6 +111,8 @@ void() WakeSleepingOgres =
 };
 ```
 
+---
+
 ### findchainflags
 `entity(.float fld, float match, optional .entity chainfield) findchainflags = #450;`
 
@@ -112,7 +121,7 @@ void() WakeSleepingOgres =
 * **chainfield** — `.entity`, поле для построения цепочки; по умолчанию `.chain`.
 
 #### Описание и логика работы
-Линейно проходит по сущностям и включает в результат все edict'ы, у которых `(field & match) != 0`. Это именно масочный поиск, а не сравнение на равенство. Как и другие chain-варианты, builtin разрушает прежнее содержимое выбранного `chainfield` у найденных сущностей, зато позволяет получить весь набор за один вызов. Неверная ссылка на поле приводит к builtin error.
+Линейно проходит по сущностям и включает в результат все edict'ы, у которых `(field & match) != 0`. Это именно масочный поиск, а не сравнение на равенство. Как и другие chain-варианты, builtin разрушает прежнее содержимое выбранного `chainfield` у найденных сущностей, зато позволяет получить весь набор за один вызов. Неверная ссылка на поле приводит к builtin [error](12-system-debug-builtins.md#error).
 
 #### Практические сценарии использования
 ```qc
@@ -125,6 +134,8 @@ void() TouchAllGroundedItems =
             dprint("ground item: ", etos(e), "\n");
 };
 ```
+
+---
 
 ### findchainfloat
 `entity(.float fld, float match, optional .entity chainfield) findchainfloat = #403;`
@@ -148,6 +159,8 @@ void() FindSpecificFrame =
 };
 ```
 
+---
+
 ### findflags
 `entity(entity start, .float field, float match) findflags = #449;`
 
@@ -168,6 +181,8 @@ void() PrintFlyingThings =
         dprint("flying: ", etos(e), "\n");
 };
 ```
+
+---
 
 ### findfloat
 `entity(entity start, .__variant fld, __variant match) findfloat = #98;`
@@ -191,6 +206,8 @@ void() PrintDoorsAtFrame5 =
 };
 ```
 
+---
+
 ### findradius
 `entity(vector org, float rad, optional .entity chainfield) findradius = #22;`
 
@@ -212,6 +229,8 @@ void() HurtNearby =
             e.health = e.health - 10;
 };
 ```
+
+---
 
 ### nextent
 `entity(entity e) nextent = #47;`
@@ -237,6 +256,8 @@ void() CountSolidEntities =
 };
 ```
 
+---
+
 ### setmodel
 `void(entity e, string m) setmodel = #3;`
 
@@ -244,7 +265,7 @@ void() CountSolidEntities =
 * **m** — `string`, имя уже известной движку модели.
 
 #### Описание и логика работы
-Назначает сущности `model` и `modelindex`, а затем перелинковывает её коллизионное состояние. Для inline BSP-моделей builtin автоматически берёт `mins`/`maxs` из модели; для alias/sprite-моделей точные размеры зависят от `sv_gameplayfix_setmodelrealbox`, поэтому комментарии FTE прямо советуют после небрашеовых моделей явно делать `setsize`. Если модель не была precache'нута заранее, движок пытается разобраться сам, но это сопровождается предупреждениями и может иметь сетевые последствия для уже подключённых клиентов.
+Назначает сущности [`model`](../39-entity-keys-reference/01-worldspawn-common-keys.md#model) и `modelindex`, а затем перелинковывает её коллизионное состояние. Для inline BSP-моделей builtin автоматически берёт `mins`/`maxs` из модели; для alias/sprite-моделей точные размеры зависят от [`sv_gameplayfix_setmodelrealbox`](../38-cvars-reference/04-network-server-cvars.md#sv_gameplayfix_setmodelrealbox), поэтому комментарии FTE прямо советуют после небрашеовых моделей явно делать `setsize`. Если модель не была precache'нута заранее, движок пытается разобраться сам, но это сопровождается предупреждениями и может иметь сетевые последствия для уже подключённых клиентов.
 
 #### Практические сценарии использования
 ```qc
@@ -261,6 +282,8 @@ void() SpawnTorchModel =
 };
 ```
 
+---
+
 ### setmodelindex
 `void(entity e, float mdlindex) setmodelindex = #333;`
 
@@ -268,7 +291,7 @@ void() SpawnTorchModel =
 * **mdlindex** — `float`, индекс из precache-списка модели.
 
 #### Описание и логика работы
-Документация в `fteextensions.qc` описывает builtin как вариант `setmodel`, принимающий уже готовый precache index вместо имени. Практический смысл — избежать лишнего поиска по строке, если индекс уже сохранён в данных мода. В текущем дереве движка серверная таблица builtins всё ещё помечает этот номер как compatibility stub, поэтому перед использованием разумно проверять поддержку через `checkbuiltin`/`builtin_find` и иметь запасной путь через обычный `setmodel`.
+Документация в `fteextensions.qc` описывает builtin как вариант `setmodel`, принимающий уже готовый precache index вместо имени. Практический смысл — избежать лишнего поиска по строке, если индекс уже сохранён в данных мода. В актуальных сборках FTEQW серверная таблица builtins всё ещё помечает этот номер как compatibility stub, поэтому перед использованием разумно проверять поддержку через [`checkbuiltin`](12-system-debug-builtins.md#checkbuiltin)/`builtin_find` и иметь запасной путь через обычный `setmodel`.
 
 #### Практические сценарии использования
 ```qc
@@ -289,6 +312,8 @@ void() SpawnCachedModel =
 };
 ```
 
+---
+
 ### setorigin
 `void(entity e, vector o) setorigin = #2;`
 
@@ -306,6 +331,8 @@ void(entity e, vector destination) TeleportEntity =
     setorigin(e, destination);
 };
 ```
+
+---
 
 ### setsize
 `void(entity e, vector min, vector max) setsize = #4;`
@@ -331,6 +358,8 @@ void() SpawnTriggerBox =
 };
 ```
 
+---
+
 ### checkbottom
 `float(entity ent) checkbottom = #40;`
 
@@ -350,13 +379,15 @@ float(entity e) SafeGrounded =
 };
 ```
 
+---
+
 ### droptofloor
 `float() droptofloor = #34;`
 
 * Аргументы отсутствуют; builtin работает с `self`.
 
 #### Описание и логика работы
-Мгновенно сдвигает `self` вдоль направления гравитации вниз до первого твёрдого упора. По документации и коду FTEQW вызов проваливается, если объект уже находится в solid или если падать пришлось бы дальше `pr_droptofloorunits`; при успехе движок выставляет `FL_ONGROUND`, запоминает `groundentity` и обновляет линковку. Это удобный способ «усадить» предметы и декорации на пол после `spawn`.
+Мгновенно сдвигает `self` вдоль направления гравитации вниз до первого твёрдого упора. По документации и коду FTEQW вызов проваливается, если объект уже находится в solid или если падать пришлось бы дальше [`pr_droptofloorunits`](../38-cvars-reference/01-video-rendering-cvars.md#pr_droptofloorunits); при успехе движок выставляет `FL_ONGROUND`, запоминает `groundentity` и обновляет линковку. Это удобный способ «усадить» предметы и декорации на пол после `spawn`.
 
 #### Практические сценарии использования
 ```qc
@@ -371,6 +402,8 @@ void() PlaceAmmoOnFloor =
         remove(self);
 };
 ```
+
+---
 
 ### walkmove
 `float(float yaw, float dist, optional float settraceglobals) walkmove = #32;`
@@ -391,6 +424,8 @@ float() StepForward16 =
 };
 ```
 
+---
+
 ### movetogoal
 `void(float step) movetogoal = #67;`
 
@@ -410,6 +445,8 @@ void() MonsterChaseThink =
 };
 ```
 
+---
+
 ### touchtriggers
 `void(optional entity ent, optional vector neworigin) touchtriggers = #279;`
 
@@ -427,6 +464,8 @@ void(entity e, vector destination) TeleportAndFireTriggers =
 };
 ```
 
+---
+
 ### pointcontents
 `float(vector pos) pointcontents = #41;`
 
@@ -442,6 +481,8 @@ float(vector p) IsWaterPoint =
     return pointcontents(p) == CONTENT_WATER;
 };
 ```
+
+---
 
 ### checkclient
 `entity() checkclient = #17;`
@@ -463,6 +504,8 @@ void() AcquireRoughTarget =
 };
 ```
 
+---
+
 ### checkpvs
 `float(vector viewpos, entity entity) checkpvs = #240;`
 
@@ -480,6 +523,8 @@ float(entity viewer, entity target) CanPotentiallySee =
 };
 ```
 
+---
+
 ### num_for_edict
 `float(entity ent) num_for_edict = #512;`
 
@@ -495,6 +540,8 @@ void(entity e) PrintEntnum =
     dprint("entnum=", ftos(num_for_edict(e)), "\n");
 };
 ```
+
+---
 
 ### edict_num
 `entity(float entnum) edict_num = #459;`
@@ -517,6 +564,8 @@ entity(float n) ResolveSavedEnt =
 };
 ```
 
+---
+
 ### etof
 `float(entity e) etof = #79;`
 
@@ -532,6 +581,8 @@ float(entity e) SaveEntityAsFloat =
     return etof(e);
 };
 ```
+
+---
 
 ### ftoe
 `entity(float f) ftoe = #80;`
@@ -549,6 +600,8 @@ entity(float token) RestoreEntityFromFloat =
 };
 ```
 
+---
+
 ### etos
 `string(entity ent) etos = #65;`
 
@@ -564,6 +617,8 @@ void(entity e) DebugEntityRef =
     dprint("debug ref: ", etos(e), "\n");
 };
 ```
+
+---
 
 ### wasfreed
 `float(entity ent) wasfreed = #353;`
@@ -583,6 +638,8 @@ float(entity e) IsReferenceStillDead =
     return wasfreed(e);
 };
 ```
+
+---
 
 ### copyentity
 `entity(entity from, optional entity to) copyentity = #400;`
@@ -607,6 +664,8 @@ entity(entity source) CloneSimpleEntity =
 };
 ```
 
+---
+
 ### aim
 `vector(entity player, float missilespeed) aim = #44;`
 
@@ -614,7 +673,7 @@ entity(entity source) CloneSimpleEntity =
 * **missilespeed** — `float`, скорость снаряда; исторически используется интерфейсом builtin.
 
 #### Описание и логика работы
-Возвращает скорректированный вариант `v_forward` для Quake-style auto-aim. Перед вызовом нужно подготовить базовые направления через `makevectors(player.v_angle)`; builtin затем подберёт врага с `takedamage == DAMAGE_AIM`, ближайшего к прицелу в пределах `acos(sv_aim)`, и скорректирует главным образом вертикальную составляющую. Это удобно для классического оружия в духе id1, особенно для клавиатурного управления без свободного вертикального прицела.
+Возвращает скорректированный вариант `v_forward` для Quake-style auto-aim. Перед вызовом нужно подготовить базовые направления через [`makevectors(player.v_angle)`](01-math-vector-builtins.md#makevectors); builtin затем подберёт врага с `takedamage == DAMAGE_AIM`, ближайшего к прицелу в пределах [`acos`](01-math-vector-builtins.md#acos)([`sv_aim`](../38-cvars-reference/04-network-server-cvars.md#sv_aim)), и скорректирует главным образом вертикальную составляющую. Это удобно для классического оружия в духе id1, особенно для клавиатурного управления без свободного вертикального прицела.
 
 #### Практические сценарии использования
 ```qc
@@ -624,6 +683,8 @@ vector(entity shooter) RocketDirection =
     return aim(shooter, 1000);
 };
 ```
+
+---
 
 ### traceline
 `void(vector v1, vector v2, float flags, entity ent) traceline = #16;`
@@ -650,8 +711,10 @@ float(entity attacker, entity target) HasLineOfFire =
 };
 ```
 
+---
+
 ### tracebox
-`void(vector start, vector mins, vector maxs, vector end, float nomonsters, entity ent) tracebox = #90;`
+`void(vector start, vector mins, vector maxs, vector end, float [nomonsters](../38-cvars-reference/07-system-misc-cvars.md#nomonsters), entity ent) tracebox = #90;`
 
 * **start** — `vector`, стартовая позиция bbox.
 * **mins** — `vector`, локальный минимум коробки.
@@ -672,6 +735,8 @@ float(vector p) CanPlayerStandHere =
 };
 ```
 
+---
+
 ### tracetoss
 `void(entity ent, entity ignore) tracetoss = #64;`
 
@@ -689,6 +754,8 @@ float(entity grenade, entity owner) WillHitSoon =
     return trace_fraction < 1;
 };
 ```
+
+---
 
 ### traceon
 `void() traceon = #29;`
@@ -708,6 +775,8 @@ void() DebugOneThink =
 };
 ```
 
+---
+
 ### traceoff
 `void() traceoff = #30;`
 
@@ -725,6 +794,8 @@ void() DebugMovementBlock =
     traceoff();
 };
 ```
+
+---
 
 ### makestatic
 `void(entity e) makestatic = #69;`
@@ -747,6 +818,8 @@ void() SpawnStaticTorch =
 };
 ```
 
+---
+
 ### setspawnparms
 `void(entity player) setspawnparms = #78;`
 
@@ -763,6 +836,8 @@ void(entity pl) RestoreParmsBeforeRespawn =
     pl.health = parm1;
 };
 ```
+
+---
 
 ### spawnclient
 `entity() spawnclient = #454;`
@@ -787,13 +862,15 @@ entity() SpawnPracticeBot =
 };
 ```
 
+---
+
 ### dropclient
 `void(entity player) dropclient = #453;`
 
 * **player** — `entity`, клиент, которого нужно отключить.
 
 #### Описание и логика работы
-Помечает клиента на отключение. Для обычных сетевых клиентов это приводит к разрыву соединения; для loopback/local client FTEQW использует мягкий путь через `disconnect`, чтобы не ломать локальную сессию грубо. Builtin полезен для кика за отсутствие обязательного CSQC, для авторизации и админских команд.
+Помечает клиента на отключение. Для обычных сетевых клиентов это приводит к разрыву соединения; для loopback/local client FTEQW использует мягкий путь через [`disconnect`](../44-cli-commands-reference/02-client-ui-commands.md#disconnect), чтобы не ломать локальную сессию грубо. Builtin полезен для кика за отсутствие обязательного CSQC, для авторизации и админских команд.
 
 #### Практические сценарии использования
 ```qc
@@ -803,6 +880,8 @@ void(entity pl) KickIfUnnamed =
         dropclient(pl);
 };
 ```
+
+---
 
 ### runstandardplayerphysics
 `void(entity ent) runstandardplayerphysics = #347;`
@@ -823,6 +902,8 @@ void() SV_RunClientCommand =
 };
 ```
 
+---
+
 ### getstati
 `int(float stnum) getstati = #330;`
 
@@ -842,6 +923,8 @@ void() CSQC_UpdateView =
         drawstring('16 16 0', "Silver key", '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### getstatf
 `float(float stnum, optional float firstbit, optional float bitcount) getstatf = #331;`
@@ -865,6 +948,8 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### getstats
 `string(float stnum) getstats = #332;`
 
@@ -885,6 +970,8 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### clientstat
 `void(float num, float type, .__variant fld) clientstat = #232;`
 
@@ -903,6 +990,8 @@ void() WorldInit =
     clientstat(33, EV_FLOAT, armorvalue);
 };
 ```
+
+---
 
 ### globalstat
 `void(float num, float type, string name) globalstat = #233;`
@@ -926,6 +1015,8 @@ void() WorldInit =
 };
 ```
 
+---
+
 ### forceinfokey
 `void(entity player, string key, string value) forceinfokey = #213;`
 
@@ -934,7 +1025,7 @@ void() WorldInit =
 * **value** — `string`, новое значение.
 
 #### Описание и логика работы
-Меняет userinfo сервера напрямую, не заставляя клиента переподключаться и не трогая его локальный config. Важная особенность FTE — builtin позволяет выставлять и `*`-ключи вроде `*spectator`, то есть работать не только с «пользовательскими» полями, но и со служебными. Это сильный инструмент админки и game-rules, но злоупотреблять им не стоит: вы меняете сетевое представление игрока на сервере, а не просто локальную переменную QC.
+Меняет userinfo сервера напрямую, не заставляя клиента переподключаться и не трогая его локальный config. Важная особенность FTE — builtin позволяет выставлять и `*`-ключи вроде `*[spectator](../38-cvars-reference/07-system-misc-cvars.md#spectator)`, то есть работать не только с «пользовательскими» полями, но и со служебными. Это сильный инструмент админки и game-rules, но злоупотреблять им не стоит: вы меняете сетевое представление игрока на сервере, а не просто локальную переменную QC.
 
 #### Практические сценарии использования
 ```qc
@@ -944,6 +1035,8 @@ void(entity pl) ForceSpectator =
     forceinfokey(pl, "team", "observer");
 };
 ```
+
+---
 
 ### serverkey
 `string(string key) serverkey = #354;`
@@ -961,6 +1054,8 @@ void() PrintHostname =
 };
 ```
 
+---
+
 ### infokey
 `string(entity e, string key) infokey = #80;`
 
@@ -968,7 +1063,7 @@ void() PrintHostname =
 * **key** — `string`, имя интересующего ключа.
 
 #### Описание и логика работы
-Если `e == world`, builtin ищет ключ в `serverinfo`, а при отсутствии — в `localinfo`; если `e` — игрок, читается его userinfo. FTE отдельно поддерживает специальные ключи вроде `ip`, `realip`, `csqcactive` и другие, даже если формально они не лежат в обычной `\key\value` строке. Возвращаемое значение — tempstring, а отсутствие ключа обычно даёт пустую строку.
+Если `e == world`, builtin ищет ключ в `serverinfo`, а при отсутствии — в [`localinfo`](../44-cli-commands-reference/04-server-multiplayer-commands.md#localinfo); если `e` — игрок, читается его userinfo. FTE отдельно поддерживает специальные ключи вроде `ip`, `realip`, `csqcactive` и другие, даже если формально они не лежат в обычной `\key\value` строке. Возвращаемое значение — tempstring, а отсутствие ключа обычно даёт пустую строку.
 
 #### Практические сценарии использования
 ```qc
@@ -980,6 +1075,8 @@ void(entity pl) WelcomePlayer =
     sprint(pl, strcat("Welcome, ", name, "\n"));
 };
 ```
+
+---
 
 ### infoadd
 `infostring(infostring old, string key, string value) infoadd = #226;`
@@ -1004,6 +1101,8 @@ string() BuildVoteInfo =
 };
 ```
 
+---
+
 ### infoget
 `string(infostring info, string key) infoget = #227;`
 
@@ -1024,6 +1123,8 @@ void() ReadVoteInfo =
 };
 ```
 
+---
+
 ### matchclientname
 `entity(string match, optional float matchnum) matchclientname = #241;`
 
@@ -1041,6 +1142,8 @@ entity(string fragment) FindUniquePlayer =
 };
 ```
 
+---
+
 ### entityfieldname
 `string(float fieldnum) entityfieldname = #497;`
 
@@ -1056,6 +1159,8 @@ void() PrintFirstFieldName =
     dprint(entityfieldname(0), "\n");
 };
 ```
+
+---
 
 ### entityfieldtype
 `float(float fieldnum) entityfieldtype = #498;`
@@ -1073,6 +1178,8 @@ void() DescribeField0 =
 };
 ```
 
+---
+
 ### numentityfields
 `float() numentityfields = #496;`
 
@@ -1088,6 +1195,8 @@ void() PrintFieldCount =
     dprint("entity fields: ", ftos(numentityfields()), "\n");
 };
 ```
+
+---
 
 ### getentityfieldstring
 `string(float fieldnum, entity ent) getentityfieldstring = #499;`
@@ -1105,6 +1214,8 @@ void(entity e, float fieldnum) DumpOneField =
     dprint(entityfieldname(fieldnum), "=", getentityfieldstring(fieldnum, e), "\n");
 };
 ```
+
+---
 
 ### putentityfieldstring
 `float(float fieldnum, entity ent, string s) putentityfieldstring = #500;`
@@ -1124,6 +1235,8 @@ void(entity e, float fieldnum, string value) PatchField =
         dprint("failed to write ", entityfieldname(fieldnum), "\n");
 };
 ```
+
+---
 
 ### getentitytoken
 `string(optional string resetstring) getentitytoken = #355;`
@@ -1145,6 +1258,8 @@ void() CSQC_WorldLoaded =
             dprint("next classname key found\n");
 };
 ```
+
+---
 
 ### parseentitydata
 `float(entity e, string s, optional float offset) parseentitydata = #613;`
@@ -1170,6 +1285,8 @@ void() RestoreOneEntity =
 };
 ```
 
+---
+
 ### getentity
 `__variant(float entnum, float fieldnum) getentity = #504;`
 
@@ -1190,6 +1307,8 @@ void() DrawMarkerForServerEnt =
         dprint("server ent origin: ", vtos(org), "\n");
 };
 ```
+
+---
 
 ### resourcestatus
 `float(float resourcetype, float tryload, string resourcename) resourcestatus = #286;`
@@ -1212,6 +1331,8 @@ void() CheckRocketModel =
 };
 ```
 
+---
+
 ### physics_addforce
 `void(entity e, vector force, vector relative_ofs) physics_addforce = #541;`
 
@@ -1230,6 +1351,8 @@ void(entity box, vector dir) KickPhysicsBox =
 };
 ```
 
+---
+
 ### physics_addtorque
 `void(entity e, vector torque) physics_addtorque = #542;`
 
@@ -1247,6 +1370,8 @@ void(entity barrel) SpinBarrel =
 };
 ```
 
+---
+
 ### physics_enable
 `void(entity e, float physics_enabled) physics_enable = #540;`
 
@@ -1263,6 +1388,8 @@ void(entity doorpart, float active) SetPhysicsSleeping =
     physics_enable(doorpart, active);
 };
 ```
+
+---
 
 ### terrain_edit
 `__variant(float action, optional vector pos, optional float radius, optional float quant, ...) terrain_edit = #278;`
@@ -1284,6 +1411,8 @@ void() RaiseTerrainUnderPlayer =
 };
 ```
 
+---
+
 ### setattachment
 `void(entity e, entity tagentity, string tagname) setattachment = #443;`
 
@@ -1301,6 +1430,8 @@ void(entity weapon, entity player) AttachWeaponModel =
     setattachment(weapon, player, "tag_weapon");
 };
 ```
+
+---
 
 ### checkcommand
 `float(string name) checkcommand = #294;`
@@ -1321,6 +1452,8 @@ void(string s) ValidateConsoleSymbol =
 };
 ```
 
+---
+
 ### registercommand
 `void(string cmdname, optional string desc) registercommand = #352;`
 
@@ -1328,7 +1461,7 @@ void(string s) ValidateConsoleSymbol =
 * **desc** — `string`, необязательное описание для help/подсказок.
 
 #### Описание и логика работы
-Регистрирует консольную команду, если такой ещё нет. Дальше, когда пользователь вызовет эту команду, управление будет передано в соответствующий QC entrypoint модуля: `ConsoleCmd`, [`CSQC_ConsoleCommand`](00-entry-points.md#csqc_consolecommand), `m_consolecommand` и т. п. Builtin работает и в сервере, и в клиентской части FTE, поэтому это удобный мост между консолью движка и вашим QuakeC-кодом.
+Регистрирует консольную команду, если такой ещё нет. Дальше, когда пользователь вызовет эту команду, управление будет передано в соответствующий QC entrypoint модуля: `ConsoleCmd`, [`CSQC_ConsoleCommand`](00-entry-points.md#csqc_consolecommand), [`m_consolecommand`](00-entry-points.md#m_consolecommand) и т. п. Builtin работает и в сервере, и в клиентской части FTE, поэтому это удобный мост между консолью движка и вашим QuakeC-кодом.
 
 #### Практические сценарии использования
 ```qc
@@ -1349,6 +1482,8 @@ float(string cmd) ConsoleCmd =
 };
 ```
 
+---
+
 ### isfunction
 `float(string s) isfunction = #607;`
 
@@ -1365,6 +1500,8 @@ void() TryInitAddon =
         callfunction("Addon_Init");
 };
 ```
+
+---
 
 ### callfunction
 `void(.../*, string funcname*/) callfunction = #605;`
@@ -1383,6 +1520,8 @@ void(float dmg) ApplyNamedDamageHook =
         callfunction(dmg, "OnDamageTaken");
 };
 ```
+
+---
 
 ### externcall
 `__variant(float prnum, string funcname, ...) externcall = #201;`
@@ -1405,6 +1544,8 @@ void() NotifyAddonAboutMap =
 };
 ```
 
+---
+
 ### externset
 `void(float prnum, __variant newval, string varname) externset = #204;`
 
@@ -1423,6 +1564,8 @@ void() EnableAddonDebug =
         externset(g_addon_progs, 1, "g_debug_enabled");
 };
 ```
+
+---
 
 ### externvalue
 `__variant(float prnum, string varname) externvalue = #203;`
@@ -1444,6 +1587,8 @@ float() ReadAddonWave =
 };
 ```
 
+---
+
 ### builtin_find
 `float(string builtinname) builtin_find = #100;`
 
@@ -1460,9 +1605,10 @@ float() HasSetModelIndex =
 };
 ```
 
+---
 
 ### changelevel
-`void(string mapname, optional string newmapstartspot) changelevel = #70;`
+`void(string [mapname](../38-cvars-reference/07-system-misc-cvars.md#mapname), optional string newmapstartspot) changelevel = #70;`
 
 * **mapname** — `string`, имя карты, на которую будет осуществлен переход.
 * **newmapstartspot** — `string` (optional), имя целевого тарджета/цели или спота появления, который заменит стандартный `startspot` на следующей карте.
@@ -1478,6 +1624,8 @@ void() ExitHubThroughRune =
 };
 ```
 
+---
+
 ### chat
 `void(string filename, float starttag, entity edict) chat = #214;`
 
@@ -1486,7 +1634,7 @@ void() ExitHubThroughRune =
 * **edict** — `entity`, целевой эдикт персонажа, который должен произносить речь или участвовать в QC-скрипте диалога.
 
 #### Описание и особенности работы
-Этот расширенный builtin активируется через константу `FTE_QC_NPCCHAT`. На стороне ядра `sv_chat.c` он парсит структурированный chat-файл, находит узел `starttag`, инициализирует реплики актера и по ходу выполнения выводит текст, а также может вызывать QC-функции по триггерам в процессе. В CSQC этот слот в большинстве сборок заблокирован через `PF_NoCSQC`, поэтому логику `chat` всегда следует выполнять на SSQC-стороне серверного скрипта.
+Этот расширенный builtin активируется через константу `FTE_QC_NPCCHAT`. Он парсит структурированный chat-файл, находит узел `starttag`, инициализирует реплики актера и по ходу выполнения выводит текст, а также может вызывать QC-функции по триггерам в процессе.
 
 #### Пример использования
 ```qc
@@ -1496,13 +1644,15 @@ void() NPC_BeginConversation =
 };
 ```
 
+---
+
 ### empty
 `void() empty = #245..#249;`
 
 * Параметры отсутствуют.
 
 #### Описание и особенности работы
-`empty` не является реальным builtin'ом с зарегистрированным именем. В `engine\server\pr_cmds.c` номера `#245..#249` помечены лишь закомментированными placeholder-строками, чтобы было проще отслеживать зарезервированные слоты в таблице. Соответственно, `builtin_find("empty")` возвращает `0`, а использовать это имя в QC как обычный builtin нельзя.
+`empty` не является реальным builtin'ом с зарегистрированным именем. Номера `#245..#249` помечены лишь закомментированными
 
 #### Пример использования
 ```qc
@@ -1512,6 +1662,8 @@ void() CheckEmptyBuiltinName =
         dprint("'empty' is only a reserved slot label\n");
 };
 ```
+
+---
 
 ### entityfieldref
 `field_t(float fieldnum) entityfieldref = #0:entityfieldref;`
@@ -1535,6 +1687,8 @@ void() CacheHealthFieldRef =
 };
 ```
 
+---
+
 ### entityprotection
 `float(entity e, float nowreadonly) entityprotection = #0:entityprotection;`
 
@@ -1542,7 +1696,7 @@ void() CacheHealthFieldRef =
 * **nowreadonly** — `float`, `0` снимает защиту, `1` делает эдикт защищенным от записи (read-only) для QC.
 
 #### Описание и особенности работы
-Builtin контролирует флаг `readonly` в структуре эдикта и при значениях `0` или `1` напрямую записывает их в `e->readonly`, после чего QC больше не сможет менять поля защищённой сущности. Важный нюанс именно текущей реализации FTEQW: возвращаемое значение здесь не «предыдущее состояние защиты», а просто переданный аргумент `nowreadonly`; если же передать что-то вне диапазона `0..1`, builtin тоже вернёт это число, но сам флаг менять не станет. Попытка записи в защищённый edict затем вызовет обычную ошибку интерпретатора о записи в read-only entity.
+Builtin контролирует флаг [`readonly`](../44-cli-commands-reference/01-fteqw-startup-parameters.md#readonly) в структуре эдикта и при значениях `0` или `1` напрямую записывает их в `e->readonly`, после чего QC больше не сможет менять поля защищённой сущности. Важный нюанс именно текущей реализации FTEQW: возвращаемое значение здесь не «предыдущее состояние защиты», а просто переданный аргумент `nowreadonly`; если же передать что-то вне диапазона `0..1`, builtin тоже вернёт это число, но сам флаг менять не станет. Попытка записи в защищённый edict затем вызовет обычную ошибку интерпретатора о записи в read-only entity.
 
 #### Пример использования
 ```qc
@@ -1551,6 +1705,8 @@ void(entity e) LockTemplateEntity =
     entityprotection(e, 1);
 };
 ```
+
+---
 
 ### eprint
 `void(entity e) eprint = #31;`
@@ -1567,6 +1723,8 @@ void() DebugSelf =
     eprint(self);
 };
 ```
+
+---
 
 ### find_list
 `entity*(.__variant fld, __variant match, int type=EV_STRING, __out int count) find_list = #0:find_list;`
@@ -1593,6 +1751,8 @@ void() ListAllDoors =
 };
 ```
 
+---
+
 ### findentity
 `findentity` — alias из `fteextensions.qc` для `entity(entity start, .__variant fld, __variant match) findfloat = #98;`
 
@@ -1614,6 +1774,8 @@ void(entity pl) PrintOwnedProjectiles =
 };
 ```
 
+---
+
 ### findentityfield
 `float(string fieldname) findentityfield = #0:findentityfield;`
 
@@ -1630,6 +1792,7 @@ void() PrintHealthFieldIndex =
 };
 ```
 
+---
 
 ### findradius_list
 `entity*(vector org, float rad, __out int foundcount, int sort=0) findradius_list = #0:findradius_list;`
@@ -1640,7 +1803,7 @@ void() PrintHealthFieldIndex =
 * **sort** — `int`, необязательный флаг сортировки результатов (например, по дистанции); по умолчанию имеет значение `0`.
 
 #### Описание и особенности работы
-Альтернатива стандартной функции `findradius`, которая возвращает temp-массив сущностей вместо создания связанного списка через поле `.chain`. На стороне игрового движка FTEQW этот builtin всегда использует area links и считает дистанцию с учётом bbox, то есть поведение здесь уже «как если бы» `sv_gameplayfix_findradiusdistancetobox` и `dpcompat_findradiusarealinks` были включены. В отличие от старого `findradius`, compatibility-путь `sv_gameplayfix_blowupfallenzombies` тут не учитывается: non-solid сущности без флага `FL_FINDABLE_NONSOLID` пропускаются всегда.
+Альтернатива стандартной функции `findradius`, которая возвращает temp-массив сущностей вместо создания связанного списка через поле `.chain`. На стороне игрового движка FTEQW этот builtin всегда использует area links и считает дистанцию с учётом bbox, то есть поведение здесь уже «как если бы» [`sv_gameplayfix_findradiusdistancetobox`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_gameplayfix_findradiusdistancetobox) и [`dpcompat_findradiusarealinks`](../38-cvars-reference/07-system-misc-cvars.md#dpcompat_findradiusarealinks) были включены. В отличие от старого `findradius`, compatibility-путь [`sv_gameplayfix_blowupfallenzombies`](../38-cvars-reference/05-physics-gameplay-cvars.md#sv_gameplayfix_blowupfallenzombies) тут не учитывается: non-solid сущности без флага `FL_FINDABLE_NONSOLID` пропускаются всегда.
 
 #### Пример использования
 ```qc
@@ -1656,6 +1819,8 @@ void() DamageNearby =
             hits[i].health = hits[i].health - 10;
 };
 ```
+
+---
 
 ### generateentitydata
 `string(entity e) generateentitydata = #0:generateentitydata;`
@@ -1676,10 +1841,12 @@ void() DumpSelfState =
 };
 ```
 
+---
+
 ### plaque_draw
 `void(entity targ, float stringno) plaque_draw = #79;`
 
-* **targ** — `entity`, эдикт-цель для вывода Hexen II-подобных табличек (plaque) или centerprint-сообщений.
+* **targ** — `entity`, эдикт-цель для вывода Hexen II-подобных табличек (plaque) или [centerprint](12-system-debug-builtins.md#centerprint)-сообщений.
 * **stringno** — `float`, индекс строки в языковом файле строковых ресурсов Hexen II.
 
 #### Описание и особенности работы
@@ -1692,6 +1859,8 @@ void() ShowHexen2Hint =
     plaque_draw(self, 12);
 };
 ```
+
+---
 
 ### pushmove
 `float(entity pusher, vector move, vector amove) pushmove = #0;`
@@ -1712,6 +1881,8 @@ void(entity plat) NudgePlatformUp =
 };
 ```
 
+---
+
 ### qtest_canreach
 `DEP float(vector v) qtest_canreach = #39;`
 
@@ -1729,6 +1900,8 @@ void() TestLegacyReachCheck =
 };
 ```
 
+---
+
 ### readserverentitystate
 `void(float flags, float simtime) readserverentitystate = #369;`
 
@@ -1736,7 +1909,7 @@ void() TestLegacyReachCheck =
 * **simtime** — `float`, симуляционное время/кадр интерполяции.
 
 #### Описание и особенности работы
-В текущем дереве FTEQW этот слот не зарегистрирован как рабочий builtin: в `pr_cmds.c` строка для `#369` закомментирована вместе с пометкой `EXT_CSQC_1`. То есть это скорее след старого/незавершённого дизайна, чем доступный API. Практически это означает, что рассчитывать на имя `readserverentitystate` в обычном QC не стоит; для обмена состоянием нужны стандартные сетевые сущности и сообщения.
+В актуальных сборках FTEQW этот слот не зарегистрирован как рабочий builtin: номер `#369` не активирован и помечен пометкой `EXT_CSQC_1`.
 
 #### Пример использования
 ```qc
@@ -1747,13 +1920,15 @@ void() CheckReadServerEntityStateSupport =
 };
 ```
 
+---
+
 ### readsingleentitystate
 `readsingleentitystate` — незарегистрированный закомментированный слот `#370` из старого `EXT_CSQC_1`.
 
-* Параметры и возвращаемое значение в текущем дереве движка не специфицированы, потому что рабочей записи builtin нет.
+* Параметры и возвращаемое значение не специфицированы, потому что рабочей записи builtin нет.
 
 #### Описание и особенности работы
-У `readsingleentitystate` та же судьба, что и у `readserverentitystate`: в `pr_cmds.c` это только закомментированный placeholder, а не доступная builtin-функция. Поэтому документировать здесь полноценную сигнатуру было бы нечестно: для живого кода следует использовать обычные Delta-сущности, `sendentity` и другие поддерживаемые сетевые механизмы.
+У `readsingleentitystate` та же судьба, что и у `readserverentitystate`: это только закомментированный placeholder, а не доступная builtin-функция.
 
 #### Пример использования
 ```qc
@@ -1764,13 +1939,15 @@ void() CheckReadSingleEntityStateSupport =
 };
 ```
 
+---
+
 ### removeentity
 `void(entity ent) removeentity = #0:removeentity;`
 
 * **ent** — `entity`, CSQC-сущность, чьи уже добавленные render-entry нужно убрать из текущей сцены.
 
 #### Описание и особенности работы
-Это не синоним стандартного удаления `remove`, а специфическая CSQC-команда клиентского рендеринга. Builtin работает только со списком уже добавленных в сцену render-entity и убирает из него все записи, соответствующие тому же внутреннему ключу сущности; сам edict при этом не уничтожается. Такой вызов полезен, когда нужно сначала убрать результат `addentity`/`addentities`, а потом добавить модифицированную версию заново — например, для split-screen, ручной сортировки или условного скрытия модели.
+Это не синоним стандартного удаления `remove`, а специфическая CSQC-команда клиентского рендеринга. Builtin работает только со списком уже добавленных в сцену render-entity и убирает из него все записи, соответствующие тому же внутреннему ключу сущности; сам edict при этом не уничтожается. Такой вызов полезен, когда нужно сначала убрать результат [`addentity`](08-csqc-rendering-builtins.md#addentity)/[`addentities`](08-csqc-rendering-builtins.md#addentities), а потом добавить модифицированную версию заново — например, для split-screen, ручной сортировки или условного скрытия модели.
 
 #### Пример использования
 ```qc
@@ -1782,6 +1959,8 @@ void(entity ent) RefreshSceneEntity =
 };
 ```
 
+---
+
 ### route_calculate
 `void(entity ent, vector dest, int denylinkflags, void(entity ent, vector dest, int numnodes, nodeslist_t *nodelist) callback) route_calculate = #0:route_calculate;`
 
@@ -1791,7 +1970,7 @@ void(entity ent) RefreshSceneEntity =
 * **callback** — функция-колбэк, которая будет вызвана движком после завершения расчета маршрута.
 
 #### Описание и особенности работы
-Продвинутый встроенный метод для асинхронной работы с routing/nodegraph-системой FTEQW без блокировки основного потока: результат расчета передается через callback. По спецификации выделенный массив нод пути должен быть принудительно очищен через `memfree`, а доступ к целевым координатам и результатам шагов в векторе доступен с конца массива, вплоть до конечной точки пути, лежащей в `nodelist[numnodes - 1]`. Если путь не был найден, колбэк всё равно будет вызван, но индекс количества нод будет равен нулю.
+Продвинутый встроенный метод для асинхронной работы с routing/nodegraph-системой FTEQW без блокировки основного потока: результат расчета передается через callback. По спецификации выделенный массив нод пути должен быть принудительно очищен через [`memfree`](06-files-database-builtins.md#memfree), а доступ к целевым координатам и результатам шагов в векторе доступен с конца массива, вплоть до конечной точки пути, лежащей в `nodelist[numnodes - 1]`. Если путь не был найден, колбэк всё равно будет вызван, но индекс количества нод будет равен нулю.
 
 #### Пример использования
 ```qc
@@ -1809,6 +1988,8 @@ void(entity ent, vector dest) RepathMonster =
     route_calculate(ent, dest, 0, OnRouteReady);
 };
 ```
+
+---
 
 ### runclientphys
 `runclientphys` — это внутреннее имя реализации; в QuakeC рабочий builtin называется `void(entity ent) runstandardplayerphysics = #347;`
@@ -1829,13 +2010,15 @@ void() SV_RunClientCommand =
 };
 ```
 
+---
+
 ### te_gunshotquad
 `void(vector org) te_gunshotquad = #412;`
 
 * **org** — `vector`, точка, в которой будет создан временный сетевой эффект (temp-entity) выстрела.
 
 #### Описание и особенности работы
-Создает temp-entity эффект `TEDP_GUNSHOTQUAD`, то есть усиленную под Quad Damage версию стандартного пулевого попадания (gunshot-искры/декаль). Builtin реализован в соответствии с расширением `DP_TE_QUADEFFECTS1`. При вызове генерируется сетевой пакет для клиентов, а дальнейшая отрисовка зависит от клиентских настроек системы частиц (particle-систем) движка. По сути, это удобный сокращенный метод (shorthand) для вызова спецэффекта попадания без ручной сборки заголовков temp-entity сообщений.
+Создает temp-entity эффект `TEDP_GUNSHOTQUAD`, то есть усиленную под Quad Damage версию стандартного пулевого попадания (gunshot-искры/декаль). Builtin реализован в соответствии с расширением `DP_TE_QUADEFFECTS1`. При вызове генерируется сетевой пакет для клиентов, а дальнейшая отрисовка зависит от клиентских настроек системы частиц ([particle](08-csqc-rendering-builtins.md#particle)-систем) движка. По сути, это удобный сокращенный метод (shorthand) для вызова спецэффекта попадания без ручной сборки заголовков temp-entity сообщений.
 
 #### Пример использования
 ```qc
@@ -1844,6 +2027,8 @@ void() ShowQuadBulletImpact =
     te_gunshotquad(trace_endpos);
 };
 ```
+
+---
 
 ### te_lightning2
 `void(entity own, vector start, vector end) te_lightning2 = #429;`
@@ -1863,6 +2048,8 @@ void(entity victim) FireLightning2 =
 };
 ```
 
+---
+
 ### te_lightning3
 `void(entity own, vector start, vector end) te_lightning3 = #430;`
 
@@ -1881,6 +2068,8 @@ void(entity victim) FireLightning3 =
 };
 ```
 
+---
+
 ### te_muzzleflash
 `void(entity ent) te_muzzleflash = #0:te_muzzleflash;`
 
@@ -1896,6 +2085,8 @@ void() FireShotgunVisuals =
     te_muzzleflash(self);
 };
 ```
+
+---
 
 ### te_spikequad
 `void(vector org) te_spikequad = #413;`
@@ -1913,6 +2104,8 @@ void() ShowQuadSpikeImpact =
 };
 ```
 
+---
+
 ### te_superspikequad
 `void(vector org) te_superspikequad = #414;`
 
@@ -1929,13 +2122,15 @@ void() ShowQuadSuperSpikeImpact =
 };
 ```
 
+---
+
 ### undefined
 `undefined` — это не рабочий builtin, а метка зарезервированных слотов под номерами `#458`, `#470`, `#505..#509` и `#539`.
 
 * Параметры отсутствуют, так как реальной функции под этим именем в таблицах ядра движка нет.
 
 #### Описание и особенности работы
-Аналогично `empty`, метка `undefined` в исходниках здесь служит только комментарием-подписью к незанятым слотам таблицы. В `pr_cmds.c` для номеров `#458`, `#470`, `#505..#509` и `#539` нет зарегистрированных builtin-имён, поэтому `builtin_find("undefined")` тоже вернёт `0`. Это просто ориентиры для разработчика движка и следы резервирования API, а не вызываемая функция.
+Аналогично `empty`, метка `undefined` здесь служит только комментарием-подписью к незанятым слотам таблицы. Для номеров `#458`, `#470`, `#505..#509` и `#539` нет зарегистрированных builtin-имён
 
 #### Пример использования
 ```qc
@@ -1946,8 +2141,14 @@ void() CheckUndefinedBuiltinName =
 };
 ```
 
+---
+
 ## Смежные страницы
 
 - [Игровая логика: серверный QuakeC (SSQC)](../16-quakec-scripting/server-side-quakec-ssqc.md)
-- [Справочник ключей сущностей](../39-entity-keys-reference/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Справочник ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](02-string-builtins.md) | [Следующая страница ➡](04-network-messages-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

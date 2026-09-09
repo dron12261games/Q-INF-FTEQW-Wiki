@@ -8,12 +8,14 @@
 
 > Также подразумевалось, что эта вики станет отличным дополнением для [FTEQW Base Game](https://github.com/dron12261games/Q-MOD-FTEQW-Base-Game).
 
+> Последнее обновление вики: 10 Sep 2026.
+
 Каждая страница этой вики описывает одну конкретную возможность движка: что она даёт с точки зрения геймдизайна, из каких файлов и настроек она состоит и как её включить или настроить через файлы игры — без необходимости трогать или даже видеть исходный код движка на языке Си. Условное разделение вики на две большие части:
 
-- **«Карта возможностей»** — рассказывает, что вообще умеет движок: какие форматы ресурсов он поддерживает, какие визуальные и сетевые технологии доступны, как устроены моды и платформы. Читать эти статьи можно в любом порядке, но новичкам лучше начать с раздела [«0. Введение»](00-introduction/README.md).
+- **«Карта возможностей»** — рассказывает, что вообще умеет движок: какие форматы ресурсов он поддерживает, какие визуальные и сетевые технологии доступны, как устроены моды и платформы. Читать эти статьи можно в любом порядке, но новичкам лучше начать с раздела **Введение**.
 - **«Справочник API»** — построчный технический разбор конкретных элементов, с которыми моддер и картостроитель работают руками: встроенные функции QuakeC, cvar, ключи сущностей на карте, директивы файлов материалов и частиц. Каждый элемент API — это отдельная самодостаточная статья с точной сигнатурой, разбором аргументов, описанием логики работы и рабочими примерами кода. Если вам нужно быстро найти конкретную функцию/cvar/ключ, а не читать раздел целиком — воспользуйтесь [сводными таблицами быстрой навигации](42-api-quick-reference/README.md).
 
-**Никогда не пользовались FTEQW? Начните с раздела [«0. Введение»](00-introduction/README.md)** — там простым языком объясняется, что такое FTEQW, откуда он взялся, как его установить и запустить, а также даётся словарь базовых терминов, используемых во всей остальной вики.
+**Никогда не пользовались FTEQW?** Начните с раздела **Введение** — там простым языком объясняется, что такое FTEQW, откуда он взялся, как его установить и запустить, а также даётся словарь базовых терминов, используемых во всей остальной вики.
 
 ## Навигационная карта
 
@@ -28,7 +30,11 @@
 - [Быстрый старт: первые команды](00-introduction/quickstart-first-commands.md)
 - [Как пользоваться этой вики](00-introduction/how-to-use-this-wiki.md)
 
+---
+
 ## Контент, ресурсы и ассеты
+
+Форматы и конвейеры данных, из которых собирается любой мод или карта: архивы, модели, уровни, текстуры, звук, видео и шрифты.
 
 ### Архивы и упаковка игрового контента
 
@@ -87,7 +93,11 @@
 - [Подключение TTF-шрифтов](07-fonts-text/ttf-fonts.md)
 - [Постобработка текста (обводка, чёткое отображение)](07-fonts-text/text-postprocessing.md)
 
+---
+
 ## Рендеринг и визуальные эффекты
+
+Всё, что отвечает за картинку на экране: материалы и шейдеры, освещение, частицы, атмосферные эффекты, постобработка, вывод изображения (включая VR) и выбор графического бэкенда.
 
 ### Материалы и шейдеры
 
@@ -123,33 +133,27 @@
 - [Bloom-эффект (свечение ярких объектов)](12-postprocessing/bloom-effect.md)
 - [Цветокоррекция и цветовое пространство](12-postprocessing/color-correction-space.md)
 
-### Захват изображения и видео
+### Экран, VR и выбор рендерера
 
 - [Скриншоты (включая панораму 360°, кубокарту, VR-стерео)](13-screenshots-video-capture/screenshots-360-vr-cubemap.md)
-
-### VR и стереоскопия
-
 - [Поддержка VR-гарнитур](14-vr-stereo/vr-headset-support.md)
 - [VR-ввод (контроллеры, отслеживание рук)](14-vr-stereo/vr-input-hand-tracking.md)
 - [Стереоскопические режимы вывода](14-vr-stereo/stereoscopic-output-modes.md)
-
-### Выбор движка рендеринга
-
 - [Переключение графического бэкенда](15-renderer-backends/renderer-backend-switch.md)
+
+---
 
 ## Игровая логика и скрипты
 
+Программируемая часть мода: язык QuakeC и его компилятор, альтернативные скриптовые машины и способы обращаться к внешним данным прямо из игровой логики.
+
 ### Игровая логика: язык QuakeC
 
-- [Синтаксис языка QuakeC: основы](16-quakec-scripting/quakec-language-basics.md)
-- [Компилятор FTEQCC](16-quakec-scripting/fteqcc-compiler.md)
-- [Стандартные заголовочные файлы для QuakeC](16-quakec-scripting/standard-header-files.md)
+- [QuakeC: синтаксис, расширения и модульные прогс-файлы](16-quakec-scripting/quakec-language-basics.md)
+- [Компилятор FTEQCC: сборка, параметры, заголовки и отладка](16-quakec-scripting/fteqcc-compiler.md)
 - [Серверная игровая логика (SSQC)](16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Клиентская логика и интерфейс (CSQC)](16-quakec-scripting/client-side-quakec-csqc.md)
 - [Логика игровых меню (MenuQC)](16-quakec-scripting/menu-quakec.md)
-- [Множественные аддон-скрипты и модульные прогс-файлы](16-quakec-scripting/addon-modular-progs.md)
-- [Расширенные типы данных в QuakeC](16-quakec-scripting/extended-quakec-datatypes.md)
-- [Отладка и «горячая» пересборка логики](16-quakec-scripting/hot-reload-debugging.md)
 
 ### Альтернативные языки и виртуальные машины игровой логики
 
@@ -163,7 +167,11 @@
 - [Чтение и запись файлов из игровой логики](18-data-access-from-scripts/file-read-write-from-scripts.md)
 - [Разбор и создание данных в формате JSON](18-data-access-from-scripts/json-parsing-generation.md)
 
+---
+
 ## Конфигурация, ввод и пользовательские данные
+
+Настройка движка и клиента, данные конкретного игрока, локализация интерфейса и система сохранений.
 
 ### Конфигурационные файлы и консоль
 
@@ -173,20 +181,18 @@
 - [Параметры запуска игры](19-config-console/startup-parameters.md)
 - [Привязка клавиш и устройств ввода](19-config-console/key-bindings-input-devices.md)
 
-### Пользовательские данные игрока
+### Данные игрока, локализация и сохранения
 
 - [Ник, скин и командная принадлежность игрока (userinfo)](20-player-userinfo/player-userinfo-name-skin-team.md)
-
-### Локализация и переводы
-
 - [Файлы перевода интерфейса](21-localization/ui-translation-files.md)
 - [Фильтрация нежелательных слов в чате](21-localization/chat-word-filtering.md)
-
-### Сохранения игры
-
 - [Система сохранения прогресса](22-savegames/savegame-system.md)
 
+---
+
 ## Моды, сеть и мультиплеер
+
+Распространение и совместная игра: манифесты модов, сетевые протоколы, поиск и подключение к серверам, администрирование и запись матчей.
 
 ### Моды, сборки и манифесты
 
@@ -200,59 +206,47 @@
 - [Расширенные сетевые возможности (больше игроков, точность, разделение экрана)](24-network-protocols-multiplayer/extended-network-features.md)
 - [Голосовой чат по сети](24-network-protocols-multiplayer/voice-chat.md)
 
-### Поиск серверов и мастер-серверы
+### Поиск серверов, автозагрузка контента и прямые соединения
 
 - [Браузер серверов и избранное](25-server-browser-masters/server-browser-favorites.md)
 - [Поиск серверов в локальной сети (LAN)](25-server-browser-masters/lan-discovery.md)
-
-### Загрузка контента из интернета
-
 - [Автодокачивание недостающего контента прямо во время игры](26-content-autodownload/mid-game-content-autodownload.md)
-
-### Встроенный веб-сервер и удалённое администрирование
-
-- [Управление сервером через RCON и встроенный веб-сервер](27-web-server-rcon/rcon-remote-administration.md)
-
-### Прямые соединения и обход NAT
-
 - [Помощь в прямом соединении между игроками (ICE/STUN/TURN)](28-nat-traversal/ice-stun-turn-p2p.md)
 
-### Ретрансляция и наблюдение за игрой (QTV)
+### Администрирование, трансляция и запись матчей
 
+- [Управление сервером через RCON и встроенный веб-сервер](27-web-server-rcon/rcon-remote-administration.md)
 - [Прокси-трансляция матчей для зрителей](29-qtv-relay/qtv-proxy-broadcasting.md)
-
-### Запись и просмотр демо
-
 - [Классические демозаписи и многоракурсные демо](30-demos-recording/demo-recording-playback.md)
+
+---
 
 ## Расширяемость и интеграции
 
-### Встроенный веб-браузер и HTML-контент в игре
+Необязательные, но мощные способы расширить движок за пределы стандартной сборки: веб-контент, сторонние сервисы, физика, плагины, защита контента и запуск на мобильных/веб-платформах.
+
+### Веб-браузер и интеграция со сторонними сервисами
 
 - [Автоматическая веб-страница сервера и запуск игры прямо по ссылке](31-embedded-web-browser/in-game-web-pages.md)
-
-### Интеграция со сторонними сервисами и мессенджерами
-
 - [IRC-чат прямо из игры](32-third-party-services/irc-chat-integration.md)
 - [Мгновенные сообщения через Jabber/XMPP](32-third-party-services/jabber-xmpp-messaging.md)
 
-### Физические движки
+### Плагины и физические движки
 
 - [Продвинутая физика объектов (ODE)](33-physics-engines/advanced-object-physics-bullet-ode.md)
+- [Подключаемые модули движка](35-engine-plugins/engine-plugin-modules.md)
 
 ### Безопасность и защита контента
 
 - [Проверка целостности файлов (контрольные суммы/хеши)](34-security-content-protection/content-integrity-checksums.md)
 - [Защищённые сетевые соединения](34-security-content-protection/secure-network-connections.md)
 
-### Расширяемость через плагины движка
-
-- [Подключаемые модули движка](35-engine-plugins/engine-plugin-modules.md)
-
 ### Платформы: мобильные устройства и веб-браузер
 
 - [Сенсорное управление на мобильных устройствах](36-mobile-web-platforms/mobile-touch-controls.md)
 - [Запуск игры прямо в веб-браузере](36-mobile-web-platforms/run-in-browser-webgl.md)
+
+---
 
 ## Справочник API (для моддеров и картостроителей)
 
@@ -264,7 +258,6 @@
 
 ### Встроенные функции QuakeC (builtins)
 
-- [Индекс раздела](37-quakec-builtins-reference/README.md)
 - [Точки входа: SSQC, CSQC, MenuQC](37-quakec-builtins-reference/00-entry-points.md)
 - [Математика и работа с векторами](37-quakec-builtins-reference/01-math-vector-builtins.md)
 - [Строки и текст](37-quakec-builtins-reference/02-string-builtins.md)
@@ -283,7 +276,6 @@
 
 ### Переменные движка (cvar reference)
 
-- [Индекс раздела](38-cvars-reference/README.md)
 - [Видео, экран и общий рендеринг](38-cvars-reference/01-video-rendering-cvars.md)
 - [Освещение, тени и материалы](38-cvars-reference/02-lighting-materials-cvars.md)
 - [Звук](38-cvars-reference/03-audio-cvars.md)
@@ -294,7 +286,6 @@
 
 ### Ключи сущностей карты (entity keys)
 
-- [Индекс раздела](39-entity-keys-reference/README.md)
 - [Общие ключи, worldspawn и глобальные настройки уровня](39-entity-keys-reference/01-worldspawn-common-keys.md)
 - [Свет и освещение](39-entity-keys-reference/02-light-entity-keys.md)
 - [Триггеры и логические сущности](39-entity-keys-reference/03-trigger-logic-keys.md)
@@ -304,19 +295,30 @@
 
 ### Директивы языка материалов (.shader)
 
-- [Индекс раздела](40-shader-directives-reference/README.md)
 - [Директивы уровня материала](40-shader-directives-reference/01-shader-toplevel-directives.md)
 - [Директивы уровня стадии](40-shader-directives-reference/02-shader-stage-directives.md)
 
 ### Директивы языка частиц (.particles)
 
-- [Индекс раздела](41-particle-directives-reference/README.md)
 - [Директивы эффекта](41-particle-directives-reference/01-particle-effect-directives.md)
 - [Директивы поведения и появления](41-particle-directives-reference/02-particle-spawn-behaviour-directives.md)
 
+### Команды и параметры командной строки
+
+- [Параметры командной строки FTEQW](44-cli-commands-reference/01-fteqw-startup-parameters.md)
+- [Команды консоли: клиент и интерфейс](44-cli-commands-reference/02-client-ui-commands.md)
+- [Команды консоли: рендер и звук](44-cli-commands-reference/03-rendering-sound-commands.md)
+- [Команды консоли: сервер и мультиплеер](44-cli-commands-reference/04-server-multiplayer-commands.md)
+- [Команды консоли: файловая система и системные](44-cli-commands-reference/05-filesystem-system-commands.md)
+- [Команды консоли: опциональные плагины](44-cli-commands-reference/06-plugin-commands.md)
+- [Параметры командной строки FTEQCC](44-cli-commands-reference/07-fteqcc-command-line-parameters.md)
+
+---
+
 ## Устаревшие, экспериментальные и недоступные по умолчанию возможности
 
-- [Индекс раздела](43-legacy-unused-features/README.md)
+Возможности, которые есть в кодовой базе, но по разным причинам недоступны в обычной сборке «из коробки»: устаревшие рендер-пути, экспериментальные бэкенды, отключённые по умолчанию модули и код, оставленный только для обратной совместимости.
+
 - [Software-рендерер и D3D9: устаревшие пути отрисовки](43-legacy-unused-features/software-and-d3d9-renderer.md)
 - [Экспериментальные бэкенды D3D11/Vulkan и трассировка теней](43-legacy-unused-features/experimental-d3d11-vulkan.md)
 - [Физика Bullet/ODE: только через внешние сборки](43-legacy-unused-features/bullet-ode-physics-external-only.md)

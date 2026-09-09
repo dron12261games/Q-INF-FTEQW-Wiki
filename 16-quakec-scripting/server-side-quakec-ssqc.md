@@ -1,8 +1,8 @@
 ﻿# Серверная игровая логика (SSQC)
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](fteqcc-compiler.md) | [Следующая страница ➡](client-side-quakec-csqc.md)
 
-> Раздел: [Игровая логика: язык QuakeC](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
 
 ## Что это даёт геймдизайнеру
 
@@ -10,14 +10,16 @@ SSQC (Server-Side QuakeC) — это «мозг» всей игры: скрип�
 
 Ниже — не только общее объяснение принципа, но и подробный справочник по тому, из каких «кирпичиков» движок ожидает собранную игровую логику: какие функции он сам вызывает в нужные моменты, какими стандартными полями и константами описываются объекты, и какими стандартными командами логика может управлять миром.
 
+---
+
 ## Интерфейс настройки
 
 Логика компилируется из исходных текстов на языке QuakeC в один бинарный файл — обычно с именем **`progs.dat`** (или `qwprogs.dat` для отдельной версии под сетевой протокол QuakeWorld), который движок автоматически загружает при старте игры/карты из текущей игровой папки. Файл со списком исходников для сборки называется `progs.src`.
 
 Собрать скрипт можно двумя способами:
 - заранее, сторонним компилятором (например, FTEQCC), и просто положить готовый `progs.dat` в папку мода;
-- прямо внутри самого движка — консольной командой **`compile`**, которая соберёт `progs.src` в `progs.dat` без выхода из игры. Это встроенный компилятор, эквивалент FTEQCC.
-- команда **`applycompile`** позволяет применить только что пересобранный код «на лету» (по сути, быстрое сохранение и загрузка игры), не перезапуская карту и не отключая игроков — удобно для проверки одной конкретной функции во время разработки.
+- прямо внутри самого движка — консольной командой **[`compile`](../44-cli-commands-reference/04-server-multiplayer-commands.md#compile)**, которая соберёт `progs.src` в `progs.dat` без выхода из игры. Это встроенный компилятор, эквивалент FTEQCC.
+- команда **[`applycompile`](../44-cli-commands-reference/04-server-multiplayer-commands.md#applycompile)** позволяет применить только что пересобранный код «на лету» (по сути, быстрое сохранение и загрузка игры), не перезапуская карту и не отключая игроков — удобно для проверки одной конкретной функции во время разработки.
 
 ### Функции, которые вызывает сам движок (точки входа)
 
@@ -27,9 +29,9 @@ SSQC (Server-Side QuakeC) — это «мозг» всей игры: скрип�
 |---|---|
 | [`SetNewParms()`](../37-quakec-builtins-reference/00-entry-points.md#setnewparms) | Один раз, когда новый игрок только подключается — ещё до [`ClientConnect`](../37-quakec-builtins-reference/00-entry-points.md#clientconnect). Единственная задача этой функции — выставить начальные значения глобальных переменных `parm1`…`parm16` (см. ниже), поскольку в этот момент игровой объект игрока ещё недоступен. |
 | [`SetChangeParms()`](../37-quakec-builtins-reference/00-entry-points.md#setchangeparms) | При переходе игрока на следующий уровень — должна скопировать нужные поля игрока (здоровье, оружие, боеприпасы и т.д.) в глобальные переменные `parm1`…`parm16`, чтобы они «пережили» смену карты. |
-| `ClientConnect()` | Когда подключающийся игрок полностью загрузился и готов получать объекты игрового мира. На этом этапе уже можно проверить, поддерживает ли клиент CSQC, и отключить его, если это обязательное требование мода. |
-| [`PutClientInServer()`](../37-quakec-builtins-reference/00-entry-points.md#putclientinserver) | Сразу после `ClientConnect`, а также при каждом возрождении игрока (респауне) после смерти — здесь обычно выставляются стартовые здоровье, оружие, позиция. |
-| [`ClientKill()`](../37-quakec-builtins-reference/00-entry-points.md#clientkill) | В ответ на игровую команду `kill` (самоубийство по команде игрока). |
+| [`ClientConnect()`](../37-quakec-builtins-reference/00-entry-points.md#clientconnect) | Когда подключающийся игрок полностью загрузился и готов получать объекты игрового мира. На этом этапе уже можно проверить, поддерживает ли клиент CSQC, и отключить его, если это обязательное требование мода. |
+| [`PutClientInServer()`](../37-quakec-builtins-reference/00-entry-points.md#putclientinserver) | Сразу после [`ClientConnect`](../37-quakec-builtins-reference/00-entry-points.md#clientconnect), а также при каждом возрождении игрока (респауне) после смерти — здесь обычно выставляются стартовые здоровье, оружие, позиция. |
+| [`ClientKill()`](../37-quakec-builtins-reference/00-entry-points.md#clientkill) | В ответ на игровую команду [`kill`](../44-cli-commands-reference/02-client-ui-commands.md#kill) (самоубийство по команде игрока). |
 | [`PlayerPreThink()`](../37-quakec-builtins-reference/00-entry-points.md#playerprethink) | Каждый кадр физики, до обработки движения игрока по вводу с клавиатуры/мыши. |
 | [`PlayerPostThink()`](../37-quakec-builtins-reference/00-entry-points.md#playerpostthink) | Каждый кадр физики, после того как обработано перемещение игрока. |
 | [`StartFrame()`](../37-quakec-builtins-reference/00-entry-points.md#startframe) | Один раз за кадр физики сервера, до того как обрабатываются какие-либо объекты — удобное место для глобальной логики уровня (таймеры раунда, респавн предметов и т.п.). |
@@ -43,7 +45,7 @@ SSQC (Server-Side QuakeC) — это «мозг» всей игры: скрип�
 - **`time`** — текущее игровое время в секундах с начала уровня.
 - **`frametime`** — длительность прошедшего кадра физики в секундах.
 - **[`deathmatch`](../38-cvars-reference/04-network-server-cvars.md#deathmatch)**, **[`coop`](../38-cvars-reference/04-network-server-cvars.md#coop)**, **[`teamplay`](../38-cvars-reference/04-network-server-cvars.md#teamplay)** — текущий выбранный режим игры (отражают одноимённые серверные переменные).
-- **`parm1`…`parm16`** — «сумка» из шестнадцати числовых значений на игрока, которые переживают переход между уровнями (описаны выше, через `SetNewParms`/`SetChangeParms`, читаются через [`setspawnparms`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setspawnparms)).
+- **`parm1`…`parm16`** — «сумка» из шестнадцати числовых значений на игрока, которые переживают переход между уровнями (описаны выше, через [`SetNewParms`](../37-quakec-builtins-reference/00-entry-points.md#setnewparms)/[`SetChangeParms`](../37-quakec-builtins-reference/00-entry-points.md#setchangeparms), читаются через [`setspawnparms`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setspawnparms)).
 - **`msg_entity`** — задаёт, какому именно игроку адресовано следующее сетевое сообщение при использовании точечной адресации (`MSG_ONE`).
 - **`trace_allsolid`**, **`trace_startsolid`**, **`trace_fraction`**, **`trace_endpos`**, **`trace_plane_normal`**, **`trace_plane_dist`**, **`trace_ent`**, **`trace_inopen`**, **`trace_inwater`** — результат последнего вызова [`traceline`](../37-quakec-builtins-reference/03-entity-world-builtins.md#traceline)/[`tracebox`](../37-quakec-builtins-reference/03-entity-world-builtins.md#tracebox) заполняется именно в эти глобальные переменные (а не возвращается напрямую).
 - **`v_forward`**, **`v_right`**, **`v_up`** — три вектора направления, которые заполняет функция [`makevectors`](../37-quakec-builtins-reference/01-math-vector-builtins.md#makevectors) (и аналогичные builtin-функции скелетной анимации) — «вперёд», «вправо» и «вверх» относительно заданного угла обзора.
@@ -52,8 +54,8 @@ SSQC (Server-Side QuakeC) — это «мозг» всей игры: скрип�
 
 Каждый игровой объект (entity) описывается набором именованных полей. Ключевые из них, доступные абсолютно всем модам:
 
-- **Идентификация и модель**: [`classname`](../39-entity-keys-reference/01-worldspawn-common-keys.md#classname) (тип объекта, используется в том числе для поиска через `find`), [`model`](../39-entity-keys-reference/01-worldspawn-common-keys.md#model) (путь к файлу модели), `modelindex` (числовой индекс уже загруженной модели — выставляется автоматически функцией [`setmodel`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setmodel)).
-- **Положение в пространстве**: [`origin`](../39-entity-keys-reference/01-worldspawn-common-keys.md#origin) (текущая позиция), `oldorigin` (резервная позиция для отката, если объект застрял), [`angles`](../39-entity-keys-reference/01-worldspawn-common-keys.md#angles) (ориентация по углам тангажа/рысканья/крена), `velocity` (скорость движения), `avelocity` (скорость изменения углов поворота), `absmin`/`absmax` (мировые границы объекта — обновляются автоматически при [`setorigin`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setorigin)/[`setsize`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setsize)/`setmodel`).
+- **Идентификация и модель**: [`classname`](../39-entity-keys-reference/01-worldspawn-common-keys.md#classname) (тип объекта, используется в том числе для поиска через [`find`](../37-quakec-builtins-reference/03-entity-world-builtins.md#find)), [`model`](../39-entity-keys-reference/01-worldspawn-common-keys.md#model) (путь к файлу модели), `modelindex` (числовой индекс уже загруженной модели — выставляется автоматически функцией [`setmodel`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setmodel)).
+- **Положение в пространстве**: [`origin`](../39-entity-keys-reference/01-worldspawn-common-keys.md#origin) (текущая позиция), `oldorigin` (резервная позиция для отката, если объект застрял), [`angles`](../39-entity-keys-reference/01-worldspawn-common-keys.md#angles) (ориентация по углам тангажа/рысканья/крена), `velocity` (скорость движения), `avelocity` (скорость изменения углов поворота), `absmin`/`absmax` (мировые границы объекта — обновляются автоматически при [`setorigin`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setorigin)/[`setsize`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setsize)/[`setmodel`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setmodel)).
 - **Тип движения и столкновений**: `movetype` (одна из констант `MOVETYPE_*`, см. ниже), `solid` (одна из констант `SOLID_*`, см. ниже), `size`/`mins`/`maxs` (габариты для расчёта столкновений).
 - **Здоровье и урон**: [`health`](../39-entity-keys-reference/01-worldspawn-common-keys.md#health), `takedamage` (одна из констант `DAMAGE_*`, см. ниже), `deadflag`, [`dmg`](../39-entity-keys-reference/01-worldspawn-common-keys.md#dmg) (наносимый урон).
 - **Тайминг и мышление**: `nextthink` (когда в следующий раз вызвать функцию `think`), `think` (сама функция), `touch` (функция при столкновении с другим объектом), `blocked` (функция, когда движущийся объект на что-то натыкается), `ltime` — на движущихся платформах (`MOVETYPE_PUSH`) используется вместо глобального времени, чтобы не сбивать таймер при блокировке платформы препятствием.
@@ -66,17 +68,25 @@ SSQC (Server-Side QuakeC) — это «мозг» всей игры: скрип�
 - **Типы «твёрдости» `SOLID_*`**: `NOT` (не участвует в столкновениях вообще), `TRIGGER` (не блокирует движение, но регистрирует, что через него кто-то прошёл), `BBOX`/`SLIDEBOX` (простая прямоугольная область столкновений), `BSP` (сложная геометрия карты, обычно вместе с `MOVETYPE_PUSH`, не сталкивается с другими `SOLID_BSP`), `CORPSE` (для трупов — не сталкивается с живыми игроками и другими трупами), `PORTAL` (объём для CSG-вычитания геометрии с преобразованием при пересечении), `BSPTRIGGER` (триггер сложной формы, а не просто параллелепипед), а также `PHYSICS_BOX`/`PHYSICS_SPHERE`/`PHYSICS_CAPSULE`/`PHYSICS_TRIMESH`/`PHYSICS_CYLINDER` — формы столкновения для того же внешнего physics-плагина, а не часть типовой «чистой» Quake-логики.
 - **Реакция на урон `DAMAGE_*`**: `NO` (объект не получает урон вообще), `YES` (получает урон), `AIM` (получает урон и, вдобавок, автоприцеливание игроков может наводиться на этот объект).
 
+---
+
 ## Примеры
 
 - Полностью переписанная логика урона и брони превращает классический Quake в кооперативную ролевую игру — движок остаётся тем же, меняется только `progs.dat`.
-- Разработчик правит функцию открытия двери в исходниках, набирает `compile`, затем `applycompile` — и проверяет исправление тут же, без выхода из тестовой игры.
+- Разработчик правит функцию открытия двери в исходниках, набирает [`compile`](../44-cli-commands-reference/04-server-multiplayer-commands.md#compile), затем [`applycompile`](../44-cli-commands-reference/04-server-multiplayer-commands.md#applycompile) — и проверяет исправление тут же, без выхода из тестовой игры.
 - Мод-автор в специальной сборке с внешним physics-backend хочет, чтобы обломки после взрыва вели себя реалистично: он присваивает им `movetype = MOVETYPE_PHYSICS` и подходящий тип `solid`, дальше их поведением занимается физический движок, а не ручные формулы.
-- В `ClientConnect` мод проверяет, что у игрока подключён CSQC-интерфейс, и отключает его сообщением, если сервер требует обязательного использования CSQC.
+- В [`ClientConnect`](../37-quakec-builtins-reference/00-entry-points.md#clientconnect) мод проверяет, что у игрока подключён CSQC-интерфейс, и отключает его сообщением, если сервер требует обязательного использования CSQC.
+
+---
 
 ## Смежные страницы
 
 - [Клиентская логика и интерфейс (CSQC)](./client-side-quakec-csqc.md)
-- [Отладка и «горячая» пересборка логики](./hot-reload-debugging.md)
-- [Множественные аддон-скрипты и модульные прогс-файлы](./addon-modular-progs.md)
-- [Расширенные типы данных в QuakeC](./extended-quakec-datatypes.md)
+- [Отладка и «горячая» пересборка логики](./fteqcc-compiler.md#отладка-и-горячая-пересборка-логики)
+- [Модульные прогс-файлы и аддоны](./quakec-language-basics.md#модульные-прогс-файлы-и-аддоны)
+- [QuakeC: синтаксис, расширения и модульные прогс-файлы](./quakec-language-basics.md)
 - [Продвинутая физика объектов (ODE)](../33-physics-engines/advanced-object-physics-bullet-ode.md)
+
+> [⬅ Предыдущая страница](fteqcc-compiler.md) | [Следующая страница ➡](client-side-quakec-csqc.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

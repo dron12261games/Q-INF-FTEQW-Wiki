@@ -1,8 +1,9 @@
 ﻿# Браузер серверов и мастер-сервер
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](10-skeletal-model-builtins.md) | [Следующая страница ➡](12-system-debug-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 В MenuQC и CSQC браузер серверов работает не напрямую с сетью, а через **host cache** — локальный кеш записей о найденных серверах. Сначала движок получает адреса и ответы от мастер-серверов, LAN-поиска и отдельных игровых серверов, а затем складывает нормализованные поля вроде `name`, `map`, `ping`, `numplayers`, `gamedir` и `serverinfo` в этот кеш. Builtins семейства `gethostcache*` читают эти поля по индексу записи, а `sethostcachemask*`, `sethostcachesort`, `resorthostcache` и `refreshhostcache` управляют тем, какие записи видны пользователю и в каком порядке. В той же группе находятся соседние сетевые/системные builtins, которые часто встречаются рядом в `fteextensions.qc`, но не все из них относятся именно к host cache браузера серверов.
 
@@ -14,7 +15,7 @@
 * **key** — имя serverinfo-ключа, который меню собирается читать как дополнительное поле host cache.
 
 #### Описание и логика работы
-`addwantedhostcachekey` исторически предназначена для предварительной регистрации пользовательского ключа из serverinfo, чтобы браузер серверов знал, какие дополнительные данные вас интересуют. В текущей реализации FTEQW builtin фактически сводится к раннему вызову `gethostcacheindexforkey(key)`: полезного возвращаемого значения нет, но движок резервирует индекс для этого имени. Это удобно, когда вы хотите заранее договориться о нестандартных полях вроде [`teamplay`](../38-cvars-reference/04-network-server-cvars.md#teamplay), `skill` или ключей конкретного мода и потом читать их через `gethostcachestring` или `gethostcachenumber`.
+`addwantedhostcachekey` исторически предназначена для предварительной регистрации пользовательского ключа из serverinfo, чтобы браузер серверов знал, какие дополнительные данные вас интересуют. В текущей реализации FTEQW builtin фактически сводится к раннему вызову `gethostcacheindexforkey(key)`: полезного возвращаемого значения нет, но движок резервирует индекс для этого имени. Это удобно, когда вы хотите заранее договориться о нестандартных полях вроде [`teamplay`](../38-cvars-reference/04-network-server-cvars.md#teamplay), [`skill`](../38-cvars-reference/04-network-server-cvars.md#skill) или ключей конкретного мода и потом читать их через `gethostcachestring` или `gethostcachenumber`.
 
 #### Практические сценарии использования
 ```
@@ -37,6 +38,8 @@ return "teamplay: unknown";
 return "teamplay: " + value;
 };
 ```
+
+---
 
 ### gethostcacheindexforkey
 `float(string key) gethostcacheindexforkey = #622;`
@@ -67,6 +70,8 @@ gethostcachenumber(field_ping, row),
 gethostcachestring(field_address, row));
 };
 ```
+
+---
 
 ### gethostcachenumber
 `float(float fld, float hostnr) gethostcachenumber = #621;`
@@ -99,6 +104,8 @@ gethostcachenumber(field_ping, row));
 };
 ```
 
+---
+
 ### gethostcachestring
 `string(float type, float hostnr) gethostcachestring = #612;`
 
@@ -130,6 +137,8 @@ gethostcachestring(field_address, row));
 };
 ```
 
+---
+
 ### gethostcachevalue
 `float(float type) gethostcachevalue = #611;`
 
@@ -156,6 +165,8 @@ return sprintf("visible %g / total %g, sort field %g, desc %g",
 visible, total, sortfld, descending);
 };
 ```
+
+---
 
 ### refreshhostcache
 `void(optional float dopurge) refreshhostcache = #620;`
@@ -188,6 +199,8 @@ gethostcachevalue(SLIST_HOSTCACHEVIEWCOUNT);
 };
 ```
 
+---
+
 ### resethostcachemasks
 `void() resethostcachemasks = #615;`
 
@@ -204,6 +217,8 @@ resethostcachemasks();
 resorthostcache();
 };
 ```
+
+---
 
 ### resorthostcache
 `void() resorthostcache = #618;`
@@ -227,6 +242,8 @@ if (server_selected < 0)
 server_selected = -1;
 };
 ```
+
+---
 
 ### sethostcachemasknumber
 `void(float mask, float fld, float num, float op) sethostcachemasknumber = #617;`
@@ -260,6 +277,8 @@ resorthostcache();
 };
 ```
 
+---
+
 ### sethostcachemaskstring
 `void(float mask, float fld, string str, float op) sethostcachemaskstring = #616;`
 
@@ -292,6 +311,8 @@ resorthostcache();
 };
 ```
 
+---
+
 ### sethostcachesort
 `void(float fld, float descending) sethostcachesort = #619;`
 
@@ -312,6 +333,8 @@ sethostcachesort(field_ping, descending);
 resorthostcache();
 };
 ```
+
+---
 
 ### getgamedirinfo
 `string(float n, float prop) getgamedirinfo = #626;`
@@ -353,6 +376,8 @@ dprint(sprintf("mod %g: %s\n", i, getgamedirinfo(i, GGDI_DESCRIPTION)));
 };
 ```
 
+---
+
 ### getextresponse
 `string() getextresponse = #624;`
 
@@ -374,6 +399,8 @@ else
 dprint(sprintf("ext response: %s\n", s));
 };
 ```
+
+---
 
 ### calltimeofday
 `__deprecated("Use strftime.") void() calltimeofday = #231;`
@@ -403,6 +430,8 @@ dprint(sprintf("time now %g:%g (%s)\n", tod_hour, tod_minute, tod_stamp));
 };
 ```
 
+---
+
 ### openportal
 `void(entity portal, float state) openportal = #207;`
 
@@ -429,6 +458,8 @@ openportal(self, 0); // закрыть areaportal
 };
 ```
 
+---
+
 ### getpackagemanagerinfo
 `string(int n, int prop) getpackagemanagerinfo = #0:getpackagemanagerinfo;`
 
@@ -452,8 +483,14 @@ void() ListKnownPackages =
 };
 ```
 
+---
+
 ## Смежные страницы
 
-- [Поиск серверов и мастер-серверы](../25-server-browser-masters/README.md)
+- [Поиск серверов и мастер-серверы](../README.md#поиск-серверов-автозагрузка-контента-и-прямые-соединения)
 - [Menu QuakeC](../16-quakec-scripting/menu-quakec.md)
-- [Индекс справочника builtins](./README.md)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](10-skeletal-model-builtins.md) | [Следующая страница ➡](12-system-debug-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

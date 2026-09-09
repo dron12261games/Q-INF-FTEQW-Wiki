@@ -1,8 +1,9 @@
 ﻿# Прекэш и игровые ресурсы
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](06-files-database-builtins.md) | [Следующая страница ➡](08-csqc-rendering-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 В Quake-подобных играх precache — это не просто оптимизация загрузки, а часть сетевого контракта между сервером и клиентами: обе стороны должны согласованно присвоить одним и тем же ресурсам одинаковые числовые индексы. Поэтому модели, звуки и другие игровые ресурсы обычно регистрируют во время загрузки уровня, до начала реального геймплея. Поздний precache уже после старта карты возможен не для всего и может потребовать дополнительных служебных сообщений, вызвать предупреждения в консоли или заметную задержку у клиентов, которым приходится срочно догружать ресурс на лету.
 
@@ -26,6 +27,8 @@ precache_file("gfx/help/episode1.lmp");
 };
 ```
 
+---
+
 ### precache_file2
 `string(string str) precache_file2 = #77;`
 
@@ -44,13 +47,15 @@ precache_file2("maps/end_hub.ent");
 };
 ```
 
+---
+
 ### precache_model
 `string(string s) precache_model = #20;`
 
 * **s** — путь к модели или связанному с моделью ресурсу (`.mdl`, `.bsp`, `.iqm`, `.md5mesh`, `.framegroups` и т.п.).
 
 #### Описание и логика работы
-`precache_model` добавляет модель в общий precache-список и тем самым закрепляет за ней числовой индекс, который потом используют [`setmodel`](03-entity-world-builtins.md#setmodel), сетевые entity update и сопутствующие builtin-lookup функции. Это главное отличие от простого хранения строки: сервер и клиенты должны заранее согласовать один и тот же slot для одной и той же модели, иначе сетевые обновления начнут ссылаться не на тот ресурс. Вызывать builtin следует во время загрузки уровня — обычно из `worldspawn`, общих функций `W_Precache`/`PlayerPrecache` и прочих spawn-time путей до начала матча. Если попытаться использовать модель без precache, `setmodel` не должен получать неизвестное имя: результатом будут ошибки, warnings, невидимая геометрия или рассинхронизация. Для `.bsp` FTEQW старается реально подтянуть модель с диска сразу; для прочих форматов важнее сама регистрация имени в precache-таблице. В SSQC такие model index всегда положительные; в CSQC клиентские precache-индексы могут быть отрицательными, если соответствующей модели нет в серверной таблице.
+`precache_model` добавляет модель в общий precache-список и тем самым закрепляет за ней числовой индекс, который потом используют [`setmodel`](03-entity-world-builtins.md#setmodel), сетевые entity update и сопутствующие builtin-lookup функции. Это главное отличие от простого хранения строки: сервер и клиенты должны заранее согласовать один и тот же slot для одной и той же модели, иначе сетевые обновления начнут ссылаться не на тот ресурс. Вызывать builtin следует во время загрузки уровня — обычно из `worldspawn`, общих функций `W_Precache`/`PlayerPrecache` и прочих [spawn](03-entity-world-builtins.md#spawn)-time путей до начала матча. Если попытаться использовать модель без precache, [`setmodel`](03-entity-world-builtins.md#setmodel) не должен получать неизвестное имя: результатом будут ошибки, warnings, невидимая геометрия или рассинхронизация. Для `.bsp` FTEQW старается реально подтянуть модель с диска сразу; для прочих форматов важнее сама регистрация имени в precache-таблице. В SSQC такие model index всегда положительные; в CSQC клиентские precache-индексы могут быть отрицательными, если соответствующей модели нет в серверной таблице.
 
 Если precache делается уже после старта карты, FTEQW помечает это как delayed precache и шлёт клиентам дополнительное надёжное сообщение о новом model index. На современных клиентах FTE-ветки это позволяет осторожно добавлять новые модели на лету, но старые клиенты или клиенты без нужного расширения могут показать warning, зависнуть на срочной подгрузке или вообще не успеть корректно использовать ресурс в том же кадре. Поэтому «правильный» precache — это precache до старта игры; поздний precache годится только для хорошо контролируемых расширенных сценариев.
 
@@ -71,6 +76,8 @@ self.frame = 0;
 };
 ```
 
+---
+
 ### precache_model2
 `string(string str) precache_model2 = #75;`
 
@@ -88,6 +95,8 @@ precache_model2("progs/boss2.mdl");
 precache_model2("progs/end_teleporter.mdl");
 };
 ```
+
+---
 
 ### precache_pic
 `string(string name, optional float flags) precache_pic = #317;`
@@ -115,6 +124,8 @@ hud_icons_ready = 1;
 };
 ```
 
+---
+
 ### precache_vwep_model
 `float(string mname) precache_vwep_model = #532;`
 
@@ -135,6 +146,8 @@ precache_vwep_model("progs/p_shot.mdl");
 precache_vwep_model("progs/p_nail.mdl");
 };
 ```
+
+---
 
 ### getmodelindex
 `float(string modelname, optional float queryonly) getmodelindex = #200;`
@@ -169,6 +182,8 @@ setmodel(self, modelnameforindex(idx));
 };
 ```
 
+---
+
 ### modelnameforindex
 `string(float mdlindex) modelnameforindex = #334;`
 
@@ -188,6 +203,8 @@ if (name != "")
 dprint(sprintf("model slot %g = %s\n", idx, name));
 };
 ```
+
+---
 
 ### frameforname
 `float(float modidx, string framename) frameforname = #276;`
@@ -217,6 +234,8 @@ self.frame = self.anim_idle;
 };
 ```
 
+---
+
 ### frametoname
 `string(float modidx, float framenum) frametoname = #284;`
 
@@ -237,6 +256,8 @@ if (animname != "")
 dprint(sprintf("guard anim = %s\n", animname));
 };
 ```
+
+---
 
 ### frameduration
 `float(float modidx, float framenum) frameduration = #277;`
@@ -267,6 +288,8 @@ self.think = Guard_FinishAttack;
 };
 ```
 
+---
+
 ### skinforname
 `float(float mdlindex, string skinname) skinforname = #237;`
 
@@ -290,6 +313,8 @@ self.skin = skinidx;
 };
 ```
 
+---
+
 ### skintoname
 `string(float modidx, float skin) skintoname = #285;`
 
@@ -310,6 +335,8 @@ if (skinname != "")
 dprint(sprintf("guard skin = %s\n", skinname));
 };
 ```
+
+---
 
 ### shaderforname
 `float(string shadername, optional string defaultshader, ...) shaderforname = #238;`
@@ -340,6 +367,8 @@ self.forceshader = shaderforname(
 };
 ```
 
+---
+
 ### findfont
 `float(string s) findfont = #356;`
 
@@ -356,6 +385,8 @@ drawfont = findfont("hud");
 };
 ```
 
+---
+
 ### loadfont
 `float(string fontname, string fontmaps, string sizes, float slot, optional float fix_scale, optional float fix_voffset) loadfont = #357;`
 
@@ -367,7 +398,7 @@ drawfont = findfont("hud");
 * **fix_voffset** — дополнительный параметр совместимости для вертикального смещения; обычно оставляют `0`.
 
 #### Описание и логика работы
-`loadfont` регистрирует новый font slot или переопределяет существующий. Это один из тех builtin-ов, которые формально просты, но практически завязаны на множество деталей движка: список размеров, постобработку outline, выбор slot-а и fallback по имени. Сам комментарий в `fteextensions.qc` честно предупреждает, что интерфейс довольно запутанный, но даёт рабочий пример с `cour`. На практике правило простое: дайте slot-имя для повторного поиска, укажите реальный face name, перечислите нужные размеры через пробел и сразу сохраните возвращённый handle в `drawfont` или своей глобальной переменной. Если UI-код позже снова позовёт `loadfont` с тем же slot-именем и другим набором параметров, старое содержимое slot-а будет переинициализировано.
+[`loadfont`](../44-cli-commands-reference/02-client-ui-commands.md#loadfont) регистрирует новый font slot или переопределяет существующий. Это один из тех builtin-ов, которые формально просты, но практически завязаны на множество деталей движка: список размеров, постобработку outline, выбор slot-а и fallback по имени. Сам комментарий в `fteextensions.qc` честно предупреждает, что интерфейс довольно запутанный, но даёт рабочий пример с `cour`. На практике правило простое: дайте slot-имя для повторного поиска, укажите реальный face name, перечислите нужные размеры через пробел и сразу сохраните возвращённый handle в `drawfont` или своей глобальной переменной. Если UI-код позже снова позовёт `loadfont` с тем же slot-именем и другим набором параметров, старое содержимое slot-а будет переинициализировано.
 
 #### Практические сценарии использования
 ```
@@ -380,6 +411,8 @@ drawfont = hud_font;
 };
 ```
 
+---
+
 ### changepic
 `DEP_CSQC void(string slot, string picname, optional entity player) changepic = #107;`
 
@@ -388,7 +421,7 @@ drawfont = hud_font;
 * **player** — необязательный клиент, которому надо отправить замену; если аргумент не указан, обновление рассылается всем клиентам.
 
 #### Описание и логика работы
-`changepic` относится к расширению `TEI_SHOWLMP2` и работает на сервере как команда клиентскому HUD-слою: поменять уже показанную картинку в named slot, не трогая позицию и зону привязки. Это удобно для инвентарных иконок, portrait-слотов, индикаторов оружия и прочих элементов, где геометрия интерфейса остаётся прежней, а сам image asset меняется часто. Проверка реализации показывает два важных поведения: если передан `player`, это должен быть реальный клиент, иначе будет runtime error; если клиент не поддерживает расширение `PEXT_SHOWPIC`, сервер просто не пошлёт ему обновление. Иными словами, builtin хорош для FTE-расширенного HUD, но не является универсальным кросс-движковым способом смены картинок.
+`changepic` относится к расширению `TEI_SHOWLMP2` и работает на сервере как команда клиентскому HUD-слою: поменять уже показанную картинку в named slot, не трогая позицию и зону привязки. Это удобно для инвентарных иконок, portrait-слотов, индикаторов оружия и прочих элементов, где геометрия интерфейса остаётся прежней, а сам image asset меняется часто. Проверка реализации показывает два важных поведения: если передан `player`, это должен быть реальный клиент, иначе будет runtime [error](12-system-debug-builtins.md#error); если клиент не поддерживает расширение `PEXT_SHOWPIC`, сервер просто не пошлёт ему обновление. Иными словами, builtin хорош для FTE-расширенного HUD, но не является универсальным кросс-движковым способом смены картинок.
 
 #### Практические сценарии использования
 ```
@@ -405,6 +438,8 @@ else
 changepic("hud_ammo", "gfx/hud/empty.tga", pl);
 };
 ```
+
+---
 
 ### drawgetimagesize
 `vector(string picname) drawgetimagesize = #318;`
@@ -429,6 +464,8 @@ drawpic(pos, "gfx/menu/logo.lmp", size, '1 1 1', 1, 0);
 };
 ```
 
+---
+
 ### iscachedpic
 `float(string name) iscachedpic = #316;`
 
@@ -445,6 +482,8 @@ if (!iscachedpic("gfx/hud/badge_gold.tga"))
 precache_pic("gfx/hud/badge_gold.tga", 0);
 };
 ```
+
+---
 
 ### freepic
 `void(string name) freepic = #319;`
@@ -464,6 +503,8 @@ freepic("gfx/inventory/atlas_2.tga");
 };
 ```
 
+---
+
 ### addprogs
 `float(string progsname) addprogs = #202;`
 
@@ -471,7 +512,7 @@ freepic("gfx/inventory/atlas_2.tga");
 
 #### Описание и логика работы
 
-`addprogs` загружает ещё один progs-модуль в уже работающую виртуальную машину и возвращает handle, который затем используют `externcall`, `externset` и `externvalue`. Это builtin расширения `FTE_MULTIPROGS`; официальный комментарий к `init` отдельно подчёркивает, что безопаснее всего вызывать его именно из `init`, когда сущности ещё не считаются валидными и вы можете спокойно связать глобалы между модулями. Если имя пустое или загрузка не удалась, движок возвращает `-1`.
+`addprogs` загружает ещё один progs-модуль в уже работающую виртуальную машину и возвращает handle, который затем используют [`externcall`](03-entity-world-builtins.md#externcall), [`externset`](03-entity-world-builtins.md#externset) и [`externvalue`](03-entity-world-builtins.md#externvalue). Это builtin расширения `FTE_MULTIPROGS`; официальный комментарий к `init` отдельно подчёркивает, что безопаснее всего вызывать его именно из `init`, когда сущности ещё не считаются валидными и вы можете спокойно связать глобалы между модулями. Если имя пустое или загрузка не удалась, движок возвращает `-1`.
 
 #### Практические сценарии использования
 
@@ -488,6 +529,9 @@ void(float prevprogs) init
         externcall(addon, "module_init");
 }
 ```
+
+---
+
 ### frameforaction
 `float(float modidx, int actionid) frameforaction = #0:frameforaction;`
 
@@ -512,6 +556,9 @@ void() bind_run_action
         self.frame = anim;
 }
 ```
+
+---
+
 ### getmodeleventidx
 `float(float modidx, float framenum, int eventidx, __out float timestamp, __out int code, __out string data) getmodeleventidx = #0:getmodeleventidx;`
 
@@ -539,6 +586,9 @@ void() dump_first_anim_event
         dprint(sprintf("event0 time=%g code=%d data=%s\n", timestamp, code, data));
 }
 ```
+
+---
+
 ### getnextmodelevent
 `float(float modidx, float framenum, __inout float basetime, float targettime, __out int code, __out string data) getnextmodelevent = #0:getnextmodelevent;`
 
@@ -574,6 +624,9 @@ void() poll_next_anim_event
         self.anim_event_time = t;
 }
 ```
+
+---
+
 ### modelframecount
 `float(float mdlidx) modelframecount = #0:modelframecount;`
 
@@ -595,6 +648,9 @@ void() clamp_model_frame
         self.frame = count - 1;
 }
 ```
+
+---
+
 ### processmodelevents
 `void(float modidx, float framenum, __inout float basetime, float targettime, void(float timestamp, int code, string data) callback) processmodelevents = #0:processmodelevents;`
 
@@ -606,7 +662,7 @@ void() clamp_model_frame
 
 #### Описание и логика работы
 
-`processmodelevents` — пакетный вариант обхода model events: вместо одного ближайшего события builtin вызывает ваш callback для **каждого** события, достигнутого между `basetime` и `targettime`, а затем выставляет `basetime = targettime`. Реализация в `pr_skelobj.c` специально не делает ничего при `basetime == targettime`, умеет учитывать looping-анимации и для alias/generic путей перебирает события немного по-разному, но внешний контракт у них одинаковый. На практике это самый удобный вариант, когда вы раз в кадр продвигаете анимацию и хотите автоматически проиграть все пропущенные footsteps, muzzle flashes и прочие embedded events.
+`processmodelevents` — пакетный вариант обхода model events: вместо одного ближайшего события builtin вызывает ваш callback для **каждого** события, достигнутого между `basetime` и `targettime`, а затем выставляет `basetime = targettime`. Реализация специально не делает ничего при `basetime == targettime`, умеет учитывать looping-анимации и для alias/generic путей перебирает события немного по-разному, но внешний контракт у них одинаковый.
 
 #### Практические сценарии использования
 
@@ -628,6 +684,9 @@ void() Guard_ProcessAnimEvents
     self.anim_event_time = t;
 }
 ```
+
+---
+
 ### spriteframe
 `string(string modelname, int frame, float frametime) spriteframe = #0:spriteframe;`
 
@@ -637,7 +696,7 @@ void() Guard_ProcessAnimEvents
 
 #### Описание и логика работы
 
-`spriteframe` — CSQC builtin для случаев, когда вам нужен не scene-entity, а готовое имя shader'а конкретного кадра спрайта, пригодное для `drawpic`, `R_BeginPolygon` и похожих 2D/overlay-рендер путей. Движок находит модель по имени, при необходимости догружает её, убеждается, что это именно sprite, а затем выбирает нужный subframe и возвращает имя shader'а. Для невалидного имени, некорректного `frame` или не-sprite модели builtin возвращает пустую строку; для grouped/animated sprite'ов параметр `frametime` используется как селектор текущего подкадра.
+`spriteframe` — CSQC builtin для случаев, когда вам нужен не scene-entity, а готовое имя shader'а конкретного кадра спрайта, пригодное для [`drawpic`](08-csqc-rendering-builtins.md#drawpic), [`R_BeginPolygon`](08-csqc-rendering-builtins.md#r_beginpolygon) и похожих 2D/overlay-рендер путей. Движок находит модель по имени, при необходимости догружает её, убеждается, что это именно sprite, а затем выбирает нужный subframe и возвращает имя shader'а. Для невалидного имени, некорректного `frame` или не-sprite модели builtin возвращает пустую строку; для grouped/animated sprite'ов параметр `frametime` используется как селектор текущего подкадра.
 
 #### Практические сценарии использования
 
@@ -656,7 +715,13 @@ void() DrawMuzzleSprite
 }
 ```
 
+---
+
 ## Смежные страницы
 
-- [Раздел по моделям и анимации](../02-models-animation/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Раздел по моделям и анимации](../README.md#трёхмерные-модели-и-анимация)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](06-files-database-builtins.md) | [Следующая страница ➡](08-csqc-rendering-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

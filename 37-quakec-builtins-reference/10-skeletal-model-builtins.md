@@ -1,8 +1,9 @@
 ﻿# Скелетная анимация и модели
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](13-menuqc-builtins.md) | [Следующая страница ➡](11-server-browser-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Этот раздел описывает builtins FTEQW, которые работают со скелетными моделями, тегами привязки, чтением геометрии поверхностей и пользовательскими skin-объектами. В скелетной системе движка QuakeC управляет не самой моделью напрямую, а отдельным skeletal object: в него загружается поза из анимации, после чего отдельные кости можно дочитывать, копировать, домножать и переопределять процедурно. Кости в API обычно адресуются 1-based индексами, а `0` в ряде builtins означает специальный режим «весь диапазон». Для мировых координат костей и тегов важно различать три пространства: локальное относительно родителя, абсолютное относительно entity и итоговое world-space после учёта origin/angles и цепочек tag attachment.
 
@@ -46,6 +47,8 @@ void() Player_RebuildSkeleton =
 };
 ```
 
+---
+
 ### skel_copybones
 `void(float skeldst, float skelsrc, float startbone, float entbone) skel_copybones = #274;`
 
@@ -80,6 +83,8 @@ void() ClonePoseAndBendNeck =
 };
 ```
 
+---
+
 ### skel_create
 `float(float modlindex, optional float useabstransforms) skel_create = #263;`
 
@@ -107,13 +112,15 @@ float() Player_InitSkeleton =
 };
 ```
 
+---
+
 ### skel_delete
 `void(float skel) skel_delete = #275;`
 
 * **skel** — `float`, идентификатор skeletal object, который больше не нужен.
 
 #### Описание и логика работы
-`skel_delete` помечает skeletal object на удаление. Важный нюанс реализации FTEQW: освобождение откладывается до безопасного момента, поэтому builtin можно вызывать даже в том кадре, где объект ещё участвует в рендеринге, не ломая следующий `addentity`/[`renderscene`](08-csqc-rendering-builtins.md#renderscene). Если на этом skeleton был активен ragdoll, он тоже снимается. Повторный вызов с уже невалидным id ничего полезного не делает, но и не должен ломать VM.
+`skel_delete` помечает skeletal object на удаление. Важный нюанс реализации FTEQW: освобождение откладывается до безопасного момента, поэтому builtin можно вызывать даже в том кадре, где объект ещё участвует в рендеринге, не ломая следующий [`addentity`](08-csqc-rendering-builtins.md#addentity)/[`renderscene`](08-csqc-rendering-builtins.md#renderscene). Если на этом skeleton был активен ragdoll, он тоже снимается. Повторный вызов с уже невалидным id ничего полезного не делает, но и не должен ломать VM.
 
 Практическое правило простое: создали skeletal object — удалите его при уничтожении сущности, смене модели на нескелетную или полном пересоздании визуального представления. Оставленный handle сам по себе не «протухает» автоматически и будет занимать слот/память до освобождения.
 
@@ -128,6 +135,8 @@ void() Player_FreeSkeleton =
 	self.skeletonobject = 0;
 };
 ```
+
+---
 
 ### skel_find_bone
 `float(float skel, string tagname) skel_find_bone = #268;`
@@ -152,6 +161,8 @@ void() CacheImportantBones =
 		dprint("warning: head bone was not found on model\n");
 };
 ```
+
+---
 
 ### skel_get_boneabs
 `vector(float skel, float bonenum) skel_get_boneabs = #270;`
@@ -180,6 +191,8 @@ vector() Player_GetMuzzleLocalOrigin =
 };
 ```
 
+---
+
 ### skel_get_bonename
 `string(float skel, float bonenum) skel_get_bonename = #266;`
 
@@ -203,6 +216,8 @@ void() Debug_ListBones =
 		dprint(sprintf("bone %g = %s\n", i, skel_get_bonename(self.skeletonobject, i)));
 };
 ```
+
+---
 
 ### skel_get_boneparent
 `float(float skel, float bonenum) skel_get_boneparent = #267;`
@@ -235,6 +250,8 @@ float() FindTopmostParent =
 };
 ```
 
+---
+
 ### skel_get_bonerel
 `vector(float skel, float bonenum) skel_get_bonerel = #269;`
 
@@ -258,6 +275,8 @@ void() RemoveRootTranslation =
 };
 ```
 
+---
+
 ### skel_get_numbones
 `float(float skel) skel_get_numbones = #265;`
 
@@ -280,6 +299,8 @@ float() HasBoneRangeForSpine =
 	return 0;
 };
 ```
+
+---
 
 ### skel_mmap
 `float*(float skel) skel_mmap = #282;`
@@ -306,6 +327,8 @@ void() Debug_DumpFirstBoneMatrix =
 	dprint(sprintf("bone1 row2 = %g %g %g %g\n", bones[8], bones[9], bones[10], bones[11]));
 };
 ```
+
+---
 
 ### skel_premul_bone
 `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up) skel_premul_bone = #272;`
@@ -336,6 +359,8 @@ void() AimHeadLeft =
 	skel_premul_bone(self.skeletonobject, headbone, '0 0 0', v_forward, v_right, v_up);
 };
 ```
+
+---
 
 ### skel_premul_bones
 `void(float skel, float startbone, float endbone, vector org, optional vector fwd, optional vector right, optional vector up) skel_premul_bones = #273;`
@@ -370,6 +395,8 @@ void() CurlTail =
 };
 ```
 
+---
+
 ### skel_ragupdate
 `float(entity skelent, string dollcmd, float animskel) skel_ragupdate = #281;`
 
@@ -399,6 +426,8 @@ void() Corpse_ThinkRagdoll =
 	skel_ragupdate(self, "", self.skeletonobject);
 };
 ```
+
+---
 
 ### skel_set_bone
 `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up) skel_set_bone = #271;`
@@ -432,6 +461,8 @@ void() RaiseWeaponBone =
 };
 ```
 
+---
+
 ### skel_set_bone_world
 `void(entity ent, float bonenum, vector org, optional vector angorfwd, optional vector right, optional vector up) skel_set_bone_world = #283;`
 
@@ -464,6 +495,8 @@ void() PinHandToButton =
 };
 ```
 
+---
+
 ### gettagindex
 `float(entity ent, string tagname) gettagindex = #451;`
 
@@ -489,6 +522,8 @@ void() AttachPlayerParts =
 	self.weaponent.tag_index = gettagindex(self.torsoent, "tag_weapon");
 };
 ```
+
+---
 
 ### gettaginfo
 `vector(entity ent, float tagindex) gettaginfo = #452;`
@@ -517,6 +552,8 @@ void() SpawnMuzzleFlash =
 };
 ```
 
+---
+
 ### getsurfaceclippedpoint
 `vector(entity e, float s, vector p) getsurfaceclippedpoint = #439;`
 
@@ -543,6 +580,8 @@ vector() ClampDecalToHitSurface =
 };
 ```
 
+---
+
 ### getsurfacenearpoint
 `float(entity e, vector p) getsurfacenearpoint = #438;`
 
@@ -567,6 +606,8 @@ void() InspectHitSurface =
 	dprint(sprintf("hit surface %g uses shader %s\n", surf, getsurfacetexture(trace_ent, surf)));
 };
 ```
+
+---
 
 ### getsurfacenormal
 `vector(entity e, float s) getsurfacenormal = #436;`
@@ -597,6 +638,8 @@ void() BounceSparkFromSurface =
 };
 ```
 
+---
+
 ### getsurfacenumpoints
 `float(entity e, float s) getsurfacenumpoints = #434;`
 
@@ -626,6 +669,8 @@ void() EmitParticlesOnSurfaceVertices =
 };
 ```
 
+---
+
 ### getsurfacenumtriangles
 `float(entity e, float s) getsurfacenumtriangles = #628;`
 
@@ -650,6 +695,8 @@ float() CountHitSurfaceTriangles =
 	return getsurfacenumtriangles(trace_ent, surf);
 };
 ```
+
+---
 
 ### getsurfacepoint
 `vector(entity e, float s, float n) getsurfacepoint = #435;`
@@ -681,6 +728,8 @@ void() Debug_DrawSurfaceOutline =
 };
 ```
 
+---
+
 ### getsurfacepointattribute
 `vector(entity e, float s, float n, float a) getsurfacepointattribute = #486;`
 
@@ -707,6 +756,8 @@ vector() SampleFirstVertexUV =
 	return getsurfacepointattribute(trace_ent, surf, 0, SPA_TEXCOORDS0);
 };
 ```
+
+---
 
 ### getsurfacetexture
 `string(entity e, float s) getsurfacetexture = #437;`
@@ -736,6 +787,8 @@ string() DescribeHitMaterial =
 	return tex;
 };
 ```
+
+---
 
 ### getsurfacetriangle
 `vector(entity e, float s, float n) getsurfacetriangle = #629;`
@@ -767,6 +820,8 @@ void() Debug_DrawFirstTriangle =
 };
 ```
 
+---
+
 ### applycustomskin
 `void(entity e, float skinobj) applycustomskin = #378;`
 
@@ -792,6 +847,8 @@ void() ApplyRedBlueSoldierSkin =
 	releasecustomskin(skin);
 };
 ```
+
+---
 
 ### loadcustomskin
 `float(string skinfilename, optional string skindata) loadcustomskin = #377;`
@@ -820,6 +877,8 @@ float() BuildTeamSkin =
 };
 ```
 
+---
+
 ### setcustomskin
 `void(entity e, string skinfilename, optional string skindata) setcustomskin = #376;`
 
@@ -843,6 +902,8 @@ void() Menu_UpdatePreviewColours =
 			cvar_string("skin")));
 };
 ```
+
+---
 
 ### releasecustomskin
 `void(float skinobj) releasecustomskin = #379;`
@@ -869,6 +930,8 @@ void() SwapSkinForOneFrame =
 };
 ```
 
+---
+
 ### setcolors
 `__deprecated("No RGB support.") void(entity ent, float colours) setcolors = #401;`
 
@@ -891,6 +954,8 @@ void() GivePlayerBlueShirtRedPants =
 	setcolors(self, colours);
 };
 ```
+
+---
 
 ### skel_build_ptr
 `float(float skel, int numblends, skelblend_t *weights, int structsize) skel_build_ptr = #0:skel_build_ptr;`
@@ -926,6 +991,8 @@ void() RebuildPoseWithBlendArray =
 };
 ```
 
+---
+
 ### skel_postmul_bone
 `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up) skel_postmul_bone = #0:skel_postmul_bone;`
 
@@ -938,7 +1005,7 @@ void() RebuildPoseWithBlendArray =
 
 #### Описание и особенности работы
 
-`skel_postmul_bone` применяет дополнительную матрицу трансформации после текущих вычислений кости, то есть выполняет пост-умножение (post-multiplication) геометрических преобразований для одной конкретной кости. Если векторы `fwd/right/up` не переданы, builtin автоматически использует глобальные переменные `v_forward`, `v_right`, `v_up`, что упрощает рабочий процесс с использованием базовой функции `makevectors` перед вызовом `skel_postmul_bone`. В отличие от `skel_premul_bone`, где трансформация применяется до основных вычислений родительских костей, этот метод идеален для симуляции динамических эффектов вроде sway (покачивание), recoil (отдача) или twisting (скручивание) кистей. При неверном skeleton id или некорректном bone index вызов просто игнорируется движком.
+`skel_postmul_bone` применяет дополнительную матрицу трансформации после текущих вычислений кости, то есть выполняет пост-умножение (post-multiplication) геометрических преобразований для одной конкретной кости. Если векторы `fwd/right/up` не переданы, builtin автоматически использует глобальные переменные `v_forward`, `v_right`, `v_up`, что упрощает рабочий процесс с использованием базовой функции [`makevectors`](01-math-vector-builtins.md#makevectors) перед вызовом `skel_postmul_bone`. В отличие от `skel_premul_bone`, где трансформация применяется до основных вычислений родительских костей, этот метод идеален для симуляции динамических эффектов вроде sway (покачивание), recoil (отдача) или twisting (скручивание) кистей. При неверном skeleton id или некорректном bone index вызов просто игнорируется движком.
 
 #### Пример использования
 
@@ -955,6 +1022,8 @@ void() TwistRightHand =
     skel_postmul_bone(self.skeletonobject, handbone, '0 0 0', v_forward, v_right, v_up);
 };
 ```
+
+---
 
 ### skel_postmul_bones
 Стандартного публичного объявления QuakeC для `skel_postmul_bones` в штатных defs FTEQW нет; в исходниках есть внутренняя C-реализация диапазонного post-multiply, но обычный QC-код не должен рассчитывать на неё как на доступный builtin.
@@ -984,8 +1053,14 @@ void() BendTailRange_Workaround =
 };
 ```
 
+---
+
 ## Смежные страницы
 
 - [Современные скелетные модели (IQM/MD5/DPM/ZYM)](../02-models-animation/skeletal-models-iqm-md5-dpm-zym.md)
 - [Скелетные теги и присоединение объектов (tag attachment)](../02-models-animation/skeletal-tags-attachment.md)
-- [Индекс справочника builtins](./README.md)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](13-menuqc-builtins.md) | [Следующая страница ➡](11-server-browser-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

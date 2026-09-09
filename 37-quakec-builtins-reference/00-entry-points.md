@@ -1,8 +1,9 @@
 ﻿# Точки входа QuakeC: SSQC, CSQC и MenuQC
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](../42-api-quick-reference/README.md) | [Следующая страница ➡](01-math-vector-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 В отличие от builtin-функций (которые скрипт QuakeC *вызывает сам*, чтобы попросить движок что-то сделать), точки входа — это функции, которые скрипт лишь *объявляет* под строго определённым именем, а вызывает их уже сам движок в нужный момент игрового цикла. Разработчику мода достаточно описать функцию с ожидаемым именем и сигнатурой — специально регистрировать её не нужно, движок находит её автоматически по имени при загрузке `.dat`-файла логики. Если конкретная точка входа не описана в коде мода, движок просто пропускает её вызов (за редкими исключениями, отмеченными отдельно ниже) — никакой ошибки не произойдёт.
 
@@ -43,12 +44,14 @@ void() SetNewParms =
 };
 ```
 
+---
+
 ### SetChangeParms
 `void() SetChangeParms`
 
 #### Описание и логика работы
 
-Вызывается для каждого клиента при переходе на следующий уровень (обычная смена карты по триггеру выхода, а не по `changelevel` с явным сбросом). В отличие от `SetNewParms`, здесь уже доступен `self` как текущий объект игрока, поэтому задача функции — скопировать актуальные на момент выхода с уровня поля игрока (здоровье, броню, оружие, боеприпасы, набранные предметы) в те же самые глобальные переменные `parm1`…`parm16`, чтобы они «пережили» смену `progs`-состояния мира. Если игрок должен терять часть прогресса между уровнями (например, аркадный режим с полным сбросом инвентаря на каждой карте), эту функцию можно намеренно упростить, не копируя часть полей.
+Вызывается для каждого клиента при переходе на следующий уровень (обычная смена карты по триггеру выхода, а не по [`changelevel`](03-entity-world-builtins.md#changelevel) с явным сбросом). В отличие от `SetNewParms`, здесь уже доступен `self` как текущий объект игрока, поэтому задача функции — скопировать актуальные на момент выхода с уровня поля игрока (здоровье, броню, оружие, боеприпасы, набранные предметы) в те же самые глобальные переменные `parm1`…`parm16`, чтобы они «пережили» смену `progs`-состояния мира. Если игрок должен терять часть прогресса между уровнями (например, аркадный режим с полным сбросом инвентаря на каждой карте), эту функцию можно намеренно упростить, не копируя часть полей.
 
 #### Практические сценарии использования
 
@@ -68,6 +71,8 @@ void() SetChangeParms =
 };
 ```
 
+---
+
 ### ClientConnect
 `void() ClientConnect`
 
@@ -83,15 +88,17 @@ void() ClientConnect =
 	// Требуем от игроков поддержку CSQC - иначе интерфейс мода не будет работать.
 	if (!infokeyf(self, INFOKEY_P_CSQCACTIVE))
 	{
-		sprint(self, "Этому серверу требуется поддержка CSQC для игры\n");
+		sprint(self, "This server requires CSQC support to play\n");
 		dropclient(self);
 		return;
 	}
 
 	bprint(PRINT_HIGH, self.netname);
-	bprint(PRINT_HIGH, " подключился к игре\n");
+	bprint(PRINT_HIGH, " joined the game\n");
 };
 ```
+
+---
 
 ### PutClientInServer
 `void() PutClientInServer`
@@ -122,6 +129,8 @@ void() PutClientInServer =
 };
 ```
 
+---
+
 ### ClientKill
 `void() ClientKill`
 
@@ -140,13 +149,15 @@ void() ClientKill =
 	self.health = 0;
 
 	bprint(PRINT_HIGH, self.netname);
-	bprint(PRINT_HIGH, " покончил с собой\n");
+	bprint(PRINT_HIGH, " committed suicide\n");
 
 	// Дальше используется стандартный механизм смерти, например через th_die.
 	self.think = respawn_player;
 	self.nextthink = time + 1;
 };
 ```
+
+---
 
 ### PlayerPreThink
 `void() PlayerPreThink`
@@ -168,6 +179,8 @@ void() PlayerPreThink =
 	}
 };
 ```
+
+---
 
 ### PlayerPostThink
 `void() PlayerPostThink`
@@ -192,6 +205,8 @@ void() PlayerPostThink =
 	}
 };
 ```
+
+---
 
 ### StartFrame
 `void() StartFrame`
@@ -218,6 +233,8 @@ void() StartFrame =
 };
 ```
 
+---
+
 ### EndFrame
 `void() EndFrame`
 
@@ -236,12 +253,14 @@ void() EndFrame =
 };
 ```
 
+---
+
 ### ClientDisconnect
 `void() ClientDisconnect`
 
 #### Описание и логика работы
 
-Вызывается, когда игрок отключается от сервера штатно (закрыл игру, набрал `disconnect`) или отвалился по таймауту связи. Важный практический нюанс: эта функция **не гарантированно** вызывается при смене уровня (`changelevel`) — при обычном переходе между картами вместо этого вызывается `SetChangeParms`, а `ClientDisconnect` относится именно к настоящему уходу игрока с сервера. Здесь типично объявляют об уходе игрока остальным, снимают его с таблицы результатов или удаляют временные объекты, которые он держал (например, поднятый флаг в захвате флага нужно бросить на месте).
+Вызывается, когда игрок отключается от сервера штатно (закрыл игру, набрал [`disconnect`](../44-cli-commands-reference/02-client-ui-commands.md#disconnect)) или отвалился по таймауту связи. Важный практический нюанс: эта функция **не гарантированно** вызывается при смене уровня ([`changelevel`](../44-cli-commands-reference/04-server-multiplayer-commands.md#changelevel)) — при обычном переходе между картами вместо этого вызывается `SetChangeParms`, а `ClientDisconnect` относится именно к настоящему уходу игрока с сервера. Здесь типично объявляют об уходе игрока остальным, снимают его с таблицы результатов или удаляют временные объекты, которые он держал (например, поднятый флаг в захвате флага нужно бросить на месте).
 
 #### Практические сценарии использования
 
@@ -249,7 +268,7 @@ void() EndFrame =
 void() ClientDisconnect =
 {
 	bprint(PRINT_HIGH, self.netname);
-	bprint(PRINT_HIGH, " покинул игру\n");
+	bprint(PRINT_HIGH, " left the game\n");
 
 	// Если игрок нёс флаг команды - роняем флаг на месте его последней позиции,
 	// а не забираем вместе с ним.
@@ -258,12 +277,16 @@ void() ClientDisconnect =
 };
 ```
 
+---
+
 ### main (устаревшая, не вызывается)
 `void() main`
 
 #### Описание и логика работы
 
 Историческое наследие ранних версий Quake: в текущем движке FTEQW эта функция объявлена в перечне известных имён, но **фактически никогда не вызывается** — это мёртвый код. Она сохранена в списке распознаваемых имён исключительно для полноты и обратной совместимости со старыми прогс-файлами, где она могла присутствовать по инерции из ранних экспериментальных версий движка id Software. Описывать её в собственном моде не нужно и не имеет никакого практического эффекта — используйте `SetNewParms`/`ClientConnect`/`StartFrame` для соответствующей инициализационной логики.
+
+---
 
 ## CSQC: точки входа клиентской логики
 
@@ -297,6 +320,8 @@ void(float apilevel, string enginename, float engineversion) CSQC_Init =
 };
 ```
 
+---
+
 ### CSQC_WorldLoaded
 `void() CSQC_WorldLoaded`
 
@@ -319,6 +344,8 @@ void() CSQC_WorldLoaded =
 	}
 };
 ```
+
+---
 
 ### CSQC_UpdateView
 `void(float vwidth, float vheight, float notmenu) CSQC_UpdateView`
@@ -354,6 +381,8 @@ void(float vwidth, float vheight, float notmenu) CSQC_UpdateView =
 };
 ```
 
+---
+
 ### CSQC_InputEvent
 `float(float evtype, float scanx, float chary, float devid) CSQC_InputEvent`
 
@@ -383,6 +412,8 @@ float(float evtype, float scanx, float chary, float devid) CSQC_InputEvent =
 };
 ```
 
+---
+
 ### CSQC_ConsoleCommand
 `float(string cmd) CSQC_ConsoleCommand`
 
@@ -390,7 +421,7 @@ float(float evtype, float scanx, float chary, float devid) CSQC_InputEvent =
 
 #### Описание и логика работы
 
-Вызывается, когда игрок вводит в консоль команду, имя которой было заранее зарегистрировано через `registercommand`. Функция должна сама разобрать переданную строку (обычно через [`tokenize`](02-string-builtins.md#tokenize)/[`argv`](02-string-builtins.md#argv)) и вернуть `TRUE`, если команда была обработана и не должна уйти дальше по цепочке (например, на сервер как обычная команда). Это основной механизм для реализации собственных клиентских команд интерфейса — переключателей HUD, кастомных биндов, отладочных команд разработчика мода.
+Вызывается, когда игрок вводит в консоль команду, имя которой было заранее зарегистрировано через [`registercommand`](03-entity-world-builtins.md#registercommand). Функция должна сама разобрать переданную строку (обычно через [`tokenize`](02-string-builtins.md#tokenize)/[`argv`](02-string-builtins.md#argv)) и вернуть `TRUE`, если команда была обработана и не должна уйти дальше по цепочке (например, на сервер как обычная команда). Это основной механизм для реализации собственных клиентских команд интерфейса — переключателей HUD, кастомных биндов, отладочных команд разработчика мода.
 
 #### Практические сценарии использования
 
@@ -409,6 +440,8 @@ float(string cmd) CSQC_ConsoleCommand =
 };
 ```
 
+---
+
 ### CSQC_Parse_StuffCmd
 `void(string msg) CSQC_Parse_StuffCmd`
 
@@ -416,7 +449,7 @@ float(string cmd) CSQC_ConsoleCommand =
 
 #### Описание и логика работы
 
-Даёт CSQC шанс перехватить команды, которые сервер обычно просто выполняет в консоли клиента напрямую (механизм `stuffcmd`). Полезно для разбора команды через `tokenize` вручную, чтобы решить, выполнять ли её как есть, изменить или полностью проигнорировать — например, из соображений безопасности лучше молча отбрасывать нераспознанные команды, а не выполнять их автоматически, как это происходит без описанной функции.
+Даёт CSQC шанс перехватить команды, которые сервер обычно просто выполняет в консоли клиента напрямую (механизм [`stuffcmd`](04-network-messages-builtins.md#stuffcmd)). Полезно для разбора команды через [`tokenize`](02-string-builtins.md#tokenize) вручную, чтобы решить, выполнять ли её как есть, изменить или полностью проигнорировать — например, из соображений безопасности лучше молча отбрасывать нераспознанные команды, а не выполнять их автоматически, как это происходит без описанной функции.
 
 #### Практические сценарии использования
 
@@ -431,6 +464,8 @@ void(string msg) CSQC_Parse_StuffCmd =
 		localcmd(msg);
 };
 ```
+
+---
 
 ### CSQC_Parse_CenterPrint
 `float(string msg) CSQC_Parse_CenterPrint`
@@ -453,6 +488,8 @@ float(string msg) CSQC_Parse_CenterPrint =
 };
 ```
 
+---
+
 ### CSQC_Parse_Print
 `void(string printmsg, float printlvl) CSQC_Parse_Print`
 
@@ -461,7 +498,7 @@ float(string msg) CSQC_Parse_CenterPrint =
 
 #### Описание и логика работы
 
-Даёт CSQC шанс перехватить обычные текстовые сообщения (чат, системные объявления), присланные сервером. Клиентская логика должна сама отфильтровать сообщения по текущим настройкам игрока (например, скрыть чат команды противника) и вывести их своим методом — обычно всё ещё вызывая встроенную функцию `print`, чтобы попасть в стандартный буфер консоли/чата, либо полностью в собственный виджет чата.
+Даёт CSQC шанс перехватить обычные текстовые сообщения (чат, системные объявления), присланные сервером. Клиентская логика должна сама отфильтровать сообщения по текущим настройкам игрока (например, скрыть чат команды противника) и вывести их своим методом — обычно всё ещё вызывая встроенную функцию [`print`](12-system-debug-builtins.md#print), чтобы попасть в стандартный буфер консоли/чата, либо полностью в собственный виджет чата.
 
 #### Практические сценарии использования
 
@@ -476,6 +513,8 @@ void(string printmsg, float printlvl) CSQC_Parse_Print =
 	print(printmsg);
 };
 ```
+
+---
 
 ### CSQC_Ent_Update
 `void(float isnew) CSQC_Ent_Update`
@@ -503,6 +542,8 @@ void(float isnew) CSQC_Ent_Update =
 	self.modelindex = readshort();
 };
 ```
+
+---
 
 ### CSQC_Event_Sound
 `float(float entnum, float channel, string soundname, float vol, float attenuation, vector pos, float pitchmod, float flags) CSQC_Event_Sound`
@@ -537,6 +578,8 @@ float(float entnum, float channel, string soundname, float vol, float attenuatio
 };
 ```
 
+---
+
 ### CSQC_Ent_Remove
 `void() CSQC_Ent_Remove`
 
@@ -555,6 +598,8 @@ void() CSQC_Ent_Remove =
 };
 ```
 
+---
+
 ### CSQC_Shutdown
 `void() CSQC_Shutdown`
 
@@ -571,6 +616,8 @@ void() CSQC_Shutdown =
 	SaveHudLayoutToConfig();
 };
 ```
+
+---
 
 ### CSQC_UpdateViewLoading
 `void(float vwidth, float vheight, float notmenu) CSQC_UpdateViewLoading`
@@ -590,12 +637,14 @@ void(float vwidth, float vheight, float notmenu) CSQC_UpdateViewLoading =
 {
 	// Рисуем собственный экран загрузки, пока карта не готова.
 	drawfill('0 0 0', [vwidth, vheight], '0 0 0', 1, 0);
-	drawstring([vwidth * 0.5 - 60, vheight * 0.5], "Загрузка карты...", '1 1 0', 1, 0);
+	drawstring([vwidth * 0.5 - 60, vheight * 0.5], "Loading map...", '1 1 0', 1, 0);
 };
 ```
 
+---
+
 ### CSQC_DrawHud
-`void(vector viewsize, float scoresshown) CSQC_DrawHud`
+`void(vector [viewsize](../38-cvars-reference/01-video-rendering-cvars.md#viewsize), float scoresshown) CSQC_DrawHud`
 
 * **viewsize** — `vector`, размер области HUD в пикселях (`x`/`y` — ширина/высота, `z` не используется).
 * **scoresshown** — `float`, признак того, что игрок сейчас удерживает клавишу таблицы результатов.
@@ -614,6 +663,8 @@ void(vector viewsize, float scoresshown) CSQC_DrawHud =
 	drawfill([10, viewsize_y - 30], [200 * (getstatf(STAT_HEALTH) / 100), 20], '1 0 0', 1, 0);
 };
 ```
+
+---
 
 ### CSQC_DrawScores
 `void(vector viewsize, float scoresshown) CSQC_DrawScores`
@@ -639,12 +690,14 @@ void(vector viewsize, float scoresshown) CSQC_DrawScores =
 };
 ```
 
+---
+
 ### CSQC_Parse_Event
 `void() CSQC_Parse_Event`
 
 #### Описание и логика работы
 
-Вызывается при получении сетевого сообщения `svc_csqcevent`/кастомного расширения событий, отправленного серверной стороной специально для CSQC, минуя стандартные `SVC_TempEntity`/`SVC_Print` и подобные. В отличие от `CSQC_Ent_Update`, здесь нет привязки к конкретной сетевой сущности — событие полностью произвольное, а параметры извлекаются вручную через `readbyte`/`readstring`/`readcoord` и так далее, аналогично `CSQC_Ent_Update`. Используется редко, преимущественно в модах с собственным низкоуровневым протоколом сетевых событий поверх стандартного.
+Вызывается при получении сетевого сообщения `svc_csqcevent`/кастомного расширения событий, отправленного серверной стороной специально для CSQC, минуя стандартные `SVC_TempEntity`/`SVC_Print` и подобные. В отличие от `CSQC_Ent_Update`, здесь нет привязки к конкретной сетевой сущности — событие полностью произвольное, а параметры извлекаются вручную через [`readbyte`](04-network-messages-builtins.md#readbyte)/[`readstring`](04-network-messages-builtins.md#readstring)/[`readcoord`](04-network-messages-builtins.md#readcoord) и так далее, аналогично `CSQC_Ent_Update`. Используется редко, преимущественно в модах с собственным низкоуровневым протоколом сетевых событий поверх стандартного.
 
 #### Практические сценарии использования
 
@@ -657,6 +710,8 @@ void() CSQC_Parse_Event =
 		ShakeScreen(readcoord());
 };
 ```
+
+---
 
 ### CSQC_Parse_Damage
 `float(float save, float take, vector inflictororg) CSQC_Parse_Damage`
@@ -680,6 +735,8 @@ float(float save, float take, vector inflictororg) CSQC_Parse_Damage =
 };
 ```
 
+---
+
 ### CSQC_Parse_SetAngles
 `float(vector angles, float isdelta) CSQC_Parse_SetAngles`
 
@@ -702,6 +759,8 @@ float(vector angles, float isdelta) CSQC_Parse_SetAngles =
 };
 ```
 
+---
+
 ### CSQC_PlayerInfoChanged
 `void(float playernum) CSQC_PlayerInfoChanged`
 
@@ -721,12 +780,14 @@ void(float playernum) CSQC_PlayerInfoChanged =
 };
 ```
 
+---
+
 ### CSQC_ServerInfoChanged
 `void() CSQC_ServerInfoChanged`
 
 #### Описание и логика работы
 
-Вызывается при изменении serverinfo — например, при смене режима игры, лимита фрагов, названия карты в ротации или любого другого ключа, который сервер публикует через serverinfo. В отличие от `CSQC_PlayerInfoChanged`, здесь нет параметра, поэтому мод обязан сам перечитать нужные ключи через `serverkey`/`serverkeyfloat` целиком, чтобы понять, что именно изменилось.
+Вызывается при изменении serverinfo — например, при смене режима игры, лимита фрагов, названия карты в ротации или любого другого ключа, который сервер публикует через serverinfo. В отличие от `CSQC_PlayerInfoChanged`, здесь нет параметра, поэтому мод обязан сам перечитать нужные ключи через [`serverkey`](03-entity-world-builtins.md#serverkey)/[`serverkeyfloat`](04-network-messages-builtins.md#serverkeyfloat) целиком, чтобы понять, что именно изменилось.
 
 #### Практические сценарии использования
 
@@ -738,6 +799,8 @@ void() CSQC_ServerInfoChanged =
 	UpdateHudForGameMode(mode);
 };
 ```
+
+---
 
 ### CSQC_Input_Frame
 `void() CSQC_Input_Frame`
@@ -757,6 +820,8 @@ void() CSQC_Input_Frame =
 };
 ```
 
+---
+
 ### CSQC_RendererRestarted
 `void(string rendererdescription) CSQC_RendererRestarted`
 
@@ -764,7 +829,7 @@ void() CSQC_Input_Frame =
 
 #### Описание и логика работы
 
-Вызывается после смены видеорежима или полного перезапуска рендерера (`vid_restart`, смена бэкенда рендеринга, потеря и восстановление устройства). Это сигнал для CSQC заново создать любые ресурсы, которые оно генерировало вручную и которые могли быть уничтожены рендерером при перезапуске — например, процедурные текстуры, кастомные шейдеры через `CSQC_GenerateMaterial`, буферы, созданные через `createbuffer`.
+Вызывается после смены видеорежима или полного перезапуска рендерера ([`vid_restart`](../44-cli-commands-reference/02-client-ui-commands.md#vid_restart), смена бэкенда рендеринга, потеря и восстановление устройства). Это сигнал для CSQC заново создать любые ресурсы, которые оно генерировало вручную и которые могли быть уничтожены рендерером при перезапуске — например, процедурные текстуры, кастомные шейдеры через `CSQC_GenerateMaterial`, буферы, созданные через [`createbuffer`](06-files-database-builtins.md#createbuffer).
 
 #### Практические сценарии использования
 
@@ -775,6 +840,8 @@ void(string rendererdescription) CSQC_RendererRestarted =
 	RegenerateMinimapTexture();
 };
 ```
+
+---
 
 ### CSQC_GenerateMaterial
 `string(string shadername) CSQC_GenerateMaterial`
@@ -797,6 +864,8 @@ string(string shadername) CSQC_GenerateMaterial =
 	return ""; // для остальных имён — стандартное поведение
 };
 ```
+
+---
 
 ### CSQC_ConsoleLink
 `float(string text, string info) CSQC_ConsoleLink`
@@ -824,6 +893,8 @@ float(string text, string info) CSQC_ConsoleLink =
 };
 ```
 
+---
+
 ### CSQC_Ent_Spawn
 `void(float newentnum) CSQC_Ent_Spawn`
 
@@ -842,6 +913,8 @@ void(float newentnum) CSQC_Ent_Spawn =
 	self.classname = "cs_pending_entity";
 };
 ```
+
+---
 
 ### CSQC_ServerSound
 `float(float channel, string soundname, vector pos, float vol, float attenuation, float flags) CSQC_ServerSound`
@@ -867,6 +940,8 @@ float(float channel, string soundname, vector pos, float vol, float attenuation,
 };
 ```
 
+---
+
 ### CSQC_Parse_TempEntity
 `float() CSQC_Parse_TempEntity`
 
@@ -890,6 +965,8 @@ float() CSQC_Parse_TempEntity =
 };
 ```
 
+---
+
 ### CSQC_MapEntityEdited
 `void(int entidx, string newentdata) CSQC_MapEntityEdited`
 
@@ -909,6 +986,8 @@ void(int entidx, string newentdata) CSQC_MapEntityEdited =
 	ReparseWorldEntity(entidx, newentdata);
 };
 ```
+
+---
 
 ## MenuQC: точки входа логики меню
 
@@ -933,6 +1012,8 @@ void() m_init =
 };
 ```
 
+---
+
 ### m_shutdown
 `void() m_shutdown`
 
@@ -948,6 +1029,8 @@ void() m_shutdown =
 	SaveMenuLayoutPreferences();
 };
 ```
+
+---
 
 ### m_toggle
 `void(float show) m_toggle`
@@ -970,6 +1053,8 @@ void(float show) m_toggle =
 	}
 };
 ```
+
+---
 
 ### m_draw
 `void(vector screensize) m_draw`
@@ -994,6 +1079,8 @@ void(vector screensize) m_draw =
 };
 ```
 
+---
+
 ### m_drawloading
 `void(vector screensize, float opaque) m_drawloading`
 
@@ -1013,9 +1100,11 @@ void(vector screensize, float opaque) m_drawloading =
 		drawfill('0 0 0', screensize, '0 0 0', 1);
 
 	drawpic('0 0 0', "gfx/menu/loading_bg.tga", screensize, '1 1 1', 1);
-	drawstring('270 440 0', "Загрузка уровня...", '16 16 0', '1 1 1', 1, 0);
+	drawstring('270 440 0', "Loading level...", '16 16 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### m_keydown
 `void(float scan, float chr) m_keydown`
@@ -1037,6 +1126,8 @@ void(float scan, float chr) m_keydown =
 };
 ```
 
+---
+
 ### m_keyup
 `void(float scan, float chr) m_keyup`
 
@@ -1056,6 +1147,8 @@ void(float scan, float chr) m_keyup =
 		StopContinuousScroll();
 };
 ```
+
+---
 
 ### Menu_InputEvent
 `float(float evtype, float scanx, float chary, float devid) Menu_InputEvent`
@@ -1084,6 +1177,8 @@ float(float evtype, float scanx, float chary, float devid) Menu_InputEvent =
 };
 ```
 
+---
+
 ### m_consolecommand
 `float(string cmd) m_consolecommand`
 
@@ -1091,7 +1186,7 @@ float(float evtype, float scanx, float chary, float devid) Menu_InputEvent =
 
 #### Описание и логика работы
 
-Прямой аналог `CSQC_ConsoleCommand`, но для команд, зарегистрированных логикой меню через `registercommand`. Позволяет логике меню перехватывать собственные консольные команды, введённые игроком или вызванные через `stuffcmd`/`localcmd`, не полагаясь на разбор кодом самой игры. Возврат `TRUE` говорит движку, что команда обработана меню и не должна передаваться дальше по стандартной цепочке обработки.
+Прямой аналог `CSQC_ConsoleCommand`, но для команд, зарегистрированных логикой меню через `registercommand`. Позволяет логике меню перехватывать собственные консольные команды, введённые игроком или вызванные через [`stuffcmd`](../44-cli-commands-reference/04-server-multiplayer-commands.md#stuffcmd)/[`localcmd`](12-system-debug-builtins.md#localcmd), не полагаясь на разбор кодом самой игры. Возврат `TRUE` говорит движку, что команда обработана меню и не должна передаваться дальше по стандартной цепочке обработки.
 
 #### Практические сценарии использования
 
@@ -1107,6 +1202,8 @@ float(string cmd) m_consolecommand =
 	return FALSE;
 };
 ```
+
+---
 
 ### m_gethostcachecategory
 `float(float hostcachenum) m_gethostcachecategory`
@@ -1130,6 +1227,8 @@ float(float hostcachenum) m_gethostcachecategory =
 };
 ```
 
+---
+
 ### Menu_RendererRestarted
 `void(string rendererdescription) Menu_RendererRestarted`
 
@@ -1148,6 +1247,8 @@ void(string rendererdescription) Menu_RendererRestarted =
 	RegenerateMapPreviewTexture();
 };
 ```
+
+---
 
 ### GameCommand
 `void(string cmdtext) GameCommand`
@@ -1169,10 +1270,16 @@ void(string cmdtext) GameCommand =
 };
 ```
 
+---
+
 ## Смежные страницы
 
-- [Справочник встроенных функций QuakeC (builtins)](./README.md)
+- [Справочник встроенных функций QuakeC (builtins)](../README.md#встроенные-функции-quakec-builtins)
 - [Серверная игровая логика (SSQC)](../16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Клиентская логика и интерфейс (CSQC)](../16-quakec-scripting/client-side-quakec-csqc.md)
 - [Логика игровых меню (MenuQC)](../16-quakec-scripting/menu-quakec.md)
 - [Быстрая справочная навигация по API](../42-api-quick-reference/README.md)
+
+> [⬅ Предыдущая страница](../42-api-quick-reference/README.md) | [Следующая страница ➡](01-math-vector-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

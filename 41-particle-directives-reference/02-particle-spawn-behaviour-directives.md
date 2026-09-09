@@ -1,10 +1,11 @@
 ﻿# Директивы поведения и появления
 
+> [⬅ Предыдущая страница](01-particle-effect-directives.md) | [Следующая страница ➡](../44-cli-commands-reference/01-fteqw-startup-parameters.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника директив .particles](../README.md#директивы-языка-частиц-particles)
 
-> [Индекс справочника директив .particles](./README.md)
-
-Эта страница собирает директивы `.particles`, которые управляют не внешним видом частицы, а её появлением, траекторией, реакцией на среду и порождением связанных эффектов. Все имена и режимы ниже сверены по реальному парсеру `engine\client\p_script.c`, без вымышленных ключевых слов. Для удобства здесь сознательно пропущены чисто визуальные директивы вроде `alpha`, `scale`, [`color`](../39-entity-keys-reference/02-light-entity-keys.md#color), [`texture`](01-particle-effect-directives.md#texture), `count`, `die` и `type`, потому что они документируются отдельно. Если в коде директива помечена как устаревшая, это явно указано в её описании.
+Эта страница собирает директивы `.particles`, которые управляют не внешним видом частицы, а её появлением, траекторией, реакцией на среду и порождением связанных эффектов. Все имена и режимы ниже приведены без вымышленных ключевых слов. Для удобства здесь сознательно пропущены чисто визуальные директивы вроде `alpha`, `scale`, `color`, [`texture`](01-particle-effect-directives.md#texture), `count`, `die` и `type`, потому что они документируются отдельно. Если директива устарела, это явно указано в её описании.
 
 Отдельно важно: в формате `.particles` нет самостоятельной директивы `orientation` для обычных частиц. Ближайшие по смыслу средства из этой категории — [`stretchfactor`](01-particle-effect-directives.md#stretchfactor), `spawnmode`, смещения `spawn*`/`org*`/`vel*`, а также режимы столкновений и эмиссии.
 
@@ -35,6 +36,8 @@ effect debris_randomvel
 }
 ```
 
+---
+
 ### veladd
 `veladd base [max]`
 
@@ -59,6 +62,8 @@ effect bullet_dust_push
 }
 ```
 
+---
+
 ### orgadd
 `orgadd base [max]`
 
@@ -82,6 +87,8 @@ effect muzzle_smoke_offset
 }
 ```
 
+---
+
 ### orgbias
 `orgbias x y z`
 
@@ -104,6 +111,8 @@ effect torch_smoke_bias
     type normal
 }
 ```
+
+---
 
 ### velbias
 `velbias x y z`
@@ -129,6 +138,8 @@ effect ash_wind_bias
 }
 ```
 
+---
+
 ### orgwrand
 `orgwrand x y z`
 
@@ -153,6 +164,8 @@ effect ember_world_jitter
 }
 ```
 
+---
+
 ### velwrand
 `velwrand x y z`
 
@@ -176,6 +189,8 @@ effect steam_turbulence
     type normal
 }
 ```
+
+---
 
 ### friction
 `friction xyz`
@@ -204,6 +219,8 @@ effect chip_slide
 }
 ```
 
+---
+
 ### gravity
 `gravity value`
 
@@ -225,6 +242,8 @@ effect heavy_debris
     type spark
 }
 ```
+
+---
 
 ### flurry
 `flurry value`
@@ -248,6 +267,8 @@ effect fairy_trail_flurry
 }
 ```
 
+---
+
 ### assoc
 `assoc effectName`
 
@@ -270,6 +291,8 @@ effect shell_impact_core
 }
 ```
 
+---
+
 ### inwater
 `inwater effectName`
 
@@ -290,6 +313,8 @@ effect spark_or_bubbles
     type spark
 }
 ```
+
+---
 
 ### underwater
 `underwater [contents ...]`
@@ -313,6 +338,8 @@ effect bubble_column
 }
 ```
 
+---
+
 ### notunderwater
 `notunderwater [contents ...]`
 
@@ -335,6 +362,8 @@ effect dry_spark_only
 }
 ```
 
+---
+
 ### spawnmode
 `spawnmode mode [param1] [param2]`
 
@@ -343,7 +372,7 @@ effect dry_spark_only
 * **param2** — второй дополнительный параметр режима; смысл тоже зависит от `mode`.
 
 #### Описание и логика работы
-`spawnmode` — центральная директива формы спауна. `box` равномерно разбрасывает частицы в прямоугольном объёме и используется по умолчанию; `ball` — внутри шара; `circle` — по окружности; `uniformcircle` — равномерно по кругу без случайного заполнения; `tracer` и `spiral` предназначены для trail-эффектов; `telebox` и `lavasplash` повторяют классические схемы Quake; `syncfield` создаёт детерминированное поле, а `distball` даёт неравномерное заполнение шара с акцентом на особое распределение расстояний. Неизвестное имя режима не вызывает hard-error: парсер откатывается к `box`.
+`spawnmode` — центральная директива формы спауна. `box` равномерно разбрасывает частицы в прямоугольном объёме и используется по умолчанию; `ball` — внутри шара; `circle` — по окружности; `uniformcircle` — равномерно по кругу без случайного заполнения; `tracer` и `spiral` предназначены для trail-эффектов; `telebox` и `lavasplash` повторяют классические схемы Quake; `syncfield` создаёт детерминированное поле, а `distball` даёт неравномерное заполнение шара с акцентом на особое распределение расстояний. Неизвестное имя режима не вызывает hard-[error](../37-quakec-builtins-reference/12-system-debug-builtins.md#error): парсер откатывается к `box`.
 
 Для аргументов есть только режимозависимый смысл. У `spiral` `param1` задаёт длину одного витка вдоль trail, а `param2` — стартовый угол в градусах. У `telebox`/`lavasplash` `param1` меняет коэффициент скорости/формы; если его не задать или оставить нулём, код использует legacy-значение `0.55752`. `param2` управляет шагом дискретной сетки спауна; по умолчанию это `4` для `telebox` и `8` для `lavasplash`. У `uniformcircle` `param1` служит дополнительным множителем углового шага. У `syncfield` `param1` задаёт вклад «орбитального» смещения, а `param2` — амплитуду пульсации радиуса; при выборе `syncfield` без явных параметров native parser заранее подставляет `16` и `0`. У `distball` оба параметра управляют внутренним распределением радиуса; это специальный режим с намеренно неравномерной статистикой, а не обычный шар.
 
@@ -361,10 +390,12 @@ effect teleport_shell
 }
 ```
 
+---
+
 ### spawntime
 `spawntime seconds`
 
-* **seconds** — минимальный интервал между повторными срабатываниями trail/effect state, в секундах.
+* **seconds** — минимальный интервал между повторными срабатываниями trail/[effect](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#effect) state, в секундах.
 
 #### Описание и логика работы
 `spawntime` ограничивает частоту появления эффекта, если у него есть trailstate. Пока таймер активен, повторный вызов просто ничего не спавнит. Это удобно для редких вспышек на непрерывном луче, редких хлопков дыма на постоянном источнике или экономии производительности на слишком частых трассах. Для одноразовых точечных эффектов без состояния директива обычно бесполезна.
@@ -381,6 +412,8 @@ effect arc_flash_sparse
     type normal
 }
 ```
+
+---
 
 ### spawnchance
 `spawnchance chance`
@@ -403,6 +436,8 @@ effect sparse_dust
     type normal
 }
 ```
+
+---
 
 ### step
 `step distance [randomDistance] [extraCount]`
@@ -427,6 +462,8 @@ effect tracer_dense_line
 }
 ```
 
+---
+
 ### cliptype
 `cliptype effectName`
 
@@ -449,6 +486,8 @@ effect ricochet_seed
     type spark
 }
 ```
+
+---
 
 ### clipcount
 `clipcount multiplier`
@@ -473,6 +512,8 @@ effect glass_chip
 }
 ```
 
+---
+
 ### clipbounce
 `clipbounce value`
 
@@ -494,6 +535,8 @@ effect shard_bounce
     type spark
 }
 ```
+
+---
 
 ### bounce
 `bounce value`
@@ -517,6 +560,8 @@ effect pebble_bounce
 }
 ```
 
+---
+
 ### emit
 `emit effectName`
 
@@ -538,6 +583,8 @@ effect ember_emitter
     type normal
 }
 ```
+
+---
 
 ### emitinterval
 `emitinterval seconds`
@@ -561,6 +608,8 @@ effect rocket_core_emitter
 }
 ```
 
+---
+
 ### emitintervalrand
 `emitintervalrand seconds`
 
@@ -583,6 +632,8 @@ effect unstable_magic_seed
 }
 ```
 
+---
+
 ### emitstart
 `emitstart seconds`
 
@@ -604,6 +655,8 @@ effect delayed_smoke_seed
     type normal
 }
 ```
+
+---
 
 ### spawnorg
 `spawnorg horizontal [vertical]`
@@ -628,6 +681,8 @@ effect dust_area_spawn
 }
 ```
 
+---
+
 ### spawnvel
 `spawnvel horizontal [vertical]`
 
@@ -650,6 +705,8 @@ effect blast_ring
     type spark
 }
 ```
+
+---
 
 ### stretchfactor
 `stretchfactor factor [minFactor]`
@@ -674,6 +731,8 @@ effect ricochet_stretch
 }
 ```
 
+---
+
 ### spawnparam1
 `spawnparam1 value`
 
@@ -695,6 +754,8 @@ effect legacy_spiral_alias
     type spark
 }
 ```
+
+---
 
 ### spawnparam2
 `spawnparam2 value`
@@ -718,6 +779,8 @@ effect legacy_field_alias
 }
 ```
 
+---
+
 ### up
 `up value`
 
@@ -738,6 +801,8 @@ effect legacy_up_bias
     type normal
 }
 ```
+
+---
 
 ### viewspace
 `viewspace [fraction]`
@@ -761,6 +826,8 @@ effect visor_speck
 }
 ```
 
+---
+
 ### perframe
 `perframe`
 
@@ -779,6 +846,8 @@ effect perframe_sparks
     type spark
 }
 ```
+
+---
 
 ### averageout
 `averageout`
@@ -799,6 +868,8 @@ effect lightning_nodes
 }
 ```
 
+---
+
 ### nostate
 `nostate`
 
@@ -817,6 +888,8 @@ effect reset_each_call
     type spark
 }
 ```
+
+---
 
 ### nospreadfirst
 `nospreadfirst`
@@ -838,6 +911,8 @@ effect tracer_clean_start
 }
 ```
 
+---
+
 ### nospreadlast
 `nospreadlast`
 
@@ -857,6 +932,8 @@ effect tracer_clean_end
     type spark
 }
 ```
+
+---
 
 ### rainfrequency
 `rainfrequency multiplier`
@@ -879,6 +956,8 @@ effect ash_rain_dense
 }
 ```
 
+---
+
 ### placeholder
 `placeholder`
 
@@ -896,9 +975,15 @@ effect todo_replace_me
 }
 ```
 
+---
+
 ## Смежные страницы
 
 - [../10-particles-decals-trails/particle-script-language.md](../10-particles-decals-trails/particle-script-language.md)
 - [../10-particles-decals-trails/particle-quality-presets.md](../10-particles-decals-trails/particle-quality-presets.md)
-- [../40-shader-directives-reference/README.md](../40-shader-directives-reference/README.md)
-- [./README.md](./README.md)
+- [Директивы языка материалов (.shader)](../README.md#директивы-языка-материалов-shader)
+- [Директивы языка частиц (.particles)](../README.md#директивы-языка-частиц-particles)
+
+> [⬅ Предыдущая страница](01-particle-effect-directives.md) | [Следующая страница ➡](../44-cli-commands-reference/01-fteqw-startup-parameters.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

@@ -1,8 +1,9 @@
 ﻿# Предметы и оружие
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](05-monster-player-keys.md) | [Следующая страница ➡](../40-shader-directives-reference/01-shader-toplevel-directives.md)
 
-> [Индекс справочника ключей сущностей](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
 
 Предметы и оружие в basemod FTEQW оформлены как обычные point-entity с [`classname`](01-worldspawn-common-keys.md#classname) и небольшим набором реально используемых key/value-полей. Почти все такие сущности проходят через общую логику постановки на пол и общую цепочку [`target`](01-worldspawn-common-keys.md#target)/[`killtarget`](01-worldspawn-common-keys.md#killtarget) после успешного подбора. Количество здоровья, патронов и длительность powerup-эффектов в этом моде в основном жёстко зашиты в коде класса, а не задаются произвольными картовыми числами. Отдельного флага «подвешен в воздухе / не падать на пол» для map-спавна здесь нет: статические pickups пытаются опуститься на ближайший пол, а при неудаче удаляются.
 
@@ -25,7 +26,7 @@
 - `item_rockets` — коробка rockets.
 - `item_cells` — коробка cells.
 - `item_weapon` — устаревший совместимый обёрточный classname для ammo-предметов; в новом контенте лучше не использовать.
-- `item_key1` — серебряный ключ / rune key / keycard в зависимости от `worldspawn.worldtype`.
+- `item_key1` — серебряный ключ / rune key / keycard в зависимости от `worldspawn.[worldtype](01-worldspawn-common-keys.md#worldtype)`.
 - `item_key2` — золотой ключ / rune key / keycard в зависимости от `worldspawn.worldtype`.
 - `item_sigil` — эпизодный rune/sigil конца уровня.
 - `item_artifact_invulnerability` — Pentagram of Protection.
@@ -35,10 +36,12 @@
 
 Отдельного `weapon_shotgun` в basemod нет: игрок стартует с базовым shotgun, а на карте размещаются только более сильные weapon-pickup. Внутренняя функция `weapon_touch` — это служебная логика подбора, а не classname для карты.
 
+---
+
 ## Ключи
 
 ### classname
-`тип значения: string`
+`string`
 
 * Применимо к: `item_health`, `item_armor1`, `item_armor2`, `item_armorInv`, `weapon_supershotgun`, `weapon_nailgun`, `weapon_supernailgun`, `weapon_grenadelauncher`, `weapon_rocketlauncher`, `weapon_lightning`, `item_shells`, `item_spikes`, `item_rockets`, `item_cells`, `item_weapon`, `item_key1`, `item_key2`, `item_sigil`, `item_artifact_invulnerability`, `item_artifact_envirosuit`, `item_artifact_invisibility`, `item_artifact_super_damage`.
 
@@ -53,13 +56,15 @@
 ```
 Такой entity создаст pickup ракетницы со штатной моделью, стандартным объёмом коллизии и фиксированным бонусом в 5 rockets при подборе.
 
+---
+
 ### origin
-`тип значения: vector`
+`vector`
 
 * Применимо к: все перечисленные `item_*` и `weapon_*` классы.
 
 #### Описание и логика работы
-[`origin`](01-worldspawn-common-keys.md#origin) задаёт стартовую позицию предмета на карте. После спавна почти все статические pickups откладывают финальную установку на короткое время и затем пытаются опуститься на пол, поэтому практический смысл `origin` обычно в том, чтобы положить предмет немного выше поверхности или в центр пьедестала. Если под предметом нет подходящего пола, логика spawner-а считает, что объект «выпал из уровня», и удаляет его. Специального картового режима «оставить висеть в воздухе без droptofloor» в basemod для этих классов нет.
+[`origin`](01-worldspawn-common-keys.md#origin) задаёт стартовую позицию предмета на карте. После спавна почти все статические pickups откладывают финальную установку на короткое время и затем пытаются опуститься на пол, поэтому практический смысл `origin` обычно в том, чтобы положить предмет немного выше поверхности или в центр пьедестала. Если под предметом нет подходящего пола, логика spawner-а считает, что объект «выпал из уровня», и удаляет его. Специального картового режима «оставить висеть в воздухе без [droptofloor](../37-quakec-builtins-reference/03-entity-world-builtins.md#droptofloor)» в basemod для этих классов нет.
 
 #### Практические сценарии использования
 ```text
@@ -70,8 +75,10 @@
 ```
 Так броня появится над указанной точкой и при старте карты опустится на ближайший пол под ней.
 
+---
+
 ### angle
-`тип значения: float`
+`float`
 
 * Применимо к: все перечисленные `item_*` и `weapon_*` классы.
 
@@ -87,8 +94,10 @@
 ```
 Это развернёт модель super nailgun на 90 градусов по yaw, не меняя механику подбора.
 
+---
+
 ### angles
-`тип значения: vector`
+`vector`
 
 * Применимо к: все перечисленные `item_*` и `weapon_*` классы.
 
@@ -104,8 +113,10 @@
 ```
 Так Ring of Shadows будет слегка наклонён и развёрнут назад, но подбираться станет точно так же, как и без поворота.
 
+---
+
 ### spawnflags
-`тип значения: integer`
+`integer`
 
 * Применимо к: `item_health`, `item_shells`, `item_spikes`, `item_rockets`, `item_cells`, `item_weapon`, `item_sigil`.
 
@@ -119,10 +130,12 @@
 "spawnflags" "2"
 }
 ```
-Это создаст megahealth на 100 health; в deathmatch он исчезает при подборе и возвращается только через жёстко заданные 45 секунд.
+Это создаст megahealth на 100 health; в [deathmatch](../38-cvars-reference/04-network-server-cvars.md#deathmatch) он исчезает при подборе и возвращается только через жёстко заданные 45 секунд.
+
+---
 
 ### target
-`тип значения: string`
+`string`
 
 * Применимо к: `item_health`, `item_armor1`, `item_armor2`, `item_armorInv`, `weapon_supershotgun`, `weapon_nailgun`, `weapon_supernailgun`, `weapon_grenadelauncher`, `weapon_rocketlauncher`, `weapon_lightning`, `item_shells`, `item_spikes`, `item_rockets`, `item_cells`, `item_weapon`, `item_key1`, `item_key2`, `item_sigil`, `item_artifact_invulnerability`, `item_artifact_envirosuit`, `item_artifact_invisibility`, `item_artifact_super_damage`.
 
@@ -138,8 +151,10 @@
 ```
 Когда игрок подберёт Quad Damage, карта дополнительно активирует все сущности с [`targetname`](01-worldspawn-common-keys.md#targetname) = `secret_quad_event`.
 
+---
+
 ### killtarget
-`тип значения: string`
+`string`
 
 * Применимо к: `item_health`, `item_armor1`, `item_armor2`, `item_armorInv`, `weapon_supershotgun`, `weapon_nailgun`, `weapon_supernailgun`, `weapon_grenadelauncher`, `weapon_rocketlauncher`, `weapon_lightning`, `item_shells`, `item_spikes`, `item_rockets`, `item_cells`, `item_weapon`, `item_key1`, `item_key2`, `item_sigil`, `item_artifact_invulnerability`, `item_artifact_envirosuit`, `item_artifact_invisibility`, `item_artifact_super_damage`.
 
@@ -155,8 +170,10 @@
 ```
 Так можно убрать набор заградительных сущностей сразу после взятия серебряного ключа.
 
+---
+
 ### delay
-`тип значения: float`
+`float`
 
 * Применимо к: те же pickup-классы, что и для `target`/`killtarget`.
 
@@ -173,8 +190,10 @@
 ```
 Игрок возьмёт золотой ключ мгновенно, а связанное событие откроет хранилище через 3 секунды.
 
+---
+
 ### message
-`тип значения: string`
+`string`
 
 * Применимо к: те же pickup-классы, что и для `target`/`killtarget`.
 
@@ -185,14 +204,16 @@
 ```text
 {
 "classname" "item_sigil"
-"message" "Руна пробудила древний механизм."
+"message" "The rune has awakened an ancient mechanism."
 "target" "episode_gate"
 }
 ```
 После подбора сигила игрок увидит центральное сообщение и активирует связанный механизм.
 
+---
+
 ### targetname
-`тип значения: string`
+`string`
 
 * Применимо к: все перечисленные `item_*` и `weapon_*` классы.
 
@@ -208,8 +229,10 @@
 ```
 Такой targetname удобно использовать, если другой trigger должен удалить красную броню при провале секрета или после выбора альтернативной награды.
 
+---
+
 ### wait
-`тип значения: float`
+`float`
 
 * Применимо к: формально может быть записан на любые `item_*` и `weapon_*`, но логикой basemod для этих классов не читается.
 
@@ -225,8 +248,10 @@
 ```
 Такой ключ можно встретить в унаследованной карте, но basemod его проигнорирует: обычная аптечка всё равно использует свои штатные правила появления и возврата.
 
+---
+
 ### count
-`тип значения: float`
+`float`
 
 * Применимо к: формально может быть записан на любые `item_*` и `weapon_*`, но логикой basemod для этих классов не читается.
 
@@ -242,8 +267,10 @@
 ```
 Несмотря на такое значение, коробка shells останется обычной или большой только по `spawnflags`, а не по `count`.
 
+---
+
 ### effects
-`тип значения: integer`
+`integer`
 
 * Применимо к: в первую очередь `item_artifact_invulnerability` и `item_artifact_super_damage`; технически ключ можно оставить и на других pickup-классах.
 
@@ -259,8 +286,14 @@
 ```
 Такой приём можно использовать для дополнительной визуальной подсветки Quad Damage, помня, что его штатный синий powerup-эффект всё равно будет добавлен самим классом.
 
+---
+
 ## Смежные страницы
 
 - [Серверная игровая логика (SSQC)](../16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Встроенные функции работы с entity и world](../37-quakec-builtins-reference/03-entity-world-builtins.md)
-- [Индекс справочника ключей сущностей](./README.md)
+- [Индекс справочника ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
+
+> [⬅ Предыдущая страница](05-monster-player-keys.md) | [Следующая страница ➡](../40-shader-directives-reference/01-shader-toplevel-directives.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

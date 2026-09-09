@@ -1,8 +1,9 @@
 ﻿# Триггеры и логические сущности
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](02-light-entity-keys.md) | [Следующая страница ➡](04-func-brush-entity-keys.md)
 
-> [Индекс справочника ключей сущностей](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
 
 Карты Quake связывают сущности через пары [`target`](01-worldspawn-common-keys.md#target) и [`targetname`](01-worldspawn-common-keys.md#targetname): одна сущность срабатывает, ищет все объекты с совпадающим `targetname` и вызывает их логику использования. Для триггеров это основной способ строить последовательности событий без написания дополнительного кода. В basemod общая логика такого связывания сосредоточена в `SUB_UseTargets`, которая также обрабатывает [`delay`](01-worldspawn-common-keys.md#delay), [`message`](01-worldspawn-common-keys.md#message) и [`killtarget`](01-worldspawn-common-keys.md#killtarget). Поэтому даже простая цепочка из нескольких `trigger_*` может вести себя как полноценный сценарий уровня.
 
@@ -25,15 +26,17 @@
 - `info_null` — служебная точка, которая удаляется на спауне.
 - `target_speaker` — реализации в `quakec\basemod` не найдено, поэтому отдельные ключи для него здесь не документируются.
 
+---
+
 ## Ключи
 
 ### classname
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_relay`, `trigger_secret`, `trigger_counter`, `trigger_teleport`, `trigger_push`, `trigger_hurt`, `trigger_monsterjump`, `trigger_setskill`, `trigger_onlyregistered`, `trigger_changelevel`, `path_corner`, `info_notnull`, `info_null`.
 
 #### Описание и логика работы
-[`classname`](01-worldspawn-common-keys.md#classname) выбирает, какую spawn-логику выполнит SSQC. Для триггеров это критично: один и тот же brush-объём при `classname "trigger_hurt"` наносит урон, а при `classname "trigger_multiple"` запускает цели. Если ключ отсутствует или написан с ошибкой, сущность не получит ожидаемого поведения. Для логических point-entity вроде `trigger_relay`, `info_notnull` и `path_corner` именно `classname` определяет, будет ли объект участвовать в связях уровня.
+[`classname`](01-worldspawn-common-keys.md#classname) выбирает, какую [spawn](../37-quakec-builtins-reference/03-entity-world-builtins.md#spawn)-логику выполнит SSQC. Для триггеров это критично: один и тот же brush-объём при `classname "trigger_hurt"` наносит урон, а при `classname "trigger_multiple"` запускает цели. Если ключ отсутствует или написан с ошибкой, сущность не получит ожидаемого поведения. Для логических point-entity вроде `trigger_relay`, `info_notnull` и `path_corner` именно `classname` определяет, будет ли объект участвовать в связях уровня.
 
 #### Практические сценарии использования
 ```
@@ -44,8 +47,10 @@
 ```
 Одноразовый триггер активирует цель `open_exit`.
 
+---
+
 ### targetname
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_relay`, `trigger_secret`, `trigger_counter`, `trigger_teleport`, `path_corner`, `info_notnull`.
 
@@ -62,8 +67,10 @@
 ```
 Такой телепорт существует на карте, но начнёт реально переносить объекты только после внешней активации `enable_exit_tele`.
 
+---
+
 ### target
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_relay`, `trigger_secret`, `trigger_counter`, `trigger_onlyregistered`, `trigger_changelevel`, `trigger_teleport`, `path_corner`.
 
@@ -79,8 +86,10 @@
 ```
 При срабатывании триггер вызовет все сущности с `targetname "lift_start"`.
 
+---
+
 ### target2
-`тип значения: string`
+`string`
 
 * Применимо к: в рамках данного basemod как рабочий ключ не применяется.
 
@@ -97,8 +106,10 @@
 ```
 Сработает только `target`; `target2` будет проигнорирован basemod-логикой.
 
+---
+
 ### killtarget
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_relay`, `trigger_secret`, `trigger_counter`, `trigger_onlyregistered`, `trigger_changelevel`.
 
@@ -115,8 +126,10 @@
 ```
 После первого срабатывания триггер удалит все объекты `secret_hint`, а затем активирует `open_secret`.
 
+---
+
 ### message
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_relay`, `trigger_secret`, `trigger_onlyregistered`, `trigger_changelevel`.
 
@@ -133,8 +146,10 @@
 ```
 Игрок увидит надпись `Power restored`, после чего сработает `unlock_door`.
 
+---
+
 ### sounds
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_secret`.
 
@@ -151,8 +166,10 @@
 ```
 Триггер проиграет характерный звук большого переключателя перед активацией цели.
 
+---
+
 ### noise
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_secret`, `trigger_relay`.
 
@@ -169,8 +186,10 @@
 ```
 Через `sounds` у секрета будет заполнен `noise`, поэтому вместо стандартного «секретного» звука прозвучит вариант `misc/talk.wav`.
 
+---
+
 ### wait
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_secret`, `trigger_counter`, `path_corner`.
 
@@ -187,8 +206,10 @@
 ```
 Триггер можно будет повторно задействовать только через 5 секунд.
 
+---
+
 ### delay
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_relay`, `trigger_secret`, `trigger_counter`, `trigger_onlyregistered`, `trigger_changelevel`.
 
@@ -205,8 +226,10 @@
 ```
 Игрок входит в триггер сейчас, а обрушение моста происходит через 2.5 секунды.
 
+---
+
 ### health
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_multiple`, `trigger_once`.
 
@@ -223,8 +246,10 @@
 ```
 Триггер сработает только после того, как игрок нанесёт по нему суммарно 50 единиц урона.
 
+---
+
 ### count
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_counter`.
 
@@ -241,8 +266,10 @@
 ```
 Дверь босса откроется только после трёх отдельных событий, бьющих в этот counter.
 
+---
+
 ### dmg
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_hurt`.
 
@@ -258,8 +285,10 @@
 ```
 Кислотная яма будет снимать по 20 HP за каждый срабатывающий тик урона.
 
+---
+
 ### speed
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_push`, `trigger_monsterjump`, `path_corner`.
 
@@ -276,8 +305,10 @@
 ```
 Такой объём будет резко уносить игрока в сторону yaw `90`.
 
+---
+
 ### height
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_monsterjump`.
 
@@ -294,8 +325,10 @@
 ```
 Монстр получит более высокий прыжок, сохранив умеренный горизонтальный разгон.
 
+---
+
 ### map
-`тип значения: string`
+`string`
 
 * Применимо к: `trigger_changelevel`.
 
@@ -311,8 +344,10 @@
 ```
 После входа игрока в объём уровень переключится на `e1m2`.
 
+---
+
 ### angle
-`тип значения: float`
+`float`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_push`, `trigger_monsterjump`.
 
@@ -329,8 +364,10 @@
 ```
 Триггер сработает только когда игрок входит в него, глядя примерно назад по yaw `180`.
 
+---
+
 ### angles
-`тип значения: vector`
+`vector`
 
 * Применимо к: `trigger_push`, `trigger_monsterjump`, `trigger_teleport` (через точку назначения).
 
@@ -347,8 +384,10 @@
 ```
 Игрок после телепорта окажется повёрнут лицом по yaw `90`.
 
+---
+
 ### origin
-`тип значения: vector`
+`vector`
 
 * Применимо к: `trigger_relay`, `path_corner`, `info_notnull`, `info_null`, `info_teleport_destination`.
 
@@ -365,13 +404,15 @@
 ```
 Это создаёт маршрутную точку поезда в координатах `(512 256 64)`.
 
+---
+
 ### model
-`тип значения: string`
+`string`
 
 * Применимо к: brush-сущности `trigger_multiple`, `trigger_once`, `trigger_secret`, `trigger_teleport`, `trigger_push`, `trigger_hurt`, `trigger_monsterjump`, `trigger_onlyregistered`.
 
 #### Описание и логика работы
-У brush-триггеров [`model`](01-worldspawn-common-keys.md#model) — это внутренний BSP-модельный объём, который компилятор карты создаёт для каждой brush-сущности. `InitTrigger` вызывает `setmodel(self, self.model)`, чтобы получить размер, связаться с миром и превратить brush в рабочую trigger-область, а затем очищает визуальную модель, чтобы она не отображалась. Ручное прописывание `model` в текстовом `.ent` без соответствующей brush-модели обычно бесполезно. Для чисто логических point-entity этот ключ не нужен.
+У brush-триггеров [`model`](01-worldspawn-common-keys.md#model) — это внутренний BSP-модельный объём, который компилятор карты создаёт для каждой brush-сущности. `InitTrigger` вызывает [`setmodel(self, self.model)`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setmodel), чтобы получить размер, связаться с миром и превратить brush в рабочую trigger-область, а затем очищает визуальную модель, чтобы она не отображалась. Ручное прописывание `model` в текстовом `.ent` без соответствующей brush-модели обычно бесполезно. Для чисто логических point-entity этот ключ не нужен.
 
 #### Практические сценарии использования
 ```
@@ -383,8 +424,10 @@
 ```
 Внешне это означает: триггер использует brush-модель карты `*12` как область урона.
 
+---
+
 ### spawnflags
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_multiple`, `trigger_once`, `trigger_counter`, `trigger_teleport`, `trigger_push`, `trigger_changelevel`.
 
@@ -401,8 +444,10 @@
 ```
 Здесь число `3` одновременно включает `PLAYER_ONLY` и `SILENT`.
 
+---
+
 ### spawnflags (NOTOUCH)
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_multiple`, `trigger_once`.
 
@@ -419,8 +464,10 @@
 ```
 Игрок не сможет включить этот триггер телом; нужен внешний импульс от другой сущности.
 
+---
+
 ### spawnflags (NOMESSAGE)
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_counter`.
 
@@ -438,8 +485,10 @@
 ```
 Счётчик молча накопит четыре события и откроет `silent_unlock` без подсказок на экране.
 
+---
+
 ### spawnflags (PLAYER_ONLY)
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_teleport`.
 
@@ -456,8 +505,10 @@
 ```
 Через такой телепорт сможет пройти только игрок.
 
+---
+
 ### spawnflags (SILENT)
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_teleport`.
 
@@ -474,8 +525,10 @@
 ```
 Телепорт будет работать, но без постоянного фонового гула в комнате.
 
+---
+
 ### spawnflags (PUSH_ONCE)
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_push`.
 
@@ -493,13 +546,15 @@
 ```
 Игрок получит один импульс вперёд, после чего объём исчезнет.
 
+---
+
 ### spawnflags (NO_INTERMISSION)
-`тип значения: integer`
+`integer`
 
 * Применимо к: `trigger_changelevel`.
 
 #### Описание и логика работы
-У id1-style `trigger_changelevel` бит `NO_INTERMISSION` имеет значение `1`. Если он включён и игра не в deathmatch, после касания карта переключится сразу, без показа интермиссии через `info_intermission`. При выключенном флаге движок сначала показывает стандартный экран завершения уровня и статистику. В кооперативе и deathmatch перед этим всё равно может выводиться сообщение о выходе игрока с уровня.
+У id1-style `trigger_changelevel` бит `NO_INTERMISSION` имеет значение `1`. Если он включён и игра не в [deathmatch](../38-cvars-reference/04-network-server-cvars.md#deathmatch), после касания карта переключится сразу, без показа интермиссии через `info_intermission`. При выключенном флаге движок сначала показывает стандартный экран завершения уровня и статистику. В кооперативе и deathmatch перед этим всё равно может выводиться сообщение о выходе игрока с уровня.
 
 #### Практические сценарии использования
 ```
@@ -511,8 +566,10 @@
 ```
 Уровень немедленно сменится на `start`, минуя экран интермиссии.
 
+---
+
 ### path_corner
-`тип значения: string`
+`string`
 
 * Применимо к: `func_train`, монстры с маршрутами.
 
@@ -529,8 +586,10 @@
 ```
 Поезд или монстр, пришедший в `route_1`, затем продолжит движение к `route_2`.
 
+---
+
 ### info_notnull
-`тип значения: string`
+`string`
 
 * Применимо к: сценарные точки-цели, в том числе замены вроде `target_position`.
 
@@ -547,8 +606,10 @@
 ```
 Эта сущность остаётся в мире и может служить конечной точкой для другого сценарного объекта.
 
+---
+
 ### info_null
-`тип значения: string`
+`string`
 
 * Применимо к: служебные позиционные маркеры, если логика читает их ещё до удаления или обрабатывает их вне basemod SSQC.
 
@@ -564,8 +625,14 @@
 ```
 Такой объект хранит координату в исходных данных карты, но после спауна сам исчезает.
 
+---
+
 ## Смежные страницы
 
 - [Серверная игровая логика (SSQC)](../16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Сущности мира и builtins для работы с ними](../37-quakec-builtins-reference/03-entity-world-builtins.md)
-- [Индекс справочника ключей сущностей](./README.md)
+- [Индекс справочника ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
+
+> [⬅ Предыдущая страница](02-light-entity-keys.md) | [Следующая страница ➡](04-func-brush-entity-keys.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

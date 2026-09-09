@@ -1,10 +1,11 @@
 ﻿# Монстры, NPC и точки появления игрока
 
+> [⬅ Предыдущая страница](04-func-brush-entity-keys.md) | [Следующая страница ➡](06-item-weapon-keys.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
 
-> [Индекс справочника ключей сущностей](./README.md)
-
-Монстры Quake в basemod — это обычные point-entity, чьё поведение задаётся сочетанием [`classname`](01-worldspawn-common-keys.md#classname), стартовых полей сущности и общей AI-логики из `monsters.qc` и `ai.qc`. На практике карта чаще всего настраивает у них позицию, направление, здоровье, [`spawnflags`](01-worldspawn-common-keys.md#spawnflags) и сценарные связи через [`target`](01-worldspawn-common-keys.md#target)/[`targetname`](01-worldspawn-common-keys.md#targetname); всё остальное обычно назначается самими spawn-функциями конкретного класса. Точки появления игрока устроены ещё проще: `client.qc` выбирает подходящий `info_player_*`, после чего копирует из него координаты и углы в только что созданного игрока. Ниже собраны как реально читаемые ключи, так и несколько важных полей, которые в этом basemod для данных классов остаются неиспользованными, чтобы было проще отличать рабочие настройки от «шума» в `.map` или `.ent`.
+Монстры Quake в basemod — это обычные point-entity, чьё поведение задаётся сочетанием [`classname`](01-worldspawn-common-keys.md#classname), стартовых полей сущности и общей AI-логики из `monsters.qc` и `ai.qc`. На практике карта чаще всего настраивает у них позицию, направление, здоровье, [`spawnflags`](01-worldspawn-common-keys.md#spawnflags) и сценарные связи через [`target`](01-worldspawn-common-keys.md#target)/[`targetname`](01-worldspawn-common-keys.md#targetname); всё остальное обычно назначается самими [spawn](../37-quakec-builtins-reference/03-entity-world-builtins.md#spawn)-функциями конкретного класса. Точки появления игрока устроены ещё проще: `client.qc` выбирает подходящий `info_player_*`, после чего копирует из него координаты и углы в только что созданного игрока. Ниже собраны как реально читаемые ключи, так и несколько важных полей, которые в этом basemod для данных классов остаются неиспользованными, чтобы было проще отличать рабочие настройки от «шума» в `.map` или `.ent`.
 
 ## Классы монстров
 
@@ -25,10 +26,12 @@
 - `monster_zombie` — Zombie; исходник: `quakec\basemod\zombie.qc`.
 - `monster_boss` — отдельная id1-босс-сущность из эпизодного финала; исходник: `quakec\basemod\boss.qc`.
 
+---
+
 ## Ключи монстров
 
 ### classname
-`тип значения: string`
+`string`
 
 * Применимо к: всем `monster_*` классам из списка выше.
 
@@ -43,8 +46,10 @@
 ```
 Такой блок создаёт обычного солдата Quake; все остальные боевые параметры подставит его spawn-функция.
 
+---
+
 ### origin
-`тип значения: vector`
+`vector`
 
 * Применимо к: всем `monster_*` классам.
 
@@ -60,8 +65,10 @@
 ```
 Шамблер появится в заданных координатах; для ходячего класса движок затем аккуратно прижмёт его к полу.
 
+---
+
 ### angle
-`тип значения: float`
+`float`
 
 * Применимо к: всем `monster_*` классам.
 
@@ -77,8 +84,10 @@
 ```
 Enforcer стартует лицом в сторону yaw `180`, например навстречу длинному коридору.
 
+---
+
 ### angles
-`тип значения: vector`
+`vector`
 
 * Применимо к: всем `monster_*` классам.
 
@@ -94,8 +103,10 @@ Enforcer стартует лицом в сторону yaw `180`, наприме
 ```
 Wizard стартует с yaw `270`; на практике для AI это почти эквивалентно `angle "270"`.
 
+---
+
 ### health
-`тип значения: float`
+`float`
 
 * Применимо к: всем `monster_*` классам.
 
@@ -111,8 +122,10 @@ Wizard стартует с yaw `270`; на практике для AI это п�
 ```
 В чистом basemod такое значение обычно будет перезаписано стандартными `30 HP`, поэтому это не надёжный способ усилить солдата без правки QuakeC.
 
+---
+
 ### spawnflags
-`тип значения: integer`
+`integer`
 
 * Применимо к: всем `monster_*` классам; у `monster_zombie` есть дополнительная особая интерпретация битов.
 
@@ -128,8 +141,10 @@ Wizard стартует с yaw `270`; на практике для AI это п�
 ```
 Зомби стартует распятым и одновременно в режиме ambush: не будет реагировать на шум и останется прибитым к стене, пока не увидит цель напрямую.
 
+---
+
 ### target
-`тип значения: string`
+`string`
 
 * Применимо к: всем стандартным walking/flying/swimming монстрам; практически особенно важно для `monster_army`, `monster_dog`, `monster_demon1`, `monster_enforcer`, `monster_fish`, `monster_hell_knight`, `monster_knight`, `monster_ogre`, `monster_shalrath`, `monster_shambler`, `monster_tarbaby`, `monster_wizard`, `monster_zombie`.
 
@@ -145,8 +160,10 @@ Wizard стартует с yaw `270`; на практике для AI это п�
 ```
 Ogre попытается найти `path_corner` с `targetname "patrol_ogre_1"` и начнёт маршрутный патруль.
 
+---
+
 ### targetname
-`тип значения: string`
+`string`
 
 * Применимо к: всем `monster_*` классам.
 
@@ -162,8 +179,10 @@ Ogre попытается найти `path_corner` с `targetname "patrol_ogre_1
 ```
 Теперь карту можно строить так, чтобы другие сущности ссылались именно на эту Shalrath по имени `rear_guard`.
 
+---
+
 ### yaw_speed
-`тип значения: float`
+`float`
 
 * Применимо к: всем `monster_*` классам, использующим стандартный monster-start.
 
@@ -179,8 +198,10 @@ Ogre попытается найти `path_corner` с `targetname "patrol_ogre_1
 ```
 Knight будет разворачиваться заметно быстрее стандартного, что делает его агрессивнее в тесных коридорах.
 
+---
+
 ### items
-`тип значения: integer`
+`integer`
 
 * Применимо к: всем `monster_*` классам, но в рамках данного basemod как стартовый ключ фактически не используется.
 
@@ -196,8 +217,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 В обычном basemod солдат не начнёт иначе себя вести и не станет корректно «вооружённым предметом» только из-за этого поля.
 
+---
+
 ### model
-`тип значения: string`
+`string`
 
 * Применимо к: всем `monster_*` классам, но в стандартном basemod обычно перезаписывается spawn-функцией.
 
@@ -213,9 +236,11 @@ Knight будет разворачиваться заметно быстрее �
 ```
 В чистом basemod это значение обычно будет перезаписано стандартным `progs/dog.mdl` во время спауна.
 
+---
+
 ## Точки появления игрока
 
-В `quakec\basemod\client.qc` прямо определены четыре id1-класса стартовых точек: `info_player_start`, `info_player_start2`, `info_player_deathmatch` и `info_player_coop`. Логика выбора проста: в coop первый игрок берёт `info_player_start`, остальные — цепочку `info_player_coop`; в обычной одиночной игре используется `info_player_start`, а на start-map при возвращении с руной — `info_player_start2`; в deathmatch выбирается случайный `info_player_deathmatch` с попыткой избегать занятых мест в радиусе 84 единиц. Классы `info_player_team1` и `info_player_team2` в basemod SSQC не объявлены, но в репозитории они используются как FTEQW-совместимое расширение на уровне карт и `.ent`-файлов, поэтому ниже они документируются только по общим позиционным ключам точки спауна.
+В `quakec\basemod\client.qc` прямо определены четыре id1-класса стартовых точек: `info_player_start`, `info_player_start2`, `info_player_deathmatch` и `info_player_coop`. Логика выбора проста: в coop первый игрок берёт `info_player_start`, остальные — цепочку `info_player_coop`; в обычной одиночной игре используется `info_player_start`, а на start-map при возвращении с руной — `info_player_start2`; в [deathmatch](../38-cvars-reference/04-network-server-cvars.md#deathmatch) выбирается случайный `info_player_deathmatch` с попыткой избегать занятых мест в радиусе 84 единиц. Классы `info_player_team1` и `info_player_team2` в basemod SSQC не объявлены, но в репозитории они используются как FTEQW-совместимое расширение на уровне карт и `.ent`-файлов, поэтому ниже они документируются только по общим позиционным ключам точки спауна.
 
 - `info_player_start` — основная точка старта одиночной игры; исходник: `quakec\basemod\client.qc`.
 - `info_player_start2` — стартовая точка возврата на start-map после эпизода; исходник: `quakec\basemod\client.qc`.
@@ -225,12 +250,12 @@ Knight будет разворачиваться заметно быстрее �
 - `info_player_team2` — карта/`.ent`-конвенция FTEQW для второй команды; прямой spawn-функции в `quakec\basemod` не найдено.
 
 ### classname
-`тип значения: string`
+`string`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
 #### Описание и логика работы
-`classname` определяет, в какой пул попадёт точка спауна. Именно по этому имени `SelectSpawnPoint()` ищет первую одиночную точку, кооперативные старты и набор deathmatch-позиций. Для teamplay-конвенций `info_player_team1` и `info_player_team2` ключ столь же важен, потому что без точного имени внешняя логика карты или другой мод не смогут отличить одну командную точку от другой. Ошибка в `classname` чаще всего означает, что стартовая точка будет полностью проигнорирована.
+`classname` определяет, в какой пул попадёт точка спауна. Именно по этому имени `SelectSpawnPoint()` ищет первую одиночную точку, кооперативные старты и набор deathmatch-позиций. Для [teamplay](../38-cvars-reference/04-network-server-cvars.md#teamplay)-конвенций `info_player_team1` и `info_player_team2` ключ столь же важен, потому что без точного имени внешняя логика карты или другой мод не смогут отличить одну командную точку от другой. Ошибка в `classname` чаще всего означает, что стартовая точка будет полностью проигнорирована.
 
 #### Практические сценарии использования
 ```
@@ -240,8 +265,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Блок становится кандидатом для случайного старта в deathmatch.
 
+---
+
 ### origin
-`тип значения: vector`
+`vector`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -257,8 +284,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Игрок появится в этой зоне карты; фактическая позиция будет взята чуть выше исходной точки.
 
+---
+
 ### angle
-`тип значения: float`
+`float`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -274,8 +303,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Игрок второй команды появится лицом к yaw `270`, то есть сразу будет ориентирован в нужную сторону базы.
 
+---
+
 ### angles
-`тип значения: vector`
+`vector`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -291,8 +322,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Кооперативная точка направит игрока на yaw `90`; это альтернативная запись к обычному `angle`.
 
+---
+
 ### target
-`тип значения: string`
+`string`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -308,8 +341,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 В чистом basemod эта строка не влияет на спаун, но может служить меткой для внешних правок карты или другого QuakeC-кода.
 
+---
+
 ### targetname
-`тип значения: string`
+`string`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -325,8 +360,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 В стандартном basemod deathmatch-точка будет работать как обычно; имя `dm_upper_ring` пригодится только внешней логике или ручной навигации по `.ent`.
 
+---
+
 ### spawnflags
-`тип значения: integer`
+`integer`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -342,8 +379,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 В стандартном basemod это не меняет поведение кооперативной точки старта.
 
+---
+
 ### mangle
-`тип значения: vector`
+`vector`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -359,8 +398,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Такой ключ не развернёт игрока в стандартном basemod; для этого нужен `angle` или `angles`.
 
+---
+
 ### health
-`тип значения: float`
+`float`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -376,8 +417,10 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Обычный basemod проигнорирует это поле и всё равно выдаст игроку здоровье по правилам режима.
 
+---
+
 ### model
-`тип значения: string`
+`string`
 
 * Применимо к: `info_player_start`, `info_player_start2`, `info_player_coop`, `info_player_deathmatch`, `info_player_team1`, `info_player_team2`.
 
@@ -393,8 +436,14 @@ Knight будет разворачиваться заметно быстрее �
 ```
 Для basemod это ничего не меняет: точка старта остаётся только координатной меткой.
 
+---
+
 ## Смежные страницы
 
 - [Серверная игровая логика (SSQC)](../16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Entity/world builtins и работа с сущностями](../37-quakec-builtins-reference/03-entity-world-builtins.md)
-- [Индекс справочника ключей сущностей](./README.md)
+- [Индекс справочника ключей сущностей](../README.md#ключи-сущностей-карты-entity-keys)
+
+> [⬅ Предыдущая страница](04-func-brush-entity-keys.md) | [Следующая страница ➡](06-item-weapon-keys.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

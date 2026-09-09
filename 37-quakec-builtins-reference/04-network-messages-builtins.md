@@ -1,10 +1,11 @@
 ﻿# Сеть и сетевые сообщения
 
+> [⬅ Предыдущая страница](03-entity-world-builtins.md) | [Следующая страница ➡](05-sound-builtins.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
-> [Индекс справочника builtins](./README.md)
-
-Сетевые builtins FTEQW делятся на три больших класса: запись серверных сообщений из SSQC (`Write*`), чтение custom-пакетов на стороне CSQC (`read*` и `ReadPicture`) и вспомогательные сетевые функции вроде `multicast`, `stuffcmd`, `sendevent`, `sendpacket` и браузера серверов.
+Сетевые builtins FTEQW делятся на три больших класса: запись серверных сообщений из SSQC (`Write*`), чтение custom-пакетов на стороне CSQC (`read*` и `ReadPicture`) и вспомогательные сетевые функции вроде `multicast`, [`stuffcmd`](../44-cli-commands-reference/04-server-multiplayer-commands.md#stuffcmd), `sendevent`, `sendpacket` и браузера серверов.
 
 Основа всей системы записи — **канал сообщения**, который всегда передаётся первым аргументом в `WriteByte`, `WriteShort`, `WriteString` и остальные `Write*` builtins.
 
@@ -14,7 +15,7 @@
 - `MSG_INIT` — запись в signon-буфер. Эти данные увидят и те клиенты, которые подключатся позже. Буфер очищается только при смене карты, поэтому его нельзя засорять повторяющимися событиями.
 - `MSG_MULTICAST` — запись во временный multicast-буфер. После заполнения нужно вызвать `multicast(where, MULTICAST_*)`, чтобы реально разослать пакет.
 
-Для `MSG_MULTICAST` используются режимы `MULTICAST_ALL`, `MULTICAST_PHS`, `MULTICAST_PVS`, `MULTICAST_ONE`, `MULTICAST_ONE_NOSPECS`, а также их надёжные варианты `*_R`. На практике это главный способ слать **SSQC → CSQC** custom-сообщения: сервер пишет `SVC_CGAMEPACKET` в буфер `MSG_MULTICAST`, затем добавляет свой тип события и полезные данные, а клиент читает их в `CSQC_Parse_Event` через `readbyte`, `readcoord`, `readstring` и остальные парные builtins.
+Для `MSG_MULTICAST` используются режимы `MULTICAST_ALL`, `MULTICAST_PHS`, `MULTICAST_PVS`, `MULTICAST_ONE`, `MULTICAST_ONE_NOSPECS`, а также их надёжные варианты `*_R`. На практике это главный способ слать **SSQC → CSQC** custom-сообщения: сервер пишет `SVC_CGAMEPACKET` в буфер `MSG_MULTICAST`, затем добавляет свой тип события и полезные данные, а клиент читает их в [`CSQC_Parse_Event`](00-entry-points.md#csqc_parse_event) через `readbyte`, `readcoord`, `readstring` и остальные парные builtins.
 
 Важно помнить ещё три правила:
 
@@ -31,7 +32,7 @@
 * **val** — беззнаковое 8-битное значение от `0` до `255`.
 
 #### Описание и логика работы
-`WriteByte` пишет ровно 1 байт. Это самый дешёвый по трафику способ передать небольшое целое: тип события, флаг, индекс режима, количество до 255. При выходе за диапазон движок не останавливает код, а отбрасывает старшие биты и записывает усечённое значение; в developer-режиме выводится предупреждение о truncation. Для `MSG_ONE` должен быть заранее выставлен `msg_entity`. Для SSQC → CSQC custom-пакетов обычно используется не `MSG_ONE`, а `MSG_MULTICAST` с последующим `multicast(..., MULTICAST_ONE_R)`.
+`WriteByte` пишет ровно 1 байт. Это самый дешёвый по трафику способ передать небольшое целое: тип события, флаг, индекс режима, количество до 255. При выходе за диапазон движок не останавливает код, а отбрасывает старшие биты и записывает усечённое значение; в [developer](../38-cvars-reference/07-system-misc-cvars.md#developer)-режиме выводится предупреждение о truncation. Для `MSG_ONE` должен быть заранее выставлен `msg_entity`. Для SSQC → CSQC custom-пакетов обычно используется не `MSG_ONE`, а `MSG_MULTICAST` с последующим `multicast(..., MULTICAST_ONE_R)`.
 
 #### Практические сценарии использования
 ```
@@ -59,6 +60,8 @@ void() CSQC_Parse_Event =
 		hud_flash_color = readbyte();
 };
 ```
+
+---
 
 ### WriteChar
 `void(float to, float val) WriteChar = #53;`
@@ -96,6 +99,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### WriteShort
 `void(float to, float val) WriteShort = #54;`
 
@@ -131,6 +136,8 @@ void() CSQC_Parse_Event =
 		last_score_delta = readshort();
 };
 ```
+
+---
 
 ### WriteLong
 `void(float to, float val) WriteLong = #55;`
@@ -168,6 +175,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### WriteAngle
 `void(float to, float val) WriteAngle = #57;`
 
@@ -203,6 +212,8 @@ void() CSQC_Parse_Event =
 		forced_yaw = readangle();
 };
 ```
+
+---
 
 ### WriteCoord
 `void(float to, float val) WriteCoord = #56;`
@@ -242,6 +253,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### WriteString
 `void(float to, string val) WriteString = #58;`
 
@@ -277,6 +290,8 @@ void() CSQC_Parse_Event =
 		objective_text = readstring();
 };
 ```
+
+---
 
 ### WriteEntity
 `void(float to, entity val) WriteEntity = #59;`
@@ -314,6 +329,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### WriteFloat
 `void(float buf, float fl) WriteFloat = #280;`
 
@@ -349,6 +366,8 @@ void() CSQC_Parse_Event =
 		weapon_spread = readfloat();
 };
 ```
+
+---
 
 ### WritePicture
 `void(float to, string s, float sz) WritePicture = #501;`
@@ -386,6 +405,8 @@ void() CSQC_Parse_Event =
 		pickup_icon = ReadPicture();
 };
 ```
+
+---
 
 ### WriteUnterminatedString
 `void(float target, string str) WriteUnterminatedString = #456;`
@@ -431,13 +452,15 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### readbyte
 `float() readbyte = #360;`
 
 * **возвращаемое значение** — беззнаковое 8-битное число `0..255`.
 
 #### Описание и логика работы
-`readbyte` — парный reader для `WriteByte`. Вызывать его можно только в тех точках, где CSQC действительно читает сетевой поток: прежде всего в `CSQC_Parse_Event`, а также в некоторых callback-путях чтения entity updates. Вне этих точек движок abort-ит вызов. Бuiltin незаменим для чтения opcode custom-сообщения, чисел-энумов и компактных флагов.
+`readbyte` — парный reader для `WriteByte`. Вызывать его можно только в тех точках, где CSQC действительно читает сетевой поток: прежде всего в `CSQC_Parse_Event`, а также в некоторых callback-путях чтения entity updates. Вне этих точек движок [abort](12-system-debug-builtins.md#abort)-ит вызов. Бuiltin незаменим для чтения opcode custom-сообщения, чисел-энумов и компактных флагов.
 
 #### Практические сценарии использования
 ```
@@ -470,6 +493,8 @@ void() CSQC_Parse_Event =
 	}
 };
 ```
+
+---
 
 ### readchar
 `float() readchar = #361;`
@@ -507,6 +532,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### readshort
 `float() readshort = #362;`
 
@@ -541,6 +568,8 @@ void() CSQC_Parse_Event =
 		reserve_shells = readshort();
 };
 ```
+
+---
 
 ### readlong
 `float() readlong = #363;`
@@ -577,6 +606,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### readangle
 `float() readangle = #365;`
 
@@ -611,6 +642,8 @@ void() CSQC_Parse_Event =
 		compass_yaw = readangle();
 };
 ```
+
+---
 
 ### readcoord
 `float() readcoord = #364;`
@@ -649,6 +682,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### readfloat
 `float() readfloat = #367;`
 
@@ -683,6 +718,8 @@ void() CSQC_Parse_Event =
 		weapon_zoom = readfloat();
 };
 ```
+
+---
 
 ### readstring
 `string() readstring = #366;`
@@ -719,6 +756,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### readentitynum
 `float() readentitynum = #368;`
 
@@ -754,6 +793,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### ReadPicture
 `string() ReadPicture = #501;`
 
@@ -788,6 +829,8 @@ void() CSQC_Parse_Event =
 		badge_pic = ReadPicture();
 };
 ```
+
+---
 
 ### multicast
 `void(vector where, float set) multicast = #82;`
@@ -831,6 +874,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### stuffcmd
 `void(entity client, string s, optional string s2, optional string s3, optional string s4, optional string s5, optional string s6, optional string s7) stuffcmd = #21;`
 
@@ -862,6 +907,8 @@ void(string msg) CSQC_Parse_StuffCmd =
 	}
 };
 ```
+
+---
 
 ### clientcommand
 `void(entity e, string s) clientcommand = #440;`
@@ -905,6 +952,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### sendevent
 `void(string evname, string evargs, ...) sendevent = #359;`
 
@@ -944,6 +993,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### sendpacket
 `float(string destaddress, string content) sendpacket = #242;`
 
@@ -975,6 +1026,8 @@ void() QueryServerOutOfBand =
 	ping_sent = sendpacket("127.0.0.1:27500", "mod_ping");
 };
 ```
+
+---
 
 ### deltalisten
 `float(string modelname, float(float isnew) updatecallback, float flags) deltalisten = #371;`
@@ -1016,6 +1069,8 @@ void() CSQC_Init =
 };
 ```
 
+---
+
 ### netaddress_resolve
 `string(string dnsname, optional float defport) netaddress_resolve = #625;`
 
@@ -1044,6 +1099,8 @@ void() ResolveRelay =
 		sendpacket(addr, "mod_ping");
 };
 ```
+
+---
 
 ### getextresponse
 `string() getextresponse = #624;`
@@ -1074,6 +1131,8 @@ float(string sender, string body) SV_ParseConnectionlessPacket =
 };
 ```
 
+---
+
 ### redirectcmd
 `DEP void(entity to, string str) redirectcmd = #101;`
 
@@ -1098,6 +1157,8 @@ void(string msg) CSQC_Parse_StuffCmd =
 {
 };
 ```
+
+---
 
 ### isserver
 `float() isserver = #60;`
@@ -1127,6 +1188,8 @@ void(entity pl) SendSaveAllowed =
 };
 ```
 
+---
+
 ### clientcount
 `float() clientcount = #61;`
 
@@ -1153,6 +1216,8 @@ void(entity pl) SendLobbyInfo =
 };
 ```
 
+---
+
 ### clientstate
 `float() clientstate = #62;`
 
@@ -1178,6 +1243,8 @@ void(entity pl) GreetNewPlayer =
 	stuffcmd(pl, "echo welcome\n");
 };
 ```
+
+---
 
 ### clienttype
 `float(entity client) clienttype = #455;`
@@ -1210,6 +1277,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### isdemo
 `float() isdemo = #349;`
 
@@ -1235,6 +1304,8 @@ void(entity pl) SendLiveOnlyObjective =
 	stuffcmd(pl, "echo objective updated\n");
 };
 ```
+
+---
 
 ### isbackbuffered
 `float(entity player) isbackbuffered = #234;`
@@ -1270,6 +1341,8 @@ void() CSQC_Parse_Event =
 };
 ```
 
+---
+
 ### csqc_cvar_defstring
 `string(string s) csqc_cvar_defstring = #482;`
 
@@ -1277,7 +1350,7 @@ void() CSQC_Parse_Event =
 
 #### Описание и логика работы
 
-`csqc_cvar_defstring` — MenuQC-имя для того же builtin, который в CSQC обычно объявляется как `cvar_defstring` на номере `#482`. Функция возвращает именно строку по умолчанию, зарегистрированную движком для cvar, а не текущее значение и не latched-значение. Если cvar не существует или скрыт флагами безопасности, builtin возвращает пустой/null string.
+`csqc_cvar_defstring` — MenuQC-имя для того же builtin, который в CSQC обычно объявляется как [`cvar_defstring`](12-system-debug-builtins.md#cvar_defstring) на номере `#482`. Функция возвращает именно строку по умолчанию, зарегистрированную движком для cvar, а не текущее значение и не latched-значение. Если cvar не существует или скрыт флагами безопасности, builtin возвращает пустой/null string.
 
 #### Практические сценарии использования
 
@@ -1292,6 +1365,8 @@ if (def && cur != def)
 print("cl_crosshair differs from default: ", def, "\n");
 };
 ```
+
+---
 
 ### cvars_haveunsaved
 `float() cvars_haveunsaved = #0:cvars_haveunsaved;`
@@ -1313,6 +1388,8 @@ print("There are unsaved archived cvars\n");
 };
 ```
 
+---
+
 ### findkeysforcommand_dp
 `DEP string(string command, optional float bindmap) findkeysforcommand_dp = #610;`
 
@@ -1321,7 +1398,7 @@ print("There are unsaved archived cvars\n");
 
 #### Описание и логика работы
 
-Это deprecated DP-совместимое имя присутствует в серверной builtin-таблице FTEQW, но реальной серверной реализации у него нет: слот привязан к `PF_Fixme`. То есть в SSQC это честная функция-пустышка для совместимости по имени, а не рабочий API для поиска bind-ов. Для реального поиска клавиш в FTEQW используйте клиентские `findkeysforcommandex` или старый `findkeysforcommand`/`findkeysforcommand_menu` на стороне CSQC/MenuQC.
+Это deprecated DP-совместимое имя присутствует в серверной builtin-таблице FTEQW, но реальной серверной реализации у него нет: слот привязан к `PF_Fixme`. То есть в SSQC это честная функция-пустышка для совместимости по имени, а не рабочий API для поиска bind-ов. Для реального поиска клавиш в FTEQW используйте клиентские `findkeysforcommandex` или старый [`findkeysforcommand`](09-csqc-input-ui-builtins.md#findkeysforcommand)/`findkeysforcommand_menu` на стороне CSQC/MenuQC.
 
 #### Практические сценарии использования
 
@@ -1333,6 +1410,8 @@ if (keys != "")
 print("Jump is bound to: ", keys, "\n");
 ```
 
+---
+
 ### findkeysforcommand_menu
 `string(string command, optional float bindmap) findkeysforcommand_menu = #610;`
 
@@ -1341,7 +1420,7 @@ print("Jump is bound to: ", keys, "\n");
 
 #### Описание и логика работы
 
-`findkeysforcommand_menu` — совместимый alias к старому builtin формата DarkPlaces/MenuQC, который возвращает не имена клавиш, а список их числовых keycode-ов. По поведению он эквивалентен устаревшему `findkeysforcommand`: результат надо разбирать через `tokenize`, а не через `tokenize_console`, и модификаторы в таком формате полноценно не описываются. Использовать builtin имеет смысл только ради совместимости со старым кодом; для нового UI удобнее `findkeysforcommandex`.
+`findkeysforcommand_menu` — совместимый alias к старому builtin формата DarkPlaces/MenuQC, который возвращает не имена клавиш, а список их числовых keycode-ов. По поведению он эквивалентен устаревшему `findkeysforcommand`: результат надо разбирать через [`tokenize`](02-string-builtins.md#tokenize), а не через [`tokenize_console`](02-string-builtins.md#tokenize_console), и модификаторы в таком формате полноценно не описываются. Использовать builtin имеет смысл только ради совместимости со старым кодом; для нового UI удобнее `findkeysforcommandex`.
 
 #### Практические сценарии использования
 
@@ -1354,6 +1433,8 @@ if (tokenize(list) > 0)
 print("Primary jump keycode: ", argv(0), "\n");
 };
 ```
+
+---
 
 ### findkeysforcommandex
 `string(string command, optional float bindmap) findkeysforcommandex = #0:findkeysforcommandex;`
@@ -1380,6 +1461,8 @@ print("Reload bind: ", argv(i), "\n");
 };
 ```
 
+---
+
 ### forceinfokeyblob
 `void(entity player, string key, void *data, int size) forceinfokeyblob = #0:forceinfokeyblob;`
 
@@ -1390,7 +1473,7 @@ print("Reload bind: ", argv(i), "\n");
 
 #### Описание и логика работы
 
-`forceinfokeyblob` — серверный вариант `forceinfokey`, который пишет в userinfo произвольный blob, а не только обычную строку. Изменение происходит сразу на сервере, без round-trip к клиенту; допустимы и специальные `*`-ключи вроде `*spectator`. Это удобно для FTE-расширений с бинарными infoblob-данными, но изменение не переписывает локальный конфиг игрока и не переносится на другие серверы автоматически.
+`forceinfokeyblob` — серверный вариант [`forceinfokey`](03-entity-world-builtins.md#forceinfokey), который пишет в userinfo произвольный blob, а не только обычную строку. Изменение происходит сразу на сервере, без round-trip к клиенту; допустимы и специальные `*`-ключи вроде `*[spectator](../38-cvars-reference/07-system-misc-cvars.md#spectator)`. Это удобно для FTE-расширений с бинарными infoblob-данными, но изменение не переписывает локальный конфиг игрока и не переносится на другие серверы автоматически.
 
 #### Практические сценарии использования
 
@@ -1402,6 +1485,8 @@ string tag = "trusted";
 forceinfokeyblob(pl, "*auth", tag, strlen(tag));
 };
 ```
+
+---
 
 ### getlocaluserinfo
 `string(float seat, string keyname) getlocaluserinfo = #0:getlocaluserinfo;`
@@ -1423,6 +1508,8 @@ string name = getlocaluserinfo(0, "name");
 print("Local seat 0 name: ", name, "\n");
 };
 ```
+
+---
 
 ### getlocaluserinfoblob
 `int(float seat, string keyname, void *outptr, int maxsize) getlocaluserinfoblob = #0:getlocaluserinfoblob;`
@@ -1449,6 +1536,8 @@ memfree(buf);
 };
 ```
 
+---
+
 ### getplayerkeyblob
 `int(float playernum, string keyname, optional void *outptr, int size) getplayerkeyblob = #0:getplayerkeyblob;`
 
@@ -1474,6 +1563,8 @@ memfree(buf);
 };
 ```
 
+---
+
 ### getplayerkeyfloat
 `float(float playernum, string keyname, optional float assumevalue) getplayerkeyfloat = #0:getplayerkeyfloat;`
 
@@ -1483,7 +1574,7 @@ memfree(buf);
 
 #### Описание и логика работы
 
-`getplayerkeyfloat` — более дешёвая числовая версия `getplayerkeyvalue`, которая не создаёт tempstring только ради последующего `stof`. Она удобна для часто опрашиваемых scoreboard-полей: `ping`, `pl`, `frags`, `userid`, `voiploudness` и числовых userinfo-значений. Если ключ отсутствует, возвращается `assumevalue`, а при его отсутствии — `0`.
+`getplayerkeyfloat` — более дешёвая числовая версия `getplayerkeyvalue`, которая не создаёт tempstring только ради последующего [`stof`](02-string-builtins.md#stof). Она удобна для часто опрашиваемых scoreboard-полей: `ping`, `pl`, `frags`, `userid`, `voiploudness` и числовых userinfo-значений. Если ключ отсутствует, возвращается `assumevalue`, а при его отсутствии — `0`.
 
 #### Практические сценарии использования
 
@@ -1495,6 +1586,8 @@ float ping = getplayerkeyfloat(player_localnum, "ping", -1);
 print("Ping: ", ftos(ping), "\n");
 };
 ```
+
+---
 
 ### getplayerkeyvalue
 `string(float playernum, string keyname) getplayerkeyvalue = #348;`
@@ -1518,6 +1611,8 @@ print("Leader: ", leader, " (", frags, ")\n");
 };
 ```
 
+---
+
 ### getplayerstat
 `__variant(float playernum, float statnum, float stattype) getplayerstat = #0:getplayerstat;`
 
@@ -1539,6 +1634,8 @@ int items = getplayerstat(pnum, STAT_ITEMS, EV_INTEGER);
 print("STAT_ITEMS bits: ", itos(items), "\n");
 };
 ```
+
+---
 
 ### readdouble
 `__double() readdouble = #0:readdouble;`
@@ -1576,6 +1673,8 @@ net_time = readdouble();
 };
 ```
 
+---
+
 ### readint
 `int() readint = #0:readint;`
 
@@ -1611,6 +1710,8 @@ if (readbyte() == EV_FLAGS32)
 cached_bits = readint();
 };
 ```
+
+---
 
 ### readint64
 `__int64() readint64 = #0:readint64;`
@@ -1648,6 +1749,8 @@ remote_counter = readint64();
 };
 ```
 
+---
+
 ### readuint64
 `__uint64() readuint64 = #0;`
 
@@ -1684,6 +1787,8 @@ visible_mask = readuint64();
 };
 ```
 
+---
+
 ### serverkeyblob
 `int(string key, optional void *ptr, int maxsize) serverkeyblob = #0:serverkeyblob;`
 
@@ -1693,7 +1798,7 @@ visible_mask = readuint64();
 
 #### Описание и логика работы
 
-`serverkeyblob` — бинарный вариант `serverkey`, предназначенный для чтения raw serverinfo-значений, которые могут содержать нули и другие служебные байты. Функция возвращает полный размер blob-а даже тогда, когда фактически скопировала только первые `maxsize` байт. В отличие от строкового `serverkey`/`serverkeyfloat`, этот builtin ориентирован именно на реальные данные из infobuf и не нужен для псевдоключей вроде `maxplayers` или `servername`.
+`serverkeyblob` — бинарный вариант [`serverkey`](03-entity-world-builtins.md#serverkey), предназначенный для чтения raw serverinfo-значений, которые могут содержать нули и другие служебные байты. Функция возвращает полный размер blob-а даже тогда, когда фактически скопировала только первые `maxsize` байт. В отличие от строкового `serverkey`/`serverkeyfloat`, этот builtin ориентирован именно на реальные данные из infobuf и не нужен для псевдоключей вроде `maxplayers` или `servername`.
 
 #### Практические сценарии использования
 
@@ -1710,6 +1815,8 @@ memfree(buf);
 }
 };
 ```
+
+---
 
 ### serverkeyfloat
 `float(string key, optional float assumevalue) serverkeyfloat = #0:serverkeyfloat;`
@@ -1732,6 +1839,8 @@ print("Server slots: ", ftos(maxpl), "\n");
 };
 ```
 
+---
+
 ### setlocaluserinfo
 `void(float seat, string keyname, string newvalue) setlocaluserinfo = #0:setlocaluserinfo;`
 
@@ -1741,7 +1850,7 @@ print("Server slots: ", ftos(maxpl), "\n");
 
 #### Описание и логика работы
 
-`setlocaluserinfo` меняет локальный userinfo выбранного seat так же, как консольная команда `setinfo`. После этого движок обычно синхронизирует изменение с сервером и другими клиентами по обычным правилам протокола. Builtin подходит для меню профиля, смены ника, команды, скина и любых других строковых настроек игрока.
+`setlocaluserinfo` меняет локальный userinfo выбранного seat так же, как консольная команда [`setinfo`](../44-cli-commands-reference/02-client-ui-commands.md#setinfo). После этого движок обычно синхронизирует изменение с сервером и другими клиентами по обычным правилам протокола. Builtin подходит для меню профиля, смены ника, команды, скина и любых других строковых настроек игрока.
 
 #### Практические сценарии использования
 
@@ -1752,6 +1861,8 @@ void(string newname) ApplyPlayerName =
 setlocaluserinfo(0, "name", newname);
 };
 ```
+
+---
 
 ### setlocaluserinfoblob
 `void(float seat, string keyname, void *outptr, int size) setlocaluserinfoblob = #0:setlocaluserinfoblob;`
@@ -1776,6 +1887,8 @@ setlocaluserinfoblob(0, "_avatar", blob, strlen(blob));
 };
 ```
 
+---
+
 ### uri_get
 `float(string uril, float id, optional string postmimetype, optional string postdata) uri_get = #513;`
 
@@ -1786,7 +1899,7 @@ setlocaluserinfoblob(0, "_avatar", blob, strlen(blob));
 
 #### Описание и логика работы
 
-`uri_get` запускает асинхронную HTTP-загрузку и при завершении вызывает callback `URI_Get_Callback(reqid, responsecode, resourcebody, resourcebytes)`. Возвращаемое значение `1` означает, что запрос успешно поставлен в очередь; `0` — что builtin не смог стартовать загрузку (например, `WEBCLIENT` не собран, `pr_enable_uriget` выключен или превышен лимит pending downloads). Для GET-запроса MIME и body не передаются вообще.
+`uri_get` запускает асинхронную HTTP-загрузку и при завершении вызывает callback `URI_Get_Callback(reqid, responsecode, resourcebody, resourcebytes)`. Возвращаемое значение `1` означает, что запрос успешно поставлен в очередь; `0` — что builtin не смог стартовать загрузку (например, `WEBCLIENT` не собран, [`pr_enable_uriget`](../38-cvars-reference/01-video-rendering-cvars.md#pr_enable_uriget) выключен или превышен лимит pending downloads). Для GET-запроса MIME и body не передаются вообще.
 
 #### Практические сценарии использования
 
@@ -1803,6 +1916,8 @@ void() RefreshNews =
 uri_get("https://example.org/news.txt", 100);
 };
 ```
+
+---
 
 ### uri_post
 `float(string uril, float id, optional string postmimetype, optional string postdata, optional float strbuf) uri_post = #513;`
@@ -1832,8 +1947,14 @@ uri_post(
 };
 ```
 
+---
+
 ## Смежные страницы
 
 - [Client-Side QuakeC (CSQC)](../16-quakec-scripting/client-side-quakec-csqc.md)
-- [Сетевые протоколы и мультиплеер](../24-network-protocols-multiplayer/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Сетевые протоколы и мультиплеер](../README.md#сетевые-протоколы-и-мультиплеер)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](03-entity-world-builtins.md) | [Следующая страница ➡](05-sound-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

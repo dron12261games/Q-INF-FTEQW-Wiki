@@ -1,8 +1,9 @@
 ﻿# Звук
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](04-network-messages-builtins.md) | [Следующая страница ➡](06-files-database-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Звуковые builtins FTEQW покрывают три разных сценария: воспроизведение звука от сущности, воспроизведение из произвольной точки мира и полностью локальный клиентский звук без участия обычной пространственной акустики. Для практического использования важнее всего понимать две вещи: выбор `CHAN_*`-канала и коэффициент затухания `ATTN_*`, потому что именно они определяют, будет ли новый звук смешиваться с текущим и как далеко он будет слышен.
 
@@ -28,6 +29,8 @@
 - `ATTN_STATIC = 3` — ещё сильнее режет дальность, чтобы статические ambience-источники не забивали всё вокруг.
 
 `sound` стартует звук от entity и использует её channel slot, поэтому он подходит для оружия, NPC, дверей и любых объектов, у которых важна логика «замени старый звук на этом канале». `pointsound` привязывает звук только к координате [`origin`](../39-entity-keys-reference/01-worldspawn-common-keys.md#origin), без отдельного управляемого ent/channel-слота, а `ambientsound` вообще добавляет статический map-ambient для клиентов при подключении и затем не предназначен для замены или остановки через QuakeC.
+
+---
 
 ## Функции
 
@@ -72,6 +75,8 @@ void() OgreStartSaw =
 };
 ```
 
+---
+
 ### ambientsound
 `void (vector pos, string samp, float vol, float atten) ambientsound = #74;`
 
@@ -100,8 +105,10 @@ void() worldspawn =
 };
 ```
 
+---
+
 ### localsound
-`void(string soundname, optional float channel, optional float volume) localsound = #177;`
+`void(string soundname, optional float channel, optional float [volume](../38-cvars-reference/07-system-misc-cvars.md#volume)) localsound = #177;`
 
 * **soundname** — `string`, путь к sample.
 * **channel** — `float`, необязательный локальный канал; если не указан, обычно используется `0`.
@@ -135,6 +142,8 @@ void() Menu_Back =
 };
 ```
 
+---
+
 ### pointsound
 `void(vector origin, string sample, float volume, float attenuation) pointsound = #483;`
 
@@ -163,6 +172,8 @@ void(vector org) SpawnTeleportBurst =
     pointsound(org, snd_tele_burst, 1, ATTN_NORM);
 };
 ```
+
+---
 
 ### soundlength
 `float(string sample) soundlength = #534;`
@@ -204,6 +215,8 @@ void() Intro_Think =
 };
 ```
 
+---
+
 ### getsoundtime
 `float(entity e, float channel) getsoundtime = #533;`
 
@@ -238,6 +251,8 @@ void() Speaker_Think =
 };
 ```
 
+---
+
 ### precache_sound
 `string(string s) precache_sound = #19;`
 
@@ -270,6 +285,8 @@ void() DoorHitTop =
 };
 ```
 
+---
+
 ### precache_sound2
 `string(string str) precache_sound2 = #76;`
 
@@ -278,7 +295,7 @@ void() DoorHitTop =
 #### Описание и логика работы
 `precache_sound2` по runtime-поведению эквивалентен `precache_sound`: движок обрабатывает его тем же builtin-кодом, регистрирует ресурс в precache list и делает звук доступным для последующих вызовов `sound`, `pointsound`, `ambientsound` и локальных client-side проигрываний. Исторический смысл отдельного имени связан не с воспроизведением в FTE, а с совместимостью старого toolchain: vanilla qcc различал такие вызовы при упаковке shareware/full-content сценариев.
 
-На уровне мода разница обычно организационная. Если в проекте уже принят один стиль, лучше придерживаться его последовательно; смешивать `precache_sound` и `precache_sound2` в одном месте особого смысла нет. Требования к порядку те же самые: регистрируйте sound заранее, желательно в spawn/world-init, а не непосредственно перед первым событием.
+На уровне мода разница обычно организационная. Если в проекте уже принят один стиль, лучше придерживаться его последовательно; смешивать `precache_sound` и `precache_sound2` в одном месте особого смысла нет. Требования к порядку те же самые: регистрируйте sound заранее, желательно в [spawn](03-entity-world-builtins.md#spawn)/world-init, а не непосредственно перед первым событием.
 
 #### Практические сценарии использования
 ```
@@ -296,6 +313,8 @@ void(entity pl) AwardSecret =
 };
 ```
 
+---
+
 ### SetListener
 `void(vector origin, vector forward, vector right, vector up, optional float reverbtype) SetListener = #351;`
 
@@ -308,7 +327,7 @@ void(entity pl) AwardSecret =
 #### Описание и логика работы
 `SetListener` не запускает sample, а перенастраивает саму точку прослушивания аудио для текущего кадра CSQC. Документация и реализация сходятся: builtin нужно вызывать из [`CSQC_UpdateView`](00-entry-points.md#csqc_updateview), потому что без регулярного обновления движок откатывает listener обратно к обычной камере. Это основной инструмент для камер от третьего лица, кат-сцен, дронов-наблюдателей, управляемых снарядов и любых систем, где визуальная камера и источник прослушивания должны быть намеренно смещены.
 
-В отличие от `sound`, `pointsound` и `ambientsound`, здесь нет вопроса о канале, замене звука или обязательном precache — builtin влияет на то, как уже существующие world-звуки будут spatialized для игрока. Параметр `reverbtype` привязывает listener к одному из настроенных reverb slot'ов; без отдельной конфигурации безопаснее использовать `0` или трактовать ненулевое значение как переключение на специальную среду вроде underwater/reverb zone.
+В отличие от `sound`, `pointsound` и `ambientsound`, здесь нет вопроса о канале, замене звука или обязательном precache — builtin влияет на то, как уже существующие world-звуки будут spatialized для игрока. Параметр `reverbtype` привязывает listener к одному из настроенных reverb slot'ов; без отдельной конфигурации безопаснее использовать `0` или трактовать ненулевое значение как переключение на специальную среду вроде [underwater](../41-particle-directives-reference/02-particle-spawn-behaviour-directives.md#underwater)/reverb zone.
 
 #### Практические сценарии использования
 ```
@@ -330,6 +349,8 @@ void(float w, float h, float vfov) CSQC_UpdateView =
     ApplyAudioCamera(cam_org, cam_ang);
 };
 ```
+
+---
 
 ### getchannellevel
 `float(entity e, float channel) getchannellevel = #0:getchannellevel;`
@@ -356,6 +377,8 @@ void() CSQC_UpdateSpeakerMouth =
         self.frame = self.talk_frame_closed;
 };
 ```
+
+---
 
 ### getqueuedaudiotime
 `float() getqueuedaudiotime = #0:getqueuedaudiotime;`
@@ -392,6 +415,8 @@ float() FeedPreviewStream =
 };
 ```
 
+---
+
 ### getsoundindex
 `float(string soundname, optional float queryonly) getsoundindex = #0:getsoundindex;`
 
@@ -412,6 +437,8 @@ void() DebugSoundIndex =
         print(sprintf("rocket1i.wav already has network-safe index %g\n", idx));
 };
 ```
+
+---
 
 ### queueaudio
 `float(int hz, int channels, int type, void *data, unsigned int frames) queueaudio = #0:queueaudio;`
@@ -445,6 +472,8 @@ float() Menu_QueueRawClick =
 };
 ```
 
+---
+
 ### setup_reverb
 `void(float reverbslot, reverbinfo_t *reverbinfo, int sizeofreverbinfo_t) setup_reverb = #0:setup_reverb;`
 
@@ -453,7 +482,7 @@ float() Menu_QueueRawClick =
 * **sizeofreverbinfo_t** — `int`, размер передаваемой структуры в байтах; обычно передается `sizeof(reverbinfo_t)`.
 
 #### Описание и особенности работы
-`setup_reverb` инициализирует настройки параметров среды или окружения (эхо, затухание, плотность звука) для последующей активации этой зоны через встроенную функцию `SetListener`. Исторически архитектура движка подразумевает, что слот `0` зарезервирован под открытое пространство (normal), а слот `1` под воду (underwater). Попытка переопределить эти два слота может потребовать полной перезагрузки звуковой подсистемы через консольную команду `snd_restart`; в остальных кастомных слотах данные можно менять динамически в процессе игры. На системном уровне действует жёсткое ограничение: builtin работает исключительно в CSQC, и при попытке вызвать его из другого контекста или передать пустой указатель движок выбросит критический сбой `PF_cs_setupreverb: invalid reverb pointer`. Реальное воспроизведение эффекта реверберации напрямую зависит от наличия поддержки расширений EFX на аудио-бекенде (например, OpenAL).
+`setup_reverb` инициализирует настройки параметров среды или окружения (эхо, затухание, плотность звука) для последующей активации этой зоны через встроенную функцию `SetListener`. Исторически архитектура движка подразумевает, что слот `0` зарезервирован под открытое пространство (normal), а слот `1` под воду (underwater). Попытка переопределить эти два слота может потребовать полной перезагрузки звуковой подсистемы через консольную команду [`snd_restart`](../44-cli-commands-reference/03-rendering-sound-commands.md#snd_restart); в остальных кастомных слотах данные можно менять динамически в процессе игры. На системном уровне действует жёсткое ограничение: builtin работает исключительно в CSQC, и при попытке вызвать его из другого контекста или передать пустой указатель движок выбросит критический сбой `PF_cs_setupreverb: invalid reverb pointer`. Реальное воспроизведение эффекта реверберации напрямую зависит от наличия поддержки расширений EFX на аудио-бекенде (например, OpenAL).
 
 #### Пример использования
 ```qc
@@ -477,6 +506,8 @@ void(vector cam_org, vector cam_ang) ApplyTunnelListener =
     SetListener(cam_org, v_forward, v_right, v_up, 2);
 };
 ```
+
+---
 
 ### soundnameforindex
 `string(float sndindex) soundnameforindex = #0:soundnameforindex;`
@@ -503,6 +534,8 @@ void() DebugResolveSoundName =
 };
 ```
 
+---
+
 ### soundupdate
 `float(entity e, float channel, string newsample, float volume, float attenuation, float pitchpct, float flags, float timeoffset) soundupdate = #0:soundupdate;`
 
@@ -527,6 +560,8 @@ void() Drone_UpdateHum =
 };
 ```
 
+---
+
 ### stopsound
 `void(entity ent, float channel) stopsound = #0:stopsound;`
 
@@ -534,7 +569,7 @@ void() Drone_UpdateHum =
 * **channel** — `float`, звуковой канал, который будет принудительно очищен.
 
 #### Описание и особенности работы
-`stopsound` немедленно прерывает воспроизведение текущего звукового семпла на выбранном канале конкретной сущности. Техническая реализация имеет важную деталь: канал `CHAN_AUTO` не может быть остановлен этим методом напрямую, так как он динамически распределяет звуки. Если передать значение `0` (или `entchannel == 0`), движок интерпретирует это как wildcard и принудительно заглушит вообще все активные каналы на указанном эдикте. Встроенный метод одинаково стабильно работает как в SSQC, так и в CSQC, предотвращая «залипание» циклических (looping) звуков при смерти персонажей или смене состояний объектов. Передача неверного ID сущности безопасно игнорируется микшером.
+[`stopsound`](../44-cli-commands-reference/03-rendering-sound-commands.md#stopsound) немедленно прерывает воспроизведение текущего звукового семпла на выбранном канале конкретной сущности. Техническая реализация имеет важную деталь: канал `CHAN_AUTO` не может быть остановлен этим методом напрямую, так как он динамически распределяет звуки. Если передать значение `0` (или `entchannel == 0`), движок интерпретирует это как wildcard и принудительно заглушит вообще все активные каналы на указанном эдикте. Встроенный метод одинаково стабильно работает как в SSQC, так и в CSQC, предотвращая «залипание» циклических (looping) звуков при смерти персонажей или смене состояний объектов. Передача неверного ID сущности безопасно игнорируется микшером.
 
 #### Пример использования
 ```qc
@@ -545,7 +580,13 @@ void() StopLoopingEngine =
 };
 ```
 
+---
+
 ## Смежные страницы
 
-- [Музыка и аудиосистема](../05-audio-music/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Музыка и аудиосистема](../README.md#звук-и-музыка)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](04-network-messages-builtins.md) | [Следующая страница ➡](06-files-database-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

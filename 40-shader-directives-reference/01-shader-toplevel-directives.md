@@ -1,10 +1,11 @@
 ﻿# Директивы уровня материала
 
+> [⬅ Предыдущая страница](../39-entity-keys-reference/06-item-weapon-keys.md) | [Следующая страница ➡](02-shader-stage-directives.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника директив .shader](../README.md#директивы-языка-материалов-shader)
 
-> [Индекс справочника директив .shader](./README.md)
-
-Файл `.shader` описывает материал как один верхнеуровневый блок `{ }` с общими свойствами поверхности и нулём или несколькими вложенными блоками-стадиями `{ }`. Верхний уровень отвечает за поведение материала целиком: порядок отрисовки, отсечение граней, флаги неба и тумана, подключение стандартных карт и другие общие настройки. Вложенные стадии настраивают уже отдельные проходы рендера — какие текстуры использовать, как их смешивать и как анимировать координаты. Эта страница покрывает только те ключевые слова, которые пишутся сразу внутри внешнего блока материала и реально распознаются парсером `gl_shader.c` как директивы верхнего уровня.
+Эта страница покрывает только те ключевые слова, которые пишутся сразу внутри внешнего блока материала и реально распознаются движком как директивы верхнего уровня.
 
 ## Директивы
 
@@ -29,6 +30,8 @@ textures/wiki/cloth_banner
 }
 ```
 
+---
+
 ### skyparms
 `skyparms farbox height nearbox`
 
@@ -52,6 +55,8 @@ textures/wiki/sky_day
     }
 }
 ```
+
+---
 
 ### fogparms
 `fogparms (r g b) depth`
@@ -78,13 +83,15 @@ textures/wiki/fog_green
 }
 ```
 
+---
+
 ### surfaceparm
 `surfaceparm keyword`
 
 * **keyword** — одно слово, переключающее один из поддерживаемых флагов поверхности.
 
 #### Описание и логика работы
-В FTEQW `surfaceparm` — это контейнерная директива: сам синтаксис один и тот же, а смысл определяется следующим словом. Важно не путать общую экосистему Quake III с тем, что именно меняет текущий рендерный парсер: `gl_shader.c` реально переключает только часть значений `surfaceparm`, перечисленных ниже. Остальные традиционные слова могут оставаться полезными для компиляторов карт, gamecode или редакторов, но не меняют ветвление этого конкретного кода.
+Важно не путать общую экосистему Quake III с тем, что именно меняет текущий рендерный парсер FTEQW: движок реально переключает только часть значений `surfaceparm`, перечисленных ниже.
 
 Именно поэтому значения вроде `nonsolid`, `trans`, `water` и `slick` часто встречаются в `.shader`-файлах, однако в материальном парсере FTEQW они не имеют собственной отдельной ветки обработки на этом уровне. Их можно продолжать использовать ради совместимости с пайплайном контента, но в этой статье отдельно разбираются только значения, которые действительно видны в коде данного парсера.
 
@@ -196,6 +203,8 @@ textures/wiki/trigger_fog
 }
 ```
 
+---
+
 ### nomipmaps
 `nomipmaps`
 
@@ -217,6 +226,8 @@ textures/wiki/monitor_ui
 }
 ```
 
+---
+
 ### nopicmip
 `nopicmip`
 
@@ -237,6 +248,8 @@ textures/wiki/control_panel
     }
 }
 ```
+
+---
 
 ### polygonoffset
 `polygonoffset [scale]`
@@ -260,6 +273,8 @@ textures/wiki/wall_crack_decal
     }
 }
 ```
+
+---
 
 ### sort
 `sort portal|sky|opaque|decal|litdecal|seethrough|unlitdecal|banner|underwater|blend|additive|nearest|ripple|deferredlight|number`
@@ -287,6 +302,8 @@ textures/wiki/holo_panel
 }
 ```
 
+---
+
 ### deformvertexes
 `deformvertexes type ...`
 
@@ -309,6 +326,8 @@ textures/wiki/flag
     }
 }
 ```
+
+---
 
 ### portal
 `portal`
@@ -333,6 +352,8 @@ textures/wiki/mirror_plane
 }
 ```
 
+---
+
 ### entitymergable
 `entitymergable`
 
@@ -355,6 +376,8 @@ textures/wiki/foliage_cluster
     }
 }
 ```
+
+---
 
 ### clutter
 `clutter model spacing scalemin scalemax zofs anglemin anglemax`
@@ -383,6 +406,8 @@ textures/wiki/grass_ground
 }
 ```
 
+---
+
 ### deferredlight
 `deferredlight`
 
@@ -405,6 +430,8 @@ textures/wiki/light_volume
 }
 ```
 
+---
+
 ### affine
 `affine`
 
@@ -425,6 +452,8 @@ textures/wiki/retro_floor
     }
 }
 ```
+
+---
 
 ### fullrate
 `fullrate`
@@ -448,6 +477,8 @@ textures/wiki/sign_text
 }
 ```
 
+---
+
 ### diffusemap
 `diffusemap path`
 
@@ -468,6 +499,8 @@ textures/wiki/panel_metal
 }
 ```
 
+---
+
 ### normalmap
 `normalmap path`
 
@@ -486,6 +519,8 @@ textures/wiki/brick_relief
     normalmap textures/wiki/brick_relief_n.tga
 }
 ```
+
+---
 
 ### specularmap
 `specularmap path`
@@ -507,6 +542,8 @@ textures/wiki/console_frame
 }
 ```
 
+---
+
 ### fullbrightmap
 `fullbrightmap path`
 
@@ -525,6 +562,8 @@ textures/wiki/neon_panel
     fullbrightmap textures/wiki/neon_panel_f.tga
 }
 ```
+
+---
 
 ### uppermap
 `uppermap path`
@@ -546,6 +585,8 @@ models/wiki/player_skin
 }
 ```
 
+---
+
 ### lowermap
 `lowermap path`
 
@@ -565,6 +606,8 @@ models/wiki/marine_skin
     lowermap textures/wiki/marine_skin_lower.tga
 }
 ```
+
+---
 
 ### reflectmask
 `reflectmask path`
@@ -586,6 +629,8 @@ textures/wiki/wet_stone
 }
 ```
 
+---
+
 ### displacementmap
 `displacementmap path`
 
@@ -605,6 +650,8 @@ textures/wiki/carved_stone
     displacementmap textures/wiki/carved_stone_h.tga
 }
 ```
+
+---
 
 ### transmissionmap
 `transmissionmap path`
@@ -626,6 +673,8 @@ textures/wiki/thin_fabric
 }
 ```
 
+---
+
 ### thicknessmap
 `thicknessmap path`
 
@@ -646,6 +695,8 @@ textures/wiki/leaf_broad
     thicknessmap textures/wiki/leaf_broad_thick.tga
 }
 ```
+
+---
 
 ### program
 `program name`
@@ -672,6 +723,8 @@ textures/wiki/custom_metal
 }
 ```
 
+---
+
 ### glslprogram
 `glslprogram name`
 или
@@ -695,6 +748,8 @@ textures/wiki/glow_floor
     fullbrightmap textures/wiki/glow_floor_f.tga
 }
 ```
+
+---
 
 ### hlslprogram
 `hlslprogram name`
@@ -720,6 +775,8 @@ textures/wiki/d3d_only_panel
 }
 ```
 
+---
+
 ### hlsl11program
 `hlsl11program name`
 или
@@ -744,6 +801,8 @@ textures/wiki/d3d11_glass
 }
 ```
 
+---
+
 ### portalfboscale
 `portalfboscale scale`
 
@@ -766,8 +825,14 @@ textures/wiki/security_monitor
 }
 ```
 
+---
+
 ## Смежные страницы
 
 - [Язык описания материалов (.shader)](../08-materials-shaders/shader-script-language.md)
 - [Деформация геометрии по формулам (deformvertexes)](../08-materials-shaders/vertex-deformation.md)
-- [Индекс справочника директив .shader](./README.md)
+- [Индекс справочника директив .shader](../README.md#директивы-языка-материалов-shader)
+
+> [⬅ Предыдущая страница](../39-entity-keys-reference/06-item-weapon-keys.md) | [Следующая страница ➡](02-shader-stage-directives.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

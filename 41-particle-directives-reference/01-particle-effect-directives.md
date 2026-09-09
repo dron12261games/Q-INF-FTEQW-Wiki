@@ -1,10 +1,11 @@
 ﻿# Директивы эффекта
 
+> [⬅ Предыдущая страница](../40-shader-directives-reference/02-shader-stage-directives.md) | [Следующая страница ➡](02-particle-spawn-behaviour-directives.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника директив .particles](../README.md#директивы-языка-частиц-particles)
 
-> [Индекс справочника директив .particles](./README.md)
-
-Файл описания частиц в FTEQW состоит из отдельных описаний эффектов: каждая запись начинает новый слой строкой `effect имя` или нативной формой `r_part имя`, после чего идёт набор директив, меняющих визуальный результат. Один и тот же итоговый эффект часто собирается из нескольких слоёв: вспышка, дым, искры, декаль, временный свет. На этой странице собраны только директивы, влияющие на внешний вид, срок жизни и сопутствующую визуальную часть эффекта. Параметры области спавна, скоростей, гравитации и другой кинематики вынесены в отдельную статью.
+Файл описания частиц в FTEQW состоит из отдельных описаний эффектов: каждая запись начинает новый слой строкой [`effect name`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#effect) или нативной формой `r_part name`, после чего идёт набор директив, меняющих визуальный результат. Один и тот же итоговый эффект часто собирается из нескольких слоёв: вспышка, дым, искры, декаль, временный свет. На этой странице собраны только директивы, влияющие на внешний вид, срок жизни и сопутствующую визуальную часть эффекта. Параметры области спавна, скоростей, гравитации и другой кинематики вынесены в отдельную статью.
 
 ## Директивы
 
@@ -29,13 +30,15 @@ effect demo_shader
 }
 ```
 
+---
+
 ### texture
 `texture path`
 
 * **path** — путь к изображению или имя встроенного ресурса частицы.
 
 #### Описание и логика работы
-Это базовый способ выбрать картинку частицы. В `p_script.c` рядом с `texture` разбираются и варианты `linear_texture`, `nearest_texture` и `nearesttexture`: они делают то же самое, но дополнительно управляют фильтрацией, особенно заметной на пиксельных или атласных текстурах. Если текстура не задана вовсе, движок может попытаться угадать тип частицы по остальным параметрам, поэтому для предсказуемого результата обычно задают и `texture`, и `type`. В effectinfo-совместимом синтаксисе близкую роль выполняет директива `tex`.
+Это базовый способ выбрать картинку частицы. Рядом с `texture` также доступны варианты `linear_texture`, `nearest_texture` и `nearesttexture`: они делают то же самое, но дополнительно управляют фильтрацией, особенно заметной на пиксельных или атласных текстурах. Если текстура не задана вовсе, движок может попытаться угадать тип частицы по остальным параметрам, поэтому для предсказуемого результата обычно задают и `texture`, и `type`. В effectinfo-совместимом синтаксисе близкую роль выполняет директива `tex`.
 
 #### Практические сценарии использования
 ```
@@ -49,6 +52,8 @@ effect demo_texture
     type normal
 }
 ```
+
+---
 
 ### tcoords
 `tcoords s1 t1 s2 t2 [tscale] [rsmax] [rsstep]`
@@ -78,6 +83,8 @@ effect demo_tcoords
 }
 ```
 
+---
+
 ### atlas
 `atlas dims firstIndex [lastIndex]`
 
@@ -101,6 +108,8 @@ effect demo_atlas
     type normal
 }
 ```
+
+---
 
 ### rotation
 `rotation startMin [startMax] speedMin [speedMax]`
@@ -127,6 +136,8 @@ effect demo_rotation
 }
 ```
 
+---
+
 ### beamtexstep
 `beamtexstep unitsPerRepeat`
 
@@ -148,6 +159,8 @@ effect demo_beam_step
     type beam
 }
 ```
+
+---
 
 ### beamtexspeed
 `beamtexspeed scrollSpeed`
@@ -172,6 +185,8 @@ effect demo_beam_scroll
 }
 ```
 
+---
+
 ### scale
 `scale minSize [maxSize]`
 
@@ -194,6 +209,8 @@ effect demo_scale
     type normal
 }
 ```
+
+---
 
 ### scalefactor
 `scalefactor factor`
@@ -218,6 +235,8 @@ effect demo_scalefactor
 }
 ```
 
+---
+
 ### scaledelta
 `scaledelta unitsPerSecond`
 
@@ -241,6 +260,8 @@ effect demo_scaledelta
 }
 ```
 
+---
+
 ### stretchfactor
 `stretchfactor factor [minFactor]`
 
@@ -263,6 +284,8 @@ effect demo_stretch
     type spark
 }
 ```
+
+---
 
 ### count
 `count baseCount [randCount] [absoluteExtra]`
@@ -288,6 +311,8 @@ effect demo_count
 }
 ```
 
+---
+
 ### alpha
 `alpha baseAlpha [maxAlpha] [delta]`
 
@@ -312,6 +337,8 @@ effect demo_alpha
 }
 ```
 
+---
+
 ### alpharand
 `alpharand range`
 
@@ -333,6 +360,8 @@ effect demo_alpharand
     type normal
 }
 ```
+
+---
 
 ### alphadelta
 `alphadelta unitsPerSecond`
@@ -357,6 +386,8 @@ effect demo_alphadelta
 }
 ```
 
+---
+
 ### die
 `die maxTime [minTime]`
 
@@ -380,6 +411,8 @@ effect demo_die
 }
 ```
 
+---
+
 ### assoc
 `assoc effectName`
 
@@ -401,6 +434,8 @@ effect demo_assoc_flash
     assoc demo_assoc_smoke   // одновременно запустится второй слой
 }
 ```
+
+---
 
 ### colorindex
 `colorindex paletteIndex [range]`
@@ -425,6 +460,8 @@ effect demo_colorindex
 }
 ```
 
+---
+
 ### rgb
 `rgb r [g b]`
 
@@ -448,6 +485,8 @@ effect demo_rgb
     type texturedspark
 }
 ```
+
+---
 
 ### rgbdelta
 `rgbdelta rDelta [gDelta bDelta]`
@@ -474,6 +513,8 @@ effect demo_rgbdelta
 }
 ```
 
+---
+
 ### rgbrand
 `rgbrand rRange [gRange bRange]`
 
@@ -498,6 +539,8 @@ effect demo_rgbrand
     type normal
 }
 ```
+
+---
 
 ### rgbrandsync
 `rgbrandsync rSync [gSync bSync]`
@@ -525,6 +568,8 @@ effect demo_rgbrandsync
 }
 ```
 
+---
+
 ### stains
 `stains amount`
 
@@ -547,6 +592,8 @@ effect demo_stains
     type normal
 }
 ```
+
+---
 
 ### blend
 `blend mode`
@@ -571,10 +618,12 @@ effect demo_blend
 }
 ```
 
+---
+
 ### type
 `type renderType`
 
-* **renderType** — один из режимов рендера: `normal`, `beam` (токен `vbeam` тоже принимается, но в native particle-скриптах парсится так же, как `beam`), `spark`/`linespark`, `sparkfan`/`trianglefan`, `texturedspark`, `decal`/`cdecal`, `udecal`.
+* **renderType** — один из режимов рендера: `normal`, `beam` (токен `vbeam` тоже принимается, но в native [particle](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#particle)-скриптах парсится так же, как `beam`), `spark`/`linespark`, `sparkfan`/`trianglefan`, `texturedspark`, `decal`/`cdecal`, `udecal`.
 
 #### Описание и логика работы
 Это главная директива выбора способа отрисовки. `normal` — обычный billboard-спрайт. `spark` и `sparkfan` делают линейные/веерные искры, `texturedspark` добавляет им полноценную текстуру, `beam` строит цельный луч вдоль трассы, а `decal`/`cdecal` и `udecal` переключают слой в режим наклейки на поверхность. Если `type` не указан, движок действительно пытается вывести тип из остальных полей: отсутствие текстуры ведёт к `spark` или `sparkfan` в зависимости от `scale`, а уже выбранный искровой тип с текстурой может автоматически стать `texturedspark`. Но для стабильного результата явный `type` почти всегда лучше.
@@ -592,6 +641,8 @@ effect demo_type
     type texturedspark    // искра тянется по скорости, но сохраняет форму текстуры
 }
 ```
+
+---
 
 ### clippeddecal
 `clippeddecal mask [match]`
@@ -616,6 +667,8 @@ effect demo_clippeddecal
 }
 ```
 
+---
+
 ### cliptype
 `cliptype effectName`
 
@@ -639,6 +692,8 @@ effect demo_cliptype
 }
 ```
 
+---
+
 ### rampmode
 `rampmode mode`
 
@@ -660,6 +715,8 @@ effect demo_rampmode
     type normal
 }
 ```
+
+---
 
 ### rampindex
 `rampindex paletteIndex [alpha] [scale]`
@@ -684,6 +741,8 @@ effect demo_rampindex
     rampindex 6 0.5 3     // поздний, более тусклый шаг
 }
 ```
+
+---
 
 ### ramp
 `ramp r [g b [alpha [scale]]]`
@@ -713,6 +772,8 @@ effect demo_ramp
 }
 ```
 
+---
+
 ### lightradius
 `lightradius minRadius [maxRadius]`
 
@@ -737,6 +798,8 @@ effect demo_lightradius
 }
 ```
 
+---
+
 ### lightradiusfade
 `lightradiusfade unitsPerSecond`
 
@@ -760,6 +823,8 @@ effect demo_lightradiusfade
     type normal
 }
 ```
+
+---
 
 ### lightrgb
 `lightrgb r g b`
@@ -787,6 +852,8 @@ effect demo_lightrgb
 }
 ```
 
+---
+
 ### lightcorona
 `lightcorona intensity scale`
 
@@ -812,6 +879,8 @@ effect demo_lightcorona
 }
 ```
 
+---
+
 ### lighttime
 `lighttime seconds`
 
@@ -835,6 +904,8 @@ effect demo_lighttime
     type normal
 }
 ```
+
+---
 
 ### spawnstain
 `spawnstain radius r g b`
@@ -862,8 +933,14 @@ effect demo_spawnstain
 }
 ```
 
+---
+
 ## Смежные страницы
 
 - [../10-particles-decals-trails/particle-script-language.md](../10-particles-decals-trails/particle-script-language.md)
 - [../10-particles-decals-trails/surface-stains.md](../10-particles-decals-trails/surface-stains.md)
-- [./README.md](./README.md)
+- [Директивы языка частиц (.particles)](../README.md#директивы-языка-частиц-particles)
+
+> [⬅ Предыдущая страница](../40-shader-directives-reference/02-shader-stage-directives.md) | [Следующая страница ➡](02-particle-spawn-behaviour-directives.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

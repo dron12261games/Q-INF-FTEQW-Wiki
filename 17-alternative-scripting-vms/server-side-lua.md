@@ -1,8 +1,8 @@
 ﻿# Lua-скрипты на сервере
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](../16-quakec-scripting/menu-quakec.md) | [Следующая страница ➡](q1qvm-bytecode.md)
 
-> Раздел: [Альтернативные языки и виртуальные машины игровой логики](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
 
 ## Коротко
 
@@ -12,8 +12,14 @@ Lua-поддержка есть в исходниках FTEQW, но в стан�
 
 Для мода, который должен запускаться на типовых сборках FTEQW, безопаснее ориентироваться на [SSQC](../16-quakec-scripting/server-side-quakec-ssqc.md) или [Q1QVM](./q1qvm-bytecode.md).
 
+---
+
 ## Смежные страницы
 
 - [Серверная игровая логика (SSQC)](../16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Альтернативный байт-код игровой логики (Q1QVM)](./q1qvm-bytecode.md)
 - [Lua не включена по умолчанию](../43-legacy-unused-features/lua-not-default.md)
+
+> [⬅ Предыдущая страница](../16-quakec-scripting/menu-quakec.md) | [Следующая страница ➡](q1qvm-bytecode.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

@@ -1,8 +1,9 @@
 ﻿# Ввод, интерфейс и клавиатура CSQC
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](08-csqc-rendering-builtins.md) | [Следующая страница ➡](13-menuqc-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Этот раздел собран для builtins CSQC, которые управляют вводом, курсором, привязками клавиш и встроенным браузером на стороне клиента. Для CSQC особенно важны две системы движка: **key destination** определяет, кто сейчас получает клавиатуру (`game`, `console`, `menu`), а **bindmaps** позволяют держать несколько независимых наборов биндов и переключать активную раскладку без переписывания `bind`-строк. 
 
@@ -40,6 +41,8 @@ void() CSQC_ReplayLatestInput =
 };
 ```
 
+---
+
 ### getkeybind
 `string(float keynum) getkeybind = #342;`
 
@@ -67,6 +70,8 @@ string() DescribeUseKey =
 };
 ```
 
+---
+
 ### setkeybind
 `float(float key, string bind, optional float bindmap, optional float modifier) setkeybind = #630;`
 
@@ -93,6 +98,8 @@ void() Menu_BindQuickSave =
 };
 ```
 
+---
+
 ### getkeydest
 `float() getkeydest = #602;`
 
@@ -111,6 +118,8 @@ float() Menu_IsCapturingKeyboard =
 };
 ```
 
+---
+
 ### setkeydest
 `void(float dest) setkeydest = #601;`
 
@@ -127,6 +136,8 @@ void() Menu_CloseCurrentScreen =
 		setkeydest(0); // закрываем MenuQC и возвращаем клавиатуру игре
 };
 ```
+
+---
 
 ### getbindmaps
 `vector() getbindmaps = #631;`
@@ -146,6 +157,8 @@ void() HUD_PrintBindmapState =
 	dprint(sprintf("bindmaps: primary=%g secondary=%g\n", active_maps_x, active_maps_y));
 };
 ```
+
+---
 
 ### setbindmaps
 `float(vector bm) setbindmaps = #632;`
@@ -172,6 +185,8 @@ void(float use_alt_layout) HUD_SelectWeaponBindmap =
 };
 ```
 
+---
+
 ### getmousepos
 `vector() getmousepos = #66;`
 `vector() getmousepos = #344;`
@@ -194,6 +209,8 @@ void() Menu_UpdateCursorHotspot =
 		dprint("cursor is over the lower-right half of the menu\n");
 };
 ```
+
+---
 
 ### setmousetarget
 `void(float trg) setmousetarget = #603;`
@@ -220,6 +237,8 @@ void(float panel_open) HUD_SetInventoryMouseMode =
 };
 ```
 
+---
+
 ### getmousetarget
 `float() getmousetarget = #604;`
 
@@ -237,6 +256,8 @@ string() HUD_DescribeMouseRouting =
 	return "mouse is feeding relative deltas";
 };
 ```
+
+---
 
 ### setcursormode
 `void(float usecursor, optional string cursorimage, optional vector hotspot_and_scale) setcursormode = #343;`
@@ -257,6 +278,8 @@ void() Menu_EnablePointer =
 };
 ```
 
+---
+
 ### setsensitivityscaler
 `void(float sens) setsensitivityscaler = #346;`
 
@@ -275,6 +298,8 @@ void(float scoped) CSQC_UpdateZoomSensitivity =
 		setsensitivityscaler(1);
 };
 ```
+
+---
 
 ### keynumtostring
 `string(float keynum) keynumtostring = #340;`
@@ -298,6 +323,8 @@ string(float keynum) UI_FormatKeyLabel =
 };
 ```
 
+---
+
 ### keynumtostring_csqc
 `string(float keynum) keynumtostring_csqc = #340;`
 
@@ -316,6 +343,8 @@ string() Menu_ShowLegacyConfirmKey =
 	return "Press " + keynumtostring_csqc(key) + " to confirm";
 };
 ```
+
+---
 
 ### keynumtostring_menu
 `string(float keynum) keynumtostring_menu = #609;`
@@ -336,6 +365,8 @@ string() HUD_ShowMenuStyleEscapeName =
 };
 ```
 
+---
+
 ### keynumtostring_omgwtf
 `string(float keynum) keynumtostring_omgwtf = #520;`
 
@@ -354,6 +385,8 @@ string() HUD_LegacyKeyName =
 	return keynumtostring_omgwtf(key);
 };
 ```
+
+---
 
 ### stringtokeynum
 `float(string keyname) stringtokeynum = #341;`
@@ -377,6 +410,8 @@ float() UI_FindPauseKey =
 };
 ```
 
+---
+
 ### stringtokeynum_csqc
 `float(string keyname) stringtokeynum_csqc = #341;`
 
@@ -392,6 +427,8 @@ float() Menu_LegacyAcceptKey =
 	return stringtokeynum_csqc("ENTER");
 };
 ```
+
+---
 
 ### stringtokeynum_menu
 `float(string key) stringtokeynum_menu = #614;`
@@ -409,6 +446,8 @@ float() HUD_MenuStyleBackKey =
 };
 ```
 
+---
+
 ### findkeysforcommand
 `string(string command, optional float bindmap) findkeysforcommand = #521;`
 `string(string command, optional float bindmap) findkeysforcommand = #610;`
@@ -417,7 +456,7 @@ float() HUD_MenuStyleBackKey =
 * **bindmap** — необязательный номер bindmap; историческая документация legacy CSQC-слота советует не полагаться на него как на полностью переносимый фильтр.
 
 #### Описание и логика работы
-`findkeysforcommand` доступна и в CSQC, и в MenuQC, но исторически существует в двух слотах: deprecated CSQC `#521` и menu/shared `#610`. Она возвращает строку-список ключей, которую следует разбирать через [`tokenize`](02-string-builtins.md#tokenize), а не обычным сравнением одной строки. В legacy документации подчёркнуто, что формат несовместим с [`tokenize_console`](02-string-builtins.md#tokenize_console), что модификаторы не поддерживаются и что пустой результат означает отсутствие биндов; для современного FTEQW также полезно помнить, что новый код с modifier-aware поиском лучше строить вокруг `findkeysforcommandex`, если вы можете требовать его наличие.
+`findkeysforcommand` доступна и в CSQC, и в MenuQC, но исторически существует в двух слотах: deprecated CSQC `#521` и menu/shared `#610`. Она возвращает строку-список ключей, которую следует разбирать через [`tokenize`](02-string-builtins.md#tokenize), а не обычным сравнением одной строки. В legacy документации подчёркнуто, что формат несовместим с [`tokenize_console`](02-string-builtins.md#tokenize_console), что модификаторы не поддерживаются и что пустой результат означает отсутствие биндов; для современного FTEQW также полезно помнить, что новый код с modifier-aware поиском лучше строить вокруг [`findkeysforcommandex`](04-network-messages-builtins.md#findkeysforcommandex), если вы можете требовать его наличие.
 
 #### Практические сценарии использования
 ```
@@ -435,6 +474,8 @@ string() UI_FirstJumpKey =
 	return keynumtostring(stof(argv(0)));
 };
 ```
+
+---
 
 ### gecko_create
 `float(string name, optional string initialURI) gecko_create = #487;`
@@ -457,6 +498,8 @@ void() HelpBrowser_Init =
 };
 ```
 
+---
+
 ### gecko_destroy
 `void(string name) gecko_destroy = #488;`
 
@@ -472,6 +515,8 @@ void() HelpBrowser_Shutdown =
 	gecko_destroy("browser/help");
 };
 ```
+
+---
 
 ### gecko_navigate
 `void(string name, string URI) gecko_navigate = #489;`
@@ -491,6 +536,8 @@ void() HelpBrowser_OpenNews =
 };
 ```
 
+---
+
 ### gecko_keyevent
 `float(string name, float key, float eventtype, optional float charcode) gecko_keyevent = #490;`
 
@@ -500,7 +547,7 @@ void() HelpBrowser_OpenNews =
 * **charcode** — необязательный Unicode-символ; если его не передать, движок попытается использовать ASCII-код для простых клавиш.
 
 #### Описание и логика работы
-`gecko_keyevent` доступна в CSQC и MenuQC и пересылает key event во встроенный браузер. Возвращаемое ненулевое значение означает, что событие было принято браузерным слоем, а не потеряно из-за отсутствующего shader/plugin. Это основной мост между `CSQC_InputEvent`/`Menu_InputEvent` и HTML-формами, полями ввода, клавиатурной навигацией по странице.
+`gecko_keyevent` доступна в CSQC и MenuQC и пересылает key event во встроенный браузер. Возвращаемое ненулевое значение означает, что событие было принято браузерным слоем, а не потеряно из-за отсутствующего shader/plugin. Это основной мост между [`CSQC_InputEvent`](00-entry-points.md#csqc_inputevent)/[`Menu_InputEvent`](00-entry-points.md#menu_inputevent) и HTML-формами, полями ввода, клавиатурной навигацией по странице.
 
 #### Практические сценарии использования
 ```
@@ -517,6 +564,8 @@ float(float evtype, float scanx, float chary, float devid) CSQC_InputEvent =
 	return 0;
 };
 ```
+
+---
 
 ### gecko_mousemove
 `void(string name, float x, float y) gecko_mousemove = #491;`
@@ -550,6 +599,8 @@ void() HelpBrowser_UpdateMouse =
 };
 ```
 
+---
+
 ### gecko_resize
 `void(string name, float w, float h) gecko_resize = #492;`
 
@@ -571,13 +622,15 @@ void(float fullscreen) HelpBrowser_Resize =
 };
 ```
 
+---
+
 ### gecko_get_texture_extent
 `vector(string name) gecko_get_texture_extent = #493;`
 
 * **name** — имя браузерного shader, размеры которого нужно запросить.
 
 #### Описание и логика работы
-`gecko_get_texture_extent` доступна в CSQC и MenuQC и возвращает вектор, где `x` и `y` содержат текущие пиксельные размеры браузерной текстуры, а `z` — дополнительное значение aspect ratio, которое сообщает media/browser backend. Если браузер ещё не создан, плагин отсутствует или размер пока не известен, безопасно ожидать нули. Эта функция полезна для диагностики, подстройки `drawpic`-прямоугольника и для ожидания момента, когда страница действительно инициализировала рендер-буфер.
+`gecko_get_texture_extent` доступна в CSQC и MenuQC и возвращает вектор, где `x` и `y` содержат текущие пиксельные размеры браузерной текстуры, а `z` — дополнительное значение aspect ratio, которое сообщает media/browser backend. Если браузер ещё не создан, плагин отсутствует или размер пока не известен, безопасно ожидать нули. Эта функция полезна для диагностики, подстройки [`drawpic`](08-csqc-rendering-builtins.md#drawpic)-прямоугольника и для ожидания момента, когда страница действительно инициализировала рендер-буфер.
 
 #### Практические сценарии использования
 ```
@@ -592,6 +645,8 @@ void() HelpBrowser_DebugExtent =
 		browser_extent_z));
 };
 ```
+
+---
 
 ### CL_RotateMoves
 `void(vector anglechange, optional float seat) CL_RotateMoves = #638;`
@@ -610,8 +665,10 @@ void(vector delta_ang) ApplyPortalTurn =
 };
 ```
 
+---
+
 ### clipboard_get
-`void(int cliptype) clipboard_get = #0:clipboard_get;`
+`void(int [cliptype](../41-particle-directives-reference/01-particle-effect-directives.md#cliptype)) clipboard_get = #0:clipboard_get;`
 
 * **cliptype** — `int`, тип буфера обмена (`CBT_CLIPBOARD` для стандартных Ctrl+C/Ctrl+V, `CBT_SELECTION` для X11-style буфера выделения средней кнопкой мыши).
 
@@ -640,6 +697,8 @@ void() Menu_RequestPaste =
 };
 ```
 
+---
+
 ### clipboard_set
 `void(int cliptype, string text) clipboard_set = #0:clipboard_set;`
 
@@ -657,6 +716,8 @@ void() Menu_CopyServerAddress =
 };
 ```
 
+---
+
 ### drawtextfield
 `float(vector pos, vector size, float alignflags, string text) drawtextfield = #0:drawtextfield;`
 
@@ -666,7 +727,7 @@ void() Menu_CopyServerAddress =
 * **text** — `string`, форматируемый многострочный текст для рендеринга.
 
 #### Описание и особенности работы
-`drawtextfield` выполняет рендеринг сложного форматированного текста внутри заданной прямоугольной области, автоматически рассчитывая переносы слов по границам блока и возвращая итоговое количество фактически отрисованных строк. Метод доступен в CSQC и MenuQC, однако на старых или кастомных сборках без поддержки продвинутого UI движок может выдать `PF_Fixme`-предупреждение. На низком уровне вызов подготавливает вершины через функцию `R_DrawTextField`, учитывая глобальные настройки активного шрифта `drawfont` и его масштаба `drawfontscale`. Использование данного метода предпочтительнее ручной нарезки строк через `drawstring`, так как движок выполняет оптимизацию текстового контейнера на уровне GPU-атласа за один проход.
+`drawtextfield` выполняет рендеринг сложного форматированного текста внутри заданной прямоугольной области, автоматически рассчитывая переносы слов по границам блока и возвращая итоговое количество фактически отрисованных строк. Метод доступен в CSQC и MenuQC, однако на старых или кастомных сборках без поддержки продвинутого UI движок может выдать `PF_Fixme`-предупреждение. На низком уровне вызов подготавливает вершины через функцию `R_DrawTextField`, учитывая глобальные настройки активного шрифта `drawfont` и его масштаба `drawfontscale`. Использование данного метода предпочтительнее ручной нарезки строк через [`drawstring`](08-csqc-rendering-builtins.md#drawstring), так как движок выполняет оптимизацию текстового контейнера на уровне GPU-атласа за один проход.
 
 #### Пример использования
 ```qc
@@ -680,6 +741,8 @@ void() Menu_DrawWrappedDescription =
     drawstring('64 180 0', sprintf("lines: %g", lines), '8 8 0', '1 1 0', 1, 0);
 };
 ```
+
+---
 
 ### gecko_getproperty
 `string(string shadname, string propname) gecko_getproperty = #0:gecko_getproperty;`
@@ -702,6 +765,8 @@ void() Browser_DebugTitle =
 };
 ```
 
+---
+
 ### getcursormode
 `float(float effective) getcursormode = #0:getcursormode;`
 
@@ -721,6 +786,8 @@ void() Menu_EnsureCursorVisible =
 };
 ```
 
+---
+
 ### setmousepos
 `void(vector newpos) setmousepos = #0:setmousepos;`
 
@@ -738,6 +805,8 @@ void() Menu_CenterCursorOnDialog =
 };
 ```
 
+---
+
 ### setwindowcaption
 `void(string newcaption) setwindowcaption = #0:setwindowcaption;`
 
@@ -754,9 +823,15 @@ void() Menu_ShowBrowserCaption =
 };
 ```
 
+---
+
 ## Смежные страницы
 
 - [Menu QuakeC](../16-quakec-scripting/menu-quakec.md)
 - [Клавиатура, бинды и устройства ввода](../19-config-console/key-bindings-input-devices.md)
 - [Встроенные веб-страницы в игре](../31-embedded-web-browser/in-game-web-pages.md)
-- [Индекс справочника builtins](./README.md)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](08-csqc-rendering-builtins.md) | [Следующая страница ➡](13-menuqc-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

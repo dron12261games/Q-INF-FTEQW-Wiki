@@ -1,8 +1,9 @@
 ﻿# Директивы уровня стадии
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](01-shader-toplevel-directives.md) | [Следующая страница ➡](../41-particle-directives-reference/01-particle-effect-directives.md)
 
-> [Индекс справочника директив .shader](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника директив .shader](../README.md#директивы-языка-материалов-shader)
 
 Стадия материала — это внутренний блок `{ ... }` внутри `.shader`, который описывает один проход отрисовки: какую текстуру брать, как смешивать её с уже нарисованным кадром, как генерировать цвет, прозрачность и UV-координаты. В отличие от внешнего блока материала, стадия работает на уровне отдельного слоя и почти всегда отвечает за конкретный визуальный вклад: базовую диффузную карту, свечение, блик, грязь, маску, отражение или служебный буфер. FTEQW понимает как классический Quake III-синтаксис, так и ряд совместимых расширений из Doom 3, RTCW, Alien Arena и QFusion/Warsow. Ниже собраны именно директивы, которые парсер принимает внутри блока стадии, без директив верхнего уровня материала.
 
@@ -24,13 +25,13 @@
 | `$deluxmap` | deluxemap с направлением освещения |
 | `$diffuse` | диффузная карта из PBR/programmable-пайплайна |
 | `$paletted` | палеттизированная версия базовой текстуры |
-| `$normalmap` | normal map |
+| `$[normalmap](01-shader-toplevel-directives.md#normalmap)` | normal map |
 | `$specular` | specular/gloss map |
 | `$fullbright` | fullbright/emissive map |
 | `$upperoverlay` | верхний overlay-слой player-skin окраски |
 | `$loweroverlay` | нижний overlay-слой player-skin окраски |
 | `$reflectcube` | cubemap отражений материала |
-| `$reflectmask` | маска силы отражения |
+| `$[reflectmask](01-shader-toplevel-directives.md#reflectmask)` | маска силы отражения |
 | `$displacement` | displacement/height-карта |
 | `$shadowmap` | shadow map; стадия помечается как depth-compare |
 | `$lightcubemap` | light cubemap |
@@ -74,6 +75,8 @@
 }
 ```
 
+---
+
 ### animmap
 `animmap <fps> <frame1> <frame2> ...`
 
@@ -90,6 +93,8 @@
 	blendfunc blend
 }
 ```
+
+---
 
 ### clampmap
 `clampmap <textureOrSpecial>`
@@ -108,6 +113,8 @@
 }
 ```
 
+---
+
 ### videoMap
 `videoMap <videoFile>`
 
@@ -123,6 +130,8 @@
 	rgbGen identity
 }
 ```
+
+---
 
 ### cubemap
 `cubemap <cubeTexture>`
@@ -141,6 +150,8 @@
 }
 ```
 
+---
+
 ### cameracubemap
 `cameracubemap <cubeTexture>`
 
@@ -156,6 +167,8 @@
 	texgen reflect
 }
 ```
+
+---
 
 ### surroundmap
 `surroundmap <cubeTexture>`
@@ -173,6 +186,8 @@
 	blendfunc add
 }
 ```
+
+---
 
 ### blendfunc
 `blendfunc <preset>`
@@ -229,7 +244,7 @@ Doom 3-совместимый служебный режим, объявляющ�
 `blendfunc <srcFactor> <dstFactor>`
 
 Низкоуровневая форма даёт полный контроль над формулой:
-`результат = (цвет стадии × srcFactor) + (уже нарисованный кадр × dstFactor)`.
+`result = (stage color × srcFactor) + (already drawn frame × dstFactor)`.
 
 **Допустимые src-факторы:**
 
@@ -268,6 +283,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### blend
 `blend <presetOrFactors>`
 
@@ -283,6 +300,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	blend add
 }
 ```
+
+---
 
 ### rgbGen
 `rgbGen <mode> [args...]`
@@ -359,9 +378,9 @@ Doom 3-совместимый служебный режим, объявляющ�
 Использует «верхний» пользовательский цвет classic Quake player customization. Чаще всего встречается в старых player-skin/overlay-материалах.
 
 #### bottomcolor
-`rgbGen bottomcolor`
+`rgbGen [bottomcolor](../38-cvars-reference/07-system-misc-cvars.md#bottomcolor)`
 
-Использует «нижний» пользовательский цвет classic Quake player customization. Обычно применяется вместе с `topcolor`, чтобы раздельно перекрашивать разные области скина.
+Использует «нижний» пользовательский цвет classic Quake player customization. Обычно применяется вместе с [`topcolor`](../38-cvars-reference/07-system-misc-cvars.md#topcolor), чтобы раздельно перекрашивать разные области скина.
 
 #### Практические сценарии использования
 ```
@@ -371,6 +390,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	rgbGen wave sin 0.6 0.4 0 1.2
 }
 ```
+
+---
 
 ### alphaGen
 `alphaGen <mode> [args...]`
@@ -399,7 +420,7 @@ Doom 3-совместимый служебный режим, объявляющ�
 #### wave
 `alphaGen wave <func> <base> <amplitude> <phase> <frequency>`
 
-Пульсирующая прозрачность. Поддерживаются те же волновые функции, что и у `rgbGen wave`: `sin`, `triangle`, `square`, `sawtooth`, `inversesawtooth`, `noise`.
+Пульсирующая прозрачность. Поддерживаются те же волновые функции, что и у `rgbGen wave`: [`sin`](../37-quakec-builtins-reference/01-math-vector-builtins.md#sin), `triangle`, `square`, `sawtooth`, `inversesawtooth`, `noise`.
 
 #### lightingSpecular
 `alphaGen lightingSpecular`
@@ -420,6 +441,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### alphaShift
 `alphaShift <speed> <min> <max>`
 
@@ -439,6 +462,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### depthfunc
 `depthfunc <mode>`
 
@@ -456,6 +481,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### depthwrite
 `depthwrite`
 
@@ -470,6 +497,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	depthwrite
 }
 ```
+
+---
 
 ### nodepthtest
 `nodepthtest`
@@ -486,6 +515,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### nodepth
 `nodepth`
 
@@ -500,6 +531,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	nodepth
 }
 ```
+
+---
 
 ### alphafunc
 `alphafunc <mode>`
@@ -518,6 +551,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### alphaMask
 `alphaMask`
 
@@ -532,6 +567,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	depthwrite
 }
 ```
+
+---
 
 ### alphaTest
 `alphaTest 0.5`
@@ -549,6 +586,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	depthwrite
 }
 ```
+
+---
 
 ### tcMod
 `tcMod <mode> [args...]`
@@ -604,6 +643,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### scale
 `scale <x> <y>`
 `scale static <x>, static <y>`
@@ -622,6 +663,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 }
 ```
 
+---
+
 ### scroll
 `scroll static <x> static <y>`
 
@@ -638,6 +681,8 @@ Doom 3-совместимый служебный режим, объявляющ�
 	scroll static 0.2 static 0
 }
 ```
+
+---
 
 ### tcGen
 `tcGen <mode> [args...]`
@@ -702,6 +747,8 @@ RTCW-совместимое слово, которое парсер FTEQW сво
 }
 ```
 
+---
+
 ### texgen
 `texgen <mode> [args...]`
 
@@ -740,6 +787,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### envmap
 `envmap`
 
@@ -754,6 +803,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	blendfunc add
 }
 ```
+
+---
 
 ### detail
 `detail`
@@ -771,6 +822,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### nolightmap
 `nolightmap`
 
@@ -785,6 +838,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	blendfunc add
 }
 ```
+
+---
 
 ### program
 `program <programName>`
@@ -804,6 +859,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### maskcolor
 `maskcolor`
 
@@ -819,6 +876,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### maskred
 `maskred`
 
@@ -832,6 +891,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	maskred
 }
 ```
+
+---
 
 ### maskgreen
 `maskgreen`
@@ -847,6 +908,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### maskblue
 `maskblue`
 
@@ -861,6 +924,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### maskalpha
 `maskalpha`
 
@@ -874,6 +939,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	maskalpha
 }
 ```
+
+---
 
 ### red
 `red <value>`
@@ -893,6 +960,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### green
 `green <value>`
 
@@ -910,6 +979,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	blue 0.1
 }
 ```
+
+---
 
 ### blue
 `blue <value>`
@@ -929,6 +1000,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### alpha
 `alpha <value>`
 
@@ -946,6 +1019,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### map16
 `map16 <textureOrSpecial>`
 
@@ -960,6 +1035,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	map16 textures/legacy/panel_16bit.tga
 }
 ```
+
+---
 
 ### map32
 `map32 <textureOrSpecial>`
@@ -976,6 +1053,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### mapcomp
 `mapcomp <textureOrSpecial>`
 
@@ -991,6 +1070,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### mapnocomp
 `mapnocomp <textureOrSpecial>`
 
@@ -1005,6 +1086,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	mapnocomp textures/legacy/wall_uncomp.tga
 }
 ```
+
+---
 
 ### animcompmap
 `animcompmap <fps> <frame1> <frame2> ...`
@@ -1022,6 +1105,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### animnocompmap
 `animnocompmap <fps> <frame1> <frame2> ...`
 
@@ -1037,6 +1122,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 	animnocompmap 6 textures/legacy/lamp1.tga textures/legacy/lamp2.tga
 }
 ```
+
+---
 
 ### animclampmap
 `animclampmap <fps> <frame1> <frame2> ...`
@@ -1055,6 +1142,8 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ### material
 `material <baseTexture> <normalMap> <specularMap>`
 
@@ -1072,10 +1161,15 @@ Doom 3-совместимая форма cubemap/skybox-генерации ко�
 }
 ```
 
+---
+
 ## Смежные страницы
 
 - [Анимация текстурных координат (вращение/скролл/волны)](../08-materials-shaders/texcoord-animation.md)
 - [Формулы цвета и прозрачности (rgbGen/alphaGen)](../08-materials-shaders/color-alpha-formulas.md)
 - [Многослойные и полупрозрачные материалы](../08-materials-shaders/multilayer-transparent-materials.md)
-- [Индекс справочника директив .shader](./README.md)
+- [Индекс справочника директив .shader](../README.md#директивы-языка-материалов-shader)
 
+> [⬅ Предыдущая страница](01-shader-toplevel-directives.md) | [Следующая страница ➡](../41-particle-directives-reference/01-particle-effect-directives.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

@@ -1,8 +1,9 @@
 ﻿# Файлы, буферы, хеш-таблицы и базы данных
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](05-sound-builtins.md) | [Следующая страница ➡](07-precache-resources-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Эта группа builtins покрывает несколько уровней хранения и обмена данными: обычные файлы в песочнице gamedir, строковые буферы, key-value хранилища, низкоуровневую адресуемую память и SQL-подключения. Большинство файловых операций по умолчанию направляются в `data/` внутри текущего мода и не позволяют выйти наружу через абсолютные пути, `..` или Windows-style пути с `\`. Для `buf_*` и `hash_*` движок возвращает числовые хендлы, которые нужно хранить и освобождать вручную. Функции семейства `mem*` особенно опасны: неверные указатели, смещения и размеры способны повредить данные QuakeC VM или уронить выполнение скрипта.
 
@@ -33,6 +34,8 @@ void() save_match_log =
 };
 ```
 
+---
+
 ### fclose
 `void(filestream fhandle) fclose = #111;`
 
@@ -55,6 +58,8 @@ void() rewrite_stats_file =
     fclose(f); // именно здесь буфер гарантированно уходит на диск
 };
 ```
+
+---
 
 ### fgets
 `string(filestream fhandle) fgets = #112;`
@@ -87,6 +92,8 @@ void() dump_whitelist =
 };
 ```
 
+---
+
 ### fputs
 `void(filestream fhandle, string s, optional string s2, optional string s3, optional string s4, optional string s5, optional string s6, optional string s7) fputs = #113;`
 
@@ -110,6 +117,8 @@ void(entity pl) append_player_score =
     fclose(f);
 };
 ```
+
+---
 
 ### fexists
 `float(string fname) fexists = #653;`
@@ -137,6 +146,8 @@ void() ensure_server_note =
 };
 ```
 
+---
+
 ### fcopy
 `float(string src, string dst) fcopy = #650;`
 
@@ -155,6 +166,8 @@ void() backup_settings =
 };
 ```
 
+---
+
 ### fremove
 `float(string fname) fremove = #652;`
 
@@ -171,6 +184,8 @@ void() reset_daily_log =
         bprint("old log removed\n");
 };
 ```
+
+---
 
 ### frename
 `float(string src, string dst) frename = #651;`
@@ -199,6 +214,8 @@ void() publish_new_config =
 };
 ```
 
+---
+
 ### rmtree
 `float(string path) rmtree = #654;`
 
@@ -216,6 +233,8 @@ void() try_purge_cache_tree =
         bprint("rmtree is not implemented here\n");
 };
 ```
+
+---
 
 ### writetofile
 `void(filestream fh, entity e) writetofile = #606;`
@@ -241,6 +260,8 @@ void(entity victim) save_single_monster =
 };
 ```
 
+---
+
 ### loadfromfile
 `void(string s) loadfromfile = #530;`
 
@@ -260,6 +281,8 @@ void() restore_wave_from_disk =
 };
 ```
 
+---
+
 ### loadfromdata
 `void(string s) loadfromdata = #529;`
 
@@ -278,6 +301,8 @@ void() spawn_bonus_box =
     loadfromdata(entblob);
 };
 ```
+
+---
 
 ### whichpack
 `string(string filename, optional enumflags:float{WP_REFERENCEPACKAGE,WP_FULLPACKAGEPATH} flags) whichpack = #503;`
@@ -299,6 +324,8 @@ void() print_model_source =
         bprint("player.mdl came from ", pkg, "\n");
 };
 ```
+
+---
 
 ### search_begin
 `searchhandle(string pattern, enumflags:float{SB_CASEINSENSITIVE=1<<0,SB_FULLPACKAGEPATH=1<<1,SB_ALLOWDUPES=1<<2,SB_FORCESEARCH=1<<3,SB_MULTISEARCH=1<<4} flags, float quiet, optional string filterpackage) search_begin = #444;`
@@ -330,6 +357,8 @@ void() scan_maps =
 };
 ```
 
+---
+
 ### search_end
 `void(searchhandle handle) search_end = #445;`
 
@@ -352,6 +381,8 @@ void() count_cfg_files =
     search_end(h);
 };
 ```
+
+---
 
 ### search_getsize
 `float(searchhandle handle) search_getsize = #446;`
@@ -377,6 +408,8 @@ void() announce_available_shaders =
     search_end(h);
 };
 ```
+
+---
 
 ### search_getfilename
 `string(searchhandle handle, float num) search_getfilename = #447;`
@@ -405,6 +438,8 @@ void() list_hud_configs =
 };
 ```
 
+---
+
 ### buf_create
 `strbuf() buf_create = #460;`
 
@@ -427,6 +462,8 @@ void() init_recent_maps_buffer =
     buf_del(b);
 };
 ```
+
+---
 
 ### buf_del
 `void(strbuf bufhandle) buf_del = #461;`
@@ -452,6 +489,8 @@ void() build_and_release_list =
 };
 ```
 
+---
+
 ### buf_getsize
 `float(strbuf bufhandle) buf_getsize = #462;`
 
@@ -476,6 +515,8 @@ void() print_buffer_size =
     buf_del(b);
 };
 ```
+
+---
 
 ### buf_copy
 `void(strbuf bufhandle_from, strbuf bufhandle_to) buf_copy = #463;`
@@ -507,6 +548,8 @@ void() duplicate_vote_list =
 };
 ```
 
+---
+
 ### buf_loadfile
 `float(string filename, strbuf bufhandle) buf_loadfile = #535;`
 
@@ -532,6 +575,8 @@ void() load_map_rotation =
     buf_del(b);
 };
 ```
+
+---
 
 ### buf_writefile
 `float(filestream filehandle, strbuf bufhandle, optional float startpos, optional float numstrings) buf_writefile = #536;`
@@ -570,6 +615,8 @@ void() write_top_three =
 };
 ```
 
+---
+
 ### buf_sort
 `void(strbuf bufhandle, float sortprefixlen, float backward) buf_sort = #464;`
 
@@ -600,6 +647,8 @@ void() sort_recent_maps =
 };
 ```
 
+---
+
 ### buf_implode
 `string(strbuf bufhandle, string glue) buf_implode = #465;`
 
@@ -628,6 +677,8 @@ void() print_map_vote_line =
     buf_del(b);
 };
 ```
+
+---
 
 ### buf_cvarlist
 `void(strbuf strbuf, string pattern, string antipattern) buf_cvarlist = #517;`
@@ -658,6 +709,8 @@ void() list_server_cvars =
 };
 ```
 
+---
+
 ### bufstr_add
 `float(strbuf bufhandle, string str, float ordered) bufstr_add = #468;`
 
@@ -685,6 +738,8 @@ void() add_vote_entry =
 };
 ```
 
+---
+
 ### bufstr_free
 `void(strbuf bufhandle, float string_index) bufstr_free = #469;`
 
@@ -711,6 +766,8 @@ void() clear_second_rotation_entry =
 };
 ```
 
+---
+
 ### bufstr_get
 `string(strbuf bufhandle, float string_index) bufstr_get = #466;`
 
@@ -735,6 +792,8 @@ void() show_first_map =
     buf_del(b);
 };
 ```
+
+---
 
 ### bufstr_set
 `void(strbuf bufhandle, float string_index, string str) bufstr_set = #467;`
@@ -762,12 +821,14 @@ void() patch_rotation_slot =
 };
 ```
 
+---
+
 ### bufstr_find
 `float(float bufhandle, string match, float matchrule, float startpos, float step) bufstr_find = #537;`
 
 * **bufhandle** — буфер строк.
 * **match** — искомый текст или шаблон.
-* **matchrule** — правило поиска: `0`/`5` wildcard pattern, `1` exact, `2` prefix, `3` suffix, `4` substring.
+* **matchrule** — правило поиска: `0`/`5` wildcard pattern, `1` exact, `2` prefix, `3` suffix, `4` [substring](02-string-builtins.md#substring).
 * **startpos** — индекс, с которого начинается поиск.
 * **step** — шаг обхода, обычно `1`.
 
@@ -795,6 +856,8 @@ void() find_vote_by_prefix =
 };
 ```
 
+---
+
 ### hash_createtab
 `hashtable(float tabsize, optional float defaulttype) hash_createtab = #287;`
 
@@ -819,6 +882,8 @@ void() create_runtime_cache =
 };
 ```
 
+---
+
 ### hash_destroytab
 `void(hashtable table) hash_destroytab = #288;`
 
@@ -842,6 +907,8 @@ void() dispose_round_cache =
 };
 ```
 
+---
+
 ### hash_add
 `void(hashtable table, string name, __variant value, optional float typeandflags) hash_add = #289;`
 
@@ -861,6 +928,8 @@ void() remember_player_note =
     hash_add(gamestate, "recent_map", mapname, EV_STRING | HASH_ADD);
 };
 ```
+
+---
 
 ### hash_delete
 `__variant(hashtable table, string name) hash_delete = #291;`
@@ -882,6 +951,8 @@ void() consume_saved_message =
         bprint(msg, "\n");
 };
 ```
+
+---
 
 ### hash_get
 `__variant(hashtable table, string name, optional __variant deflt, optional float requiretype, optional float index) hash_get = #290;`
@@ -905,6 +976,8 @@ void() show_saved_winner =
     bprint("last winner: ", winner, "\n");
 };
 ```
+
+---
 
 ### hash_getkey
 `string(hashtable table, float idx) hash_getkey = #292;`
@@ -932,6 +1005,8 @@ void(hashtable tab) dump_hash_keys =
 };
 ```
 
+---
+
 ### memalloc
 `__variant*(int size) memalloc = #384;`
 
@@ -958,6 +1033,8 @@ void() allocate_four_cells =
 };
 ```
 
+---
+
 ### memfree
 `void(__variant *ptr) memfree = #385;`
 
@@ -981,6 +1058,8 @@ void() release_temp_block =
     ptr = __NULL__;
 };
 ```
+
+---
 
 ### memcpy
 `void(__variant *dst, __variant *src, int size) memcpy = #386;`
@@ -1013,6 +1092,8 @@ void() clone_two_numbers =
 };
 ```
 
+---
+
 ### memfill8
 `void(__variant *dst, int val, int size) memfill8 = #387;`
 
@@ -1037,6 +1118,8 @@ void() clear_packet_buffer =
     memfree(ptr);
 };
 ```
+
+---
 
 ### memgetval
 `__variant(__variant *dst, float ofs) memgetval = #388;`
@@ -1066,6 +1149,8 @@ void() read_second_cell =
 };
 ```
 
+---
+
 ### memsetval
 `void(__variant *dst, float ofs, __variant val) memsetval = #389;`
 
@@ -1093,6 +1178,8 @@ void() store_health_snapshot =
 };
 ```
 
+---
+
 ### memptradd
 `__variant*(__variant *base, float ofs) memptradd = #390;`
 
@@ -1119,6 +1206,8 @@ void() write_third_cell_via_pointer =
 };
 ```
 
+---
+
 ### sqlconnect
 `float(optional string host, optional string user, optional string pass, optional string defaultdb, optional string driver) sqlconnect = #250;`
 
@@ -1129,7 +1218,7 @@ void() write_third_cell_via_pointer =
 * **driver** — `sqlite`, `mysql` или пустая строка для выбора по умолчанию.
 
 #### Описание и логика работы
-`sqlconnect` открывает соединение с доступным SQL-драйвером и возвращает `serveridx` либо `-1`, если драйвер недоступен или подключение не удалось. Если аргументы пустые, движок берёт значения из `sv_sql_host`, `sv_sql_username`, `sv_sql_password`, `sv_sql_defaultdb` и `sv_sql_driver`. Для SQLite имя базы, кроме `:memory:`, sandbox-ится в путь вида `data/sqlite/<имя>.db`, так что QC не получает произвольный доступ к файловой системе. Ошибки конкретного backend-а затем читаются через `sqlerror`.
+`sqlconnect` открывает соединение с доступным SQL-драйвером и возвращает `serveridx` либо `-1`, если драйвер недоступен или подключение не удалось. Если аргументы пустые, движок берёт значения из [`sv_sql_host`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_host), [`sv_sql_username`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_username), [`sv_sql_password`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_password), [`sv_sql_defaultdb`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_defaultdb) и [`sv_sql_driver`](../38-cvars-reference/04-network-server-cvars.md#sv_sql_driver). Для SQLite имя базы, кроме `:memory:`, sandbox-ится в путь вида `data/sqlite/<name>.db`, так что QC не получает произвольный доступ к файловой системе. Ошибки конкретного backend-а затем читаются через `sqlerror`.
 
 #### Практические сценарии использования
 ```qc
@@ -1142,6 +1231,8 @@ void() open_stats_db =
         bprint("sqlconnect failed\n");
 };
 ```
+
+---
 
 ### sqldisconnect
 `void(float serveridx) sqldisconnect = #251;`
@@ -1162,6 +1253,8 @@ void() close_stats_db =
     }
 };
 ```
+
+---
 
 ### sqlopenquery
 `float(float serveridx, void(float serveridx, float queryidx, float rows, float columns, float eof, float firstrow) callback, float querytype, string query) sqlopenquery = #252;`
@@ -1194,6 +1287,8 @@ void() request_top_players =
 };
 ```
 
+---
+
 ### sqlclosequery
 `void(float serveridx, float queryidx) sqlclosequery = #253;`
 
@@ -1214,6 +1309,8 @@ void(float serveridx, float queryidx, float rows, float columns, float eof, floa
     }
 };
 ```
+
+---
 
 ### sqlreadfield
 `string(float serveridx, float queryidx, float row, float column) sqlreadfield = #254;`
@@ -1239,6 +1336,8 @@ void(float serveridx, float queryidx, float rows, float columns, float eof, floa
         sqlclosequery(serveridx, queryidx);
 };
 ```
+
+---
 
 ### sqlreadfloat
 `float(float serveridx, float queryidx, float row, float column) sqlreadfloat = #258;`
@@ -1268,6 +1367,8 @@ void(float serveridx, float queryidx, float rows, float columns, float eof, floa
 };
 ```
 
+---
+
 ### sqlerror
 `string(float serveridx, optional float queryidx) sqlerror = #255;`
 
@@ -1292,6 +1393,8 @@ void(float serveridx, float queryidx, float rows, float columns, float eof, floa
 };
 ```
 
+---
+
 ### sqlescape
 `string(float serveridx, string data) sqlescape = #256;`
 
@@ -1313,6 +1416,8 @@ void() save_player_name =
 };
 ```
 
+---
+
 ### sqlversion
 `string(float serveridx) sqlversion = #257;`
 
@@ -1332,6 +1437,8 @@ void() print_sql_backend =
         bprint("SQL backend: ", v, "\n");
 };
 ```
+
+---
 
 ### digest_hex
 `string(string digest, string data, ...) digest_hex = #639;`
@@ -1353,13 +1460,15 @@ void() print_save_checksum =
 };
 ```
 
+---
+
 ### fork
 `float(optional float sleeptime) fork = #210;`
 
 * **sleeptime** — задержка перед тем, как «дочерний» QC-thread продолжит выполнение.
 
 #### Описание и логика работы
-`fork` — это не OS-level процесс, а механизм ветвления выполнения QuakeC в SSQC. Родительский поток немедленно возвращается из builtin со значением `0`, а дочерний — продолжает ту же точку выполнения позже и видит возвращаемое значение `1`. Из-за этого один и тот же вызывающий код может «вернуться дважды», поэтому в дочернем сценарии часто завершают выполнение через `abort()`. Неправильное понимание модели `fork` — прямой путь к дублирующимся эффектам, повторным начислениям и сложным race-like багам в логике мода.
+`fork` — это не OS-level процесс, а механизм ветвления выполнения QuakeC в SSQC. Родительский поток немедленно возвращается из builtin со значением `0`, а дочерний — продолжает ту же точку выполнения позже и видит возвращаемое значение `1`. Из-за этого один и тот же вызывающий код может «вернуться дважды», поэтому в дочернем сценарии часто завершают выполнение через [`abort()`](12-system-debug-builtins.md#abort). Неправильное понимание модели `fork` — прямой путь к дублирующимся эффектам, повторным начислениям и сложным race-like багам в логике мода.
 
 #### Практические сценарии использования
 ```qc
@@ -1372,6 +1481,8 @@ void() delayed_match_banner =
     abort(); // не возвращаемся в вызывающий код второй раз
 };
 ```
+
+---
 
 ### sleep
 `void(float sleeptime) sleep = #212;`
@@ -1390,6 +1501,8 @@ void() restart_in_five_seconds =
     localcmd("restart\n");
 };
 ```
+
+---
 
 ### createbuffer
 `void*(int bytes) createbuffer = #0:createbuffer;`
@@ -1425,6 +1538,8 @@ void() hash_small_file =
     fclose(f);
 };
 ```
+
+---
 
 ### digest_ptr
 `string(string digest, void *data, int length, optional int offset) digest_ptr = #0:digest_ptr;`
@@ -1462,6 +1577,8 @@ void() print_save_digest =
     fclose(f);
 };
 ```
+
+---
 
 ### fread
 `int(filestream fhandle, void *ptr, int size, optional int offset) fread = #0:fread;`
@@ -1502,6 +1619,8 @@ void() read_two_chunks =
 };
 ```
 
+---
+
 ### fseek
 `int(filestream fhandle, optional int newoffset) fseek = #0:fseek;`
 
@@ -1540,6 +1659,8 @@ void() reread_header =
 };
 ```
 
+---
+
 ### fseek64
 `__int64(filestream fhandle, optional __int64 newoffset) fseek64 = #0:fseek64;`
 
@@ -1565,6 +1686,8 @@ void() query_large_cursor =
     fclose(f);
 };
 ```
+
+---
 
 ### fsize
 `int(filestream fhandle, optional int newsize) fsize = #0:fsize;`
@@ -1594,6 +1717,8 @@ void() trim_server_log =
 };
 ```
 
+---
+
 ### fsize64
 `__int64(filestream fhandle, optional __int64 newsize) fsize64 = #0:fsize64;`
 
@@ -1619,6 +1744,8 @@ void() inspect_large_file_size =
     fclose(f);
 };
 ```
+
+---
 
 ### fwrite
 `int(filestream fhandle, void *ptr, int size, optional int offset) fwrite = #0:fwrite;`
@@ -1658,6 +1785,8 @@ void() write_packet_blob =
 };
 ```
 
+---
+
 ### hash_getcb
 `void(hashtable table, void(string keyname, __variant val) callback, optional string name) hash_getcb = #293;`
 
@@ -1666,7 +1795,7 @@ void() write_packet_blob =
 * **name** — `string` (optional), необязательный ключ для фильтрации поиска конкретного элемента.
 
 #### Описание и особенности работы
-По изначальной спецификации `hash_getcb` должна была вызывать переданный колбэк для перебора всех элементов таблицы либо для поиска элемента по конкретному ключу `name`. Однако в текущей реализации ядра FTEQW (функция `PF_hash_getcb` в файле `pr_bgcmd.c`) этот builtin работает некорректно: аргументы могут интерпретироваться неверно, а итоговый вызов часто приводит к критическому сбою. Из-за этого использовать данный метод в стабильных проектах настоятельно не рекомендуется. Вместо него для безопасного обхода и выборки данных из хэш-таблиц разработчикам следует применять функции прямого доступа по ключу — `hash_getkey` и `hash_get`.
+Однако в текущей реализации ядра FTEQW этот builtin работает некорректно
 
 #### Пример использования
 ```qc
@@ -1681,6 +1810,8 @@ void(hashtable tab) try_hash_callback =
     hash_getcb(tab, on_hash_pair);
 };
 ```
+
+---
 
 ### json_find_object_child
 `jsonnode(jsonnode node, string name) json_find_object_child = #0:json_find_object_child;`
@@ -1710,6 +1841,8 @@ void() print_player_name_from_json =
 };
 ```
 
+---
+
 ### json_free
 `void(jsonnode node) json_free = #0:json_free;`
 
@@ -1732,6 +1865,8 @@ void() parse_and_discard_json =
     json_free(root);
 };
 ```
+
+---
 
 ### json_get_child_at_index
 `jsonnode(jsonnode node, int childindex) json_get_child_at_index = #0:json_get_child_at_index;`
@@ -1764,6 +1899,8 @@ void() list_object_fields =
 };
 ```
 
+---
+
 ### json_get_float
 `float(jsonnode node) json_get_float = #0:json_get_float;`
 
@@ -1787,6 +1924,8 @@ void() print_spawn_delay =
     json_free(root);
 };
 ```
+
+---
 
 ### json_get_integer
 `int(jsonnode node) json_get_integer = #0:json_get_integer;`
@@ -1812,6 +1951,8 @@ void() print_frag_limit =
 };
 ```
 
+---
+
 ### json_get_length
 `int(jsonnode node) json_get_length = #0:json_get_length;`
 
@@ -1834,6 +1975,8 @@ void() print_vote_count =
     json_free(root);
 };
 ```
+
+---
 
 ### json_get_name
 `string(jsonnode node) json_get_name = #0:json_get_name;`
@@ -1864,6 +2007,8 @@ void() dump_setting_names =
 };
 ```
 
+---
+
 ### json_get_string
 `string(jsonnode node) json_get_string = #0:json_get_string;`
 
@@ -1890,6 +2035,8 @@ void() print_map_rotation_entry =
 };
 ```
 
+---
+
 ### json_get_value_type
 `json_type_e(jsonnode node) json_get_value_type = #0:json_get_value_type;`
 
@@ -1914,6 +2061,8 @@ void() inspect_json_root =
     json_free(root);
 };
 ```
+
+---
 
 ### json_parse
 `jsonnode(string data) json_parse = #0:json_parse;`
@@ -1940,6 +2089,8 @@ void() parse_basic_document =
     json_free(root);
 };
 ```
+
+---
 
 ### memcmp
 `int(__variant *dst, __variant *src, int size, optional int srcoffset, optional int dstoffset) memcmp = #0:memcmp;`
@@ -1973,6 +2124,8 @@ void() compare_two_headers =
 };
 ```
 
+---
+
 ### memrealloc
 `__variant*(void *oldptr, int newsize) memrealloc = #0:memrealloc;`
 
@@ -2004,13 +2157,15 @@ void() grow_snapshot_buffer =
 };
 ```
 
+---
+
 ### memstrsize
 `float(string s) memstrsize = #0:memstrsize;`
 
 * **s** — `string`, строка, длину которой необходимо замерить в байтах.
 
 #### Описание и особенности работы
-`memstrsize` отличается от стандартной `strlen` тем, что она замеряет чистый объем сырых байт (raw bytes) UTF-8 строки, а не количество отображаемых графических символов. Данный builtin всегда возвращает физический размер C-строки в оперативной памяти до терминального нуля `\0`. Результат для базовых ASCII-символов полностью совпадает с обычной длиной, но для кириллицы, эмодзи и других мультибайтовых UTF-8 символов он будет в несколько раз больше. Это критически важно, когда строку нужно сериализовать в буфер памяти или рассчитать точный размер выделения памяти перед отправкой данных на диск.
+`memstrsize` отличается от стандартной [`strlen`](02-string-builtins.md#strlen) тем, что она замеряет чистый объем сырых байт (raw bytes) UTF-8 строки, а не количество отображаемых графических символов. Данный builtin всегда возвращает физический размер C-строки в оперативной памяти до терминального нуля `\0`. Результат для базовых ASCII-символов полностью совпадает с обычной длиной, но для кириллицы, эмодзи и других мультибайтовых UTF-8 символов он будет в несколько раз больше. Это критически важно, когда строку нужно сериализовать в буфер памяти или рассчитать точный размер выделения памяти перед отправкой данных на диск.
 
 #### Пример использования
 ```qc
@@ -2022,6 +2177,8 @@ void() print_utf8_byte_length =
     bprint(sprintf("bytes=%s\n", ftos(memstrsize(s)))); // Выведет: bytes=2
 };
 ```
+
+---
 
 ### search_fopen
 `filestream(searchhandle handle, float num) search_fopen = #0:search_fopen;`
@@ -2051,6 +2208,8 @@ void() open_exact_shader =
 };
 ```
 
+---
+
 ### search_getfilemtime
 `string(searchhandle handle, float num) search_getfilemtime = #0:search_getfilemtime;`
 
@@ -2074,6 +2233,8 @@ void() show_first_map_mtime =
     search_end(h);
 };
 ```
+
+---
 
 ### search_getfilesize
 `float(searchhandle handle, float num) search_getfilesize = #0:search_getfilesize;`
@@ -2102,6 +2263,8 @@ void() list_cfg_sizes =
 };
 ```
 
+---
+
 ### search_getpackagename
 `string(searchhandle handle, float num) search_getpackagename = #0:search_getpackagename;`
 
@@ -2128,6 +2291,8 @@ void() print_duplicate_origins =
     search_end(h);
 };
 ```
+
+---
 
 ### sqlescapeblob
 `string(float serveridx, __variant *ptr, int maxsize) sqlescapeblob = #0:sqlescapeblob;`
@@ -2156,6 +2321,8 @@ void() print_blob_literal =
     memfree(buf);
 };
 ```
+
+---
 
 ### sqlreadblob
 `int(float serveridx, float queryidx, float row, float column, __variant *ptr, int maxsize) sqlreadblob = #0:sqlreadblob;`
@@ -2187,7 +2354,13 @@ void() read_avatar_blob =
 };
 ```
 
+---
+
 ## Смежные страницы
 
-- [Работа с данными из игровой логики](../18-data-access-from-scripts/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Работа с данными из игровой логики](../README.md#работа-с-данными-из-игровой-логики)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](05-sound-builtins.md) | [Следующая страница ➡](07-precache-resources-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

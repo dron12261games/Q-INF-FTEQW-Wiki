@@ -1,10 +1,11 @@
 ﻿# Функции MenuQC (меню, экран загрузки)
 
+> [⬅ Предыдущая страница](09-csqc-input-ui-builtins.md) | [Следующая страница ➡](10-skeletal-model-builtins.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
-> [Индекс справочника builtins](./README.md)
-
-MenuQC — это клиентская QuakeC-VM для полноэкранных меню, загрузочных экранов, лаунчерных интерфейсов и встроенных браузерных страниц. На практике код menu.dat обычно живёт вокруг точек входа [`m_init`](00-entry-points.md#m_init), `m_draw(vector screensize)`, `m_toggle(float wantmode)` и `Menu_InputEvent`; legacy-хуки [`m_keydown`](00-entry-points.md#m_keydown)/[`m_keyup`](00-entry-points.md#m_keyup) тоже встречаются, но для новой логики ввода удобнее опираться именно на `Menu_InputEvent`.
+MenuQC — это клиентская QuakeC-VM для полноэкранных меню, загрузочных экранов, лаунчерных интерфейсов и встроенных браузерных страниц. На практике код menu.dat обычно живёт вокруг точек входа [`m_init`](00-entry-points.md#m_init), `m_draw(vector screensize)`, [`m_toggle(float wantmode)`](00-entry-points.md#m_toggle) и [`Menu_InputEvent`](00-entry-points.md#menu_inputevent); legacy-хуки [`m_keydown`](00-entry-points.md#m_keydown)/[`m_keyup`](00-entry-points.md#m_keyup) тоже встречаются, но для новой логики ввода удобнее опираться именно на `Menu_InputEvent`.
 
 Ниже собраны builtin-функции, которые в MenuQC используются для собственной 3D-сцены меню, 2D-рисования, работы с альтернативными консолями, курсором, привязками клавиш и встроенным веб-браузером. Важно учитывать исторические расхождения: часть имён существует одновременно в «старых» menu-слотах и в CSQC-совместимых alias-слотах, а несколько сценических/light-функций в текущих сборках зависят от того, опубликованы ли они именно для MenuQC. Там, где старые объявления и реальное поведение расходятся, это отдельно отмечено в описании.
 
@@ -39,6 +40,8 @@ void(vector screensize) m_draw =
 };
 ```
 
+---
+
 ### addentities
 `void(float mask) addentities = #301;`
 
@@ -60,6 +63,8 @@ void(vector screensize) m_draw =
 };
 ```
 
+---
+
 ### clearscene
 `void() clearscene = #300;`
 
@@ -76,6 +81,8 @@ void(vector screensize) m_draw =
     renderscene();
 };
 ```
+
+---
 
 ### renderscene
 `void() renderscene = #304;`
@@ -94,6 +101,8 @@ void(vector screensize) m_draw =
     renderscene(); // только после этого 3D-фон действительно появится на экране
 };
 ```
+
+---
 
 ### getproperty
 `__variant(float property) getproperty = #309;` (алиас `getviewprop`)
@@ -116,6 +125,8 @@ vector() Menu_CurrentViewport =
     return size;
 };
 ```
+
+---
 
 ### setproperty
 `float(float property, ...) setproperty = #303;` (алиас `setviewprop`)
@@ -146,6 +157,8 @@ void(vector screensize) m_draw =
 };
 ```
 
+---
+
 ### getresolution
 `vector(float vidmode, optional float forfullscreen) getresolution = #608;`
 
@@ -163,11 +176,13 @@ string(float mode) Menu_FormatResolution =
 
     res = getresolution(mode, TRUE);
     if (res_x <= 0 || res_y <= 0)
-        return "<нет режима>";
+        return "<no mode>";
 
     return sprintf("%gx%g", res_x, res_y);
 };
 ```
+
+---
 
 ### R_BeginPolygon
 `void(string texturename, optional float flags, optional float is2d) R_BeginPolygon = #306;`
@@ -192,6 +207,8 @@ void() Menu_DrawHeaderPlate =
 };
 ```
 
+---
+
 ### R_EndPolygon
 `void() R_EndPolygon = #308;`
 
@@ -212,8 +229,10 @@ void() Menu_DrawTriangle =
 };
 ```
 
+---
+
 ### R_PolygonVertex
-`void(vector org, vector texcoords, vector rgb, float alpha) R_PolygonVertex = #307;`
+`void(vector org, vector texcoords, vector [rgb](../41-particle-directives-reference/01-particle-effect-directives.md#rgb), float alpha) R_PolygonVertex = #307;`
 
 * **org** — координаты вершины: мировые для 3D-полигона, экранные для `is2d`-полигона.
 * **texcoords** — UV-координаты текстуры.
@@ -238,6 +257,8 @@ void() Menu_DrawCursorGlow =
     R_EndPolygon();
 };
 ```
+
+---
 
 ## 2D-отрисовка интерфейса
 
@@ -265,6 +286,8 @@ void(float selected) Menu_DrawArrow =
 };
 ```
 
+---
+
 ### drawfill
 `float(vector position, vector size, vector rgb, float alpha, optional float flag) drawfill = #457;`
 
@@ -275,7 +298,7 @@ void(float selected) Menu_DrawArrow =
 * **flag** *(optional)* — режим смешивания; младшие биты обычно выбирают обычный или additive-режим.
 
 #### Описание и логика работы
-[`drawfill`](08-csqc-rendering-builtins.md#drawfill) — базовая прямоугольная заливка для фона меню, затемнений, полос прогресса, активных вкладок и подложек под текст. Это чистый 2D builtin: он не зависит от сцены, камеры или `renderscene`, поэтому его можно вызывать в любой части `m_draw`, в том числе поверх уже нарисованного 3D-фона. При нулевой или отрицательной ширине/высоте прямоугольник просто не появится.
+[`drawfill`](08-csqc-rendering-builtins.md#drawfill) — базовая прямоугольная заливка для фона меню, затемнений, полос прогресса, активных вкладок и подложек под текст. Это чистый 2D builtin: он не зависит от сцены, камеры или `renderscene`, поэтому его можно вызывать в любой части [`m_draw`](00-entry-points.md#m_draw), в том числе поверх уже нарисованного 3D-фона. При нулевой или отрицательной ширине/высоте прямоугольник просто не появится.
 
 #### Практические сценарии использования
 ```qc
@@ -284,6 +307,8 @@ void(vector screensize) Menu_DrawDimmer =
     drawfill('0 0 0', screensize, '0 0 0', 0.65, 0); // затемняем игру под меню
 };
 ```
+
+---
 
 ### drawline
 `void(float width, vector pos1, vector pos2, vector rgb, float alpha, optional float flag) drawline = #466;`
@@ -304,6 +329,8 @@ void() Menu_DrawSeparator =
     drawline(1, '24 72 0', '296 72 0', '0.45 0.60 1.00', 1, 0);
 };
 ```
+
+---
 
 ### drawpic
 `float(vector position, string pic, vector size, vector rgb, float alpha, optional float flag) drawpic = #456;`
@@ -326,6 +353,8 @@ void() Menu_DrawLogo =
 };
 ```
 
+---
+
 ### drawrawstring
 `float(vector position, string text, vector scale, vector rgb, float alpha, optional float flag) drawrawstring = #455;`
 
@@ -346,6 +375,8 @@ void(string path) Menu_DrawSavePath =
 };
 ```
 
+---
+
 ### drawresetcliparea
 `void(void) drawresetcliparea = #459;`
 
@@ -364,6 +395,8 @@ void() Menu_DrawVisibleSlice =
 };
 ```
 
+---
+
 ### drawsetcliparea
 `void(float x, float y, float width, float height) drawsetcliparea = #458;`
 
@@ -379,10 +412,12 @@ void() Menu_DrawScrollWindow =
 {
     drawfill('32 96 0', '256 96 0', '0.06 0.08 0.12', 0.9, 0);
     drawsetcliparea(32, 96, 256, 96);
-    drawstring('40 88 0', "^7Строка 1\n^7Строка 2\n^7Строка 3", '8 8 0', '1 1 1', 1, 0);
+    drawstring('40 88 0', "^7Line 1\n^7Line 2\n^7Line 3", '8 8 0', '1 1 1', 1, 0);
     drawresetcliparea();
 };
 ```
+
+---
 
 ### drawstring
 `float(vector position, string text, vector scale, vector rgb, float alpha, float flag) drawstring = #467;`
@@ -401,11 +436,13 @@ void() Menu_DrawScrollWindow =
 void(float online) Menu_DrawStatus =
 {
     if (online)
-        drawstring('32 56 0', "^2Сеть: ^7подключено", '8 8 0', '1 1 1', 1, 0);
+        drawstring('32 56 0', "^2Network: ^7connected", '8 8 0', '1 1 1', 1, 0);
     else
-        drawstring('32 56 0', "^1Сеть: ^7нет соединения", '8 8 0', '1 1 1', 1, 0);
+        drawstring('32 56 0', "^1Network: ^7no connection", '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### drawsubpic
 `void(vector pos, vector sz, string pic, vector srcpos, vector srcsz, vector rgb, float alpha, float flag) drawsubpic = #469;`
@@ -417,7 +454,7 @@ void(float online) Menu_DrawStatus =
 * **flag** — режим отрисовки.
 
 #### Описание и логика работы
-[`drawsubpic`](08-csqc-rendering-builtins.md#drawsubpic) вырезает прямоугольный фрагмент из текстурного атласа и растягивает его в указанный экранный прямоугольник. Для MenuQC это типичный путь рисовать наборы иконок, рамочные элементы из одного atlas-файла и анимированные кнопки без множества отдельных изображений. Хотя текущая реализация внутренне пишет возвращаемое значение, штатное menu-объявление считает builtin процедурой, поэтому переносимый код должен использовать её именно как `void`.
+[`drawsubpic`](08-csqc-rendering-builtins.md#drawsubpic) вырезает прямоугольный фрагмент из текстурного атласа и растягивает его в указанный экранный прямоугольник. Для MenuQC это типичный путь рисовать наборы иконок, рамочные элементы из одного [atlas](../41-particle-directives-reference/01-particle-effect-directives.md#atlas)-файла и анимированные кнопки без множества отдельных изображений. Хотя текущая реализация внутренне пишет возвращаемое значение, штатное menu-объявление считает builtin процедурой, поэтому переносимый код должен использовать её именно как `void`.
 
 #### Практические сценарии использования
 ```qc
@@ -430,6 +467,8 @@ void(float frame) Menu_DrawWeaponIcon =
     drawsubpic('40 160 0', '32 32 0', "gfx/menu/icons", src, '32 32 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### iscachedpic
 `float(string name) iscachedpic = #451;`
@@ -447,6 +486,8 @@ void() Menu_EnsureBanner =
         precache_pic("gfx/menu/banner_big");
 };
 ```
+
+---
 
 ### drawgetimagesize
 `vector(string picname) drawgetimagesize = #460;`
@@ -469,6 +510,8 @@ void() Menu_DrawNativeLogo =
     drawpic('32 24 0', "gfx/menu/logo", size, '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### stringwidth
 `float(string text, float usecolours, optional vector fontsize) stringwidth = #468;`
@@ -495,6 +538,8 @@ void(vector screensize, string title) Menu_DrawCenteredTitle =
 };
 ```
 
+---
+
 ## Консоль
 
 ### con_draw
@@ -516,6 +561,8 @@ void() Menu_DrawConsolePane =
 };
 ```
 
+---
+
 ### con_getset
 `string(string conname, string field, optional string newvalue) con_getset = #391;`
 
@@ -530,11 +577,13 @@ void() Menu_DrawConsolePane =
 ```qc
 void() Menu_ResetChatConsole =
 {
-    con_getset("chatlog", "title", "Лог меню");
+    con_getset("chatlog", "title", "Menu Log");
     con_getset("chatlog", "clear", "1");
     con_getset("chatlog", "hidden", "0");
 };
 ```
+
+---
 
 ### con_input
 `float(string conname, float inevtype, float parama, float paramb, float paramc) con_input = #394;`
@@ -558,6 +607,8 @@ float(float evtype, float scanx, float chary, float devid) Menu_InputEvent =
 };
 ```
 
+---
+
 ### con_printf
 `void(string conname, string messagefmt, ...) con_printf = #392;`
 
@@ -575,26 +626,30 @@ void(string page) Menu_LogOpenPage =
 };
 ```
 
+---
+
 ## Динамический свет
 
 ### dynamiclight_add
-`float(vector org, float radius, vector lightcolours, optional float style, optional string cubemapname, optional float pflags) dynamiclight_add = #305;`
+`float(vector org, float radius, vector lightcolours, optional float style, optional string cubemapname, optional float [pflags](../39-entity-keys-reference/02-light-entity-keys.md#pflags)) dynamiclight_add = #305;`
 
 * **org** — мировая позиция источника.
 * **radius** — радиус света.
 * **lightcolours** — цвет света.
-* **style** *(optional)* — lightstyle-номер для мерцания.
+* **style** *(optional)* — [lightstyle](08-csqc-rendering-builtins.md#lightstyle)-номер для мерцания.
 * **cubemapname** *(optional)* — кубическая карта/проекционный материал.
 * **pflags** *(optional)* — дополнительные флаги света.
 
 #### Описание и логика работы
-В MenuQC по умолчанию этот builtin недоступен. Стандартная сборка FTEQW не публикует `dynamiclight_add`, `dynamiclight_get` и `dynamiclight_set` для `menu.dat`, а попытка вызвать их без проверки закончится ошибкой несовместимого меню. Для практического кода считайте `dynamiclight_add` чисто CSQC-функцией и в меню всегда ставьте защиту через `checkbuiltin`.
+В MenuQC по умолчанию этот builtin недоступен. Стандартная сборка FTEQW не публикует `dynamiclight_add`, `dynamiclight_get` и `dynamiclight_set` для `menu.dat`, а попытка вызвать их без проверки закончится ошибкой несовместимого меню. Для практического кода считайте `dynamiclight_add` чисто CSQC-функцией и в меню всегда ставьте защиту через [`checkbuiltin`](12-system-debug-builtins.md#checkbuiltin).
 
 #### Практические сценарии использования
 ```qc
 if (checkbuiltin(dynamiclight_add))
     dynamiclight_add(menu_logo.origin + '0 0 24', 180, '0.3 0.6 1.0', 0);
 ```
+
+---
 
 ### dynamiclight_get
 `__variant(float lno, float fld) dynamiclight_get = #372;`
@@ -605,6 +660,8 @@ if (checkbuiltin(dynamiclight_add))
 #### Описание и логика работы
 Для MenuQC в штатной сборке FTEQW `dynamiclight_get` тоже не экспортируется. Документировать его имеет смысл только как потенциальный CSQC-совместимый слот: если `checkbuiltin(dynamiclight_get)` в меню возвращает `0`, это ожидаемое поведение, а не поломка конкретного мода.
 
+---
+
 ### dynamiclight_set
 `void(float lno, float fld, __variant value) dynamiclight_set = #373;`
 
@@ -614,6 +671,8 @@ if (checkbuiltin(dynamiclight_add))
 
 #### Описание и логика работы
 `dynamiclight_set` находится в той же ситуации, что и `dynamiclight_add`/`dynamiclight_get`: код реализации есть для клиентского рендера, но таблица MenuQC по умолчанию этот builtin не публикует. Если меню нужен гарантированный эффект подсветки, рассчитывайте на обычные 2D draw-вызовы или на заранее подготовленную сцену без runtime-dlight API.
+
+---
 
 ### getkeybind
 `string(float keynum) getkeybind = #342;`
@@ -633,10 +692,12 @@ string() Menu_UseKeyLabel =
     key = stringtokeynum("e");
     bind = getkeybind(key);
     if (bind == "")
-        return "E: <нет бинда>";
+        return "E: <no bind>";
     return "E: " + bind;
 };
 ```
+
+---
 
 ### setkeybind
 `float(float key, string bind, optional float bindmap, optional float modifier) setkeybind = #630;`
@@ -663,6 +724,8 @@ void() Menu_AssignQuickSave =
 };
 ```
 
+---
+
 ### getkeydest
 `float() getkeydest = #602;`
 
@@ -678,6 +741,8 @@ float() Menu_IsOpen =
     return getkeydest() == 2;
 };
 ```
+
+---
 
 ### setkeydest
 `void(float dest) setkeydest = #601;`
@@ -695,6 +760,8 @@ void() Menu_Close =
         setkeydest(0); // закрываем menu.dat и возвращаемся в игру
 };
 ```
+
+---
 
 ### getbindmaps
 `vector() getbindmaps = #631;`
@@ -714,6 +781,8 @@ string() Menu_BindmapSummary =
     return sprintf("bindmaps: %g / %g", maps_x, maps_y);
 };
 ```
+
+---
 
 ### setbindmaps
 `float(vector bm) setbindmaps = #632;`
@@ -740,6 +809,8 @@ void(float use_alt_layout) Menu_SelectLayout =
 };
 ```
 
+---
+
 ### getmousepos
 `vector() getmousepos = #66;`
 
@@ -760,6 +831,8 @@ void() Menu_UpdateMouseCache =
 };
 ```
 
+---
+
 ### setmousetarget
 `void(float trg) setmousetarget = #603;`
 
@@ -779,6 +852,8 @@ void(float wants_cursor) Menu_SelectMouseMode =
 };
 ```
 
+---
+
 ### getmousetarget
 `float() getmousetarget = #604;`
 
@@ -796,6 +871,8 @@ string() Menu_MouseModeLabel =
     return "delta mode";
 };
 ```
+
+---
 
 ### setcursormode
 `void(float usecursor, optional string cursorimage, optional vector hotspot, optional float scale) setcursormode = #343;`
@@ -816,6 +893,8 @@ void() Menu_EnablePointer =
     setmousetarget(2);
 };
 ```
+
+---
 
 ### keynumtostring
 `string(float keynum) keynumtostring = #609;`
@@ -838,6 +917,8 @@ string(float keynum) Menu_KeyCaption =
 };
 ```
 
+---
+
 ### keynumtostring_csqc
 `string(float keynum) keynumtostring_csqc = #340;`
 
@@ -853,9 +934,11 @@ string() Menu_LegacyAcceptCaption =
     local float key;
 
     key = stringtokeynum_csqc("ENTER");
-    return "Нажмите " + keynumtostring_csqc(key);
+    return "Press " + keynumtostring_csqc(key);
 };
 ```
+
+---
 
 ### stringtokeynum
 `float(string key) stringtokeynum = #614;`
@@ -878,6 +961,8 @@ float() Menu_BackKey =
 };
 ```
 
+---
+
 ### stringtokeynum_csqc
 `float(string keyname) stringtokeynum_csqc = #341;`
 
@@ -894,10 +979,12 @@ float() Menu_LegacyOpenConsoleKey =
 };
 ```
 
+---
+
 ### findkeysforcommand
 `string(string command, optional float bindmap) findkeysforcommand = #610;`
 
-* **command** — точная bind-строка, например `+jump` или `togglemenu`.
+* **command** — точная bind-строка, например [`+jump`](../44-cli-commands-reference/02-client-ui-commands.md#jump) или [`togglemenu`](../44-cli-commands-reference/02-client-ui-commands.md#togglemenu).
 * **bindmap** *(optional)* — номер bindmap, если нужен поиск в альтернативной карте.
 
 #### Описание и логика работы
@@ -911,12 +998,14 @@ string() Menu_FirstJumpKey =
 
     raw = findkeysforcommand("+jump");
     if (tokenize(raw) <= 0)
-        return "<не назначено>";
+        return "<not assigned>";
     if (argv(0) == "-1")
-        return "<не назначено>";
+        return "<not assigned>";
     return keynumtostring(stof(argv(0)));
 };
 ```
+
+---
 
 ## Встроенный веб-браузер
 
@@ -941,6 +1030,8 @@ void() m_init =
 };
 ```
 
+---
+
 ### gecko_destroy
 `void(string name) gecko_destroy = #488;`
 
@@ -958,6 +1049,8 @@ void() Menu_CloseNews =
     browser_ready = FALSE;
 };
 ```
+
+---
 
 ### gecko_navigate
 `void(string name, string URI) gecko_navigate = #489;`
@@ -979,6 +1072,8 @@ void() Menu_OpenPatchNotes =
     gecko_navigate("browser/news", "cmd:focus");
 };
 ```
+
+---
 
 ### gecko_keyevent
 `float(string name, float key, float eventtype, optional float charcode) gecko_keyevent = #490;`
@@ -1002,6 +1097,8 @@ float(float evtype, float scanx, float chary, float devid) Menu_InputEvent =
     return FALSE;
 };
 ```
+
+---
 
 ### gecko_mousemove
 `void(string name, float x, float y) gecko_mousemove = #491;`
@@ -1032,6 +1129,8 @@ void() Menu_UpdateBrowserMouse =
 };
 ```
 
+---
+
 ### gecko_resize
 `void(string name, float w, float h) gecko_resize = #492;`
 
@@ -1052,6 +1151,8 @@ void(vector screensize) Menu_ResizeBrowser =
 };
 ```
 
+---
+
 ### gecko_get_texture_extent
 `vector(string name) gecko_get_texture_extent = #493;`
 
@@ -1071,9 +1172,15 @@ void() Menu_DebugBrowserExtent =
 };
 ```
 
+---
+
 ## Смежные страницы
 
 - [Рендеринг и сцена CSQC](./08-csqc-rendering-builtins.md)
 - [Ввод, интерфейс и клавиатура CSQC](./09-csqc-input-ui-builtins.md)
 - [Menu QuakeC](../16-quakec-scripting/menu-quakec.md)
-- [Индекс справочника builtins](./README.md)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](09-csqc-input-ui-builtins.md) | [Следующая страница ➡](10-skeletal-model-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

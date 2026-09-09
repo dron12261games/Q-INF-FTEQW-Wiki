@@ -1,8 +1,9 @@
 ﻿# Строки и текст
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](01-math-vector-builtins.md) | [Следующая страница ➡](03-entity-world-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Эта страница собирает строковые builtin-функции QuakeC, которые чаще всего используются для парсинга аргументов, форматирования текста, работы с цветовым markup и безопасной сборки команд. Для каждого builtin ниже указана сигнатура из `fteextensions.qc`, затем разобрано фактическое поведение с учётом комментариев и проверок по реализации движка. Там, где функция исторически устарела или дублируется в других VM-категориях, это отдельно оговорено.
 
@@ -32,6 +33,8 @@ void Demo_strlen()
 }
 ```
 
+---
+
 ### strlennocol
 `float(string s) strlennocol = #476;`
 
@@ -49,11 +52,13 @@ void Demo_strlennocol()
 	nick = "^2Player^7_01";
 
 	if (strlennocol(nick) > 10)
-		dprint("Ник слишком длинный визуально\n");
+		dprint("Nickname is visually too long\n");
 	else
-		dprint("Ник помещается в колонку\n");
+		dprint("Nickname fits in the column\n");
 }
 ```
+
+---
 
 ### strcat
 `string(string s1, optional string s2, optional string s3, optional string s4, optional string s5, optional string s6, optional string s7, optional string s8) strcat = #115;`
@@ -85,6 +90,8 @@ void Demo_strcat()
 }
 ```
 
+---
+
 ### substring
 `string(string s, float start, float length) substring = #116;`
 
@@ -111,6 +118,8 @@ void Demo_substring()
 }
 ```
 
+---
+
 ### stov
 `vector(string s) stov = #117;`
 
@@ -133,6 +142,8 @@ void Demo_stov()
 }
 ```
 
+---
+
 ### strzone
 `string(string s, ...) strzone = #118;`
 
@@ -153,6 +164,8 @@ void Demo_strzone()
 	dprint(sprintf("path=%s\n", cached));
 }
 ```
+
+---
 
 ### strunzone
 `void(string s) strunzone = #119;`
@@ -176,6 +189,8 @@ void Demo_strunzone()
 }
 ```
 
+---
+
 ### strcasecmp
 `float(string s1, string s2) strcasecmp = #229;`
 
@@ -193,9 +208,11 @@ void Demo_strcasecmp()
 
 	cmd = argv(0);
 	if (!strcasecmp(cmd, "reload"))
-		dprint("Команда распознана без учёта регистра\n");
+		dprint("Command recognized case-insensitively\n");
 }
 ```
+
+---
 
 ### strncasecmp
 `float(string s1, string s2, float len, optional float s1ofs, optional float s2ofs) strncasecmp = #230;`
@@ -217,9 +234,11 @@ void Demo_strncasecmp()
 
 	line = "Map e1m2";
 	if (!strncasecmp(line, "map", 3, 0, 0))
-		dprint("Строка начинается с map\n");
+		dprint("String starts with map\n");
 }
 ```
+
+---
 
 ### strncmp
 `float(string s1, string s2, optional float len, optional float s1ofs, optional float s2ofs) strncmp = #228;`
@@ -241,9 +260,11 @@ void Demo_strncmp()
 
 	path = "maps/start.bsp";
 	if (!strncmp(path, "maps/", 5, 0, 0))
-		dprint("Путь лежит в каталоге maps\n");
+		dprint("Path is inside maps directory\n");
 }
 ```
+
+---
 
 ### strstrofs
 `float(string s1, string sub, optional float startidx) strstrofs = #221;`
@@ -269,6 +290,8 @@ void Demo_strstrofs()
 }
 ```
 
+---
+
 ### strtolower
 `string(string s) strtolower = #480;`
 
@@ -288,6 +311,8 @@ void Demo_strtolower()
 }
 ```
 
+---
+
 ### strtoupper
 `string(string s) strtoupper = #481;`
 
@@ -306,6 +331,8 @@ void Demo_strtoupper()
 	dprint(sprintf("%s\n", shout));
 }
 ```
+
+---
 
 ### strreplace
 `string(string search, string replace, string subject) strreplace = #484;`
@@ -331,6 +358,8 @@ void Demo_strreplace()
 }
 ```
 
+---
+
 ### strireplace
 `string(string search, string replace, string subject) strireplace = #485;`
 
@@ -353,6 +382,8 @@ void Demo_strireplace()
 	dprint(sprintf("%s\n", msg));
 }
 ```
+
+---
 
 ### strpad
 `string(float pad, string str1, ...) strpad = #225;`
@@ -380,6 +411,8 @@ void Demo_strpad()
 }
 ```
 
+---
+
 ### strconv
 `string(float ccase, float redalpha, float redchars, string str, ...) strconv = #224;`
 
@@ -404,6 +437,8 @@ void Demo_strconv()
 }
 ```
 
+---
+
 ### strdecolorize
 `string(string s) strdecolorize = #477;`
 
@@ -425,6 +460,8 @@ void Demo_strdecolorize()
 	dprint(sprintf("plain nick=%s\n", plain));
 }
 ```
+
+---
 
 ### strftime
 `string(float uselocaltime, string format, ...) strftime = #478;`
@@ -450,6 +487,8 @@ void Demo_strftime()
 	dprint(sprintf("utc=%s\n", stamp_utc));
 }
 ```
+
+---
 
 ### sprintf
 `string(string fmt, ...) sprintf = #627;`
@@ -488,6 +527,8 @@ void Demo_sprintf()
 }
 ```
 
+---
+
 ### tokenize
 `float(string s) tokenize = #441;`
 
@@ -507,6 +548,8 @@ void Demo_tokenize()
 		argc, argv(0), argv(1), argv(2)));
 }
 ```
+
+---
 
 ### tokenize_console
 `float(string str) tokenize_console = #514;`
@@ -530,6 +573,8 @@ void Demo_tokenize_console()
 }
 ```
 
+---
+
 ### tokenizebyseparator
 `float(string s, string separator1, ...) tokenizebyseparator = #479;`
 
@@ -552,6 +597,8 @@ void Demo_tokenizebyseparator()
 }
 ```
 
+---
+
 ### argv
 `string(float n) argv = #442;`
 
@@ -570,6 +617,8 @@ void Demo_argv()
 	dprint(sprintf("target=%s\n", argv(-1)));   // последний токен: e1m2
 }
 ```
+
+---
 
 ### argv_start_index
 `float(float idx) argv_start_index = #515;`
@@ -592,6 +641,8 @@ void Demo_argv_start_index()
 }
 ```
 
+---
+
 ### argv_end_index
 `float(float idx) argv_end_index = #516;`
 
@@ -613,6 +664,8 @@ void Demo_argv_end_index()
 }
 ```
 
+---
+
 ### validstring
 `float(string str) validstring = #81;`
 
@@ -628,11 +681,13 @@ void Demo_validstring()
 	tokenize("onlyone");
 
 	if (validstring(argv(1)))
-		dprint("Есть второй аргумент\n");
+		dprint("Second argument present\n");
 	else
-		dprint("Второго аргумента нет\n");
+		dprint("No second argument\n");
 }
 ```
+
+---
 
 ### ftos
 `string(float val) ftos = #26;`
@@ -655,6 +710,8 @@ void Demo_ftos()
 }
 ```
 
+---
+
 ### stof
 `float(string s) stof = #81;`
 
@@ -673,6 +730,8 @@ void Demo_stof()
 	dprint(sprintf("skill=%g\n", skill));
 }
 ```
+
+---
 
 ### altstr_count
 `float(string str) altstr_count = #82;`
@@ -693,6 +752,8 @@ void Demo_altstr_count()
 }
 ```
 
+---
+
 ### altstr_get
 `string(string str, float num) altstr_get = #84;`
 
@@ -712,6 +773,8 @@ void Demo_altstr_get()
 	dprint(sprintf("weapon=%s\n", altstr_get(alt, 2)));
 }
 ```
+
+---
 
 ### altstr_prepare
 `string(string str) altstr_prepare = #83;`
@@ -734,6 +797,8 @@ void Demo_altstr_prepare()
 	dprint(sprintf("alt=%s\n", alt));
 }
 ```
+
+---
 
 ### altstr_set
 `string(string str, float num, string setval) altstr_set = #85;`
@@ -758,6 +823,8 @@ void Demo_altstr_set()
 }
 ```
 
+---
+
 ### uri_escape
 `string(string in) uri_escape = #510;`
 
@@ -777,6 +844,8 @@ void Demo_uri_escape()
 }
 ```
 
+---
+
 ### uri_unescape
 `string(string in) uri_unescape = #511;`
 
@@ -795,6 +864,8 @@ void Demo_uri_unescape()
 	dprint(sprintf("decoded=%s\n", decoded));
 }
 ```
+
+---
 
 ### argescape
 `string(string s) argescape = #295;`
@@ -817,6 +888,8 @@ void Demo_argescape()
 	localcmd(cmd);
 }
 ```
+
+---
 
 ### stringwidth
 `float(string text, float usecolours, optional vector fontsize) stringwidth = #327;`
@@ -842,6 +915,8 @@ void Demo_stringwidth()
 }
 ```
 
+---
+
 ### stringtokeynum
 `float(string keyname) stringtokeynum = #341;`
 
@@ -860,6 +935,8 @@ void Demo_stringtokeynum()
 	dprint(sprintf("space code=%g\n", key));
 }
 ```
+
+---
 
 ### str2chr
 `float(string str, float index) str2chr = #222;`
@@ -884,6 +961,8 @@ void Demo_str2chr()
 }
 ```
 
+---
+
 ### chr2str
 `string(float chr, ...) chr2str = #223;`
 
@@ -903,6 +982,8 @@ void Demo_chr2str()
 	dprint(sprintf("word=%s\n", word));
 }
 ```
+
+---
 
 ### altstr_ins
 `DEP string(string str, float num, string set) altstr_ins = #86;`
@@ -941,6 +1022,9 @@ string(string alt, float num, string raw) altstr_insert_manual
     return out;
 }
 ```
+
+---
+
 ### base64decode
 `__variant*(string base64str, __out int bytes) base64decode = #0:base64decode;`
 
@@ -949,7 +1033,7 @@ string(string alt, float num, string raw) altstr_insert_manual
 
 #### Описание и логика работы
 
-`base64decode` декодирует Base64-строку и выделяет новый адресуемый блок памяти внутри QCVM. Возвращаемый указатель можно передавать в `mem*` builtin'ы; после использования его нужно освободить через `memfree`, а аргумент `bytes` получает реальное число записанных байтов. Реализация дополнительно пишет нулевой байт в конец блока, но это не делает результат «обычной строкой» автоматически: безопаснее относиться к нему именно как к бинарному blob.
+`base64decode` декодирует Base64-строку и выделяет новый адресуемый блок памяти внутри QCVM. Возвращаемый указатель можно передавать в `mem*` builtin'ы; после использования его нужно освободить через [`memfree`](06-files-database-builtins.md#memfree), а аргумент `bytes` получает реальное число записанных байтов. Реализация дополнительно пишет нулевой байт в конец блока, но это не делает результат «обычной строкой» автоматически: безопаснее относиться к нему именно как к бинарному blob.
 
 #### Практические сценарии использования
 
@@ -966,12 +1050,15 @@ void() Demo_base64decode
     memfree(blob);
 }
 ```
+
+---
+
 ### base64encode
 `string(__variant *ptr, int bytes, optional int offset) base64encode = #0:base64encode;`
 
 * **ptr** — `__variant *`, указатель на бинарный блок, который нужно закодировать.
 * **bytes** — `int`, сколько байтов читать из блока.
-* **offset** — `optional int`, документированный сдвиг внутри блока; в текущей реализации `pr_bgcmd.c` этот отдельный аргумент не применяется, поэтому для поддиапазона безопаснее передавать уже смещённый указатель.
+* **offset** — `optional int`, документированный сдвиг внутри блока; в текущей реализации этот отдельный аргумент не применяется
 
 #### Описание и логика работы
 
@@ -996,6 +1083,9 @@ void() Demo_base64encode
     memfree(blob);
 }
 ```
+
+---
+
 ### instr
 `string(string input, string token) instr = #206;`
 
@@ -1004,7 +1094,7 @@ void() Demo_base64encode
 
 #### Описание и логика работы
 
-`instr` ищет первое вхождение `token` внутри `input` и возвращает не числовой индекс, а **хвост исходной строки, начиная с найденного места**. Если совпадения нет, builtin возвращает пустую/null string. В extension-list сервера прототип по ошибке описан как `float`, но реальная реализация в `pr_bgcmd.c` использует `strstr` и возвращает строковый срез; сама же докстрока честно советует в новом коде предпочитать `strstrofs`, потому что она даёт индекс и лучше комбинируется с остальными строковыми builtin'ами.
+`instr` ищет первое вхождение `token` внутри `input` и возвращает не числовой индекс, а **хвост исходной строки, начиная с найденного места**. Если совпадения нет, builtin возвращает пустую/null string. В extension-list сервера прототип по ошибке описан как `float`, но реальная реализация в `pr_bgcmd.c` использует `strstr` и возвращает строковый срез; сама же докстрока честно советует в новом коде предпочитать [`strstrofs`](02-string-builtins.md#strstrofs), потому что она даёт индекс и лучше комбинируется с остальными строковыми builtin'ами.
 
 #### Практические сценарии использования
 
@@ -1018,6 +1108,9 @@ void() Demo_instr
         dprint(sprintf("tail=%s\n", tail));
 }
 ```
+
+---
+
 ### matchpattern
 `float(string s, string pattern, float matchrule) matchpattern = #538;`
 
@@ -1037,6 +1130,9 @@ float(string s, string prefix) starts_with
     return !strncmp(s, prefix, strlen(prefix), 0, 0);
 }
 ```
+
+---
+
 ### strcmp
 `#define strcmp strncmp`
 
@@ -1059,6 +1155,9 @@ void() Demo_strcmp
         dprint("exact command match\n");
 }
 ```
+
+---
+
 ### strtrim
 `string(string s) strtrim = #0:strtrim;`
 
@@ -1066,7 +1165,7 @@ void() Demo_strcmp
 
 #### Описание и логика работы
 
-`strtrim` удаляет пробелы, табы, `\n` и `\r` только с начала и конца строки, не затрагивая внутренние разделители между словами. Реализация в `pr_bgcmd.c` сначала сдвигает стартовый указатель мимо ведущего whitespace, затем обрезает хвост и копирует итог в tempstring. Builtin доступен в `SSQC`, `CSQC` и `MenuQC` и особенно полезен после чтения строк из файлов, cvar'ов, сетевых ключей и пользовательского ввода.
+Функция сначала сдвигает стартовый указатель мимо ведущего whitespace, затем обрезает хвост и копирует итог в tempstring.
 
 #### Практические сценарии использования
 
@@ -1083,7 +1182,13 @@ void() Demo_strtrim
 }
 ```
 
+---
+
 ## Смежные страницы
 
-- [Игровая логика: язык QuakeC](../16-quakec-scripting/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Игровая логика: язык QuakeC](../README.md#игровая-логика-язык-quakec)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](01-math-vector-builtins.md) | [Следующая страница ➡](03-entity-world-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

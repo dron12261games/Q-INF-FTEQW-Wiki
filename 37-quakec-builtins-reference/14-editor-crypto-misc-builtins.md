@@ -1,8 +1,9 @@
 ﻿# Редактор карт, криптография и разные редкие builtins
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](12-system-debug-builtins.md) | [Следующая страница ➡](../38-cvars-reference/01-video-rendering-cvars.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 Этот раздел собирает встроенные функции QuakeC движка FTEQW, которые не относятся напрямую к основным категориям (математика, строки, сущности, сеть, звук, файлы, рендер, скелетная анимация): интеграция с редактором карт (`brush_*`, `patch_*`), криптография (`crypto_*`), JSON, достижения (`stachievement_*`, `ststat_*`), геймпады (`gp_*`, `controller_*`), видео/кинематика (`cin_*`) и другие редкие служебные builtins.
 
@@ -20,6 +21,8 @@
 #### Описание и особенности работы
 `brush_calcfacepoints` не работает с `entity` и не использует callback. Builtin берёт временное описание браша в памяти, вычисляет вершины указанной грани так, как если бы такой brush уже был вставлен в модель, и возвращает число реально записанных точек. Это удобный helper для предварительной проверки геометрии до вызова `brush_create`.
 
+---
+
 ### brush_create
 `int(float modelidx, brushface_t *in_faces, int numfaces, int contents, optional int brushid) brush_create = #0:brush_create;`
 
@@ -32,6 +35,8 @@
 #### Описание и особенности работы
 `brush_create` вставляет новый brush прямо в редактируемую модель и возвращает его числовой `brushid`, а не `entity`. Геометрия описывается массивом плоскостей/texinfo из `brushface_t`, поэтому builtin относится к редакторскому API низкого уровня, а не к обычным edict-функциям.
 
+---
+
 ### brush_delete
 `void(float modelidx, int brushid) brush_delete = #0:brush_delete;`
 
@@ -39,7 +44,9 @@
 * **brushid** — ID браша, который нужно удалить.
 
 #### Описание и особенности работы
-`brush_delete` удаляет brush по паре `modelidx + brushid`. Это не `remove(entity)`: builtin работает с редакторской геометрией внутри модели и ничего не знает о QuakeC-entity.
+`brush_delete` удаляет brush по паре `modelidx + brushid`. Это не [`remove(entity)`](03-entity-world-builtins.md#remove): builtin работает с редакторской геометрией внутри модели и ничего не знает о QuakeC-entity.
+
+---
 
 ### brush_findinvolume
 `int(float modelid, vector *planes, float *dists, int numplanes, int *out_brushes, int *out_faces, int maxresults) brush_findinvolume = #0:brush_findinvolume;`
@@ -55,6 +62,8 @@
 #### Описание и особенности работы
 `brush_findinvolume` ищет brushes/грани внутри выпуклого объёма и возвращает количество записанных результатов. Это bulk-API для редактора: никакого аргумента `start` здесь нет, зато есть явное ограничение `maxresults`, по которому выдача безопасно обрезается.
 
+---
+
 ### brush_get
 `int(float modelidx, int brushid, brushface_t *out_faces, int maxfaces, int *out_contents) brush_get = #0:brush_get;`
 
@@ -66,6 +75,8 @@
 
 #### Описание и особенности работы
 `brush_get` выгружает описание существующего браша обратно в массив структур `brushface_t` и возвращает число реально скопированных граней. Если буфер меньше реального числа граней, данные будут обрезаны по `maxfaces`, поэтому builtin полезен только вместе с заранее подготовленной памятью.
+
+---
 
 ### brush_getfacepoints
 `int(float modelid, int brushid, int faceid, vector *points, int maxpoints) brush_getfacepoints = #0:brush_getfacepoints;`
@@ -79,6 +90,8 @@
 #### Описание и особенности работы
 `brush_getfacepoints` возвращает вершины конкретной грани уже существующего браша. У этой функции есть специальный случай: если `faceid == 0`, builtin не читает «нулевую грань», а отдаёт либо центр браша (если места хватает только на одну точку), либо пару `mins/maxs` (если места минимум на две). Во всех остальных случаях количество вершин ограничивается `maxpoints`.
 
+---
+
 ### brush_selected
 `float(float modelid, int brushid, int faceid, float selectedstate) brush_selected = #0:brush_selected;`
 
@@ -90,11 +103,15 @@
 #### Описание и особенности работы
 `brush_selected` не возвращает текущий «выбранный brush». Это setter/getter transient-флага выделения для конкретного brush/face и он возвращает предыдущее состояние. Для простого query-паттерна используйте `selectedstate = -1`; для подсветки редакторских элементов — передавайте новое значение явно.
 
+---
+
 ### bulleten
 `bulleten` — удалённый legacy-builtin; исторически упоминался у слота `#243`, но в текущих таблицах FTEQW не экспортируется.
 
 #### Описание и особенности работы
 В актуальном коде `bulleten` оставлен только в закомментированных строках совместимости как напоминание о старом убранном слоте. Это не рабочая заглушка, а просто builtin, на который больше нельзя рассчитывать в нормальной сборке движка.
+
+---
 
 ### cin_close
 `void(string id) cin_close = #462;`
@@ -102,7 +119,9 @@
 * **id** — имя shader/media-слота, ранее открытого через `cin_open`.
 
 #### Описание и особенности работы
-`cin_close` — menu-алиас к тому же media API, что и `gecko_destroy`. Builtin ищет cinematic по имени шейдера, при необходимости сбрасывает его состояние и затем выгружает сам shader. В стандартной конфигурации этого репозитория builtin доступен.
+`cin_close` — menu-алиас к тому же media API, что и [`gecko_destroy`](09-csqc-input-ui-builtins.md#gecko_destroy). Builtin ищет cinematic по имени шейдера, при необходимости сбрасывает его состояние и затем выгружает сам shader. В стандартной конфигурации этого репозитория builtin доступен.
+
+---
 
 ### cin_getstate
 `float(string id) cin_getstate = #464;`
@@ -113,6 +132,8 @@
 #### Описание и особенности работы
 `cin_getstate` возвращает не «булево играет / не играет», а реальное внутреннее состояние медиаплеера для указанного слота. Если `id` не найден, результатом будет `CINSTATE_INVALID`.
 
+---
+
 ### cin_open
 `float(string file, string id) cin_open = #461;`
 
@@ -121,7 +142,9 @@
 * **Возвращает**: `float` — `1`, если cinematic/shader удалось создать, иначе `0`.
 
 #### Описание и особенности работы
-`cin_open` регистрирует 2D shader с `videomap`, привязывает к нему cinematic и сразу отправляет backend'у reset. По сути это старое имя для того же механизма, что и `gecko_create`: разница только в naming и типичном сценарии использования.
+`cin_open` регистрирует 2D shader с `videomap`, привязывает к нему cinematic и сразу отправляет backend'у reset. По сути это старое имя для того же механизма, что и [`gecko_create`](09-csqc-input-ui-builtins.md#gecko_create): разница только в naming и типичном сценарии использования.
+
+---
 
 ### cin_restart
 `void(string id) cin_restart = #465;`
@@ -130,6 +153,8 @@
 
 #### Описание и особенности работы
 `cin_restart` ищет уже открытый cinematic по имени и шлёт ему reset. Это быстрый способ начать воспроизведение заново без уничтожения shader'а.
+
+---
 
 ### cin_setstate
 `void(string id, float newstate) cin_setstate = #463;`
@@ -140,6 +165,8 @@
 #### Описание и особенности работы
 `cin_setstate` напрямую передаёт новое состояние в media backend. Builtin ничего не возвращает и просто молча ничего не делает, если cinematic с таким именем не найден.
 
+---
+
 ### controller_query
 `void(float device) controller_query = #740;`
 
@@ -147,6 +174,8 @@
 
 #### Описание и особенности работы
 `controller_query` в текущем FTEQW реализован и не является заглушкой. Builtin не возвращает значение напрямую: он определяет тип подключённого контроллера и, если в QC есть функция `Controller_Type`, вызывает её как callback с двумя аргументами — `device` и найденный тип. Без такого callback вызов просто ничего не делает.
+
+---
 
 ### controller_rumble
 `void(float device, float lowmult, float highmult, float msec) controller_rumble = #741;`
@@ -158,6 +187,8 @@
 #### Описание и особенности работы
 `controller_rumble` тоже реализован: значения приводятся к 16-битным амплитудам и 32-битной длительности, после чего builtin передаёт их в системный input backend. Это прямой thin-wrapper над механизмом вибрации контроллера.
 
+---
+
 ### controller_rumbletriggers
 `void(float device, float leftmult, float rightmult, float msec) controller_rumbletriggers = #742;`
 
@@ -168,11 +199,15 @@
 #### Описание и особенности работы
 `controller_rumbletriggers` работает аналогично `controller_rumble`, но использует отдельный путь для устройств с раздельной вибрацией триггеров.
 
+---
+
 ### crypto_getencryptlevel
 `string(string serveraddress) crypto_getencryptlevel = #635;`
 
 #### Описание и особенности работы
 Builtin присутствует в MenuQC-таблице, но в текущей реализации просто возвращает пустую строку/`NULL`. Это совместимый no-op, а не аварийная заглушка с ошибкой выполнения.
+
+---
 
 ### crypto_getidfp
 `string(string serveraddress) crypto_getidfp = #634;`
@@ -180,11 +215,15 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 #### Описание и особенности работы
 Как и остальные `crypto_*` helper'ы этой группы, сейчас builtin только возвращает пустую строку. Реальной логики проверки сертификатов здесь нет.
 
+---
+
 ### crypto_getidstatus
 `float(string serveraddress) crypto_getidstatus = #643;`
 
 #### Описание и особенности работы
 Текущая реализация всегда возвращает `0`. Builtin безопасен для вызова, но полезных данных не выдаёт.
+
+---
 
 ### crypto_getkeyfp
 `string(string serveraddress) crypto_getkeyfp = #633;`
@@ -192,11 +231,15 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 #### Описание и особенности работы
 В текущем коде просто возвращает пустую строку/`NULL`.
 
+---
+
 ### crypto_getmyidfp
 `string(float slot) crypto_getmyidfp = #637;`
 
 #### Описание и особенности работы
 Совместимый stub без реальной криптологики: результатом всегда будет пустая строка.
+
+---
 
 ### crypto_getmyidstatus
 `float(float slot) crypto_getmyidstatus = #641;`
@@ -204,11 +247,15 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 #### Описание и особенности работы
 Возвращает `0` и ничего не проверяет.
 
+---
+
 ### crypto_getmykeyfp
 `string(float slot) crypto_getmykeyfp = #636;`
 
 #### Описание и особенности работы
 Возвращает пустую строку/`NULL`; полноценный доступ к локальным ключам через этот API сейчас не реализован.
+
+---
 
 ### free_pic
 `void(string picname) free_pic = #453;`
@@ -217,6 +264,8 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 
 #### Описание и особенности работы
 Несмотря на название, `free_pic` в текущем MenuQC фактически no-op. Движок не пытается принудительно выгружать shader, потому что ресурс может использоваться где-то ещё. Поэтому рассчитывать на освобождение VRAM или очистку кэша после вызова нельзя.
+
+---
 
 ### gettime
 `float(optional float timetype) gettime = #519;`
@@ -227,6 +276,8 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 #### Описание и особенности работы
 `gettime` и `gettimef` используют одну и ту же логику. На практике в текущем коде полезны три режима: `0` — кешированное `realtime` на начало кадра, `1` — текущее системное время, округлённое до миллисекунд, и `5` — клиентское симуляционное время `cl.time` (только в клиентских VM). В MenuQC дополнительно существует legacy-номер `#67` для имени `gettime`; `#519` — это современный общий слот.
 
+---
+
 ### gettimed
 `__double(optional int timetype) gettimed = #0:gettimed;`
 
@@ -235,6 +286,8 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 
 #### Описание и особенности работы
 `gettimed` отличается от `gettime` в первую очередь типом результата: `double` меньше теряет точность на длинном аптайме. При этом builtin не пытается дать «сверхвысокую» точность таймера: для режима `1` код специально округляет значение до миллисекунд.
+
+---
 
 ### gettimef
 `float(optional float timetype) gettimef = #519;`
@@ -245,6 +298,8 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 #### Описание и особенности работы
 `gettimef` — это просто float-обёртка над `gettimed`, а не отдельный «чисто CSQC» источник времени. Для MenuQC обычно используют историческое имя `gettime = #67`, тогда как `gettimef` чаще всплывает в CSQC/SSQC-документации.
 
+---
+
 ### gp_getlayout
 `float(float devid) gp_getlayout = #0:gp_getlayout;`
 
@@ -253,11 +308,15 @@ Builtin присутствует в MenuQC-таблице, но в текуще�
 #### Описание и особенности работы
 `gp_getlayout` в текущем коде не заглушка: MenuQC/CSQC используют это имя для получения enum типа/раскладки контроллера.
 
+---
+
 ### gp_rumble
 `void(float devid, float amp_low, float amp_high, float duration) gp_rumble = #0:gp_rumble;`
 
 #### Описание и особенности работы
 Name-mapped alias к тому же rumble backend'у, что и `controller_rumble`. Эффект заменяет предыдущий rumble для устройства.
+
+---
 
 ### gp_rumbletriggers
 `void(float devid, float left, float right, float duration) gp_rumbletriggers = #0:gp_rumbletriggers;`
@@ -265,20 +324,26 @@ Name-mapped alias к тому же rumble backend'у, что и `controller_rumb
 #### Описание и особенности работы
 Name-mapped alias для устройств с отдельной вибрацией триггеров.
 
+---
+
 ### gp_setledcolor
 `void(float devid, vector color) gp_setledcolor = #0:gp_setledcolor;`
 
 #### Описание и особенности работы
 `gp_setledcolor` реализован и передаёт RGB-вектор в системный backend подсветки контроллера. Это уже рабочий API, а не зарезервированный слот.
 
+---
+
 ### gp_settriggerfx
 `void(float devid, void *data, int size) gp_settriggerfx = #0:gp_settriggerfx;`
 
-* **data** — указатель на бинарный блок effect-данных.
+* **data** — указатель на бинарный блок [effect](08-csqc-rendering-builtins.md#effect)-данных.
 * **size** — размер этого блока в байтах.
 
 #### Описание и особенности работы
 `gp_settriggerfx` тоже реализован. Builtin читает бинарный буфер из QC-памяти и передаёт его в backend эффектов триггеров; если указатель или размер невалидны, движок поднимет QC-ошибку `invalid pointer/size`.
+
+---
 
 ### js_run_script
 `string(string javascript) js_run_script = #0:js_run_script;`
@@ -288,10 +353,12 @@ Name-mapped alias для устройств с отдельной вибраци
 #### Описание и особенности работы
 Рабочая реализация `js_run_script` существует только в web/emscripten-сборках и возвращает строковый результат выполнения JavaScript. В обычной desktop-сборке FTEQW, на которую ориентируется этот репозиторий, builtin фактически ничего не делает и возвращает пустую строку/`NULL`.
 
+---
+
 ### map_builtin
 `float(string builtinname, float opcodenum) map_builtin = #220;`
 
-* **builtinname** — `string`, имя встроенной функции движка (например, `"drawpic"`, `"fopen"`).
+* **builtinname** — `string`, имя встроенной функции движка (например, `"`[`drawpic`](08-csqc-rendering-builtins.md#drawpic)`"`, `"`[`fopen`](06-files-database-builtins.md#fopen)`"`).
 * **opcodenum** — `float`, числовой номер опкода (ID слота), который вы хотите принудительно закрепить за этой функцией в текущей виртуальной машине.
 * **Возвращает**: `float` — булево значение успеха операции (`1` — маппинг успешно изменен, `0` — ошибка маппинга или функция не найдена).
 
@@ -310,6 +377,8 @@ void() FixLegacyBuiltinMappings =
 };
 ```
 
+---
+
 ### patch_create
 `int(float modelidx, int oldpatchid, patchvert_t *in_controlverts, patchinfo_t in_info) patch_create = #0:patch_create;`
 
@@ -321,6 +390,8 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 `patch_create` создаёт или заменяет patch внутри модели и возвращает числовой `patchid`. Это не `entity`-API: данные полностью описываются структурами `patchinfo_t` и `patchvert_t`.
 
+---
+
 ### patch_evaluate
 `int(patchvert_t *in_controlverts, patchvert_t *out_renderverts, int maxout, patchinfo_t *inout_info) patch_evaluate = #0:patch_evaluate;`
 
@@ -331,6 +402,8 @@ void() FixLegacyBuiltinMappings =
 
 #### Описание и особенности работы
 `patch_evaluate` не принимает `entity patch` и не меняет модель сам по себе. Это чистый вычислительный helper: он тесселирует гипотетический patch по входным данным и возвращает число реально записанных render-вершин, обрезая результат по `maxout`.
+
+---
 
 ### patch_getcp
 `int(float modelidx, int patchid, patchvert_t *out_controlverts, int maxcp, patchinfo_t *out_info) patch_getcp = #0:patch_getcp;`
@@ -344,6 +417,8 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 Несмотря на имя, `patch_getcp` не возвращает одну control point по координатам `x/y`. Builtin выгружает весь массив control verts патча и сопутствующий `patchinfo_t`, после чего возвращает количество реально скопированных вершин.
 
+---
+
 ### patch_getmesh
 `int(float modelidx, int patchid, patchvert_t *out_verts, int maxverts, patchinfo_t *out_info) patch_getmesh = #0:patch_getmesh;`
 
@@ -356,13 +431,17 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 `patch_getmesh` выгружает уже рассчитанный tessellated mesh патча. Как и у других редакторских builtins, всё упирается в заранее выделенную память: если `maxverts` меньше реального размера, результат будет обрезан.
 
+---
+
 ### print_csqc
 `void(string text, ...) print_csqc = #339;`
 
 * **text** — первая часть выводимого текста.
 
 #### Описание и особенности работы
-`print_csqc` в MenuQC не отправляет данные в другую VM. Это просто alias к локальному print на CSQC-совместимом номере `#339`: строка печатается в локальную консоль текущего клиента.
+`print_csqc` в MenuQC не отправляет данные в другую VM. Это просто alias к локальному [print](12-system-debug-builtins.md#print) на CSQC-совместимом номере `#339`: строка печатается в локальную консоль текущего клиента.
+
+---
 
 ### removeinstant
 `void(entity ent) removeinstant = #0:removeinstant;`
@@ -371,6 +450,8 @@ void() FixLegacyBuiltinMappings =
 
 #### Описание и особенности работы
 `removeinstant` действительно удаляет entity сразу и разрешает немедленное повторное использование её слота. Поэтому builtin полезен для специальных low-level случаев, но требует аккуратности: любые оставшиеся ссылки на старый edict после такого вызова становятся особенно опасны.
+
+---
 
 ### setwatchpoint
 `void(string name, float evaltype, void *ptr) setwatchpoint = #0:setwatchpoint;`
@@ -382,6 +463,8 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 `setwatchpoint` — программный эквивалент консольных команд `watchpoint_*`. Builtin не возвращает ID и не принимает размер области: он формирует выражение наблюдения из `evaltype + ptr`, пытается зарегистрировать его и пишет результат (`Watchpoint set` / `Watchpoint failure`) в консоль.
 
+---
+
 ### stachievement_query
 `stachievement_query(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#731, MenuQC=#731).
 
@@ -389,6 +472,8 @@ void() FixLegacyBuiltinMappings =
 
 #### Описание и особенности работы
 `stachievement_query` представляет собой нереализованный опкод подсистемы интеграции с платформой Valve. Слот `#731` зарезервирован, но рабочей логики за ним нет. Предполагалось, что функция позволит виртуальным машинам запрашивать статус разблокировки или текущий прогресс достижения по его строковому ID, однако в текущих официальных сборках вызов остаётся простой заглушкой с сообщением об ошибке.
+
+---
 
 ### stachievement_register
 `stachievement_register(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#735, MenuQC=#735).
@@ -398,6 +483,8 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 `stachievement_register` — это пустой зарезервированный слот под опкодом `#735`. Изначально он задумывался для предварительного объявления достижений, но рабочая логика так и не появилась. На практике это просто заглушка, оставленная ради совместимости со старыми скриптами.
 
+---
+
 ### stachievement_unlock
 `stachievement_unlock(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#730, MenuQC=#730).
 
@@ -405,6 +492,8 @@ void() FixLegacyBuiltinMappings =
 
 #### Описание и особенности работы
 `stachievement_unlock` является нереализованным опкодом №730, который должен был отвечать за разблокировку игровых достижений. Рабочей логики у него нет, поэтому в официальных дистрибутивах FTEQW принудительное открытие ачивок через QuakeC на данный момент невозможно.
+
+---
 
 ### ststat_increment
 `ststat_increment(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#733, MenuQC=#733).
@@ -414,6 +503,8 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 `ststat_increment` — это пустой слот под номером `#733`, задумывавшийся для пошагового увеличения счётчиков статистики. В текущем состоянии репозитория функция не реализована и остаётся нерабочей заглушкой.
 
+---
+
 ### ststat_query
 `ststat_query(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#734, MenuQC=#734).
 
@@ -421,6 +512,8 @@ void() FixLegacyBuiltinMappings =
 
 #### Описание и особенности работы
 `ststat_query` задумывалась как встроенный метод для чтения числовых показателей пользовательской или глобальной статистики. Метод зарезервирован под номером `#734`, но реальной логики у него нет, так что вызов остаётся заглушкой и полезных данных не возвращает.
+
+---
 
 ### ststat_register
 `ststat_register(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#736, MenuQC=#736).
@@ -430,6 +523,8 @@ void() FixLegacyBuiltinMappings =
 #### Описание и особенности работы
 `ststat_register` представляет собой зарезервированный под номером `#736` слот для предварительного объявления статистической переменной. Метод так и остался нефункциональной заглушкой и сохранён только ради совместимости со старыми заголовками и бинарными опкодами.
 
+---
+
 ### ststat_setvalue
 `ststat_setvalue(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#732, MenuQC=#732).
 
@@ -437,6 +532,8 @@ void() FixLegacyBuiltinMappings =
 
 #### Описание и особенности работы
 `ststat_setvalue` задумывалась как инструмент жёсткой перезаписи статистических значений новыми абсолютными числами. Слот `#732` зарезервирован, но рабочая логика для него отсутствует, поэтому в официальных сборках функция неработоспособна.
+
+---
 
 ### videoplaying
 `float() videoplaying = #355;`
@@ -459,6 +556,12 @@ void() Menu_MainDrawLoop =
 };
 ```
 
+---
+
 ## Смежные страницы
 
-- [Индекс справочника builtins](./README.md)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](12-system-debug-builtins.md) | [Следующая страница ➡](../38-cvars-reference/01-video-rendering-cvars.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

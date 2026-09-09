@@ -1,8 +1,9 @@
 ﻿# Математика и работа с векторами
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](00-entry-points.md) | [Следующая страница ➡](02-string-builtins.md)
 
-> [Индекс справочника builtins](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
 В эту категорию входят builtins для численной математики, тригонометрии, преобразования углов, работы с направляющими векторами и несколькими связанными строково-числовыми конвертерами, которые в QuakeC постоянно используются рядом с расчётами. Важно помнить, что `sin`, `cos`, `tan`, `asin`, `acos`, `atan` и `atan2` работают с радианами, а `makevectors`, `vectoyaw`, `vectoangles`, `changeyaw`, `changepitch` и `anglemod` — с углами Quake в градусах. В сигнатурах ниже указан основной builtin number из `fteextensions.qc`; если в `MenuQC` тот же builtin привязан к другому legacy-номеру, это отдельно оговаривается в описании.
 
@@ -15,7 +16,7 @@
 
 #### Описание и логика работы
 
-`acos` возвращает арккосинус числа в радианах. На практике это угол в диапазоне от `0` до `pi`, поэтому builtin удобен, когда нужно восстановить угол по косинусу, например после скалярного произведения нормализованных векторов. В `fteextensions.qc` builtin объявлен глобально, то есть доступен в `SSQC`, `CSQC` и `MenuQC`. Реализация в `pr_bgcmd.c` напрямую вызывает стандартную `acos` из математической библиотеки и не делает предварительного зажима значения, поэтому вход за пределами `[-1, 1]` даёт платформенно-зависимый NaN-подобный результат. Для устойчивого кода перед вызовом обычно стоит использовать `bound(-1, x, 1)`.
+Функция напрямую вызывает стандартную `acos` из математической библиотеки и не делает предварительного зажима значения
 
 #### Практические сценарии использования
 
@@ -38,6 +39,8 @@ dotv = bound(-1, dotv, 1); // защищаемся от ошибок округ�
 angle_rad = acos(dotv);
 ```
 
+---
+
 ### asin
 `float(float s) asin = #471;`
 
@@ -59,6 +62,8 @@ dir = normalize(enemy.origin - self.origin);
 // Ограничиваем диапазон и восстанавливаем угол по вертикальной компоненте.
 pitch_rad = asin(bound(-1, dir_z, 1));
 ```
+
+---
 
 ### atan
 `float(float t) atan = #473;`
@@ -88,6 +93,8 @@ else
     slope_angle = 0; // вертикальный случай обрабатываем отдельно
 ```
 
+---
+
 ### atan2
 `float(float c, float s) atan2 = #474;`
 
@@ -114,6 +121,8 @@ else
     yaw_rad = atan2(dir_y, dir_x); // первый аргумент - y, второй - x
 ```
 
+---
+
 ### tan
 `float(float a) tan = #475;`
 
@@ -135,6 +144,8 @@ forward_dist = 256;    // хотим сместиться вперёд на 256 
 rise = tan(pitch_rad) * forward_dist;
 ```
 
+---
+
 ### sin
 `float(float angle) sin = #60;`
 
@@ -153,6 +164,8 @@ local float bob;
 bob = sin(time * 4) * 6;
 self.origin_z = self.origin_z + bob;
 ```
+
+---
 
 ### cos
 `float(float angle) cos = #61;`
@@ -175,6 +188,8 @@ offset_y = sin(phase) * 64; // вторая координата идёт чер
 offset_z = 0;
 ```
 
+---
+
 ### sqrt
 `float(float value) sqrt = #62;`
 
@@ -195,6 +210,8 @@ delta = enemy.origin - self.origin;
 dist2 = delta * delta;      // квадрат расстояния
 dist = sqrt(max(dist2, 0)); // извлекаем длину безопасно
 ```
+
+---
 
 ### pow
 `float(float value, float exp) pow = #97;`
@@ -217,6 +234,8 @@ dist = vlen(enemy.origin - self.origin);
 falloff = 1 / pow(max(dist, 1), 2); // обратный квадрат дистанции
 ```
 
+---
+
 ### log
 `float(float v, optional float base) log = #532;`
 
@@ -238,6 +257,8 @@ radius = max(self.scale * 256, 1);
 mip_level = floor(log(radius, 2));
 ```
 
+---
+
 ### rint
 `float(float value) rint = #36;`
 
@@ -258,6 +279,8 @@ snapped_y = rint(self.origin_y / 16) * 16;
 snapped_z = rint(self.origin_z / 16) * 16;
 ```
 
+---
+
 ### ceil
 `float(float value) ceil = #38;`
 
@@ -276,6 +299,8 @@ local float items_per_page;
 items_per_page = 8;
 pages = ceil(total_items / items_per_page); // даже неполная страница считается
 ```
+
+---
 
 ### floor
 `float(float value) floor = #37;`
@@ -297,6 +322,8 @@ cell_x = floor(self.origin_x / 128);
 cell_y = floor(self.origin_y / 128);
 ```
 
+---
+
 ### fabs
 `float(float value) fabs = #43;`
 
@@ -315,6 +342,8 @@ yaw_error = fabs(anglemod(self.angles_y) - anglemod(self.ideal_yaw));
 if (yaw_error < 2)
     self.frame = self.frame_idle;
 ```
+
+---
 
 ### bound
 `float(float minimum, float val, float maximum) bound = #96;`
@@ -337,6 +366,8 @@ pitch = bound(-45, self.angles_x + 10, 60);
 self.angles_x = pitch;
 ```
 
+---
+
 ### min
 `float(float a, float b, ...) min = #94;`
 
@@ -356,6 +387,8 @@ local float step;
 // Выбираем самый жёсткий из нескольких лимитов скорости.
 step = min(self.maxspeed, cvar("sv_maxspeed"), 320);
 ```
+
+---
 
 ### max
 `float(float a, float b, ...) max = #95;`
@@ -377,6 +410,8 @@ local float safe_dist;
 safe_dist = max(vlen(enemy.origin - self.origin), 1);
 ```
 
+---
+
 ### mod
 `float(float dividend, float divisor) mod = #245;`
 
@@ -397,6 +432,8 @@ next_frame = mod(self.frame + 1, 10);
 self.frame = next_frame;
 ```
 
+---
+
 ### random
 `float() random = #7;`
 
@@ -412,6 +449,8 @@ self.frame = next_frame;
 // Случайная задержка перед следующей атакой в диапазоне 0.2..0.5 секунды.
 self.nextthink = time + 0.2 + random() * 0.3;
 ```
+
+---
 
 ### randomvec
 `vector() randomvec = #91;`
@@ -431,6 +470,8 @@ local vector spread;
 spread = randomvec() * 12;
 particle(self.origin + spread, '0 0 20', 66, 8);
 ```
+
+---
 
 ### randomvector
 `vector() randomvector = #41;`
@@ -454,6 +495,8 @@ wobble = randomvector() * 2;
 jittered = base + wobble;
 ```
 
+---
+
 ### bitshift
 `float(float number, float quantity) bitshift = #218;`
 
@@ -474,6 +517,8 @@ mask = bitshift(1, 2); // 00000100
 self.effects = self.effects | mask;
 ```
 
+---
+
 ### anglemod
 `float(float value) anglemod = #102;`
 
@@ -491,6 +536,8 @@ local float yaw;
 yaw = anglemod(self.angles_y + 725); // превращаем 725 градусов в нормальный диапазон
 self.angles_y = yaw;
 ```
+
+---
 
 ### changepitch
 `void(entity ent) changepitch = #63;`
@@ -510,6 +557,8 @@ self.pitch_speed = 4;
 changepitch(self); // в FTEQW реально меняется именно self
 ```
 
+---
+
 ### changeyaw
 `void() changeyaw = #49;`
 
@@ -517,7 +566,7 @@ changepitch(self); // в FTEQW реально меняется именно self
 
 #### Описание и логика работы
 
-`changeyaw` плавно поворачивает `self.angles_y` в сторону `self.ideal_yaw`, не превышая `self.yaw_speed` за один вызов. Builtin существует в `SSQC` и `CSQC`; в `fteextensions.qc` рядом с ним объявлен старый совместимый макро-синоним `ChangeYaw`. В отличие от самописного QuakeC-кода, C-реализация выполняется быстро и стабильно, поэтому её традиционно используют в think-функциях монстров, турелей и других объектов, которым нужно доворотное поведение без мгновенного snap'а. Угол движется по кратчайшей дуге, так что переход через `0/360` обрабатывается корректно.
+`changeyaw` плавно поворачивает `self.angles_y` в сторону `self.ideal_yaw`, не превышая `self.[yaw_speed](../39-entity-keys-reference/05-monster-player-keys.md#yaw_speed)` за один вызов. Builtin существует в `SSQC` и `CSQC`; в `fteextensions.qc` рядом с ним объявлен старый совместимый макро-синоним `ChangeYaw`. В отличие от самописного QuakeC-кода, C-реализация выполняется быстро и стабильно, поэтому её традиционно используют в think-функциях монстров, турелей и других объектов, которым нужно доворотное поведение без мгновенного snap'а. Угол движется по кратчайшей дуге, так что переход через `0/360` обрабатывается корректно.
 
 #### Практические сценарии использования
 
@@ -527,6 +576,8 @@ self.ideal_yaw = vectoyaw(enemy.origin - self.origin);
 self.yaw_speed = 6;
 changeyaw();
 ```
+
+---
 
 ### normalize
 `vector(vector v) normalize = #9;`
@@ -547,6 +598,8 @@ dir = normalize(enemy.origin - self.origin);
 missile.velocity = dir * 900;
 ```
 
+---
+
 ### vlen
 `float(vector v) vlen = #12;`
 
@@ -566,6 +619,8 @@ if (dist < 128)
     self.attack_state = AS_MELEE;
 ```
 
+---
+
 ### vtos
 `string(vector val) vtos = #27;`
 
@@ -581,6 +636,8 @@ if (dist < 128)
 // Печатаем позицию сущности в консоль для отладки.
 dprint("origin = ", vtos(self.origin), "\n");
 ```
+
+---
 
 ### vectoangles
 `vector(vector fwd, optional vector up) vectoangles = #51;`
@@ -602,6 +659,8 @@ dir = normalize(enemy.origin - self.origin);
 self.angles = vectoangles(dir);
 ```
 
+---
+
 ### vectoyaw
 `float(vector v, optional entity reference) vectoyaw = #13;`
 
@@ -621,6 +680,8 @@ local vector dir;
 dir = enemy.origin - self.origin;
 self.ideal_yaw = vectoyaw(dir);
 ```
+
+---
 
 ### makevectors
 `void(vector vang) makevectors = #1;`
@@ -642,6 +703,8 @@ makevectors(self.v_angle);
 // Находим точку выстрела немного впереди и правее.
 muzzle = self.origin + v_forward * 16 + v_right * 8 + v_up * 12;
 ```
+
+---
 
 ### vectorvectors
 `void(vector dir) vectorvectors = #432;`
@@ -666,6 +729,8 @@ vectorvectors(hitnormal);
 decal_origin = trace_endpos + v_forward * 0.5;
 ```
 
+---
+
 ### rotatevectorsbyangle
 `void(vector angle) rotatevectorsbyangle = #235;`
 
@@ -684,6 +749,8 @@ makevectors(self.v_angle);           // базовый взгляд игрока
 rotatevectorsbyangle('0 5 0');       // добавляем 5 градусов вправо
 muzzle = self.origin + v_forward * 16 + v_up * 12;
 ```
+
+---
 
 ### rotatevectorsbyvectors
 `void(vector fwd, vector right, vector up) rotatevectorsbyvectors = #236;`
@@ -712,6 +779,8 @@ makevectors(self.angles);
 rotatevectorsbyvectors(add_fwd, add_right, add_up);
 ```
 
+---
+
 ### rotatevectorsbytag
 `vector(entity ent, float tagnum) rotatevectorsbytag = #244;`
 
@@ -736,6 +805,8 @@ if (muzzle_tag > 0)
     dprint("muzzle = ", vtos(muzzle_origin), "\n");
 }
 ```
+
+---
 
 ### project
 `vector(vector v) project = #311;`
@@ -764,6 +835,8 @@ if (screen_z > 0)
 }
 ```
 
+---
+
 ### unproject
 `vector(vector v) unproject = #310;`
 
@@ -786,6 +859,8 @@ world_far = unproject('320 240 0.99');
 ray_dir = normalize(world_far - world_near);
 ```
 
+---
+
 ### crc16
 `__deprecated("Use digest_hex") float(float caseinsensitive, string s, ...) crc16 = #494;`
 
@@ -795,7 +870,7 @@ ray_dir = normalize(world_far - world_near);
 
 #### Описание и логика работы
 
-`crc16` вычисляет 16-битный CRC-хеш для одной строки или для конкатенации нескольких строковых аргументов. Builtin объявлен глобально и помечен как устаревший: в `fteextensions.qc` прямо советуют использовать [`digest_hex`](06-files-database-builtins.md#digest_hex). В FTEQW первый аргумент выбирает один из двух вариантов хеширования — обычный или регистронезависимый, где вход приводится к нижнему регистру перед расчётом. Возвращаемое значение приходит как `float`, но по смыслу это целое 16-битное число; функция подходит для быстрых идентификаторов, контрольных сумм коротких строк и совместимости со старым кодом, однако для криптографической или просто более современной задачи лучше сразу брать `digest_hex`.
+`crc16` вычисляет 16-битный CRC-хеш для одной строки или для конкатенации нескольких строковых аргументов. Builtin объявлен глобально и помечен как устаревший: в `fteextensions.qc` прямо советуют использовать [`digest_hex`](06-files-database-builtins.md#digest_hex). В FTEQW первый аргумент выбирает один из двух вариантов хеширования — обычный или регистронезависимый, где вход приводится к нижнему регистру перед расчётом. Возвращаемое значение приходит как `float`, но по смыслу это целое 16-битное число; функция подходит для быстрых идентификаторов, контрольных сумм коротких строк и совместимости со старым кодом, однако для криптографической или просто более современной задачи лучше сразу брать [`digest_hex`](06-files-database-builtins.md#digest_hex).
 
 #### Практические сценарии использования
 
@@ -805,6 +880,8 @@ local float checksum;
 // Считаем лёгкий идентификатор комбинации карты и режима.
 checksum = crc16(TRUE, world.model, ":", self.classname);
 ```
+
+---
 
 ### htos
 `string(int value) htos = #262;`
@@ -824,6 +901,8 @@ hexmask = htos(self.effects);
 dprint("effects mask = 0x", hexmask, "\n");
 ```
 
+---
+
 ### itos
 `string(int value) itos = #260;`
 
@@ -842,6 +921,8 @@ msg = strcat("score=", itos(self.frags), "\n");
 sprint(self, msg);
 ```
 
+---
+
 ### stoi
 `int(string s) stoi = #259;`
 
@@ -849,7 +930,7 @@ sprint(self, msg);
 
 #### Описание и логика работы
 
-`stoi` преобразует строку в `int`. Док-комментарий в `fteextensions.qc` обещает автоопределение базы `8/10/16`, но текущая реализация FTEQW в `pr_bgcmd.c` использует обычный `atoi`, то есть практически надёжно парсит именно десятичное число с необязательными начальными пробелами и знаком. Чтение останавливается на первом неподходящем символе, а полностью нечисловая строка даёт `0`. Из-за этого для hex-строк в реальном коде FTEQW стоит использовать `stoh`, а `stoi` держать для обычных десятичных аргументов, cvar-значений и токенов командной строки.
+`stoi` преобразует строку в `int`. Док-комментарий в `fteextensions.qc` обещает автоопределение базы `8/10/16`, но текущая реализация FTEQW использует обычный `atoi`, то есть практически надёжно парсит именно десятичное число с необязательными начальными пробелами и знаком. Чтение останавливается на первом неподходящем символе, а полностью нечисловая строка даёт `0`. Из-за этого для hex-строк в реальном коде FTEQW стоит использовать `stoh`, а `stoi` держать для обычных десятичных аргументов, cvar-значений и токенов командной строки.
 
 #### Практические сценарии использования
 
@@ -860,6 +941,8 @@ local int limit;
 argc = tokenize("kicklimit 12");
 limit = stoi(argv(1)); // получаем целое число 12
 ```
+
+---
 
 ### stoh
 `int(string s) stoh = #261;`
@@ -878,6 +961,8 @@ local int color_mask;
 // Читаем hex-маску из строки конфигурации.
 color_mask = stoh("ff00aa55");
 ```
+
+---
 
 ### str2chr
 `float(string str, float index) str2chr = #222;`
@@ -899,6 +984,8 @@ first = str2chr("rocket", 0);   // код буквы 'r'
 last = str2chr("rocket", -1);   // код буквы 't' в FTEQW
 ```
 
+---
+
 ### chr2str
 `string(float chr, ...) chr2str = #223;`
 
@@ -918,6 +1005,8 @@ local string tag;
 tag = chr2str(91, 79, 75, 93);
 dprint(tag, "\n");
 ```
+
+---
 
 ### anglesub
 `float(float newangle, float oldangle) anglesub = #0:anglesub;`
@@ -943,6 +1032,9 @@ float() yaw_error_to_enemy
     return anglesub(target_yaw, self.angles_y);
 }
 ```
+
+---
+
 ### crossproduct
 `vector(vector v1, vector v2) crossproduct = #0:crossproduct;`
 
@@ -968,6 +1060,9 @@ void() build_surface_tangent
         tangent = '1 0 0';
 }
 ```
+
+---
+
 ### ftoi
 `int(float) ftoi = #0:ftoi;`
 
@@ -991,6 +1086,9 @@ void() cache_grid_cell
     dprint(sprintf("cell=%d,%d\n", cell_x, cell_y));
 }
 ```
+
+---
+
 ### ftou
 `__uint(float) ftou = #0:ftou;`
 
@@ -1011,6 +1109,9 @@ void() pack_small_mask
     dprint(sprintf("mask=%u\n", mask));
 }
 ```
+
+---
+
 ### itof
 `float(int, optional float shift, float mask=24) itof = #0:itof;`
 
@@ -1036,6 +1137,9 @@ void() unpack_rgba_alpha
     dprint(sprintf("alpha=%g\n", alpha));
 }
 ```
+
+---
+
 ### logarithm
 `float(float v, optional float base) logarithm = #0:logarithm;`
 
@@ -1060,6 +1164,9 @@ void() estimate_octaves
     dprint(sprintf("octaves=%g\n", octaves));
 }
 ```
+
+---
+
 ### utof
 `float(__uint, optional float shift, float mask=24) utof = #0:utof;`
 
@@ -1088,7 +1195,13 @@ void() unpack_light_flags
 }
 ```
 
+---
+
 ## Смежные страницы
 
-- [Игровая логика и язык QuakeC](../16-quakec-scripting/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Игровая логика и язык QuakeC](../README.md#игровая-логика-язык-quakec)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](00-entry-points.md) | [Следующая страница ➡](02-string-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

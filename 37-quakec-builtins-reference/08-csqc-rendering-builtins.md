@@ -1,10 +1,11 @@
 ﻿# Рендеринг и сцена CSQC
 
+> [⬅ Предыдущая страница](07-precache-resources-builtins.md) | [Следующая страница ➡](09-csqc-input-ui-builtins.md)
+
 > [⬅ Вернуться к оглавлению вики](../README.md)
+> [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
 
-> [Индекс справочника builtins](./README.md)
-
-CSQC (Client-Side QuakeC) строит изображение кадра из двух независимых конвейеров. Первый — трёхмерная сцена: `clearscene` очищает список рентити (render entities), полигонов и временных динамических источников света, затем `addentity`/`addentities` копируют поля обычных entity (или entity движка через маску) в этот список, а `renderscene` рисует всё накопленное с учётом свойств вида, заданных через `setproperty`. Второй конвейер — плоская 2D-графика (`draw*`, `R_BeginPolygon`/`R_PolygonVertex`/`R_EndPolygon` с флагом `is2d`), работающая в экранных пикселях виртуального разрешения и предназначенная для HUD, меню и текста. Оба конвейера обычно вызываются из [`CSQC_UpdateView`](00-entry-points.md#csqc_updateview) (полноценный csqc-мод, отвечающий за всю отрисовку кадра, включая сцену) или из `CSQC_DrawHud`/`CSQC_DrawScores` в упрощённом режиме SimpleCSQC, где сцену и HUD движка рисует сам движок, а QC лишь дорисовывает поверх него 2D-элементы. Помимо этого в CSQC доступны builtin-функции для партиклов, декалей, динамического света и временных эффектов (`te_*`), повторяющих сетевые temp-entity события ssqc.
+CSQC (Client-Side QuakeC) строит изображение кадра из двух независимых конвейеров. Первый — трёхмерная сцена: `clearscene` очищает список рентити (render entities), полигонов и временных динамических источников света, затем `addentity`/`addentities` копируют поля обычных entity (или entity движка через маску) в этот список, а `renderscene` рисует всё накопленное с учётом свойств вида, заданных через `setproperty`. Второй конвейер — плоская 2D-графика (`draw*`, `R_BeginPolygon`/`R_PolygonVertex`/`R_EndPolygon` с флагом `is2d`), работающая в экранных пикселях виртуального разрешения и предназначенная для HUD, меню и текста. Оба конвейера обычно вызываются из [`CSQC_UpdateView`](00-entry-points.md#csqc_updateview) (полноценный csqc-мод, отвечающий за всю отрисовку кадра, включая сцену) или из [`CSQC_DrawHud`](00-entry-points.md#csqc_drawhud)/[`CSQC_DrawScores`](00-entry-points.md#csqc_drawscores) в упрощённом режиме SimpleCSQC, где сцену и HUD движка рисует сам движок, а QC лишь дорисовывает поверх него 2D-элементы. Помимо этого в CSQC доступны builtin-функции для партиклов, декалей, динамического света и временных эффектов (`te_*`), повторяющих сетевые temp-entity события ssqc.
 
 Часть перечисленных ниже функций также зарегистрирована в MenuQC — им посвящена отдельная статья [Функции MenuQC](./13-menuqc-builtins.md).
 
@@ -16,7 +17,7 @@ CSQC (Client-Side QuakeC) строит изображение кадра из д
 * **ent** — entity, поля которой ([`model`](../39-entity-keys-reference/01-worldspawn-common-keys.md#model), [`origin`](../39-entity-keys-reference/01-worldspawn-common-keys.md#origin), [`angles`](../39-entity-keys-reference/01-worldspawn-common-keys.md#angles), `frame`, [`skin`](../39-entity-keys-reference/01-worldspawn-common-keys.md#skin), `colormap`, [`effects`](../39-entity-keys-reference/06-item-weapon-keys.md#effects), `alpha`, `scale`, `renderflags` и т.д.) нужно скопировать в список рентити для отрисовки.
 
 #### Описание и логика работы
-`addentity` копирует рендер-поля указанной entity в новый rentity, который будет нарисован при следующем вызове `renderscene`. Копия делается немедленно, поэтому дальнейшие изменения полей `ent` уже не повлияют на добавленную копию — если нужно анимировать модель, это делают до вызова `addentity` (например, в функции `predraw`, вызываемой из `addentities`). Вызывать `addentity` можно только между `clearscene` и `renderscene`; вызов вне этого окна не имеет смысла, так как список будет либо ещё не очищен, либо уже нарисован и заново обнулён. Координаты — мировые (`origin`/`angles` в единицах карты), а не экранные пиксели. Если `ent` невидима (`model` не задан, `effects` содержит `EF_NODRAW` и т.п.), движок просто не нарисует rentity, ошибки не будет.
+`addentity` копирует рендер-поля указанной entity в новый rentity, который будет нарисован при следующем вызове `renderscene`. Копия делается немедленно, поэтому дальнейшие изменения полей `ent` уже не повлияют на добавленную копию — если нужно анимировать модель, это делают до вызова `addentity` (например, в функции `predraw`, вызываемой из `addentities`). Вызывать `addentity` можно только между `clearscene` и `renderscene`; вызов вне этого окна не имеет смысла, так как список будет либо ещё не очищен, либо уже нарисован и заново обнулён. Координаты — мировые (`origin`/`angles` в единицах карты), а не экранные пиксели. Если `ent` невидима ([`model`](../39-entity-keys-reference/01-worldspawn-common-keys.md#model) не задан, `effects` содержит `EF_NODRAW` и т.п.), движок просто не нарисует rentity, ошибки не будет.
 
 #### Практические сценарии использования
 ```c
@@ -38,6 +39,8 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### addentities
 `void(float mask) addentities = #301;`
 
@@ -56,13 +59,15 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### clearscene
 `void() clearscene = #300;`
 
 * Аргументов нет.
 
 #### Описание и логика работы
-Забывает все rentity, полигоны и временные (добавленные за кадр) динамические источники света, а также сбрасывает все свойства вида (`setproperty`) к значениям по умолчанию (полноэкранный вьюпорт, стандартный fov и т.д.). Должна вызываться в начале построения кадра, до первого `addentity`/`addentities`/`R_BeginPolygon`, поскольку старый список рентити иначе продолжает копиться от кадра к кадру. Повторный вызов `clearscene` без последующего `renderscene` просто ещё раз обнуляет уже пустую сцену — ошибки не будет, но предыдущий `renderscene` (если он был) уже успел нарисовать то, что было накоплено к этому моменту.
+Забывает все rentity, полигоны и временные (добавленные за кадр) динамические источники света, а также сбрасывает все свойства вида (`setproperty`) к значениям по умолчанию (полноэкранный вьюпорт, стандартный [fov](../38-cvars-reference/01-video-rendering-cvars.md#fov) и т.д.). Должна вызываться в начале построения кадра, до первого `addentity`/`addentities`/`R_BeginPolygon`, поскольку старый список рентити иначе продолжает копиться от кадра к кадру. Повторный вызов `clearscene` без последующего `renderscene` просто ещё раз обнуляет уже пустую сцену — ошибки не будет, но предыдущий `renderscene` (если он был) уже успел нарисовать то, что было накоплено к этому моменту.
 
 #### Практические сценарии использования
 ```c
@@ -76,13 +81,15 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### renderscene
 `void() renderscene = #304;`
 
 * Аргументов нет.
 
 #### Описание и логика работы
-Рисует все entity, полигоны и партиклы, накопленные в списке рентити через `addentity`/`addentities`/`R_BeginPolygon`, используя свойства вида, заданные `setproperty` (позиция камеры, углы, fov, вьюпорт). Порядок добавления элементов не важен — важно лишь то, что вызов должен идти после `clearscene` и всех `addentity`. Сцену нужно очищать заново перед добавлением новых entity, так как добавленные рентити переживают кадр и будут повторно нарисованы, если `clearscene` не вызван. Разрешено вызывать `renderscene` несколько раз за кадр (например, для рендера в текстуру и затем в основной вид), но builtin должен использоваться только внутри `CSQC_UpdateView`; в `CSQC_DrawHud`/`CSQC_DrawScores` сцену уже построил движок.
+Рисует все entity, полигоны и партиклы, накопленные в списке рентити через `addentity`/`addentities`/`R_BeginPolygon`, используя свойства вида, заданные `setproperty` (позиция камеры, углы, fov, вьюпорт). Порядок добавления элементов не важен — важно лишь то, что вызов должен идти после `clearscene` и всех `addentity`. Сцену нужно очищать заново перед добавлением новых entity, так как добавленные рентити переживают кадр и будут повторно нарисованы, если `clearscene` не вызван. Разрешено вызывать `renderscene` несколько раз за кадр (например, для рендера в текстуру и затем в основной вид), но builtin должен использоваться только внутри [`CSQC_UpdateView`](00-entry-points.md#csqc_updateview); в `CSQC_DrawHud`/`CSQC_DrawScores` сцену уже построил движок.
 
 #### Практические сценарии использования
 ```c
@@ -93,6 +100,8 @@ void() CSQC_UpdateView =
 	renderscene();          // после этой точки список рентити уже нарисован
 };
 ```
+
+---
 
 ### getproperty
 `__variant(float property) getproperty = #309;` (алиас `getviewprop`)
@@ -113,6 +122,8 @@ void() CSQC_UpdateView =
 	renderscene();
 };
 ```
+
+---
 
 ### setproperty
 `float(float property, ...) setproperty = #303;` (алиас `setviewprop`)
@@ -137,6 +148,28 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
+### setlistener
+`void(vector origin, vector forward, vector right, vector up) setlistener = #351;`
+
+* **origin** — позиция «слушателя» звука в мировых координатах.
+* **forward**, **right**, **up** — ориентация слушателя (обычно `v_forward`/`v_right`/`v_up` текущей камеры).
+
+#### Описание и логика работы
+Задаёт положение и ориентацию точки, относительно которой движок рассчитывает панораму и затухание звука (3D-звук). Без явного вызова движок обычно использует позицию собственного игрока; builtin нужен, если CSQC рисует камеру не из головы игрока (например, свободная камера, зрительский режим) и звук должен слышаться именно оттуда. Рекомендуется обновлять каждый кадр, особенно при использовании предсказания движения, чтобы позиция слушателя не отставала от фактической камеры.
+
+#### Практические сценарии использования
+```c
+void() CSQC_UpdateView =
+{
+	makevectors(self.v_angle);
+	setlistener(self.origin, v_forward, v_right, v_up);
+};
+```
+
+---
+
 ### getresolution
 `vector(float vidmode, optional float forfullscreen) getresolution = #608;`
 
@@ -158,6 +191,8 @@ void(float idx) DrawResolutionOption =
 	drawstring('8 8 0', sprintf("%g x %g", res_x, res_y), '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### R_BeginPolygon
 `void(string texturename, optional float flags, optional float is2d) R_BeginPolygon = #306;`
@@ -182,6 +217,8 @@ void() DrawWorldQuad =
 };
 ```
 
+---
+
 ### R_EndPolygon
 `void() R_EndPolygon = #308;`
 
@@ -202,6 +239,8 @@ void() DrawTriangle =
 };
 ```
 
+---
+
 ### R_PolygonVertex
 `void(vector org, vector texcoords, vector rgb, float alpha) R_PolygonVertex = #307;`
 
@@ -215,6 +254,8 @@ void() DrawTriangle =
 
 #### Практические сценарии использования
 См. пример в `R_BeginPolygon` выше — там же показано добавление всех вершин четырёхугольника.
+
+---
 
 ---
 
@@ -239,8 +280,10 @@ void() CSQC_DrawHud =
 };
 ```
 
+---
+
 ### drawfill
-`float(vector position, vector size, vector rgb, float alpha, optional float drawflag) drawfill = #323;`
+`float(vector position, vector size, vector rgb, float alpha, optional float drawflag) drawfill = #323;` (алиас `drawfillrgb`)
 
 * **position** — верхний левый угол прямоугольника в экранных пикселях.
 * **size** — ширина и высота прямоугольника.
@@ -258,6 +301,28 @@ void() CSQC_DrawHud =
 	drawfill('0 0 0', '64 8 0', '0 0 0', 0.5, 0);
 };
 ```
+
+---
+
+### drawfillpal
+`void(vector pos, vector size, float paletteindex) drawfillpal = #314;`
+
+* **pos** — верхний левый угол прямоугольника в экранных пикселях.
+* **size** — ширина и высота прямоугольника.
+* **paletteindex** — индекс цвета в палитре Quake (0-255), а не прямой RGB.
+
+#### Описание и логика работы
+Закрашивает сплошной прямоугольник цветом из стандартной палитры Quake по её индексу, а не по RGB-компонентам, как [`drawfill`](#drawfill). Историческое legacy-расширение из `ext_csqc_1.txt`, полезное для точного воспроизведения классических software-палитровых эффектов (например, экрана боли/лечения с оригинальными оттенками Quake).
+
+#### Практические сценарии использования
+```c
+void() CSQC_DrawHud =
+{
+	drawfillpal('0 0 0', '320 200 0', 79); // залить экран цветом палитры (например, тёмно-красным)
+};
+```
+
+---
 
 ### drawline
 `void(float width, vector pos1, vector pos2, vector rgb, float alpha, optional float drawflag) drawline = #315;`
@@ -279,6 +344,8 @@ void() CSQC_DrawHud =
 };
 ```
 
+---
+
 ### drawpic
 `float(vector position, string pic, vector size, vector rgb, float alpha, optional float drawflag) drawpic = #322;`
 
@@ -289,7 +356,7 @@ void() CSQC_DrawHud =
 * **drawflag** *(optional)* — режим смешивания и прочие битовые флаги.
 
 #### Описание и логика работы
-Рисует изображение целиком внутри заданного 2D-прямоугольника экрана, с масштабированием под указанный `size`. Программные (software) рендереры движка могут игнорировать [`rgb`](../41-particle-directives-reference/01-particle-effect-directives.md#rgb)/`alpha`, но обязаны поддерживать масштабирование и корректно обрезать картинку по границам экрана без падений. Изображение должно быть предварительно загружено (`precache_pic`) — иначе движок либо покажет заглушку, либо подгрузит его с задержкой в первый кадр.
+Рисует изображение целиком внутри заданного 2D-прямоугольника экрана, с масштабированием под указанный `size`. Программные (software) рендереры движка могут игнорировать [`rgb`](../41-particle-directives-reference/01-particle-effect-directives.md#rgb)/`alpha`, но обязаны поддерживать масштабирование и корректно обрезать картинку по границам экрана без падений. Изображение должно быть предварительно загружено ([`precache_pic`](07-precache-resources-builtins.md#precache_pic)) — иначе движок либо покажет заглушку, либо подгрузит его с задержкой в первый кадр.
 
 #### Практические сценарии использования
 ```c
@@ -298,6 +365,8 @@ void() CSQC_DrawHud =
 	drawpic('8 8 0', "gfx/hud/icon_health", '32 32 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### drawrawstring
 `float(vector position, string text, vector size, vector rgb, float alpha, optional float drawflag) drawrawstring = #321;`
@@ -319,6 +388,8 @@ void() CSQC_DrawHud =
 };
 ```
 
+---
+
 ### drawresetcliparea
 `void(void) drawresetcliparea = #325;`
 
@@ -337,6 +408,8 @@ void() CSQC_DrawHud =
 };
 ```
 
+---
+
 ### drawsetcliparea
 `void(float x, float y, float width, float height) drawsetcliparea = #324;`
 
@@ -349,8 +422,10 @@ void() CSQC_DrawHud =
 #### Практические сценарии использования
 См. пример в `drawresetcliparea` выше.
 
+---
+
 ### drawstring
-`float(vector position, string text, vector size, vector rgb, float alpha, float drawflag) drawstring = #326;`
+`float(vector position, string text, vector size, vector rgb, float alpha, float drawflag) drawstring = #326;` (алиас `drawcolorcodedstring`)
 
 * **position** — позиция начала строки в экранных пикселях.
 * **text** — строка, разметка (`^1`, `^xrgb` и т.п.) интерпретируется и меняет цвет посимвольно.
@@ -368,6 +443,8 @@ void() CSQC_DrawHud =
 	drawstring('8 8 0', "^1Health: ^7100", '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### drawsubpic
 `void(vector pos, vector sz, string pic, vector srcpos, vector srcsz, vector rgb, float alpha, optional float drawflag) drawsubpic = #328;`
@@ -389,6 +466,8 @@ void(float frame) DrawAmmoIcon =
 };
 ```
 
+---
+
 ### movepic
 `void(string slot, float x, float y, float zone, optional entity player) movepic = #106;`
 
@@ -407,6 +486,8 @@ void() UpdateLegacyIcon =
 	movepic("armor_icon", 10, 10, SL_ORG_TL);
 };
 ```
+
+---
 
 ### showpic
 `void(string slot, string picname, float x, float y, float zone, optional entity player) showpic = #104;`
@@ -428,6 +509,8 @@ void() ShowLegacyIcon =
 };
 ```
 
+---
+
 ### hidepic
 `void(string slot, optional entity player) hidepic = #105;`
 
@@ -444,6 +527,8 @@ void() OnArmorDepleted =
 	hidepic("armor_icon");
 };
 ```
+
+---
 
 ### changepic
 `void(string slot, string picname, optional entity player) changepic = #107;`
@@ -463,6 +548,8 @@ void(float armortype) UpdateArmorIcon =
 };
 ```
 
+---
+
 ### iscachedpic
 `float(string name) iscachedpic = #316;`
 
@@ -480,6 +567,8 @@ void() EnsureIconLoaded =
 };
 ```
 
+---
+
 ### freepic
 `void(string name) freepic = #319;`
 
@@ -495,6 +584,8 @@ void() OnHudModeChanged =
 	freepic("gfx/hud/old_theme_bg");
 };
 ```
+
+---
 
 ### drawgetimagesize
 `vector(string picname) drawgetimagesize = #318;` (алиас `draw_getimagesize`)
@@ -512,6 +603,8 @@ void() CenterLogo =
 	drawpic([(vid_conwidth - sz_x) * 0.5, 20], "gfx/logo", sz, '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### stringwidth
 `float(string text, float usecolours, optional vector fontsize) stringwidth = #327;`
@@ -531,6 +624,8 @@ void(string text) DrawCentered =
 	drawstring([(vid_conwidth - w) * 0.5, 100], text, '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ---
 
@@ -556,6 +651,8 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### boxparticles
 `void(float effectindex, entity own, vector org_from, vector org_to, vector dir_from, vector dir_to, float countmultiplier, optional float flags) boxparticles = #502;`
 
@@ -579,6 +676,8 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### particle
 `void(vector pos, vector dir, float colour, float count) particle = #48;`
 
@@ -597,6 +696,8 @@ void() SpawnDust =
 	particle(self.origin, '0 0 40', 111, 8); // серая пыль классической палитры
 };
 ```
+
+---
 
 ### particle2
 `void(vector org, vector dmin, vector dmax, float colour, float effect, float count) particle2 = #215;`
@@ -618,6 +719,8 @@ void() SpawnHexenSparkle =
 };
 ```
 
+---
+
 ### particle3
 `void(vector org, vector box, float colour, float effect, float count) particle3 = #216;`
 
@@ -637,6 +740,8 @@ void() SpawnBoxBurst =
 	particle3(self.origin, '32 32 32', 6, 0, 32);
 };
 ```
+
+---
 
 ### particle4
 `void(vector org, float radius, float colour, float effect, float count) particle4 = #217;`
@@ -658,6 +763,8 @@ void() SpawnSphereBurst =
 };
 ```
 
+---
+
 ### particleeffectnum
 `float(string effectname) particleeffectnum = #335;`
 
@@ -675,6 +782,8 @@ void() CSQC_Init =
 };
 ```
 
+---
+
 ### particleeffectquery
 `string(float efnum, float body) particleeffectquery = #374;`
 
@@ -691,6 +800,8 @@ void(float efnum) DumpEffectBody =
 	print(particleeffectquery(efnum, TRUE), "\n");
 };
 ```
+
+---
 
 ### pointparticles
 `void(float effectnum, vector origin, optional vector dir, optional float count) pointparticles = #337;`
@@ -711,6 +822,8 @@ void() FireWeapon =
 };
 ```
 
+---
+
 ### trailparticles
 `void(float effectnum, entity ent, vector start, vector end) trailparticles = #336;`
 
@@ -729,6 +842,8 @@ void() Rocket_Think =
 	self.oldorigin = self.origin;
 };
 ```
+
+---
 
 ### effect
 `void(vector org, string modelname, float startframe, float endframe, float framerate) effect = #404;`
@@ -749,8 +864,10 @@ void() SpawnFlashSprite =
 };
 ```
 
+---
+
 ### dynamiclight_add
-`float(vector org, float radius, vector lightcolours, optional float style, optional string cubemapname, optional float pflags) dynamiclight_add = #305;`
+`float(vector org, float radius, vector lightcolours, optional float style, optional string cubemapname, optional float [pflags](../39-entity-keys-reference/02-light-entity-keys.md#pflags)) dynamiclight_add = #305;`
 
 * **org** — мировая позиция источника света.
 * **radius** — радиус освещения.
@@ -774,6 +891,8 @@ void() Rocket_Think =
 };
 ```
 
+---
+
 ### dynamiclight_get
 `__variant(float lno, float fld) dynamiclight_get = #372;`
 
@@ -794,6 +913,8 @@ void(float lno) DumpLightRadius =
 };
 ```
 
+---
+
 ### dynamiclight_set
 `void(float lno, float fld, __variant value) dynamiclight_set = #373;`
 
@@ -811,6 +932,8 @@ void(float lno, vector newcolor) TintLight =
 	dynamiclight_set(lno, LFIELD_COLOUR, newcolor);
 };
 ```
+
+---
 
 ### lightstyle
 `void(float lightstyle, string stylestring, optional vector rgb) lightstyle = #35;`
@@ -830,6 +953,8 @@ void() FlickerEmergencyLights =
 };
 ```
 
+---
+
 ### lightstylestatic
 `void(float style, float val, optional vector rgb) lightstylestatic = #5;`
 
@@ -848,6 +973,8 @@ void() TurnOnStaticLight =
 };
 ```
 
+---
+
 ### getlight
 `vector(vector org) getlight = #92;`
 
@@ -864,6 +991,8 @@ void() TintPlayerByAmbient =
 	self.colormod = amb;
 };
 ```
+
+---
 
 ---
 
@@ -885,6 +1014,8 @@ void() CSQC_DrawHud =
 };
 ```
 
+---
+
 ### con_getset
 `string(string conname, string field, optional string newvalue) con_getset = #391;`
 
@@ -902,6 +1033,8 @@ void() HideChatConsole =
 	con_getset("chat", "hidden", "1");
 };
 ```
+
+---
 
 ### con_input
 `float(string conname, float inevtype, float parama, float paramb, float paramc) con_input = #394;`
@@ -923,6 +1056,8 @@ float(float devid, float inevtype, float scanx, float chary, float devicetype) C
 };
 ```
 
+---
+
 ### con_printf
 `void(string conname, string messagefmt, ...) con_printf = #392;`
 
@@ -942,6 +1077,8 @@ void(string who, string msg) AddChatLine =
 
 ---
 
+---
+
 ### RegisterTempEnt
 `float(float attributes, string effectname, ...) RegisterTempEnt = #208;`
 
@@ -950,7 +1087,7 @@ void(string who, string msg) AddChatLine =
 * **...** — дополнительные аргументы, описывающие формат данных эффекта.
 
 #### Описание и логика работы
-Регистрирует на сервере (только SSQC) новый пользовательский тип временного эффекта (часть `FTE_PEXT_CUSTOMTENTS`), который затем можно разослать клиентам через `CustomTempEnt`. Используется, когда стандартных `te_*` эффектов недостаточно и мод хочет отправлять клиенту собственные визуальные события с произвольным набором параметров, обрабатываемые в CSQC самостоятельно (обычно в [`CSQC_Ent_Update`](00-entry-points.md#csqc_ent_update)/`CSQC_Parse_TempEntity` или аналогичном хуке).
+Регистрирует на сервере (только SSQC) новый пользовательский тип временного эффекта (часть `FTE_PEXT_CUSTOMTENTS`), который затем можно разослать клиентам через `CustomTempEnt`. Используется, когда стандартных `te_*` эффектов недостаточно и мод хочет отправлять клиенту собственные визуальные события с произвольным набором параметров, обрабатываемые в CSQC самостоятельно (обычно в [`CSQC_Ent_Update`](00-entry-points.md#csqc_ent_update)/[`CSQC_Parse_TempEntity`](00-entry-points.md#csqc_parse_tempentity) или аналогичном хуке).
 
 #### Практические сценарии использования
 ```c
@@ -961,6 +1098,8 @@ void() worldspawn =
 	customfx_shield = RegisterTempEnt(0, "shieldhit");
 };
 ```
+
+---
 
 ### CustomTempEnt
 `void(float type, vector pos, ...) CustomTempEnt = #209;`
@@ -981,6 +1120,8 @@ void(vector hitpos) ShieldHit_Broadcast =
 };
 ```
 
+---
+
 ### te_beam
 `void(entity own, vector start, vector end) te_beam = #431;`
 
@@ -994,6 +1135,8 @@ void() FireBeamWeapon =
 	te_beam(self, self.origin, trace_endpos);
 };
 ```
+
+---
 
 ### te_blood
 `void(vector org, vector dir, float count) te_blood = #405;`
@@ -1009,6 +1152,8 @@ void(vector hitorg, vector hitdir) OnFleshHit =
 };
 ```
 
+---
+
 ### te_bloodqw
 `void(vector org, optional float count) te_bloodqw = #239;`
 
@@ -1022,6 +1167,8 @@ void(vector hitorg) OnFleshHitQW =
 	te_bloodqw(hitorg, 10);
 };
 ```
+
+---
 
 ### te_bloodshower
 `void(vector mincorner, vector maxcorner, float explosionspeed, float howmany) te_bloodshower = #406;`
@@ -1037,6 +1184,8 @@ void() OnGib_Burst =
 };
 ```
 
+---
+
 ### te_customflash
 `void(vector org, float radius, float lifetime, vector color) te_customflash = #417;`
 
@@ -1050,6 +1199,8 @@ void() OnMuzzleFlash =
 	te_customflash(self.origin + v_forward * 16, 150, 0.2, '1 0.8 0.4');
 };
 ```
+
+---
 
 ### te_explosion
 `void(vector org) te_explosion = #421;`
@@ -1065,6 +1216,8 @@ void(vector where) SpawnExplosion =
 };
 ```
 
+---
+
 ### te_explosion2
 `void(vector org, float color, float colorlength) te_explosion2 = #427;`
 
@@ -1078,6 +1231,8 @@ void(vector where) SpawnColoredExplosion =
 	te_explosion2(where, 224, 16); // например, зеленоватые обломки
 };
 ```
+
+---
 
 ### te_explosionquad
 `void(vector org) te_explosionquad = #415;`
@@ -1093,6 +1248,8 @@ void(vector where) SpawnQuadExplosion =
 };
 ```
 
+---
+
 ### te_explosionrgb
 `void(vector org, vector color) te_explosionrgb = #407;`
 
@@ -1106,6 +1263,8 @@ void(vector where) SpawnMagicExplosion =
 	te_explosionrgb(where, '0.6 0.1 0.9');
 };
 ```
+
+---
 
 ### te_flamejet
 `void(vector org, vector vel, float howmany) te_flamejet = #457;`
@@ -1122,6 +1281,8 @@ void() BurningBarrel_Think =
 };
 ```
 
+---
+
 ### te_gunshot
 `void(vector org, optional float count) te_gunshot = #418;`
 
@@ -1137,7 +1298,7 @@ void(vector where) OnBulletHitWall =
 ```
 
 #### te_gunshotquad
-`void(vector org) te_gunshotquad = #412;`
+`void(vector org) [te_gunshotquad](03-entity-world-builtins.md#te_gunshotquad) = #412;`
 
 #### Описание и логика работы
 Вариант `te_gunshot` для режима Quad Damage — те же серые искры от попадания пули, но с добавлением характерного синего проблеска квад-эффекта, чтобы визуально показать, что выстрел был усилен.
@@ -1149,6 +1310,8 @@ void(vector where) OnQuadBulletHitWall =
 	te_gunshotquad(where);
 };
 ```
+
+---
 
 ### te_knightspike
 `void(vector org) te_knightspike = #424;`
@@ -1164,6 +1327,8 @@ void(vector where) OnKnightSpikeHit =
 };
 ```
 
+---
+
 ### te_lavasplash
 `void(vector org) te_lavasplash = #425;`
 
@@ -1177,6 +1342,8 @@ void(vector where) OnHeavyObjectLandsInLava =
 	te_lavasplash(where);
 };
 ```
+
+---
 
 ### te_lightning1
 `void(entity own, vector start, vector end) te_lightning1 = #428;`
@@ -1193,7 +1360,7 @@ void() FireLightningGun =
 ```
 
 #### te_lightning2
-`void(entity own, vector start, vector end) te_lightning2 = #429;`
+`void(entity own, vector start, vector end) [te_lightning2](03-entity-world-builtins.md#te_lightning2) = #429;`
 
 #### Описание и логика работы
 То же самое, что `te_lightning1`, но с другой текстурой луча (второй вариант молнии из стандартного набора Quake 1) — используется, например, для луча щита Vore или другого стилистически иного электрического эффекта.
@@ -1207,7 +1374,7 @@ void() FireAltLightning =
 ```
 
 #### te_lightning3
-`void(entity own, vector start, vector end) te_lightning3 = #430;`
+`void(entity own, vector start, vector end) [te_lightning3](03-entity-world-builtins.md#te_lightning3) = #430;`
 
 #### Описание и логика работы
 Третий вариант молниевидного луча с собственной текстурой — используется, например, для лучей ловушек/дверей на некоторых картах Quake 1. Логика идентична `te_lightning1`.
@@ -1219,6 +1386,8 @@ void() FireTrapLightning =
 	te_lightning3(world, trap_start, trap_end);
 };
 ```
+
+---
 
 ### te_lightningblood
 `void(vector pos) te_lightningblood = #219;`
@@ -1234,6 +1403,8 @@ void(vector where) OnLightningHitsFlesh =
 };
 ```
 
+---
+
 ### te_particlecube
 `void(vector mincorner, vector maxcorner, vector vel, float howmany, float color, float gravityflag, float randomveljitter) te_particlecube = #408;`
 
@@ -1247,6 +1418,8 @@ void() OnCeilingCollapse =
 	te_particlecube(self.absmin, self.absmax, '0 0 -50', 60, 4, TRUE, 20);
 };
 ```
+
+---
 
 ### te_particlerain
 `void(vector mincorner, vector maxcorner, vector vel, float howmany, float color) te_particlerain = #409;`
@@ -1262,6 +1435,8 @@ void() CSQC_UpdateView =
 };
 ```
 
+---
+
 ### te_particlesnow
 `void(vector mincorner, vector maxcorner, vector vel, float howmany, float color) te_particlesnow = #410;`
 
@@ -1275,6 +1450,8 @@ void() CSQC_UpdateView =
 	te_particlesnow('-400 -400 400', '400 400 400', '10 5 -60', 80, 254);
 };
 ```
+
+---
 
 ### te_plasmaburn
 `void(vector org) te_plasmaburn = #433;`
@@ -1290,6 +1467,8 @@ void(vector where) OnPlasmaHitWall =
 };
 ```
 
+---
+
 ### te_smallflash
 `void(vector org) te_smallflash = #416;`
 
@@ -1304,6 +1483,8 @@ void(vector where) OnMinorImpact =
 };
 ```
 
+---
+
 ### te_spark
 `void(vector org, vector vel, float howmany) te_spark = #411;`
 
@@ -1317,6 +1498,8 @@ void(vector where, vector dir) OnMetalHit =
 	te_spark(where, dir * 100, 12);
 };
 ```
+
+---
 
 ### te_spike
 `void(vector org) te_spike = #419;`
@@ -1333,7 +1516,7 @@ void(vector where) OnNailHitWall =
 ```
 
 #### te_spikequad
-`void(vector org) te_spikequad = #413;`
+`void(vector org) [te_spikequad](03-entity-world-builtins.md#te_spikequad) = #413;`
 
 #### Описание и логика работы
 Вариант `te_spike` для режима Quad Damage — та же искра от попадания снаряда, но дополненная характерным синим проблеском, показывающим усиление оружия.
@@ -1345,6 +1528,8 @@ void(vector where) OnQuadNailHitWall =
 	te_spikequad(where);
 };
 ```
+
+---
 
 ### te_superspike
 `void(vector org) te_superspike = #420;`
@@ -1361,7 +1546,7 @@ void(vector where) OnSuperNailHitWall =
 ```
 
 #### te_superspikequad
-`void(vector org) te_superspikequad = #414;`
+`void(vector org) [te_superspikequad](03-entity-world-builtins.md#te_superspikequad) = #414;`
 
 #### Описание и логика работы
 Вариант `te_superspike` для режима Quad Damage — тот же густой сноп искр супергвоздомёта, дополненный синим проблеском квад-эффекта.
@@ -1373,6 +1558,8 @@ void(vector where) OnQuadSuperNailHitWall =
 	te_superspikequad(where);
 };
 ```
+
+---
 
 ### te_tarexplosion
 `void(vector org) te_tarexplosion = #422;`
@@ -1388,6 +1575,8 @@ void(vector where) OnTarbabyDeath =
 };
 ```
 
+---
+
 ### te_teleport
 `void(vector org) te_teleport = #426;`
 
@@ -1402,6 +1591,8 @@ void(vector where) OnTeleportArrive =
 };
 ```
 
+---
+
 ### te_wizspike
 `void(vector org) te_wizspike = #423;`
 
@@ -1415,6 +1606,8 @@ void(vector where) OnWizardBoltHitWall =
 	te_wizspike(where);
 };
 ```
+
+---
 
 ### addentity_lighting
 `void(entity ent, vector dir, vector ambient, vector diffuse) addentity_lighting = #0:addentity_lighting;`
@@ -1436,6 +1629,8 @@ void(entity ent) ApplyCustomMuzzleFlashLight =
 };
 ```
 
+---
+
 ### addtrisoup_simple
 `void(string texturename, int flags, trisoup_simple_vert_t *verts, int *indexes, int numindexes) addtrisoup_simple = #0:addtrisoup_simple;`
 
@@ -1456,11 +1651,15 @@ void(string tex, float flags, trisoup_simple_vert_t *verts, int *indexes, float 
 };
 ```
 
+---
+
 ### customtempent
 `customtempent` в CSQC не реализована.
 
 #### Описание и особенности работы
 Несмотря на совпадающее имя со старым серверным temp-entity API, в клиентской VM FTEQW этот builtin не доступен: слот помечен как not-for-CSQC. Соответственно, из CSQC нельзя создавать локальные temp entities через `customtempent()`; для клиентских эффектов нужно использовать обычные CSQC entity, particles, decals, polygon/trisoup geometry или серверные `RegisterTempEnt`/`CustomTempEnt` для передачи событий.
+
+---
 
 ### drawrotpic
 `void(vector pivot, vector mins, vector maxs, string pic, vector rgb, float alpha, float angle, optional float drawflag) drawrotpic = #0:drawrotpic;`
@@ -1484,6 +1683,8 @@ void(vector center, float angle) DrawRadarCompass =
 };
 ```
 
+---
+
 ### drawrotpic_dp
 `void(vector pivot, string pic, vector size, vector mins, float angle, vector rgb, float alpha, optional float drawflag) drawrotpic_dp = #329;`
 
@@ -1506,6 +1707,8 @@ void(vector center, float angle) DrawDPAxisCrosshair =
 };
 ```
 
+---
+
 ### drawrotsubpic
 `void(vector pivot, vector mins, vector maxs, string pic, vector txmin, vector txsize, vector rgb, vector alphaandangles) drawrotsubpic = #0:drawrotsubpic;`
 
@@ -1513,7 +1716,7 @@ void(vector center, float angle) DrawDPAxisCrosshair =
 * **pic** — имя текстуры/атласа.
 * **txmin**, **txsize** — начало и размер вырезаемого участка текстуры.
 * **rgb** — цветовой множитель.
-* **alphaandangles** — упакованный вектор: `x = alpha`, `y = angle в градусах`, `z = drawflag`.
+* **alphaandangles** — упакованный вектор: `x = alpha`, `y = angle in degrees`, `z = drawflag`.
 
 #### Описание и особенности работы
 `drawrotsubpic` совмещает идеи `drawrotpic` и `drawsubpic`: поворачивает не всю картинку, а выбранный прямоугольник из атласа. Важная особенность API — прозрачность, угол и drawflag упакованы в один вектор `alphaandangles`.
@@ -1530,6 +1733,8 @@ void(vector center, float angle) DrawSpeedometerNeedleFromAtlas =
     drawrotsubpic(center, '-8 -56 0', '8 8 0', "gfx/hud/atlas", '0.5 0.0 0', '0.125 0.25 0', '1 1 1', alpha_angle_flag);
 };
 ```
+
+---
 
 ### dynamiclight_spawnstatic
 `float(vector org, float radius, vector rgb) dynamiclight_spawnstatic = #0:dynamiclight_spawnstatic;`
@@ -1552,6 +1757,8 @@ void(vector fireplace_org) SpawnPermanentCampfireLight =
     dynamiclight_set(lno, LFIELD_FLAGS, PFLAGS_CORONA);
 };
 ```
+
+---
 
 ### getlightstyle
 `string(float style, optional __out vector rgb) getlightstyle = #0:getlightstyle;`
@@ -1576,6 +1783,8 @@ void() UpdateShaderWithMapLightstyle =
 };
 ```
 
+---
+
 ### getlightstylergb
 `vector(float style) getlightstylergb = #0:getlightstylergb;`
 
@@ -1593,11 +1802,13 @@ void(float lno) SynchronizeLampWithMapStyle =
 };
 ```
 
+---
+
 ### getlocationname
 `string(vector org) getlocationname = #0:getlocationname;`
 
 * **org** — `vector`, 3D-координаты точки в мировом пространстве карты, для которой требуется определить название локации.
-* **Возвращает**: `string` — текстовое название локации, закрепленное за данной областью на карте (например, `"База синих"`, `"Генераторная"`), либо пустую строку `""`, если точка находится вне именованных зон.
+* **Возвращает**: `string` — текстовое название локации, закрепленное за данной областью на карте (например, `"Blue Base"`, `"Generator Room"`), либо пустую строку `""`, если точка находится вне именованных зон.
 
 #### Описание и особенности работы
 `getlocationname` — это полностью реализованная встроенная функция клиентской части движка (CSQC) в экосистеме FTEQW. Метод предназначен для автоматического определения строкового названия именованной зоны (Location), внутри которой находятся переданные 3D-координаты `org`. На уровне Си-кода ядра движок выполняет пространственный поиск по специальным навигационным сущностям (таким как `target_location` или встроенные триггеры именования зон), которые запекаются в BSP-файл карты или загружаются из внешних конфигурационных файлов (например, `.loc`-файлов в стиле QuakeWorld). Функция оптимизирована на уровне ядра для быстрых пространственных выборок и не создает накладных расходов. Данный builtin активно применяется разработчиками для вывода динамических подсказок в интерфейсе (HUD): отображения текущего местоположения игрока, формирования автоматических сообщений в командный чат (команды вида *«[Игрок] на [Локация]: нужна помощь!»*), а также для логирования событий в соревновательных игровых режимах.
@@ -1610,10 +1821,12 @@ void() CSQC_UpdateHUD_Location =
 
     loc_name = getlocationname(pmove_org);
     if (loc_name == "")
-        loc_name = "Неизвестная зона";
-    drawstring('16 16 0', sprintf("Текущая позиция: %s", loc_name), '8 8 0', '1 1 1', 1, 0);
+        loc_name = "Unknown zone";
+    drawstring('16 16 0', sprintf("Current position: %s", loc_name), '8 8 0', '1 1 1', 1, 0);
 };
 ```
+
+---
 
 ### pointcontentsmask
 `__uint(vector org, optional float worldonly) pointcontentsmask = #0:pointcontentsmask;`
@@ -1623,7 +1836,7 @@ void() CSQC_UpdateHUD_Location =
 * **Возвращает**: беззнаковую битовую маску содержимого.
 
 #### Описание и особенности работы
-`pointcontentsmask` похожа на расширенную `pointcontents`, но её второй аргумент в CSQC не задаёт произвольную маску фильтра. Вместо этого он переключает режим запроса: только основной мир или все BSP-объекты, включая движущиеся brush-модели вроде дверей и лифтов. Возвращаемое значение — contents bitmask, а не старый одиночный код типа `CONTENT_WATER`.
+`pointcontentsmask` похожа на расширенную [`pointcontents`](03-entity-world-builtins.md#pointcontents), но её второй аргумент в CSQC не задаёт произвольную маску фильтра. Вместо этого он переключает режим запроса: только основной мир или все BSP-объекты, включая движущиеся brush-модели вроде дверей и лифтов. Возвращаемое значение — contents bitmask, а не старый одиночный код типа `CONTENT_WATER`.
 
 #### Пример использования
 ```qc
@@ -1637,6 +1850,8 @@ void() CSQC_DebugContents =
     dprint(sprintf("world=%g allbsp=%g\n", world_contents, all_bsp_contents));
 };
 ```
+
+---
 
 ### R_EndPolygonRibbon
 `void(float radius, vector texcoordbias) R_EndPolygonRibbon = #0:R_EndPolygonRibbon;`
@@ -1657,6 +1872,8 @@ void(vector start_pos, vector end_pos) SpawnProjectileBeamTrail =
     R_EndPolygonRibbon(4, '0 0 0');
 };
 ```
+
+---
 
 ### r_readimage
 `int*(string filename, __out int width, __out int height, __out int format) r_readimage = #0:r_readimage;`
@@ -1682,6 +1899,8 @@ void(string custom_logo_path) ProcessTextureBytes =
 };
 ```
 
+---
+
 ### r_uploadimage
 `void(string imagename, int width, int height, void *pixeldata, optional int datasize, optional int format) r_uploadimage = #0:r_uploadimage;`
 
@@ -1702,11 +1921,15 @@ void(void *raw_pixels) UploadProceduralTexture =
 };
 ```
 
+---
+
 ### registertempent
 `registertempent` в CSQC не реализована.
 
 #### Описание и особенности работы
 Нижний регистрованный вариант `registertempent`/`customtempent` отсутствует в клиентской VM FTEQW. Если нужен именно серверный custom temp-entity pipeline, используйте `RegisterTempEnt` и `CustomTempEnt` на стороне SSQC; из чистого CSQC этот builtin недоступен.
+
+---
 
 ### remapshader
 `void(string oldshader, string newshader) remapshader = #0:remapshader;`
@@ -1715,7 +1938,7 @@ void(void *raw_pixels) UploadProceduralTexture =
 * **newshader** — `string`, имя нового целевого шейдера, который будет подставляться графическим конвейером вместо исходного.
 
 #### Описание и особенности работы
-`remapshader` — это полностью реализованная встроенная функция графической подсистемы движка FTEQW на стороне CSQC. Метод выполняет динамическую подмену (перенаправление) графических материалов на уровне глобального менеджера текстур и шейдеров (`engine/client/gl_backend.c` или `gl_textures.c`). Когда рендерер движка встречает на трехмерных моделях, брашах карты или элементах интерфейса указание отрисовать `oldshader`, он автоматически подставляет вместо него `newshader`. Переназначение применяется ко всей графической сцене кадра. Этот builtin является мощнейшим инструментом для реализации динамических визуальных эффектов: мгновенного изменения текстур стен при активации триггеров (например, симуляция разрушения, наложения копоти, появление крови), наложения кастомных шейдеров невидимости или тепловизора на модели игроков, динамической смены камуфляжей оружия, а также глобального изменения стиля оформления карты (например, переключение уровней в «кошмарный» или «ретро» режим) без перезагрузки BSP-файла или очистки VRAM.
+Метод выполняет динамическую подмену (перенаправление) графических материалов на уровне глобального менеджера текстур и шейдеров.
 
 #### Пример использования
 ```qc
@@ -1733,13 +1956,17 @@ void() CSQC_DeactivateThermalVision =
 };
 ```
 
+---
+
 ### setcolor
 `setcolor(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#401).
 
 * Параметры не специфицированы, вызов не имеет функционального смысла.
 
 #### Описание и особенности работы
-`setcolor` (в некоторых версиях таблиц упоминается как `setcolors`) представляет собой нереализованный опкод под номером `#401` в клиентской виртуальной машине (CSQC). Как прямо указывает пометка из комментариев к исходному коду Си-ядра движка FTEQW (*«#401 void(entity cl, float colours) setcolors (DP_SV_SETCOLOR) (don't implement)»*), разработчики целенаправленно отказались от её интеграции, оставив слот пустым и перенаправив его на стандартную системную заглушку `PF_Fixme`. Первоначально эта функция планировалась для обратной совместимости с расширением серверной части движка DarkPlaces (`DP_SV_SETCOLOR`), которое позволяло принудительно менять палитру цветов одежды/кожи (shirt и pants) конкретного игрока или сетевого эдикта. В архитектуре FTEQW этот функционал на стороне CSQC заблокирован, так как управление палитрами моделей и цветами команд нативно и более гибко реализуется штатными методами модификации полей сущностей и шейдерами, а сам слот №401 оставлен исключительно для фиксации позиции в бинарной таблице встроенных методов компилятора. Попытка вызова функции вызовет ошибку выполнения в консоли.
+`setcolor` (в некоторых версиях таблиц упоминается как [`setcolors`](10-skeletal-model-builtins.md#setcolors)) представляет собой нереализованный опкод под номером `#401` в клиентской виртуальной машине (CSQC). Как прямо указывает пометка из комментариев к исходному коду Си-ядра движка FTEQW (*«#401 void(entity cl, float colours) setcolors (DP_SV_SETCOLOR) (don't implement)»*), разработчики целенаправленно отказались от её интеграции, оставив слот пустым и перенаправив его на стандартную системную заглушку `PF_Fixme`. Первоначально эта функция планировалась для обратной совместимости с расширением серверной части движка DarkPlaces (`DP_SV_SETCOLOR`), которое позволяло принудительно менять палитру цветов одежды/кожи (shirt и pants) конкретного игрока или сетевого эдикта. В архитектуре FTEQW этот функционал на стороне CSQC заблокирован, так как управление палитрами моделей и цветами команд нативно и более гибко реализуется штатными методами модификации полей сущностей и шейдерами, а сам слот №401 оставлен исключительно для фиксации позиции в бинарной таблице встроенных методов компилятора. Попытка вызова функции вызовет ошибку выполнения в консоли.
+
+---
 
 ### trailparticles_dp
 `void(float effectindex, entity ent, vector start, vector end) trailparticles_dp = #336;`
@@ -1750,7 +1977,7 @@ void() CSQC_DeactivateThermalVision =
 * **end** — `vector`, 3D-координаты конечной точки отрезка.
 
 #### Описание и особенности работы
-`trailparticles_dp` — это полностью реализованная встроенная функция графической подсистемы частиц на стороне клиентской части (CSQC). Как иронично указывает отметка непосредственно в исходном Си-коде ядра (`#336 DP sucks` в таблицах builtins файла `engine/client/pr_csqc.c`), этот метод был добавлен исключительно для обеспечения бинарной обратной совместимости с расширениями системы частиц движка **DarkPlaces**. В экосистеме DarkPlaces генерация шлейфов частиц жестко завязана на передачу отрезка мировых координат (`start` и `end`), что авторы FTEQW посчитали архитектурно неоптимальным решением (отсюда и комментарий в коде). Тем не менее, внутри FTEQW эта функция полноценно работает: на низком уровне ядро берет указанный отрезок, рассчитывает шаг интерполяции и заполняет пространство между точками партиклами из нативного генератора эффектов текущей карты. Метод используется для того, чтобы старые или кросс-платформенные моды, изначально написанные под DarkPlaces, могли без изменения исходного QuakeC-кода отрисовывать шлейфы за летящими снарядами, трассеры пуль, дымовые хвосты ракет или световые лучи.
+`trailparticles_dp` — это полностью реализованная встроенная функция графической подсистемы частиц на стороне клиентской части (CSQC). Этот метод был добавлен исключительно для обеспечения бинарной обратной совместимости с расширениями системы частиц движка **DarkPlaces**. В экосистеме DarkPlaces генерация шлейфов частиц жёстко завязана на передачу отрезка мировых координат (`start` и `end`), что авторы FTEQW посчитали архитектурно неоптимальным решением. Тем не менее, внутри FTEQW эта функция полноценно работает: движок берёт указанный отрезок, рассчитывает шаг интерполяции и заполняет пространство между точками партиклами из нативного генератора эффектов текущей карты. Метод используется для того, чтобы старые или кросс-платформенные моды, изначально написанные под DarkPlaces, могли без изменения исходного QuakeC-кода отрисовывать шлейфы за летящими снарядами, трассеры пуль, дымовые хвосты ракет или световые лучи.
 
 #### Пример использования
 ```qc
@@ -1762,6 +1989,8 @@ void(entity rocket) SpawnDPRocketTrail =
 };
 ```
 
+---
+
 ### V_CalcRefdef
 `V_CalcRefdef(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#640).
 
@@ -1770,7 +1999,13 @@ void(entity rocket) SpawnDPRocketTrail =
 #### Описание и особенности работы
 `V_CalcRefdef` представляет собой нереализованный опкод под номером `#640` в клиентской виртуальной машине (CSQC). Как наглядно подтверждает структура си-таблицы встроенных функций в исходном коде репозитория FTEQW (где соседний слот `#641` прямо заблокирован записью `{NULL, PF_Fixme, 641}`), эта экспериментальная функция полностью лишена внутренней Си-реализации в ядре и перенаправлена на стандартный макрос прерывания `PF_Fixme`. Изначально авторы движка планировали выделить этот опкод для принудительного нативного расчета параметров отображения сцены и камеры (Refdef — Reference Definition, включая позицию, углы обзора, FOV и матрицы проекции) непосредственно из QuakeC, чтобы разгрузить скриптовую логику `CSQC_CalcRefdef`. Однако архитектурно вся математика расчетов осталась внутри стандартного графического движка и ручных манипуляций с глобальными переменными, а данный метод так и остался черновиком. Любая попытка его вызова приведет к выводу сообщения об ошибке выполнения встроенного метода в консоль.
 
+---
+
 ## Смежные страницы
 - [Menu QuakeC](../16-quakec-scripting/menu-quakec.md)
-- [Частицы, следы и пятна](../10-particles-decals-trails/README.md)
-- [Индекс справочника builtins](./README.md)
+- [Частицы, следы и пятна](../README.md#частицы-следы-и-пятна)
+- [Индекс справочника builtins](../README.md#встроенные-функции-quakec-builtins)
+
+> [⬅ Предыдущая страница](07-precache-resources-builtins.md) | [Следующая страница ➡](09-csqc-input-ui-builtins.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)

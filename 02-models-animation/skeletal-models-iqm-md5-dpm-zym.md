@@ -1,8 +1,8 @@
 ﻿# Современные скелетные модели (IQM/MD5/DPM/ZYM)
 
-> [⬅ Вернуться к оглавлению вики](../README.md)
+> [⬅ Предыдущая страница](later-quake-models-md2-md3.md) | [Следующая страница ➡](external-editor-import-obj-gltf.md)
 
-> Раздел: [Трёхмерные модели и анимация](./README.md)
+> [⬅ Вернуться к оглавлению вики](../README.md)
 
 ## Что это даёт геймдизайнеру
 
@@ -17,21 +17,27 @@
 
 Практический лимит обычной сборки движка для таких моделей — **до 256 костей** на одну загруженную скелетную модель/скелетный объект; если проект выходит далеко за этот предел, формат сам по себе может быть корректен, но конкретная обычная сборка уже нет.
 
+---
+
 ## Интерфейс настройки
 
-Файлы моделей просто кладутся в игровую папку с соответствующим расширением (`.iqm`, `.md5mesh`/`.md5anim`, `.dpm`, `.zym`) — движок определяет формат автоматически по содержимому файла. Указание модели в игровой логике происходит точно так же, как и для старых покадровых форматов — по имени файла. Разница в том, что скелетные модели дополнительно открывают доступ к программному управлению отдельными костями прямо из игровой логики (см. [«Расширенные типы данных в QuakeC»](../16-quakec-scripting/extended-quakec-datatypes.md)) — например, для смешивания нескольких анимаций одновременно или процедурного поворота отдельных частей тела.
+Файлы моделей просто кладутся в игровую папку с соответствующим расширением (`.iqm`, `.md5mesh`/`.md5anim`, `.dpm`, `.zym`) — движок определяет формат автоматически по содержимому файла. Указание модели в игровой логике происходит точно так же, как и для старых покадровых форматов — по имени файла. Разница в том, что скелетные модели дополнительно открывают доступ к программному управлению отдельными костями прямо из игровой логики (см. [«Скелетная анимация напрямую из кода»](../16-quakec-scripting/quakec-language-basics.md#скелетная-анимация-напрямую-из-кода)) — например, для смешивания нескольких анимаций одновременно или процедурного поворота отдельных частей тела.
+
+---
 
 ## Пошаговый туториал: базовое смешивание анимаций через «скелетный объект»
 
-**Шаг 1.** Загрузите модель, содержащую скелет: `precache_model("models/marine.iqm")` и `setmodel(self, "models/marine.iqm")`.
+**Шаг 1.** Загрузите модель, содержащую скелет: [`precache_model("models/marine.iqm")`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#precache_model) и [`setmodel(self, "models/marine.iqm")`](../37-quakec-builtins-reference/03-entity-world-builtins.md#setmodel).
 
-**Шаг 2.** Создайте отдельный «скелетный объект» для этой сущности: `self.skeletonobject = skel_create(self.modelindex);` — этот идентификатор дальше используется во всех последующих функциях управления костями.
+**Шаг 2.** Создайте отдельный «скелетный объект» для этой сущности: [`self.skeletonobject = skel_create(self.modelindex);`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_create) — этот идентификатор дальше используется во всех последующих функциях управления костями.
 
-**Шаг 3.** Заполните скелетный объект позой анимации бега с полным весом: `skel_build(self.skeletonobject, self, self.modelindex, 0, 0, 0);` (нулевой `retainfrac` означает «начать с нуля», а `0, 0` для диапазона костей — «все кости»).
+**Шаг 3.** Заполните скелетный объект позой анимации бега с полным весом: [`skel_build(self.skeletonobject, self, self.modelindex, 0, 0, 0);`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build) (нулевой `retainfrac` означает «начать с нуля», а `0, 0` для диапазона костей — «все кости»).
 
-**Шаг 4.** Добавьте поверх анимацию прицеливания только для верхней части тела, смешивая её с уже существующей позой: `skel_build(self.skeletonobject, self, self.modelindex, 1, firstbone_torso, lastbone_torso, 0.5);` — значение `1` в `retainfrac` сохраняет предыдущий результат, а `0.5` определяет вес новой анимации в смеси.
+**Шаг 4.** Добавьте поверх анимацию прицеливания только для верхней части тела, смешивая её с уже существующей позой: [`skel_build(self.skeletonobject, self, self.modelindex, 1, firstbone_torso, lastbone_torso, 0.5);`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build) — значение `1` в `retainfrac` сохраняет предыдущий результат, а `0.5` определяет вес новой анимации в смеси.
 
-**Шаг 5.** Когда сущность удаляется или скелетный объект больше не нужен, обязательно освободите его: `skel_delete(self.skeletonobject);` — иначе объект продолжит занимать память.
+**Шаг 5.** Когда сущность удаляется или скелетный объект больше не нужен, обязательно освободите его: [`skel_delete(self.skeletonobject);`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_delete) — иначе объект продолжит занимать память.
+
+---
 
 ## Инженерный справочник: builtin-функции управления скелетом
 
@@ -39,7 +45,7 @@
 | :--- | :--- | :--- |
 | [`skel_create`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_create) | `float(float modelindex, optional float useabstransforms)` | Создаёт новый пустой скелетный объект с количеством костей, достаточным для анимации указанной модели; возвращаемое число — идентификатор объекта для всех остальных функций |
 | [`skel_build`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build) | `float(float skel, entity ent, float modelindex, float retainfrac, float firstbone, float lastbone, optional float addfrac)` | Считывает данные анимации согласно текущим полям кадра указанной сущности и подмешивает их в скелетный объект; `retainfrac=0` при первом вызове и `1` при последующих позволяет смешивать несколько анимаций через `addfrac` (итоговый суммарный вес должен равняться 1); диапазон `firstbone`/`lastbone` позволяет анимировать, например, ноги отдельно от торса (`0,0` — все кости; нумерация костей начинается с 1) |
-| `skel_build_ptr` | `float(float skel, int numblends, skelblend_t *weights, int structsize)` | Упрощённый вариант `skel_build`, принимающий список весов смешивания через указатель на память вместо отдельных аргументов |
+| [`skel_build_ptr`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build_ptr) | `float(float skel, int numblends, skelblend_t *weights, int structsize)` | Упрощённый вариант [`skel_build`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build), принимающий список весов смешивания через указатель на память вместо отдельных аргументов |
 | [`skel_get_numbones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_get_numbones) | `float(float skel)` | Возвращает количество костей в модели, лежащей в основе указанного скелетного объекта |
 | [`skel_get_bonename`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_get_bonename) | `string(float skel, float bonenum)` | Возвращает имя указанной кости — в основном для отладки |
 | [`skel_get_boneparent`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_get_boneparent) | `float(float skel, float bonenum)` | Возвращает номер «родительской» кости, относительно которой задана позиция данной кости; значение `0` означает, что кость привязана напрямую к положению сущности, а не к другой кости |
@@ -48,24 +54,32 @@
 | [`skel_get_boneabs`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_get_boneabs) | `vector(float skel, float bonenum)` | Возвращает смещение и ориентацию кости относительно самой сущности (не родительской кости); для положения в мировых координатах используйте [`gettaginfo`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#gettaginfo) |
 | [`skel_set_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_set_bone) | `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up)` | Устанавливает позицию кости относительно её родителя; если ориентация не указана явно, используются текущие значения `v_forward`/`v_right`/`v_up` |
 | [`skel_premul_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_premul_bone) | `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up)` | Домножает («умножает перед») трансформацию одной кости на заданную матрицу — матрицу можно получить функцией [`makevectors`](../37-quakec-builtins-reference/01-math-vector-builtins.md#makevectors) из угла поворота |
-| [`skel_premul_bones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_premul_bones) | `void(float skel, float startbone, float endbone, vector org, optional vector fwd, optional vector right, optional vector up)` | Аналогично `skel_premul_bone`, но сразу для целого последовательного диапазона костей — полезно распределять общий угол поворота между несколькими костями подряд (например, для плавного изгиба хвоста), заранее поделив угол на их число |
-| `skel_postmul_bone` | `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up)` | Домножает трансформацию кости с другой стороны матрицы (после, а не до её собственной трансформации) — даёт иной порядок применения поворота |
+| [`skel_premul_bones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_premul_bones) | `void(float skel, float startbone, float endbone, vector org, optional vector fwd, optional vector right, optional vector up)` | Аналогично [`skel_premul_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_premul_bone), но сразу для целого последовательного диапазона костей — полезно распределять общий угол поворота между несколькими костями подряд (например, для плавного изгиба хвоста), заранее поделив угол на их число |
+| [`skel_postmul_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bone) | `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up)` | Домножает трансформацию кости с другой стороны матрицы (после, а не до её собственной трансформации) — даёт иной порядок применения поворота |
 | [`skel_copybones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_copybones) | `void(float skeldst, float skelsrc, float startbone, float entbone)` | Копирует данные костей из одного скелетного объекта напрямую в другой |
 | [`skel_delete`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_delete) | `void(float skel)` | Удаляет скелетный объект (фактическое удаление откладывается, чтобы объект оставался валиден до момента отрисовки кадра); также отменяет активную рэгдолл-симуляцию на этом объекте |
 | [`frameforname`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#frameforname) | `float(float modelindex, string framename)` | Находит номер группы кадров анимации модели по её текстовому имени, что избавляет от необходимости жёстко прописывать числовые номера анимаций в коде; возвращает `-1`, если анимация с таким именем не найдена |
-| [`skel_ragupdate`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_ragupdate) | `float(entity skelent, string dollcmd, float animskel)` | Обновляет рэгдолл-симуляцию (физическую «тряпичную куклу») на скелетном объекте сущности; принимает текстовые под-команды: `doll <файл>` — подключить файл описания рэгдолла, `dollstring <текст>` — задать описание рэгдолла прямо строкой из кода, `cleardoll` — отключить рэгдолл без удаления скелетного объекта, `animate <вес>` — сила рэгдолл-симуляции целиком, `animatebody <имя> <вес>` — сила симуляции для конкретной части тела, `enablejoint <имя> <0/1>` — включение/отключение конкретного сустава (отключённые суставы позволяют кукле «разваливаться» на части) |
+| [`skel_ragupdate`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_ragupdate) | `float(entity skelent, string dollcmd, float animskel)` | Обновляет рэгдолл-симуляцию (физическую «тряпичную куклу») на скелетном объекте сущности; принимает текстовые под-команды: `doll <file>` — подключить файл описания рэгдолла, `dollstring <text>` — задать описание рэгдолла прямо строкой из кода, `cleardoll` — отключить рэгдолл без удаления скелетного объекта, `animate <weight>` — сила рэгдолл-симуляции целиком, `animatebody <name> <weight>` — сила симуляции для конкретной части тела, `enablejoint <name> <0/1>` — включение/отключение конкретного сустава (отключённые суставы позволяют кукле «разваливаться» на части) |
 | [`skel_mmap`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_mmap) | `float*(float skel)` | Отображает данные костей в память для доступа через указатели напрямую (каждая кость — 12 чисел с плавающей точкой, четыре взаимосвязанных вектора) |
 | [`skel_set_bone_world`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_set_bone_world) | `void(entity ent, float bonenum, vector org, optional vector angorfwd, optional vector right, optional vector up)` | Устанавливает мировую позицию кости внутри скелетного объекта, привязанного к указанной сущности, с учётом собственного положения сущности; ориентацию можно задать одним аргументом (углы), тремя (векторы) или вовсе не задавать (тогда используются `v_forward`/`v_right`/`v_up`) |
 
+---
+
 ## Примеры
 
-- Основной персонаж мода анимирован в формате IQM, экспортированном из современного 3D-редактора, с плавным смешиванием анимаций бега и стрельбы через `skel_build` с ненулевым `addfrac`.
+- Основной персонаж мода анимирован в формате IQM, экспортированном из современного 3D-редактора, с плавным смешиванием анимаций бега и стрельбы через [`skel_build`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build) с ненулевым `addfrac`.
 - Библиотека готовых анимаций в формате `.md5anim`, изначально созданная для одной модели, переиспользуется для нескольких разных по форме персонажей с одинаковой структурой скелета.
-- Труп поверженного противника переводится в режим рэгдолла командой `skel_ragupdate(self, "doll ragdoll.doll", 0)`, после чего тело правдоподобно обмякает и падает под действием физики, вместо проигрывания заранее анимированной позы смерти.
+- Труп поверженного противника переводится в режим рэгдолла командой [`skel_ragupdate(self, "doll ragdoll.doll", 0)`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_ragupdate), после чего тело правдоподобно обмякает и падает под действием физики, вместо проигрывания заранее анимированной позы смерти.
+
+---
 
 ## Смежные страницы
 
 - [Импорт из внешних 3D-редакторов (OBJ и другие универсальные форматы)](./external-editor-import-obj-gltf.md)
 - [Скелетные теги и присоединение объектов (tag attachment)](./skeletal-tags-attachment.md)
 - [Внешние файлы анимаций (EXTERNALANIM)](./external-animation-files.md)
-- [Расширенные типы данных в QuakeC](../16-quakec-scripting/extended-quakec-datatypes.md)
+- [Скелетная анимация напрямую из кода](../16-quakec-scripting/quakec-language-basics.md#скелетная-анимация-напрямую-из-кода)
+
+> [⬅ Предыдущая страница](later-quake-models-md2-md3.md) | [Следующая страница ➡](external-editor-import-obj-gltf.md)
+
+> [⬅ Вернуться к оглавлению вики](../README.md)
