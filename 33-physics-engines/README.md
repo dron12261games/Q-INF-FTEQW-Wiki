@@ -4,4 +4,4 @@
 
 ## Страницы раздела
 
-- [Продвинутая физика объектов (ODE)](./advanced-object-physics-bullet-ode.md)
+- [Продвинутая физика объектов (ODE/Bullet, не по умолчанию)](./advanced-object-physics-bullet-ode.md)

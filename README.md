@@ -141,6 +141,9 @@
 
 ### Игровая логика: язык QuakeC
 
+- [Синтаксис языка QuakeC: основы](16-quakec-scripting/quakec-language-basics.md)
+- [Компилятор FTEQCC](16-quakec-scripting/fteqcc-compiler.md)
+- [Стандартные заголовочные файлы для QuakeC](16-quakec-scripting/standard-header-files.md)
 - [Серверная игровая логика (SSQC)](16-quakec-scripting/server-side-quakec-ssqc.md)
 - [Клиентская логика и интерфейс (CSQC)](16-quakec-scripting/client-side-quakec-csqc.md)
 - [Логика игровых меню (MenuQC)](16-quakec-scripting/menu-quakec.md)
@@ -310,3 +313,17 @@
 - [Индекс раздела](41-particle-directives-reference/README.md)
 - [Директивы эффекта](41-particle-directives-reference/01-particle-effect-directives.md)
 - [Директивы поведения и появления](41-particle-directives-reference/02-particle-spawn-behaviour-directives.md)
+
+## Устаревшие, экспериментальные и недоступные по умолчанию возможности
+
+- [Индекс раздела](43-legacy-unused-features/README.md)
+- [Software-рендерер и D3D9: устаревшие пути отрисовки](43-legacy-unused-features/software-and-d3d9-renderer.md)
+- [Экспериментальные бэкенды D3D11/Vulkan и трассировка теней](43-legacy-unused-features/experimental-d3d11-vulkan.md)
+- [Физика Bullet/ODE: только через внешние сборки](43-legacy-unused-features/bullet-ode-physics-external-only.md)
+- [Lua-скрипты: недоступны без пересборки движка](43-legacy-unused-features/lua-not-default.md)
+- [Устаревшие и «заглушечные» встроенные функции QuakeC](43-legacy-unused-features/deprecated-and-stub-builtins.md)
+- [Совместимость с игровыми модулями Quake III / Half-Life](43-legacy-unused-features/native-game-modules-not-default.md)
+- [Формат моделей Half-Life: ограничения поддержки](43-legacy-unused-features/halflife-model-format-caveats.md)
+- [Игровая логика Half-Life: исключена из обычной сборки](43-legacy-unused-features/halflife-gameplay-code-removed.md)
+- [Устаревшие и ненадёжные сетевые возможности](43-legacy-unused-features/unreliable-networking-features.md)
+- [Устаревшее меню на основе m_script](43-legacy-unused-features/legacy-script-menu.md)

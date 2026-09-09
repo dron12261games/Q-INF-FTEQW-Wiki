@@ -4,6 +4,9 @@
 
 ## Страницы раздела
 
+- [Синтаксис языка QuakeC: основы](./quakec-language-basics.md)
+- [Компилятор FTEQCC](./fteqcc-compiler.md)
+- [Стандартные заголовочные файлы для QuakeC](./standard-header-files.md)
 - [Серверная игровая логика (SSQC)](./server-side-quakec-ssqc.md)
 - [Клиентская логика и интерфейс (CSQC)](./client-side-quakec-csqc.md)
 - [Логика игровых меню (MenuQC)](./menu-quakec.md)

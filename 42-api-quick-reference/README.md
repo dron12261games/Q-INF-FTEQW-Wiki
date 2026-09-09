@@ -32,7 +32,7 @@
   - [Физика и игровой процесс](#физика-и-игровой-процесс)
   - [Интерфейс, консоль и управление](#интерфейс-консоль-и-управление)
   - [Системные, отладочные и прочие cvar](#системные-отладочные-и-прочие-cvar)
-- [Ключи сущностей карты (entity keys)](#ключи-сущностей-каты-entity-keys)
+- [Ключи сущностей карты (entity keys)](#ключи-сущностей-карты-entity-keys)
   - [Общие ключи, worldspawn и глобальные настройки уровня](#общие-ключи-worldspawn-и-глобальные-настройки-уровня)
   - [Свет и освещение](#свет-и-освещение)
   - [Триггеры и логические сущности](#триггеры-и-логические-сущности)
@@ -108,15 +108,15 @@
 | [`m_init`](../37-quakec-builtins-reference/00-entry-points.md#m_init) | `void() m_init` |
 | [`m_shutdown`](../37-quakec-builtins-reference/00-entry-points.md#m_shutdown) | `void() m_shutdown` |
 | [`m_toggle`](../37-quakec-builtins-reference/00-entry-points.md#m_toggle) | `void(float show) m_toggle` |
-| [`m_draw`](../37-quakec-builtins-reference/00-entry-points.md#m_draw) | `void() m_draw` |
-| [`m_drawloading`](../37-quakec-builtins-reference/00-entry-points.md#m_drawloading) | `void() m_drawloading` |
-| [`m_keydown`](../37-quakec-builtins-reference/00-entry-points.md#m_keydown) | `float(float key, float char) m_keydown` |
-| [`m_keyup`](../37-quakec-builtins-reference/00-entry-points.md#m_keyup) | `float(float key, float char) m_keyup` |
+| [`m_draw`](../37-quakec-builtins-reference/00-entry-points.md#m_draw) | `void(vector screensize) m_draw` |
+| [`m_drawloading`](../37-quakec-builtins-reference/00-entry-points.md#m_drawloading) | `void(vector screensize, float opaque) m_drawloading` |
+| [`m_keydown`](../37-quakec-builtins-reference/00-entry-points.md#m_keydown) | `void(float scan, float chr) m_keydown` |
+| [`m_keyup`](../37-quakec-builtins-reference/00-entry-points.md#m_keyup) | `void(float scan, float chr) m_keyup` |
 | [`Menu_InputEvent`](../37-quakec-builtins-reference/00-entry-points.md#menu_inputevent) | `float(float evtype, float scanx, float chary, float devid) Menu_InputEvent` |
 | [`m_consolecommand`](../37-quakec-builtins-reference/00-entry-points.md#m_consolecommand) | `float(string cmd) m_consolecommand` |
 | [`m_gethostcachecategory`](../37-quakec-builtins-reference/00-entry-points.md#m_gethostcachecategory) | `float(float hostcachenum) m_gethostcachecategory` |
 | [`Menu_RendererRestarted`](../37-quakec-builtins-reference/00-entry-points.md#menu_rendererrestarted) | `void(string rendererdescription) Menu_RendererRestarted` |
-| [`GameCommand`](../37-quakec-builtins-reference/00-entry-points.md#gamecommand) | `float(string cmd) GameCommand` |
+| [`GameCommand`](../37-quakec-builtins-reference/00-entry-points.md#gamecommand) | `void(string cmdtext) GameCommand` |
 
 ### Математика и работа с векторами
 
@@ -166,13 +166,13 @@
 | [`stoh`](../37-quakec-builtins-reference/01-math-vector-builtins.md#stoh) | `int(string s) stoh = #261;` |
 | [`str2chr`](../37-quakec-builtins-reference/01-math-vector-builtins.md#str2chr) | `float(string str, float index) str2chr = #222;` |
 | [`chr2str`](../37-quakec-builtins-reference/01-math-vector-builtins.md#chr2str) | `string(float chr, ...) chr2str = #223;` |
-| [`anglesub`](../37-quakec-builtins-reference/01-math-vector-builtins.md#anglesub) | `vector(vector a, vector b) anglesub` |
-| [`crossproduct`](../37-quakec-builtins-reference/01-math-vector-builtins.md#crossproduct) | `vector(vector v1, vector v2) crossproduct` |
-| [`ftoi`](../37-quakec-builtins-reference/01-math-vector-builtins.md#ftoi) | `int(float f) ftoi` |
-| [`ftou`](../37-quakec-builtins-reference/01-math-vector-builtins.md#ftou) | `unsigned int(float f) ftou` |
-| [`itof`](../37-quakec-builtins-reference/01-math-vector-builtins.md#itof) | `float(int i) itof` |
-| [`logarithm`](../37-quakec-builtins-reference/01-math-vector-builtins.md#logarithm) | `float(float v, float base) logarithm` |
-| [`utof`](../37-quakec-builtins-reference/01-math-vector-builtins.md#utof) | `float(unsigned int u) utof` |
+| [`anglesub`](../37-quakec-builtins-reference/01-math-vector-builtins.md#anglesub) | `float(float newangle, float oldangle) anglesub = #0:anglesub;` |
+| [`crossproduct`](../37-quakec-builtins-reference/01-math-vector-builtins.md#crossproduct) | `vector(vector v1, vector v2) crossproduct = #0:crossproduct;` |
+| [`ftoi`](../37-quakec-builtins-reference/01-math-vector-builtins.md#ftoi) | `int(float) ftoi = #0:ftoi;` |
+| [`ftou`](../37-quakec-builtins-reference/01-math-vector-builtins.md#ftou) | `__uint(float) ftou = #0:ftou;` |
+| [`itof`](../37-quakec-builtins-reference/01-math-vector-builtins.md#itof) | `float(int, optional float shift, float mask=24) itof = #0:itof;` |
+| [`logarithm`](../37-quakec-builtins-reference/01-math-vector-builtins.md#logarithm) | `float(float v, optional float base) logarithm = #0:logarithm;` |
+| [`utof`](../37-quakec-builtins-reference/01-math-vector-builtins.md#utof) | `float(__uint, optional float shift, float mask=24) utof = #0:utof;` |
 
 ### Строки и текст
 
@@ -218,13 +218,13 @@
 | [`stringtokeynum`](../37-quakec-builtins-reference/02-string-builtins.md#stringtokeynum) | `float(string keyname) stringtokeynum = #341;` |
 | [`str2chr`](../37-quakec-builtins-reference/02-string-builtins.md#str2chr) | `float(string str, float index) str2chr = #222;` |
 | [`chr2str`](../37-quakec-builtins-reference/02-string-builtins.md#chr2str) | `string(float chr, ...) chr2str = #223;` |
-| [`altstr_ins`](../37-quakec-builtins-reference/02-string-builtins.md#altstr_ins) | `string(string str, float num, string val) altstr_ins` |
-| [`base64decode`](../37-quakec-builtins-reference/02-string-builtins.md#base64decode) | `void(string in, void *out, int maxsize) base64decode` |
-| [`base64encode`](../37-quakec-builtins-reference/02-string-builtins.md#base64encode) | `string(void *ptr, int size) base64encode` |
-| [`instr`](../37-quakec-builtins-reference/02-string-builtins.md#instr) | `float(string s, string sub, optional float start) instr` |
+| [`altstr_ins`](../37-quakec-builtins-reference/02-string-builtins.md#altstr_ins) | `DEP string(string str, float num, string set) altstr_ins = #86;` |
+| [`base64decode`](../37-quakec-builtins-reference/02-string-builtins.md#base64decode) | `__variant*(string base64str, __out int bytes) base64decode = #0:base64decode;` |
+| [`base64encode`](../37-quakec-builtins-reference/02-string-builtins.md#base64encode) | `string(__variant *ptr, int bytes, optional int offset) base64encode = #0:base64encode;` |
+| [`instr`](../37-quakec-builtins-reference/02-string-builtins.md#instr) | `string(string input, string token) instr = #206;` |
 | [`matchpattern`](../37-quakec-builtins-reference/02-string-builtins.md#matchpattern) | `float(string s, string pattern, float matchrule) matchpattern = #538;` |
-| [`strcmp`](../37-quakec-builtins-reference/02-string-builtins.md#strcmp) | `float(string s1, string s2) strcmp` |
-| [`strtrim`](../37-quakec-builtins-reference/02-string-builtins.md#strtrim) | `string(string s) strtrim` |
+| [`strcmp`](../37-quakec-builtins-reference/02-string-builtins.md#strcmp) | `#define strcmp strncmp` |
+| [`strtrim`](../37-quakec-builtins-reference/02-string-builtins.md#strtrim) | `string(string s) strtrim = #0:strtrim;` |
 
 ### Сущности и игровой мир
 
@@ -303,32 +303,32 @@
 | [`externset`](../37-quakec-builtins-reference/03-entity-world-builtins.md#externset) | `void(float prnum, __variant newval, string varname) externset = #204;` |
 | [`externvalue`](../37-quakec-builtins-reference/03-entity-world-builtins.md#externvalue) | `__variant(float prnum, string varname) externvalue = #203;` |
 | [`builtin_find`](../37-quakec-builtins-reference/03-entity-world-builtins.md#builtin_find) | `float(string builtinname) builtin_find = #100;` |
-| [`changelevel`](../37-quakec-builtins-reference/03-entity-world-builtins.md#changelevel) | `void(string mapname, optional string startspot) changelevel` |
+| [`changelevel`](../37-quakec-builtins-reference/03-entity-world-builtins.md#changelevel) | `void(string mapname, optional string newmapstartspot) changelevel = #70;` |
 | [`chat`](../37-quakec-builtins-reference/03-entity-world-builtins.md#chat) | `void(string filename, float starttag, entity edict) chat = #214;` |
-| [`empty`](../37-quakec-builtins-reference/03-entity-world-builtins.md#empty) | `void() empty = #249;` |
-| [`entityfieldref`](../37-quakec-builtins-reference/03-entity-world-builtins.md#entityfieldref) | `field_t(float fieldnum) entityfieldref` |
-| [`entityprotection`](../37-quakec-builtins-reference/03-entity-world-builtins.md#entityprotection) | `float(entity e, float nowreadonly) entityprotection` |
-| [`eprint`](../37-quakec-builtins-reference/03-entity-world-builtins.md#eprint) | `void(entity) eprint = #33;` |
-| [`find_list`](../37-quakec-builtins-reference/03-entity-world-builtins.md#find_list) | `int(entity *array, int maxcount, .__variant fld, __variant match) find_list` |
-| [`findentity`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findentity) | `entity(entity start, .__variant fld, __variant match) findentity` |
-| [`findentityfield`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findentityfield) | `float(string fieldname) findentityfield` |
-| [`findradius_list`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findradius_list) | `int(vector org, float rad, entity *array, int maxcount, optional int sort) findradius_list` |
-| [`generateentitydata`](../37-quakec-builtins-reference/03-entity-world-builtins.md#generateentitydata) | `string(entity e) generateentitydata` |
-| [`plaque_draw`](../37-quakec-builtins-reference/03-entity-world-builtins.md#plaque_draw) | `void(entity targ, float stringno) plaque_draw = #0;` |
+| [`empty`](../37-quakec-builtins-reference/03-entity-world-builtins.md#empty) | `void() empty = #245..#249;` |
+| [`entityfieldref`](../37-quakec-builtins-reference/03-entity-world-builtins.md#entityfieldref) | `field_t(float fieldnum) entityfieldref = #0:entityfieldref;` |
+| [`entityprotection`](../37-quakec-builtins-reference/03-entity-world-builtins.md#entityprotection) | `float(entity e, float nowreadonly) entityprotection = #0:entityprotection;` |
+| [`eprint`](../37-quakec-builtins-reference/03-entity-world-builtins.md#eprint) | `void(entity e) eprint = #31;` |
+| [`find_list`](../37-quakec-builtins-reference/03-entity-world-builtins.md#find_list) | `entity*(.__variant fld, __variant match, int type=EV_STRING, __out int count) find_list = #0:find_list;` |
+| [`findentity`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findentity) | `findentity` — alias из `fteextensions.qc` для `entity(entity start, .__variant fld, __variant match) findfloat = #98;` |
+| [`findentityfield`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findentityfield) | `float(string fieldname) findentityfield = #0:findentityfield;` |
+| [`findradius_list`](../37-quakec-builtins-reference/03-entity-world-builtins.md#findradius_list) | `entity*(vector org, float rad, __out int foundcount, int sort=0) findradius_list = #0:findradius_list;` |
+| [`generateentitydata`](../37-quakec-builtins-reference/03-entity-world-builtins.md#generateentitydata) | `string(entity e) generateentitydata = #0:generateentitydata;` |
+| [`plaque_draw`](../37-quakec-builtins-reference/03-entity-world-builtins.md#plaque_draw) | `void(entity targ, float stringno) plaque_draw = #79;` |
 | [`pushmove`](../37-quakec-builtins-reference/03-entity-world-builtins.md#pushmove) | `float(entity pusher, vector move, vector amove) pushmove = #0;` |
-| [`qtest_canreach`](../37-quakec-builtins-reference/03-entity-world-builtins.md#qtest_canreach) | `DEP float(vector v) qtest_canreach = #0;` |
+| [`qtest_canreach`](../37-quakec-builtins-reference/03-entity-world-builtins.md#qtest_canreach) | `DEP float(vector v) qtest_canreach = #39;` |
 | [`readserverentitystate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#readserverentitystate) | `void(float flags, float simtime) readserverentitystate = #369;` |
-| [`readsingleentitystate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#readsingleentitystate) | `void(float entnum) readsingleentitystate [Не реализовано / Заглушка]` |
-| [`removeentity`](../37-quakec-builtins-reference/03-entity-world-builtins.md#removeentity) | `void(entity ent) removeentity` |
-| [`route_calculate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#route_calculate) | `void(entity ent, vector dest, int flags, void() callback) route_calculate` |
-| [`runclientphys`](../37-quakec-builtins-reference/03-entity-world-builtins.md#runclientphys) | `void(entity ent) runclientphys` |
+| [`readsingleentitystate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#readsingleentitystate) | `readsingleentitystate` — незарегистрированный закомментированный слот `#370` из старого `EXT_CSQC_1`. |
+| [`removeentity`](../37-quakec-builtins-reference/03-entity-world-builtins.md#removeentity) | `void(entity ent) removeentity = #0:removeentity;` |
+| [`route_calculate`](../37-quakec-builtins-reference/03-entity-world-builtins.md#route_calculate) | `void(entity ent, vector dest, int denylinkflags, void(entity ent, vector dest, int numnodes, nodeslist_t *nodelist) callback) route_calculate = #0:route_calculate;` |
+| [`runclientphys`](../37-quakec-builtins-reference/03-entity-world-builtins.md#runclientphys) | `runclientphys` — это внутреннее имя реализации; в QuakeC рабочий builtin называется `void(entity ent) runstandardplayerphysics = #347;` |
 | [`te_gunshotquad`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_gunshotquad) | `void(vector org) te_gunshotquad = #412;` |
 | [`te_lightning2`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_lightning2) | `void(entity own, vector start, vector end) te_lightning2 = #429;` |
 | [`te_lightning3`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_lightning3) | `void(entity own, vector start, vector end) te_lightning3 = #430;` |
-| [`te_muzzleflash`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_muzzleflash) | `void(entity ent) te_muzzleflash = #0;` |
+| [`te_muzzleflash`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_muzzleflash) | `void(entity ent) te_muzzleflash = #0:te_muzzleflash;` |
 | [`te_spikequad`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_spikequad) | `void(vector org) te_spikequad = #413;` |
 | [`te_superspikequad`](../37-quakec-builtins-reference/03-entity-world-builtins.md#te_superspikequad) | `void(vector org) te_superspikequad = #414;` |
-| [`undefined`](../37-quakec-builtins-reference/03-entity-world-builtins.md#undefined) | `void() undefined [Заглушка опкода]` |
+| [`undefined`](../37-quakec-builtins-reference/03-entity-world-builtins.md#undefined) | `undefined` — это не рабочий builtin, а метка зарезервированных слотов под номерами `#458`, `#470`, `#505..#509` и `#539`. |
 
 ### Сеть и сетевые сообщения
 
@@ -370,28 +370,28 @@
 | [`clienttype`](../37-quakec-builtins-reference/04-network-messages-builtins.md#clienttype) | `float(entity client) clienttype = #455;` |
 | [`isdemo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#isdemo) | `float() isdemo = #349;` |
 | [`isbackbuffered`](../37-quakec-builtins-reference/04-network-messages-builtins.md#isbackbuffered) | `float(entity player) isbackbuffered = #234;` |
-| [`csqc_cvar_defstring`](../37-quakec-builtins-reference/04-network-messages-builtins.md#csqc_cvar_defstring) | `string(string name) csqc_cvar_defstring` |
-| [`cvars_haveunsaved`](../37-quakec-builtins-reference/04-network-messages-builtins.md#cvars_haveunsaved) | `float() cvars_haveunsaved` |
+| [`csqc_cvar_defstring`](../37-quakec-builtins-reference/04-network-messages-builtins.md#csqc_cvar_defstring) | `string(string s) csqc_cvar_defstring = #482;` |
+| [`cvars_haveunsaved`](../37-quakec-builtins-reference/04-network-messages-builtins.md#cvars_haveunsaved) | `float() cvars_haveunsaved = #0:cvars_haveunsaved;` |
 | [`findkeysforcommand_dp`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommand_dp) | `DEP string(string command, optional float bindmap) findkeysforcommand_dp = #610;` |
-| [`findkeysforcommand_menu`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommand_menu) | `string(string command, optional float bindmap) findkeysforcommand_menu` |
-| [`findkeysforcommandex`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommandex) | `string(string command, float map) findkeysforcommandex` |
-| [`forceinfokeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#forceinfokeyblob) | `void(entity e, string key, void *ptr, int size) forceinfokeyblob` |
-| [`getlocaluserinfo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getlocaluserinfo) | `string(string key) getlocaluserinfo` |
-| [`getlocaluserinfoblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getlocaluserinfoblob) | `int(string key, void *ptr, int maxsize) getlocaluserinfoblob` |
-| [`getplayerkeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyblob) | `int(float player, string key, void *ptr, int maxsize) getplayerkeyblob` |
-| [`getplayerkeyfloat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyfloat) | `float(float player, string key) getplayerkeyfloat` |
-| [`getplayerkeyvalue`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyvalue) | `string(float playernum, string key) getplayerkeyvalue` |
-| [`getplayerstat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerstat) | `float(float player, float statidx) getplayerstat` |
-| [`readdouble`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readdouble) | `double() readdouble` |
-| [`readint`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readint) | `int() readint` |
-| [`readint64`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readint64) | `__int64() readint64` |
-| [`readuint64`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readuint64) | `unsigned __int64() readuint64` |
-| [`serverkeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#serverkeyblob) | `int(string key, void *ptr, int maxsize) serverkeyblob` |
-| [`serverkeyfloat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#serverkeyfloat) | `float(string key) serverkeyfloat` |
-| [`setlocaluserinfo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#setlocaluserinfo) | `void(string key, string value) setlocaluserinfo` |
-| [`setlocaluserinfoblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#setlocaluserinfoblob) | `void(string key, void *ptr, int size) setlocaluserinfoblob` |
-| [`uri_get`](../37-quakec-builtins-reference/04-network-messages-builtins.md#uri_get) | `float(string url, float id, ...) uri_get` |
-| [`uri_post`](../37-quakec-builtins-reference/04-network-messages-builtins.md#uri_post) | `float(string url, float id, string type, string data, ...) uri_post` |
+| [`findkeysforcommand_menu`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommand_menu) | `string(string command, optional float bindmap) findkeysforcommand_menu = #610;` |
+| [`findkeysforcommandex`](../37-quakec-builtins-reference/04-network-messages-builtins.md#findkeysforcommandex) | `string(string command, optional float bindmap) findkeysforcommandex = #0:findkeysforcommandex;` |
+| [`forceinfokeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#forceinfokeyblob) | `void(entity player, string key, void *data, int size) forceinfokeyblob = #0:forceinfokeyblob;` |
+| [`getlocaluserinfo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getlocaluserinfo) | `string(float seat, string keyname) getlocaluserinfo = #0:getlocaluserinfo;` |
+| [`getlocaluserinfoblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getlocaluserinfoblob) | `int(float seat, string keyname, void *outptr, int maxsize) getlocaluserinfoblob = #0:getlocaluserinfoblob;` |
+| [`getplayerkeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyblob) | `int(float playernum, string keyname, optional void *outptr, int size) getplayerkeyblob = #0:getplayerkeyblob;` |
+| [`getplayerkeyfloat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyfloat) | `float(float playernum, string keyname, optional float assumevalue) getplayerkeyfloat = #0:getplayerkeyfloat;` |
+| [`getplayerkeyvalue`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerkeyvalue) | `string(float playernum, string keyname) getplayerkeyvalue = #348;` |
+| [`getplayerstat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#getplayerstat) | `__variant(float playernum, float statnum, float stattype) getplayerstat = #0:getplayerstat;` |
+| [`readdouble`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readdouble) | `__double() readdouble = #0:readdouble;` |
+| [`readint`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readint) | `int() readint = #0:readint;` |
+| [`readint64`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readint64) | `__int64() readint64 = #0:readint64;` |
+| [`readuint64`](../37-quakec-builtins-reference/04-network-messages-builtins.md#readuint64) | `__uint64() readuint64 = #0;` |
+| [`serverkeyblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#serverkeyblob) | `int(string key, optional void *ptr, int maxsize) serverkeyblob = #0:serverkeyblob;` |
+| [`serverkeyfloat`](../37-quakec-builtins-reference/04-network-messages-builtins.md#serverkeyfloat) | `float(string key, optional float assumevalue) serverkeyfloat = #0:serverkeyfloat;` |
+| [`setlocaluserinfo`](../37-quakec-builtins-reference/04-network-messages-builtins.md#setlocaluserinfo) | `void(float seat, string keyname, string newvalue) setlocaluserinfo = #0:setlocaluserinfo;` |
+| [`setlocaluserinfoblob`](../37-quakec-builtins-reference/04-network-messages-builtins.md#setlocaluserinfoblob) | `void(float seat, string keyname, void *outptr, int size) setlocaluserinfoblob = #0:setlocaluserinfoblob;` |
+| [`uri_get`](../37-quakec-builtins-reference/04-network-messages-builtins.md#uri_get) | `float(string uril, float id, optional string postmimetype, optional string postdata) uri_get = #513;` |
+| [`uri_post`](../37-quakec-builtins-reference/04-network-messages-builtins.md#uri_post) | `float(string uril, float id, optional string postmimetype, optional string postdata, optional float strbuf) uri_post = #513;` |
 
 ### Звук
 
@@ -402,18 +402,18 @@
 | [`localsound`](../37-quakec-builtins-reference/05-sound-builtins.md#localsound) | `void(string soundname, optional float channel, optional float volume) localsound = #177;` |
 | [`pointsound`](../37-quakec-builtins-reference/05-sound-builtins.md#pointsound) | `void(vector origin, string sample, float volume, float attenuation) pointsound = #483;` |
 | [`soundlength`](../37-quakec-builtins-reference/05-sound-builtins.md#soundlength) | `float(string sample) soundlength = #534;` |
-| [`getsoundtime`](../37-quakec-builtins-reference/05-sound-builtins.md#getsoundtime) | `float(entity e, float channel) getsoundtime` |
+| [`getsoundtime`](../37-quakec-builtins-reference/05-sound-builtins.md#getsoundtime) | `float(entity e, float channel) getsoundtime = #533;` |
 | [`precache_sound`](../37-quakec-builtins-reference/05-sound-builtins.md#precache_sound) | `string(string s) precache_sound = #19;` |
 | [`precache_sound2`](../37-quakec-builtins-reference/05-sound-builtins.md#precache_sound2) | `string(string str) precache_sound2 = #76;` |
 | [`SetListener`](../37-quakec-builtins-reference/05-sound-builtins.md#setlistener) | `void(vector origin, vector forward, vector right, vector up, optional float reverbtype) SetListener = #351;` |
-| [`getchannellevel`](../37-quakec-builtins-reference/05-sound-builtins.md#getchannellevel) | `float(entity e, float channel) getchannellevel` |
-| [`getqueuedaudiotime`](../37-quakec-builtins-reference/05-sound-builtins.md#getqueuedaudiotime) | `float() getqueuedaudiotime` |
-| [`getsoundindex`](../37-quakec-builtins-reference/05-sound-builtins.md#getsoundindex) | `float(string soundname, optional float queryonly) getsoundindex` |
-| [`queueaudio`](../37-quakec-builtins-reference/05-sound-builtins.md#queueaudio) | `float(int hz, int channels, int type, void *data, unsigned int frames) queueaudio` |
-| [`setup_reverb`](../37-quakec-builtins-reference/05-sound-builtins.md#setup_reverb) | `void(float reverbslot, reverbinfo_t *reverbinfo, int sizeofreverbinfo_t) setup_reverb` |
-| [`soundnameforindex`](../37-quakec-builtins-reference/05-sound-builtins.md#soundnameforindex) | `string(float sndindex) soundnameforindex` |
-| [`soundupdate`](../37-quakec-builtins-reference/05-sound-builtins.md#soundupdate) | `float(entity e, float channel, string newsample, float volume, float attenuation, float pitchpct, float flags, float timeoffset) soundupdate` |
-| [`stopsound`](../37-quakec-builtins-reference/05-sound-builtins.md#stopsound) | `void(entity ent, float channel) stopsound` |
+| [`getchannellevel`](../37-quakec-builtins-reference/05-sound-builtins.md#getchannellevel) | `float(entity e, float channel) getchannellevel = #0:getchannellevel;` |
+| [`getqueuedaudiotime`](../37-quakec-builtins-reference/05-sound-builtins.md#getqueuedaudiotime) | `float() getqueuedaudiotime = #0:getqueuedaudiotime;` |
+| [`getsoundindex`](../37-quakec-builtins-reference/05-sound-builtins.md#getsoundindex) | `float(string soundname, optional float queryonly) getsoundindex = #0:getsoundindex;` |
+| [`queueaudio`](../37-quakec-builtins-reference/05-sound-builtins.md#queueaudio) | `float(int hz, int channels, int type, void *data, unsigned int frames) queueaudio = #0:queueaudio;` |
+| [`setup_reverb`](../37-quakec-builtins-reference/05-sound-builtins.md#setup_reverb) | `void(float reverbslot, reverbinfo_t *reverbinfo, int sizeofreverbinfo_t) setup_reverb = #0:setup_reverb;` |
+| [`soundnameforindex`](../37-quakec-builtins-reference/05-sound-builtins.md#soundnameforindex) | `string(float sndindex) soundnameforindex = #0:soundnameforindex;` |
+| [`soundupdate`](../37-quakec-builtins-reference/05-sound-builtins.md#soundupdate) | `float(entity e, float channel, string newsample, float volume, float attenuation, float pitchpct, float flags, float timeoffset) soundupdate = #0:soundupdate;` |
+| [`stopsound`](../37-quakec-builtins-reference/05-sound-builtins.md#stopsound) | `void(entity ent, float channel) stopsound = #0:stopsound;` |
 
 ### Файлы, буферы, хеш-таблицы и базы данных
 
@@ -475,34 +475,34 @@
 | [`digest_hex`](../37-quakec-builtins-reference/06-files-database-builtins.md#digest_hex) | `string(string digest, string data, ...) digest_hex = #639;` |
 | [`fork`](../37-quakec-builtins-reference/06-files-database-builtins.md#fork) | `float(optional float sleeptime) fork = #210;` |
 | [`sleep`](../37-quakec-builtins-reference/06-files-database-builtins.md#sleep) | `void(float sleeptime) sleep = #212;` |
-| [`createbuffer`](../37-quakec-builtins-reference/06-files-database-builtins.md#createbuffer) | `void*(int size) createbuffer` |
-| [`digest_ptr`](../37-quakec-builtins-reference/06-files-database-builtins.md#digest_ptr) | `string(string algo, void *ptr, int size) digest_ptr` |
-| [`fread`](../37-quakec-builtins-reference/06-files-database-builtins.md#fread) | `float(filestream fhandle, void *ptr, int size) fread` |
-| [`fseek`](../37-quakec-builtins-reference/06-files-database-builtins.md#fseek) | `float(filestream fhandle, float offset, float whence) fseek` |
-| [`fseek64`](../37-quakec-builtins-reference/06-files-database-builtins.md#fseek64) | `float(filestream fhandle, __int64 offset, float whence) fseek64` |
-| [`fsize`](../37-quakec-builtins-reference/06-files-database-builtins.md#fsize) | `float(filestream fhandle) fsize` |
-| [`fsize64`](../37-quakec-builtins-reference/06-files-database-builtins.md#fsize64) | `__int64(filestream fhandle) fsize64` |
-| [`fwrite`](../37-quakec-builtins-reference/06-files-database-builtins.md#fwrite) | `float(filestream fhandle, void *ptr, int size) fwrite` |
-| [`hash_getcb`](../37-quakec-builtins-reference/06-files-database-builtins.md#hash_getcb) | `void(hashtable table, void(string key, __variant val) callback) hash_getcb` |
-| [`json_find_object_child`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child) | `jsonnode(jsonnode node, string key) json_find_object_child` |
-| [`json_free`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_free) | `void(jsonnode node) json_free` |
-| [`json_get_child_at_index`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index) | `jsonnode(jsonnode node, float idx) json_get_child_at_index` |
-| [`json_get_float`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_float) | `float(jsonnode node) json_get_float` |
-| [`json_get_integer`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_integer) | `int(jsonnode node) json_get_integer` |
-| [`json_get_length`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_length) | `int(jsonnode node) json_get_length` |
-| [`json_get_name`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_name) | `string(jsonnode node) json_get_name` |
-| [`json_get_string`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_string) | `string(jsonnode node) json_get_string` |
-| [`json_get_value_type`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_value_type) | `json_type_e(jsonnode node) json_get_value_type` |
-| [`json_parse`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_parse) | `jsonnode(string data) json_parse` |
-| [`memcmp`](../37-quakec-builtins-reference/06-files-database-builtins.md#memcmp) | `int(__variant *dst, __variant *src, int size, optional int srcoffset, optional int dstoffset) memcmp` |
-| [`memrealloc`](../37-quakec-builtins-reference/06-files-database-builtins.md#memrealloc) | `__variant*(void *oldptr, int newsize) memrealloc` |
-| [`memstrsize`](../37-quakec-builtins-reference/06-files-database-builtins.md#memstrsize) | `float(string s) memstrsize` |
-| [`search_fopen`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_fopen) | `filestream(searchhandle handle, float num) search_fopen` |
-| [`search_getfilemtime`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getfilemtime) | `string(searchhandle handle, float num) search_getfilemtime` |
-| [`search_getfilesize`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getfilesize) | `float(searchhandle handle, float num) search_getfilesize` |
-| [`search_getpackagename`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getpackagename) | `string(searchhandle handle, float num) search_getpackagename` |
-| [`sqlescapeblob`](../37-quakec-builtins-reference/06-files-database-builtins.md#sqlescapeblob) | `string(float serveridx, __variant *ptr, int maxsize) sqlescapeblob` |
-| [`sqlreadblob`](../37-quakec-builtins-reference/06-files-database-builtins.md#sqlreadblob) | `int(float serveridx, float queryidx, float row, float column, __variant *ptr, int maxsize) sqlreadblob` |
+| [`createbuffer`](../37-quakec-builtins-reference/06-files-database-builtins.md#createbuffer) | `void*(int bytes) createbuffer = #0:createbuffer;` |
+| [`digest_ptr`](../37-quakec-builtins-reference/06-files-database-builtins.md#digest_ptr) | `string(string digest, void *data, int length, optional int offset) digest_ptr = #0:digest_ptr;` |
+| [`fread`](../37-quakec-builtins-reference/06-files-database-builtins.md#fread) | `int(filestream fhandle, void *ptr, int size, optional int offset) fread = #0:fread;` |
+| [`fseek`](../37-quakec-builtins-reference/06-files-database-builtins.md#fseek) | `int(filestream fhandle, optional int newoffset) fseek = #0:fseek;` |
+| [`fseek64`](../37-quakec-builtins-reference/06-files-database-builtins.md#fseek64) | `__int64(filestream fhandle, optional __int64 newoffset) fseek64 = #0:fseek64;` |
+| [`fsize`](../37-quakec-builtins-reference/06-files-database-builtins.md#fsize) | `int(filestream fhandle, optional int newsize) fsize = #0:fsize;` |
+| [`fsize64`](../37-quakec-builtins-reference/06-files-database-builtins.md#fsize64) | `__int64(filestream fhandle, optional __int64 newsize) fsize64 = #0:fsize64;` |
+| [`fwrite`](../37-quakec-builtins-reference/06-files-database-builtins.md#fwrite) | `int(filestream fhandle, void *ptr, int size, optional int offset) fwrite = #0:fwrite;` |
+| [`hash_getcb`](../37-quakec-builtins-reference/06-files-database-builtins.md#hash_getcb) | `void(hashtable table, void(string keyname, __variant val) callback, optional string name) hash_getcb = #293;` |
+| [`json_find_object_child`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_find_object_child) | `jsonnode(jsonnode node, string name) json_find_object_child = #0:json_find_object_child;` |
+| [`json_free`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_free) | `void(jsonnode node) json_free = #0:json_free;` |
+| [`json_get_child_at_index`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_child_at_index) | `jsonnode(jsonnode node, int childindex) json_get_child_at_index = #0:json_get_child_at_index;` |
+| [`json_get_float`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_float) | `float(jsonnode node) json_get_float = #0:json_get_float;` |
+| [`json_get_integer`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_integer) | `int(jsonnode node) json_get_integer = #0:json_get_integer;` |
+| [`json_get_length`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_length) | `int(jsonnode node) json_get_length = #0:json_get_length;` |
+| [`json_get_name`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_name) | `string(jsonnode node) json_get_name = #0:json_get_name;` |
+| [`json_get_string`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_string) | `string(jsonnode node) json_get_string = #0:json_get_string;` |
+| [`json_get_value_type`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_get_value_type) | `json_type_e(jsonnode node) json_get_value_type = #0:json_get_value_type;` |
+| [`json_parse`](../37-quakec-builtins-reference/06-files-database-builtins.md#json_parse) | `jsonnode(string data) json_parse = #0:json_parse;` |
+| [`memcmp`](../37-quakec-builtins-reference/06-files-database-builtins.md#memcmp) | `int(__variant *dst, __variant *src, int size, optional int srcoffset, optional int dstoffset) memcmp = #0:memcmp;` |
+| [`memrealloc`](../37-quakec-builtins-reference/06-files-database-builtins.md#memrealloc) | `__variant*(void *oldptr, int newsize) memrealloc = #0:memrealloc;` |
+| [`memstrsize`](../37-quakec-builtins-reference/06-files-database-builtins.md#memstrsize) | `float(string s) memstrsize = #0:memstrsize;` |
+| [`search_fopen`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_fopen) | `filestream(searchhandle handle, float num) search_fopen = #0:search_fopen;` |
+| [`search_getfilemtime`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getfilemtime) | `string(searchhandle handle, float num) search_getfilemtime = #0:search_getfilemtime;` |
+| [`search_getfilesize`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getfilesize) | `float(searchhandle handle, float num) search_getfilesize = #0:search_getfilesize;` |
+| [`search_getpackagename`](../37-quakec-builtins-reference/06-files-database-builtins.md#search_getpackagename) | `string(searchhandle handle, float num) search_getpackagename = #0:search_getpackagename;` |
+| [`sqlescapeblob`](../37-quakec-builtins-reference/06-files-database-builtins.md#sqlescapeblob) | `string(float serveridx, __variant *ptr, int maxsize) sqlescapeblob = #0:sqlescapeblob;` |
+| [`sqlreadblob`](../37-quakec-builtins-reference/06-files-database-builtins.md#sqlreadblob) | `int(float serveridx, float queryidx, float row, float column, __variant *ptr, int maxsize) sqlreadblob = #0:sqlreadblob;` |
 
 ### Прекэш и игровые ресурсы
 
@@ -521,20 +521,20 @@
 | [`frameduration`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#frameduration) | `float(float modidx, float framenum) frameduration = #277;` |
 | [`skinforname`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#skinforname) | `float(float mdlindex, string skinname) skinforname = #237;` |
 | [`skintoname`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#skintoname) | `string(float modidx, float skin) skintoname = #285;` |
-| [`shaderforname`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#shaderforname) | `float(string shadername, optional string defaultshader, ...) shaderforname` |
+| [`shaderforname`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#shaderforname) | `float(string shadername, optional string defaultshader, ...) shaderforname = #238;` |
 | [`findfont`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#findfont) | `float(string s) findfont = #356;` |
 | [`loadfont`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#loadfont) | `float(string fontname, string fontmaps, string sizes, float slot, optional float fix_scale, optional float fix_voffset) loadfont = #357;` |
 | [`changepic`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#changepic) | `DEP_CSQC void(string slot, string picname, optional entity player) changepic = #107;` |
 | [`drawgetimagesize`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#drawgetimagesize) | `vector(string picname) drawgetimagesize = #318;` |
 | [`iscachedpic`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#iscachedpic) | `float(string name) iscachedpic = #316;` |
 | [`freepic`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#freepic) | `void(string name) freepic = #319;` |
-| [`addprogs`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#addprogs) | `float(string filename, ...) addprogs` |
-| [`frameforaction`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#frameforaction) | `float(float modidx, string action) frameforaction` |
-| [`getmodeleventidx`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#getmodeleventidx) | `float(float modidx, float eventi) getmodeleventidx` |
-| [`getnextmodelevent`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#getnextmodelevent) | `float(float modidx, float current_time) getnextmodelevent` |
-| [`modelframecount`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#modelframecount) | `float(float modidx) modelframecount` |
-| [`processmodelevents`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#processmodelevents) | `void(entity e) processmodelevents` |
-| [`spriteframe`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#spriteframe) | `void(entity e, float frame) spriteframe` |
+| [`addprogs`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#addprogs) | `float(string progsname) addprogs = #202;` |
+| [`frameforaction`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#frameforaction) | `float(float modidx, int actionid) frameforaction = #0:frameforaction;` |
+| [`getmodeleventidx`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#getmodeleventidx) | `float(float modidx, float framenum, int eventidx, __out float timestamp, __out int code, __out string data) getmodeleventidx = #0:getmodeleventidx;` |
+| [`getnextmodelevent`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#getnextmodelevent) | `float(float modidx, float framenum, __inout float basetime, float targettime, __out int code, __out string data) getnextmodelevent = #0:getnextmodelevent;` |
+| [`modelframecount`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#modelframecount) | `float(float mdlidx) modelframecount = #0:modelframecount;` |
+| [`processmodelevents`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#processmodelevents) | `void(float modidx, float framenum, __inout float basetime, float targettime, void(float timestamp, int code, string data) callback) processmodelevents = #0:processmodelevents;` |
+| [`spriteframe`](../37-quakec-builtins-reference/07-precache-resources-builtins.md#spriteframe) | `string(string modelname, int frame, float frametime) spriteframe = #0:spriteframe;` |
 
 ### Рендеринг и сцена CSQC
 
@@ -544,14 +544,14 @@
 | [`addentities`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addentities) | `void(float mask) addentities = #301;` |
 | [`clearscene`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#clearscene) | `void() clearscene = #300;` |
 | [`renderscene`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#renderscene) | `void() renderscene = #304;` |
-| [`getproperty`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getproperty) | `__variant(float property) getproperty = #309;` (алиас `getviewprop`)` |
-| [`setproperty`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#setproperty) | `float(float property, ...) setproperty` |
+| [`getproperty`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getproperty) | `__variant(float property) getproperty = #309;` (алиас `getviewprop`) |
+| [`setproperty`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#setproperty) | `float(float property, ...) setproperty = #303;` (алиас `setviewprop`) |
 | [`getresolution`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getresolution) | `vector(float vidmode, optional float forfullscreen) getresolution = #608;` |
 | [`R_BeginPolygon`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_beginpolygon) | `void(string texturename, optional float flags, optional float is2d) R_BeginPolygon = #306;` |
 | [`R_EndPolygon`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_endpolygon) | `void() R_EndPolygon = #308;` |
 | [`R_PolygonVertex`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_polygonvertex) | `void(vector org, vector texcoords, vector rgb, float alpha) R_PolygonVertex = #307;` |
 | [`drawcharacter`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawcharacter) | `float(vector position, float character, vector size, vector rgb, float alpha, optional float drawflag) drawcharacter = #320;` |
-| [`drawfill`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawfill) | `float(vector position, vector size, vector rgb, vector alpha, optional float drawflag) drawfill = #323;` |
+| [`drawfill`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawfill) | `float(vector position, vector size, vector rgb, float alpha, optional float drawflag) drawfill = #323;` |
 | [`drawline`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawline) | `void(float width, vector pos1, vector pos2, vector rgb, float alpha, optional float drawflag) drawline = #315;` |
 | [`drawpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawpic) | `float(vector position, string pic, vector size, vector rgb, float alpha, optional float drawflag) drawpic = #322;` |
 | [`drawrawstring`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrawstring) | `float(vector position, string text, vector size, vector rgb, float alpha, optional float drawflag) drawrawstring = #321;` |
@@ -565,7 +565,7 @@
 | [`changepic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#changepic) | `void(string slot, string picname, optional entity player) changepic = #107;` |
 | [`iscachedpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#iscachedpic) | `float(string name) iscachedpic = #316;` |
 | [`freepic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#freepic) | `void(string name) freepic = #319;` |
-| [`drawgetimagesize`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawgetimagesize) | `vector(string picname) drawgetimagesize = #318;` (алиас `draw_getimagesize`)` |
+| [`drawgetimagesize`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawgetimagesize) | `vector(string picname) drawgetimagesize = #318;` (алиас `draw_getimagesize`) |
 | [`stringwidth`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#stringwidth) | `float(string text, float usecolours, optional vector fontsize) stringwidth = #327;` |
 | [`adddecal`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#adddecal) | `void(string shadername, vector origin, vector up, vector side, vector rgb, float alpha) adddecal = #375;` |
 | [`boxparticles`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#boxparticles) | `void(float effectindex, entity own, vector org_from, vector org_to, vector dir_from, vector dir_to, float countmultiplier, optional float flags) boxparticles = #502;` |
@@ -616,31 +616,31 @@
 | [`te_tarexplosion`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#te_tarexplosion) | `void(vector org) te_tarexplosion = #422;` |
 | [`te_teleport`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#te_teleport) | `void(vector org) te_teleport = #426;` |
 | [`te_wizspike`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#te_wizspike) | `void(vector org) te_wizspike = #423;` |
-| [`addentity_lighting`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addentity_lighting) | `void(vector ambient, vector directed, vector dir) addentity_lighting` |
-| [`addtrisoup_simple`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addtrisoup_simple) | `void(string shadername, float firstvert, float numverts, ...) addtrisoup_simple` |
-| [`customtempent`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#customtempent) | `entity() customtempent` |
-| [`drawrotpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotpic) | `void(vector pos, string pic, vector size, vector forward, float alpha, float flag, vector reg) drawrotpic` |
-| [`drawrotpic_dp`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotpic_dp) | `void(vector pos, string pic, vector size, vector forward, float alpha, float flag, vector reg) drawrotpic_dp` |
-| [`drawrotsubpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotsubpic) | `void(vector pos, string pic, vector size, vector forward, float alpha, float flag, vector reg, vector src_pos, vector src_size) drawrotsubpic` |
-| [`dynamiclight_spawnstatic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#dynamiclight_spawnstatic) | `void(vector org, float radius, vector rgb, optional float life, optional string cubemap) dynamiclight_spawnstatic` |
-| [`getlightstyle`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlightstyle) | `string(float style) getlightstyle` |
-| [`getlightstylergb`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlightstylergb) | `vector(float style) getlightstylergb` |
-| [`getlocationname`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlocationname) | `string(vector org) getlocationname` |
-| [`pointcontentsmask`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#pointcontentsmask) | `float(vector org, optional float mask) pointcontentsmask` |
-| [`R_EndPolygonRibbon`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_endpolygonribbon) | `void() R_EndPolygonRibbon` |
-| [`r_readimage`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_readimage) | `float(string imgname, void *ptr, int maxsize) r_readimage` |
-| [`r_uploadimage`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_uploadimage) | `float(string imgname, float width, float height, float format, void *ptr) r_uploadimage` |
-| [`registertempent`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#registertempent) | `void(string name, void() thinkfunc) registertempent` |
-| [`remapshader`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#remapshader) | `void(string oldshader, string newshader) remapshader` |
-| [`setcolor`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#setcolor) | `setcolor() [Не реализовано / Заглушка]` |
-| [`trailparticles_dp`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#trailparticles_dp) | `void(float effectindex, entity ent, vector start, vector end) trailparticles_dp` |
-| [`V_CalcRefdef`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#v_calcrefdef) | `V_CalcRefdef() [Не реализовано / Заглушка в fteqw]` |
+| [`addentity_lighting`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addentity_lighting) | `void(entity ent, vector dir, vector ambient, vector diffuse) addentity_lighting = #0:addentity_lighting;` |
+| [`addtrisoup_simple`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#addtrisoup_simple) | `void(string texturename, int flags, trisoup_simple_vert_t *verts, int *indexes, int numindexes) addtrisoup_simple = #0:addtrisoup_simple;` |
+| [`customtempent`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#customtempent) | `void(float type, vector pos, ...) CustomTempEnt = #209;` |
+| [`drawrotpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotpic) | `void(vector pivot, vector mins, vector maxs, string pic, vector rgb, float alpha, float angle, optional float drawflag) drawrotpic = #0:drawrotpic;` |
+| [`drawrotpic_dp`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotpic_dp) | `void(vector pivot, string pic, vector size, vector mins, float angle, vector rgb, float alpha, optional float drawflag) drawrotpic_dp = #329;` |
+| [`drawrotsubpic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#drawrotsubpic) | `void(vector pivot, vector mins, vector maxs, string pic, vector txmin, vector txsize, vector rgb, vector alphaandangles) drawrotsubpic = #0:drawrotsubpic;` |
+| [`dynamiclight_spawnstatic`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#dynamiclight_spawnstatic) | `float(vector org, float radius, vector rgb) dynamiclight_spawnstatic = #0:dynamiclight_spawnstatic;` |
+| [`getlightstyle`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlightstyle) | `string(float style, optional __out vector rgb) getlightstyle = #0:getlightstyle;` |
+| [`getlightstylergb`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlightstylergb) | `vector(float style) getlightstylergb = #0:getlightstylergb;` |
+| [`getlocationname`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#getlocationname) | `string(vector org) getlocationname = #0:getlocationname;` |
+| [`pointcontentsmask`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#pointcontentsmask) | `__uint(vector org, optional float worldonly) pointcontentsmask = #0:pointcontentsmask;` |
+| [`R_EndPolygonRibbon`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_endpolygonribbon) | `void(float radius, vector texcoordbias) R_EndPolygonRibbon = #0:R_EndPolygonRibbon;` |
+| [`r_readimage`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_readimage) | `int*(string filename, __out int width, __out int height, __out int format) r_readimage = #0:r_readimage;` |
+| [`r_uploadimage`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#r_uploadimage) | `void(string imagename, int width, int height, void *pixeldata, optional int datasize, optional int format) r_uploadimage = #0:r_uploadimage;` |
+| [`registertempent`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#registertempent) | `float(float attributes, string effectname, ...) RegisterTempEnt = #208;` |
+| [`remapshader`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#remapshader) | `void(string oldshader, string newshader) remapshader = #0:remapshader;` |
+| [`setcolor`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#setcolor) | `setcolor(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#401). |
+| [`trailparticles_dp`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#trailparticles_dp) | `void(float effectindex, entity ent, vector start, vector end) trailparticles_dp = #336;` |
+| [`V_CalcRefdef`](../37-quakec-builtins-reference/08-csqc-rendering-builtins.md#v_calcrefdef) | `V_CalcRefdef(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#640). |
 
 ### Ввод, интерфейс и клавиатура CSQC
 
 | Элемент | Сигнатура / Описание |
 |---|---|
-| [`getinputstate`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getinputstate) | `float(float inputsequencenum) getinputstate = #345;` |
+| [`getinputstate`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getinputstate) | `float(float inputsequencenum, optional float seat) getinputstate = #345;` |
 | [`getkeybind`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getkeybind) | `string(float keynum) getkeybind = #342;` |
 | [`setkeybind`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setkeybind) | `float(float key, string bind, optional float bindmap, optional float modifier) setkeybind = #630;` |
 | [`getkeydest`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getkeydest) | `float() getkeydest = #602;` |
@@ -650,7 +650,7 @@
 | [`getmousepos`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getmousepos) | `vector() getmousepos = #66;` |
 | [`setmousetarget`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setmousetarget) | `void(float trg) setmousetarget = #603;` |
 | [`getmousetarget`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getmousetarget) | `float() getmousetarget = #604;` |
-| [`setcursormode`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setcursormode) | `void(float usecursor, optional string cursorimage, optional vector hotspot, optional float scale) setcursormode = #343;` |
+| [`setcursormode`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setcursormode) | `void(float usecursor, optional string cursorimage, optional vector hotspot_and_scale) setcursormode = #343;` |
 | [`setsensitivityscaler`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setsensitivityscaler) | `void(float sens) setsensitivityscaler = #346;` |
 | [`keynumtostring`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#keynumtostring) | `string(float keynum) keynumtostring = #340;` |
 | [`keynumtostring_csqc`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#keynumtostring_csqc) | `string(float keynum) keynumtostring_csqc = #340;` |
@@ -667,14 +667,14 @@
 | [`gecko_mousemove`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_mousemove) | `void(string name, float x, float y) gecko_mousemove = #491;` |
 | [`gecko_resize`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_resize) | `void(string name, float w, float h) gecko_resize = #492;` |
 | [`gecko_get_texture_extent`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_get_texture_extent) | `vector(string name) gecko_get_texture_extent = #493;` |
-| [`CL_RotateMoves`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#cl_rotatemoves) | `CL_RotateMoves(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#638).` |
-| [`clipboard_get`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#clipboard_get) | `clipboard_get(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` |
-| [`clipboard_set`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#clipboard_set) | `clipboard_set(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` |
-| [`drawtextfield`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#drawtextfield) | `drawtextfield(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#0).` |
-| [`gecko_getproperty`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_getproperty) | `gecko_getproperty(...)` — сигнатура в си-таблице движка не хранится текстом (номера: MenuQC=#0).` |
-| [`getcursormode`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getcursormode) | `getcursormode(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` |
-| [`setmousepos`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setmousepos) | `setmousepos(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` |
-| [`setwindowcaption`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setwindowcaption) | `setwindowcaption(...)` — сигнатура в си-таблице движка не хранится текстом (номера: CSQC=#0, MenuQC=#0).` |
+| [`CL_RotateMoves`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#cl_rotatemoves) | `void(vector anglechange, optional float seat) CL_RotateMoves = #638;` |
+| [`clipboard_get`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#clipboard_get) | `void(int cliptype) clipboard_get = #0:clipboard_get;` |
+| [`clipboard_set`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#clipboard_set) | `void(int cliptype, string text) clipboard_set = #0:clipboard_set;` |
+| [`drawtextfield`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#drawtextfield) | `float(vector pos, vector size, float alignflags, string text) drawtextfield = #0:drawtextfield;` |
+| [`gecko_getproperty`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#gecko_getproperty) | `string(string shadname, string propname) gecko_getproperty = #0:gecko_getproperty;` |
+| [`getcursormode`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#getcursormode) | `float(float effective) getcursormode = #0:getcursormode;` |
+| [`setmousepos`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setmousepos) | `void(vector newpos) setmousepos = #0:setmousepos;` |
+| [`setwindowcaption`](../37-quakec-builtins-reference/09-csqc-input-ui-builtins.md#setwindowcaption) | `void(string newcaption) setwindowcaption = #0:setwindowcaption;` |
 
 ### Скелетная анимация и модели
 
@@ -712,9 +712,9 @@
 | [`setcustomskin`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#setcustomskin) | `void(entity e, string skinfilename, optional string skindata) setcustomskin = #376;` |
 | [`releasecustomskin`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#releasecustomskin) | `void(float skinobj) releasecustomskin = #379;` |
 | [`setcolors`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#setcolors) | `__deprecated("No RGB support.") void(entity ent, float colours) setcolors = #401;` |
-| [`skel_build_ptr`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build_ptr) | `void*(float skel, entity ent) skel_build_ptr` |
-| [`skel_postmul_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bone) | `void(float skel, float bonenum, vector org, ...) skel_postmul_bone` |
-| [`skel_postmul_bones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bones) | `void(float skel, float start, float end, vector org, ...) skel_postmul_bones` |
+| [`skel_build_ptr`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_build_ptr) | `float(float skel, int numblends, skelblend_t *weights, int structsize) skel_build_ptr = #0:skel_build_ptr;` |
+| [`skel_postmul_bone`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bone) | `void(float skel, float bonenum, vector org, optional vector fwd, optional vector right, optional vector up) skel_postmul_bone = #0:skel_postmul_bone;` |
+| [`skel_postmul_bones`](../37-quakec-builtins-reference/10-skeletal-model-builtins.md#skel_postmul_bones) | Стандартного публичного объявления QuakeC для `skel_postmul_bones` в штатных defs FTEQW нет; в исходниках есть внутренняя C-реализация диапазонного post-multiply, но обычный QC-код не должен рассчитывать на неё как на доступный builtin. |
 
 ### Браузер серверов и мастер-сервер
 
@@ -735,7 +735,7 @@
 | [`getextresponse`](../37-quakec-builtins-reference/11-server-browser-builtins.md#getextresponse) | `string() getextresponse = #624;` |
 | [`calltimeofday`](../37-quakec-builtins-reference/11-server-browser-builtins.md#calltimeofday) | `__deprecated("Use strftime.") void() calltimeofday = #231;` |
 | [`openportal`](../37-quakec-builtins-reference/11-server-browser-builtins.md#openportal) | `void(entity portal, float state) openportal = #207;` |
-| [`getpackagemanagerinfo`](../37-quakec-builtins-reference/11-server-browser-builtins.md#getpackagemanagerinfo) | `string(float idx, float prop) getpackagemanagerinfo` |
+| [`getpackagemanagerinfo`](../37-quakec-builtins-reference/11-server-browser-builtins.md#getpackagemanagerinfo) | `string(int n, int prop) getpackagemanagerinfo = #0:getpackagemanagerinfo;` |
 
 ### Системные функции, отладка и cvar
 
@@ -761,15 +761,15 @@
 | [`cvar_defstring`](../37-quakec-builtins-reference/12-system-debug-builtins.md#cvar_defstring) | `string(string name) cvar_defstring = #482;` |
 | [`cvar_description`](../37-quakec-builtins-reference/12-system-debug-builtins.md#cvar_description) | `string(string cvarname) cvar_description = #518;` |
 | [`cvar_type`](../37-quakec-builtins-reference/12-system-debug-builtins.md#cvar_type) | `float(string name) cvar_type = #495;` |
-| [`registercvar`](../37-quakec-builtins-reference/12-system-debug-builtins.md#registercvar) | `float(string name, string value, float flags) registercvar = #42;` |
+| [`registercvar`](../37-quakec-builtins-reference/12-system-debug-builtins.md#registercvar) | `float(string name, string value, optional float flags) registercvar = #93;` |
 | [`checkextension`](../37-quakec-builtins-reference/12-system-debug-builtins.md#checkextension) | `float(string extname) checkextension = #99;` |
 | [`logfrag`](../37-quakec-builtins-reference/12-system-debug-builtins.md#logfrag) | `void(entity killer, entity killee) logfrag = #79;` |
 | [`setpause`](../37-quakec-builtins-reference/12-system-debug-builtins.md#setpause) | `void(float pause) setpause = #531;` |
 | [`localcmd`](../37-quakec-builtins-reference/12-system-debug-builtins.md#localcmd) | `void(string s, ...) localcmd = #46;` |
-| [`abort`](../37-quakec-builtins-reference/12-system-debug-builtins.md#abort) | `void(optional __variant ret) abort` |
-| [`argc`](../37-quakec-builtins-reference/12-system-debug-builtins.md#argc) | `float() argc` |
-| [`checkbuiltin`](../37-quakec-builtins-reference/12-system-debug-builtins.md#checkbuiltin) | `float(__variant funcref) checkbuiltin` |
-| [`externrefcall`](../37-quakec-builtins-reference/12-system-debug-builtins.md#externrefcall) | `__deprecated("Redundant") __variant(float prnum, void() func, ...) externrefcall` |
+| [`abort`](../37-quakec-builtins-reference/12-system-debug-builtins.md#abort) | `void(optional __variant ret) abort = #211;` |
+| [`argc`](../37-quakec-builtins-reference/12-system-debug-builtins.md#argc) | `float() argc = #0:argc;` |
+| [`checkbuiltin`](../37-quakec-builtins-reference/12-system-debug-builtins.md#checkbuiltin) | `float(__variant funcref) checkbuiltin = #0:checkbuiltin;` |
+| [`externrefcall`](../37-quakec-builtins-reference/12-system-debug-builtins.md#externrefcall) | `__deprecated("Redundant") __variant(float prnum, void() func, ...) externrefcall = #205;` |
 
 ### Функции MenuQC (меню, экран загрузки)
 
@@ -779,15 +779,15 @@
 | [`addentities`](../37-quakec-builtins-reference/13-menuqc-builtins.md#addentities) | `void(float mask) addentities = #301;` |
 | [`clearscene`](../37-quakec-builtins-reference/13-menuqc-builtins.md#clearscene) | `void() clearscene = #300;` |
 | [`renderscene`](../37-quakec-builtins-reference/13-menuqc-builtins.md#renderscene) | `void() renderscene = #304;` |
-| [`getproperty`](../37-quakec-builtins-reference/13-menuqc-builtins.md#getproperty) | `__variant(float property) getproperty = #309;` (алиас `getviewprop`)` |
-| [`setproperty`](../37-quakec-builtins-reference/13-menuqc-builtins.md#setproperty) | `float(float property, ...) setproperty` |
+| [`getproperty`](../37-quakec-builtins-reference/13-menuqc-builtins.md#getproperty) | `__variant(float property) getproperty = #309;` (алиас `getviewprop`) |
+| [`setproperty`](../37-quakec-builtins-reference/13-menuqc-builtins.md#setproperty) | `float(float property, ...) setproperty = #303;` (алиас `setviewprop`) |
 | [`getresolution`](../37-quakec-builtins-reference/13-menuqc-builtins.md#getresolution) | `vector(float vidmode, optional float forfullscreen) getresolution = #608;` |
 | [`R_BeginPolygon`](../37-quakec-builtins-reference/13-menuqc-builtins.md#r_beginpolygon) | `void(string texturename, optional float flags, optional float is2d) R_BeginPolygon = #306;` |
 | [`R_EndPolygon`](../37-quakec-builtins-reference/13-menuqc-builtins.md#r_endpolygon) | `void() R_EndPolygon = #308;` |
 | [`R_PolygonVertex`](../37-quakec-builtins-reference/13-menuqc-builtins.md#r_polygonvertex) | `void(vector org, vector texcoords, vector rgb, float alpha) R_PolygonVertex = #307;` |
 | [`drawcharacter`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawcharacter) | `float(vector position, float character, vector scale, vector rgb, float alpha, optional float flag) drawcharacter = #454;` |
 | [`drawfill`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawfill) | `float(vector position, vector size, vector rgb, float alpha, optional float flag) drawfill = #457;` |
-| [`drawline`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawline) | `void(float width, vector pos1, vector pos2) drawline = #466;` |
+| [`drawline`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawline) | `void(float width, vector pos1, vector pos2, vector rgb, float alpha, optional float flag) drawline = #466;` |
 | [`drawpic`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawpic) | `float(vector position, string pic, vector size, vector rgb, float alpha, optional float flag) drawpic = #456;` |
 | [`drawrawstring`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawrawstring) | `float(vector position, string text, vector scale, vector rgb, float alpha, optional float flag) drawrawstring = #455;` |
 | [`drawresetcliparea`](../37-quakec-builtins-reference/13-menuqc-builtins.md#drawresetcliparea) | `void(void) drawresetcliparea = #459;` |
@@ -831,55 +831,55 @@
 
 | Элемент | Сигнатура / Описание |
 |---|---|
-| [`brush_calcfacepoints`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_calcfacepoints) | `void(entity brush, float facenum, void(__variant *ptr) callback) brush_calcfacepoints` |
-| [`brush_create`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_create) | `entity() brush_create` |
-| [`brush_delete`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_delete) | `void(entity brush) brush_delete` |
-| [`brush_findinvolume`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_findinvolume) | `entity(vector mins, vector maxs, entity start) brush_findinvolume` |
-| [`brush_get`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_get) | `__variant(entity brush, float property) brush_get` |
-| [`brush_getfacepoints`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_getfacepoints) | `int(entity brush, float facenum, vector *ptr, int maxpoints) brush_getfacepoints` |
-| [`brush_selected`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_selected) | `entity() brush_selected` |
-| [`bulleten`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#bulleten) | `bulleten() [Не реализовано / Заглушка в fteqw]` |
-| [`cin_close`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_close) | `void(string id) cin_close` |
-| [`cin_getstate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_getstate) | `float(string id) cin_getstate` |
-| [`cin_open`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_open) | `void(string file, string id) cin_open` |
-| [`cin_restart`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_restart) | `void(string id) cin_restart` |
-| [`cin_setstate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_setstate) | `void(string id, float newstate) cin_setstate` |
-| [`controller_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_query) | `float(float ctrl_idx, float query_type) controller_query [Не реализовано / Заглушка]` |
-| [`controller_rumble`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_rumble) | `void(float ctrl_idx, float left, float right, float dur) controller_rumble [Не реализовано / Заглушка]` |
-| [`controller_rumbletriggers`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_rumbletriggers) | `void(float ctrl_idx, float left, float right, float dur) controller_rumbletriggers [Не реализовано / Заглушка]` |
-| [`crypto_getencryptlevel`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getencryptlevel) | `float(float conn_idx) crypto_getencryptlevel [Не реализовано / Заглушка]` |
-| [`crypto_getidfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getidfp) | `string(float conn_idx) crypto_getidfp [Не реализовано / Заглушка]` |
-| [`crypto_getidstatus`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getidstatus) | `crypto_getidstatus() [Не реализовано / Заглушка]` |
-| [`crypto_getkeyfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getkeyfp) | `string(string key_alias) crypto_getkeyfp [Не реализовано / Заглушка]` |
-| [`crypto_getmyidfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmyidfp) | `crypto_getmyidfp() [Не реализовано / Заглушка]` |
-| [`crypto_getmyidstatus`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmyidstatus) | `crypto_getmyidstatus() [Не реализовано / Заглушка]` |
-| [`crypto_getmykeyfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmykeyfp) | `string() crypto_getmykeyfp [Не реализовано / Заглушка]` |
-| [`free_pic`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#free_pic) | `void(string picname) free_pic` |
+| [`brush_calcfacepoints`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_calcfacepoints) | `int(int faceid, brushface_t *in_faces, int numfaces, vector *points, int maxpoints) brush_calcfacepoints = #0:brush_calcfacepoints;` |
+| [`brush_create`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_create) | `int(float modelidx, brushface_t *in_faces, int numfaces, int contents, optional int brushid) brush_create = #0:brush_create;` |
+| [`brush_delete`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_delete) | `void(float modelidx, int brushid) brush_delete = #0:brush_delete;` |
+| [`brush_findinvolume`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_findinvolume) | `int(float modelid, vector *planes, float *dists, int numplanes, int *out_brushes, int *out_faces, int maxresults) brush_findinvolume = #0:brush_findinvolume;` |
+| [`brush_get`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_get) | `int(float modelidx, int brushid, brushface_t *out_faces, int maxfaces, int *out_contents) brush_get = #0:brush_get;` |
+| [`brush_getfacepoints`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_getfacepoints) | `int(float modelid, int brushid, int faceid, vector *points, int maxpoints) brush_getfacepoints = #0:brush_getfacepoints;` |
+| [`brush_selected`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#brush_selected) | `float(float modelid, int brushid, int faceid, float selectedstate) brush_selected = #0:brush_selected;` |
+| [`bulleten`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#bulleten) | `bulleten` — удалённый legacy-builtin; исторически упоминался у слота `#243`, но в текущих таблицах FTEQW не экспортируется. |
+| [`cin_close`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_close) | `void(string id) cin_close = #462;` |
+| [`cin_getstate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_getstate) | `float(string id) cin_getstate = #464;` |
+| [`cin_open`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_open) | `float(string file, string id) cin_open = #461;` |
+| [`cin_restart`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_restart) | `void(string id) cin_restart = #465;` |
+| [`cin_setstate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#cin_setstate) | `void(string id, float newstate) cin_setstate = #463;` |
+| [`controller_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_query) | `void(float device) controller_query = #740;` |
+| [`controller_rumble`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_rumble) | `void(float device, float lowmult, float highmult, float msec) controller_rumble = #741;` |
+| [`controller_rumbletriggers`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#controller_rumbletriggers) | `void(float device, float leftmult, float rightmult, float msec) controller_rumbletriggers = #742;` |
+| [`crypto_getencryptlevel`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getencryptlevel) | `string(string serveraddress) crypto_getencryptlevel = #635;` |
+| [`crypto_getidfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getidfp) | `string(string serveraddress) crypto_getidfp = #634;` |
+| [`crypto_getidstatus`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getidstatus) | `float(string serveraddress) crypto_getidstatus = #643;` |
+| [`crypto_getkeyfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getkeyfp) | `string(string serveraddress) crypto_getkeyfp = #633;` |
+| [`crypto_getmyidfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmyidfp) | `string(float slot) crypto_getmyidfp = #637;` |
+| [`crypto_getmyidstatus`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmyidstatus) | `float(float slot) crypto_getmyidstatus = #641;` |
+| [`crypto_getmykeyfp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#crypto_getmykeyfp) | `string(float slot) crypto_getmykeyfp = #636;` |
+| [`free_pic`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#free_pic) | `void(string picname) free_pic = #453;` |
 | [`gettime`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettime) | `float(optional float timetype) gettime = #519;` |
-| [`gettimed`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettimed) | `__double(optional int timetype) gettimed = #0;` |
-| [`gettimef`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettimef) | `float(optional float timetype) gettimef` |
-| [`gp_getlayout`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_getlayout) | `string(float devid) gp_getlayout [Не реализовано / Заглушка]` |
-| [`gp_rumble`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_rumble) | `void(float devid, float low, float high, float dur) gp_rumble [Не реализовано / Заглушка]` |
-| [`gp_rumbletriggers`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_rumbletriggers) | `void(float devid, float left, float right, float dur) gp_rumbletriggers [Не реализовано / Заглушка]` |
-| [`gp_setledcolor`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_setledcolor) | `void(float devid, float r, float g, float b) gp_setledcolor [Не реализовано / Заглушка]` |
-| [`gp_settriggerfx`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_settriggerfx) | `void(float devid, const void *data, int size) gp_settriggerfx [Не реализовано / Заглушка]` |
-| [`js_run_script`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#js_run_script) | `void(string shadname, string js_code) js_run_script [Не реализовано / Заглушка]` |
-| [`map_builtin`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#map_builtin) | `float(string name, float opcode) map_builtin` |
-| [`patch_create`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_create) | `entity() patch_create` |
-| [`patch_evaluate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_evaluate) | `void(entity patch, float sub_x, float sub_y) patch_evaluate` |
-| [`patch_getcp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_getcp) | `vector(entity patch, float x, float y) patch_getcp` |
-| [`patch_getmesh`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_getmesh) | `int(entity patch, vector *v_ptr, vector *st_ptr, int maxverts) patch_getmesh` |
-| [`print_csqc`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#print_csqc) | `void(string text, ...) print_csqc` |
-| [`removeinstant`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#removeinstant) | `void(entity ent) removeinstant` |
-| [`setwatchpoint`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#setwatchpoint) | `float(void *ptr, int size, int type) setwatchpoint` |
-| [`stachievement_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_query) | `float(string name, float type) stachievement_query [Не реализовано / Заглушка]` |
-| [`stachievement_register`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_register) | `float(string name) stachievement_register [Не реализовано / Заглушка]` |
-| [`stachievement_unlock`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_unlock) | `float(string name) stachievement_unlock [Не реализовано / Заглушка]` |
-| [`ststat_increment`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_increment) | `float(string name, float val) ststat_increment [Не реализовано / Заглушка]` |
-| [`ststat_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_query) | `float(string name) ststat_query [Не реализовано / Заглушка]` |
-| [`ststat_register`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_register) | `float(string name) ststat_register [Не реализовано / Заглушка]` |
-| [`ststat_setvalue`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_setvalue) | `float(string name, float val) ststat_setvalue [Не реализовано / Заглушка]` |
-| [`videoplaying`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#videoplaying) | `float() videoplaying` |
+| [`gettimed`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettimed) | `__double(optional int timetype) gettimed = #0:gettimed;` |
+| [`gettimef`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gettimef) | `float(optional float timetype) gettimef = #519;` |
+| [`gp_getlayout`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_getlayout) | `float(float devid) gp_getlayout = #0:gp_getlayout;` |
+| [`gp_rumble`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_rumble) | `void(float devid, float amp_low, float amp_high, float duration) gp_rumble = #0:gp_rumble;` |
+| [`gp_rumbletriggers`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_rumbletriggers) | `void(float devid, float left, float right, float duration) gp_rumbletriggers = #0:gp_rumbletriggers;` |
+| [`gp_setledcolor`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_setledcolor) | `void(float devid, vector color) gp_setledcolor = #0:gp_setledcolor;` |
+| [`gp_settriggerfx`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#gp_settriggerfx) | `void(float devid, void *data, int size) gp_settriggerfx = #0:gp_settriggerfx;` |
+| [`js_run_script`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#js_run_script) | `string(string javascript) js_run_script = #0:js_run_script;` |
+| [`map_builtin`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#map_builtin) | `float(string builtinname, float opcodenum) map_builtin = #220;` |
+| [`patch_create`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_create) | `int(float modelidx, int oldpatchid, patchvert_t *in_controlverts, patchinfo_t in_info) patch_create = #0:patch_create;` |
+| [`patch_evaluate`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_evaluate) | `int(patchvert_t *in_controlverts, patchvert_t *out_renderverts, int maxout, patchinfo_t *inout_info) patch_evaluate = #0:patch_evaluate;` |
+| [`patch_getcp`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_getcp) | `int(float modelidx, int patchid, patchvert_t *out_controlverts, int maxcp, patchinfo_t *out_info) patch_getcp = #0:patch_getcp;` |
+| [`patch_getmesh`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#patch_getmesh) | `int(float modelidx, int patchid, patchvert_t *out_verts, int maxverts, patchinfo_t *out_info) patch_getmesh = #0:patch_getmesh;` |
+| [`print_csqc`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#print_csqc) | `void(string text, ...) print_csqc = #339;` |
+| [`removeinstant`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#removeinstant) | `void(entity ent) removeinstant = #0:removeinstant;` |
+| [`setwatchpoint`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#setwatchpoint) | `void(string name, float evaltype, void *ptr) setwatchpoint = #0:setwatchpoint;` |
+| [`stachievement_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_query) | `stachievement_query(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#731, MenuQC=#731). |
+| [`stachievement_register`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_register) | `stachievement_register(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#735, MenuQC=#735). |
+| [`stachievement_unlock`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#stachievement_unlock) | `stachievement_unlock(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#730, MenuQC=#730). |
+| [`ststat_increment`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_increment) | `ststat_increment(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#733, MenuQC=#733). |
+| [`ststat_query`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_query) | `ststat_query(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#734, MenuQC=#734). |
+| [`ststat_register`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_register) | `ststat_register(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#736, MenuQC=#736). |
+| [`ststat_setvalue`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#ststat_setvalue) | `ststat_setvalue(...)` — данная встроенная функция не реализована и является жесткой заглушкой (номера: CSQC=#732, MenuQC=#732). |
+| [`videoplaying`](../37-quakec-builtins-reference/14-editor-crypto-misc-builtins.md#videoplaying) | `float() videoplaying = #355;` |
 
 ## Переменные движка (cvar)
 
@@ -948,7 +948,7 @@
 | [`vid_srgb`](../38-cvars-reference/01-video-rendering-cvars.md#vid_srgb) | `cvar vid_srgb(int, "0")` |
 | [`vid_vsync`](../38-cvars-reference/01-video-rendering-cvars.md#vid_vsync) | `cvar vid_vsync(int, "0")` |
 | [`vid_width`](../38-cvars-reference/01-video-rendering-cvars.md#vid_width) | `cvar vid_width(int, "0")` |
-| [`_vid_renderer_opts`](../38-cvars-reference/01-video-rendering-cvars.md#_vid_renderer_opts) | `cvar _vid_renderer_opts(string, "The possible video renderer apis, in \\"value\\" \\"description\\" pairs, for gamecode to read.")` |
+| [`_vid_renderer_opts`](../38-cvars-reference/01-video-rendering-cvars.md#_vid_renderer_opts) | `cvar _vid_renderer_opts(string, "")` |
 | [`brightness`](../38-cvars-reference/01-video-rendering-cvars.md#brightness) | `cvar brightness(float, "0.0")` |
 | [`gl_ati_truform_type`](../38-cvars-reference/01-video-rendering-cvars.md#gl_ati_truform_type) | `cvar gl_ati_truform_type(int, "1")` |
 | [`gl_blacklist_texture_compression`](../38-cvars-reference/01-video-rendering-cvars.md#gl_blacklist_texture_compression) | `cvar gl_blacklist_texture_compression(int, "0")` |
@@ -1060,7 +1060,7 @@
 | [`r_hdr_irisadaptation_multiplier`](../38-cvars-reference/01-video-rendering-cvars.md#r_hdr_irisadaptation_multiplier) | `cvar r_hdr_irisadaptation_multiplier(int, "2")` |
 | [`r_ignoreentpvs`](../38-cvars-reference/01-video-rendering-cvars.md#r_ignoreentpvs) | `cvar r_ignoreentpvs(int, "1")` |
 | [`r_ignoremapprefixes`](../38-cvars-reference/01-video-rendering-cvars.md#r_ignoremapprefixes) | `cvar r_ignoremapprefixes(int, "0")` |
-| [`r_imageextensions`](../38-cvars-reference/01-video-rendering-cvars.md#r_imageextensions) | `cvar r_imageextensions(string, "The list of image file extensions which might exist on disk (note that this does not list all supported formats, only the extensions that should be searched for).")` |
+| [`r_imageextensions`](../38-cvars-reference/01-video-rendering-cvars.md#r_imageextensions) | `cvar r_imageextensions(string, "")` |
 | [`r_keepimages`](../38-cvars-reference/01-video-rendering-cvars.md#r_keepimages) | `cvar r_keepimages(int, "0")` |
 | [`r_lavaalpha`](../38-cvars-reference/01-video-rendering-cvars.md#r_lavaalpha) | `cvar r_lavaalpha(string, "")` |
 | [`r_lavastyle`](../38-cvars-reference/01-video-rendering-cvars.md#r_lavastyle) | `cvar r_lavastyle(int, "1")` |
@@ -1107,7 +1107,7 @@
 | [`r_redlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_redlight_colour) | `cvar r_redlight_colour(string, "3.0 0.5 0.5 200")` |
 | [`r_refract_fbo`](../38-cvars-reference/01-video-rendering-cvars.md#r_refract_fbo) | `cvar r_refract_fbo(int, "1")` |
 | [`r_refractreflect_scale`](../38-cvars-reference/01-video-rendering-cvars.md#r_refractreflect_scale) | `cvar r_refractreflect_scale(float, "0.5")` |
-| [`r_replacemodels`](../38-cvars-reference/01-video-rendering-cvars.md#r_replacemodels) | `cvar r_replacemodels(string, "")` |
+| [`r_replacemodels`](../38-cvars-reference/01-video-rendering-cvars.md#r_replacemodels) | `cvar r_replacemodels(string, "md3 md2 md5mesh")` |
 | [`r_rocketlight`](../38-cvars-reference/01-video-rendering-cvars.md#r_rocketlight) | `cvar r_rocketlight(int, "1")` |
 | [`r_rocketlight_colour`](../38-cvars-reference/01-video-rendering-cvars.md#r_rocketlight_colour) | `cvar r_rocketlight_colour(string, "2.0 1.0 0.25 200")` |
 | [`r_rockettrail`](../38-cvars-reference/01-video-rendering-cvars.md#r_rockettrail) | `cvar r_rockettrail(int, "1")` |
@@ -1248,7 +1248,7 @@
 | [`mod_terrain_networked`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_terrain_networked) | `cvar mod_terrain_networked(int, "0")` |
 | [`mod_terrain_savever`](../38-cvars-reference/02-lighting-materials-cvars.md#mod_terrain_savever) | `cvar mod_terrain_savever(string, "")` |
 | [`r_ambient`](../38-cvars-reference/02-lighting-materials-cvars.md#r_ambient) | `cvar r_ambient(int, "0")` |
-| [`r_dynamic`](../38-cvars-reference/02-lighting-materials-cvars.md#r_dynamic) | `cvar r_dynamic(int, "0")` |
+| [`r_dynamic`](../38-cvars-reference/02-lighting-materials-cvars.md#r_dynamic) | `cvar r_dynamic(int, "1")` |
 | [`r_fullbright`](../38-cvars-reference/02-lighting-materials-cvars.md#r_fullbright) | `cvar r_fullbright(int, "0")` |
 | [`r_fullbrightSkins`](../38-cvars-reference/02-lighting-materials-cvars.md#r_fullbrightskins) | `cvar r_fullbrightSkins(float, "0.8")` |
 | [`r_glsl_emissive`](../38-cvars-reference/02-lighting-materials-cvars.md#r_glsl_emissive) | `cvar r_glsl_emissive(int, "1")` |
@@ -1384,7 +1384,7 @@
 | [`s_al_static_listener`](../38-cvars-reference/03-audio-cvars.md#s_al_static_listener) | `cvar s_al_static_listener(int, "0")` |
 | [`s_ambientfade`](../38-cvars-reference/03-audio-cvars.md#s_ambientfade) | `cvar s_ambientfade(int, "100")` |
 | [`s_ambientlevel`](../38-cvars-reference/03-audio-cvars.md#s_ambientlevel) | `cvar s_ambientlevel(float, "0.3")` |
-| [`s_bits`](../38-cvars-reference/03-audio-cvars.md#s_bits) | `cvar s_bits(int, "32")` |
+| [`s_bits`](../38-cvars-reference/03-audio-cvars.md#s_bits) | `cvar s_bits(int, "16")` |
 | [`s_buffersize`](../38-cvars-reference/03-audio-cvars.md#s_buffersize) | `cvar s_buffersize(int, "0")` |
 | [`s_device`](../38-cvars-reference/03-audio-cvars.md#s_device) | `cvar s_device(string, "")` |
 | [`s_doppler`](../38-cvars-reference/03-audio-cvars.md#s_doppler) | `cvar s_doppler(int, "0")` |
@@ -1392,7 +1392,7 @@
 | [`s_doppler_min`](../38-cvars-reference/03-audio-cvars.md#s_doppler_min) | `cvar s_doppler_min(float, "0.5")` |
 | [`s_eax`](../38-cvars-reference/03-audio-cvars.md#s_eax) | `cvar s_eax(int, "0")` |
 | [`s_inactive`](../38-cvars-reference/03-audio-cvars.md#s_inactive) | `cvar s_inactive(int, "1")` |
-| [`s_khz`](../38-cvars-reference/03-audio-cvars.md#s_khz) | `cvar s_khz(string, "snd_khz")` |
+| [`s_khz`](../38-cvars-reference/03-audio-cvars.md#s_khz) | `cvar s_khz(целое/строка, "48")` |
 | [`s_linearresample`](../38-cvars-reference/03-audio-cvars.md#s_linearresample) | `cvar s_linearresample(int, "1")` |
 | [`s_linearresample_stream`](../38-cvars-reference/03-audio-cvars.md#s_linearresample_stream) | `cvar s_linearresample_stream(int, "0")` |
 | [`s_loadas8bit`](../38-cvars-reference/03-audio-cvars.md#s_loadas8bit) | `cvar s_loadas8bit(int, "0")` |
@@ -1922,7 +1922,7 @@
 | [`b_switch`](../38-cvars-reference/07-system-misc-cvars.md#b_switch) | `cvar b_switch(string, "")` |
 | [`baseskin`](../38-cvars-reference/07-system-misc-cvars.md#baseskin) | `cvar baseskin(string, "")` |
 | [`bottomcolor`](../38-cvars-reference/07-system-misc-cvars.md#bottomcolor) | `cvar bottomcolor(int, "12")` |
-| [`capturecodec`](../38-cvars-reference/07-system-misc-cvars.md#capturecodec) | `cvar capturecodec(string, "the compression/encoding codec to use.\\n")` |
+| [`capturecodec`](../38-cvars-reference/07-system-misc-cvars.md#capturecodec) | `cvar capturecodec(string, "tga")` |
 | [`capturedemoheight`](../38-cvars-reference/07-system-misc-cvars.md#capturedemoheight) | `cvar capturedemoheight(int, "0")` |
 | [`capturedemowidth`](../38-cvars-reference/07-system-misc-cvars.md#capturedemowidth) | `cvar capturedemowidth(int, "0")` |
 | [`capturedriver`](../38-cvars-reference/07-system-misc-cvars.md#capturedriver) | `cvar capturedriver(string, "")` |
@@ -1955,7 +1955,7 @@
 | [`cl_deadbodyfilter`](../38-cvars-reference/07-system-misc-cvars.md#cl_deadbodyfilter) | `cvar cl_deadbodyfilter(int, "0")` |
 | [`cl_delay_packets`](../38-cvars-reference/07-system-misc-cvars.md#cl_delay_packets) | `cvar cl_delay_packets(int, "0")` |
 | [`cl_demoreel`](../38-cvars-reference/07-system-misc-cvars.md#cl_demoreel) | `cvar cl_demoreel(int, "0")` |
-| [`cl_demospeed`](../38-cvars-reference/07-system-misc-cvars.md#cl_demospeed) | `cvar cl_demospeed(int, "1")` |
+| [`cl_demospeed`](../38-cvars-reference/07-system-misc-cvars.md#cl_demospeed) | `cvar cl_demospeed(float, "1")` |
 | [`cl_dlemptyterminate`](../38-cvars-reference/07-system-misc-cvars.md#cl_dlemptyterminate) | `cvar cl_dlemptyterminate(int, "1")` |
 | [`cl_expsprite`](../38-cvars-reference/07-system-misc-cvars.md#cl_expsprite) | `cvar cl_expsprite(int, "1")` |
 | [`cl_fakeframes`](../38-cvars-reference/07-system-misc-cvars.md#cl_fakeframes) | `cvar cl_fakeframes(int, "0")` |
@@ -2057,7 +2057,7 @@
 | [`ipautodump`](../38-cvars-reference/07-system-misc-cvars.md#ipautodump) | `cvar ipautodump(int, "0")` |
 | [`itburnsitburnsmakeitstop`](../38-cvars-reference/07-system-misc-cvars.md#itburnsitburnsmakeitstop) | `cvar itburnsitburnsmakeitstop(int, "0")` |
 | [`joyradialdeadzone`](../38-cvars-reference/07-system-misc-cvars.md#joyradialdeadzone) | `cvar joyradialdeadzone(string, "")` |
-| [`lang`](../38-cvars-reference/07-system-misc-cvars.md#lang) | `cvar lang(string, "prvm_language")` |
+| [`lang`](../38-cvars-reference/07-system-misc-cvars.md#lang) | `cvar lang(string, "")` |
 | [`leftisright`](../38-cvars-reference/07-system-misc-cvars.md#leftisright) | `cvar leftisright(int, "0")` |
 | [`log_developer`](../38-cvars-reference/07-system-misc-cvars.md#log_developer) | `cvar log_developer(int, "0")` |
 | [`log_dir`](../38-cvars-reference/07-system-misc-cvars.md#log_dir) | `cvar log_dir(string, "")` |
@@ -2110,7 +2110,7 @@
 | [`pext_replacementdeltas`](../38-cvars-reference/07-system-misc-cvars.md#pext_replacementdeltas) | `cvar pext_replacementdeltas(int, "1")` |
 | [`pkg_autoupdate`](../38-cvars-reference/07-system-misc-cvars.md#pkg_autoupdate) | `cvar pkg_autoupdate(int, "1")` |
 | [`plug_loaddefault`](../38-cvars-reference/07-system-misc-cvars.md#plug_loaddefault) | `cvar plug_loaddefault(int, "1")` |
-| [`plug_sbar`](../38-cvars-reference/07-system-misc-cvars.md#plug_sbar) | `cvar plug_sbar(int, "0")` |
+| [`plug_sbar`](../38-cvars-reference/07-system-misc-cvars.md#plug_sbar) | `cvar plug_sbar(int, "3")` |
 | [`prox_inmenu`](../38-cvars-reference/07-system-misc-cvars.md#prox_inmenu) | `cvar prox_inmenu(int, "0")` |
 | [`q3bsp_ignorestyles`](../38-cvars-reference/07-system-misc-cvars.md#q3bsp_ignorestyles) | `cvar q3bsp_ignorestyles(int, "0")` |
 | [`q3bsp_mergelightmaps`](../38-cvars-reference/07-system-misc-cvars.md#q3bsp_mergelightmaps) | `cvar q3bsp_mergelightmaps(int, "1")` |
@@ -2386,22 +2386,18 @@
 Всего задокументировано: **75** директив. Полный постатейный разбор — в разделе [«40. Директивы языка материалов»](../40-shader-directives-reference/README.md).
 
 
-### none\
-
-| Элемент | Сигнатура / Описание |
-|---|---|
-| [`cull`](../40-shader-directives-reference/01-shader-toplevel-directives.md#cull) | `cull disable\ |
-
 ### Директивы уровня материала
 
 | Элемент | Сигнатура / Описание |
 |---|---|
+| [`cull`](../40-shader-directives-reference/01-shader-toplevel-directives.md#cull) | `cull disable|none|twosided|front|back|backside|backsided` |
 | [`skyparms`](../40-shader-directives-reference/01-shader-toplevel-directives.md#skyparms) | `skyparms farbox height nearbox` |
 | [`fogparms`](../40-shader-directives-reference/01-shader-toplevel-directives.md#fogparms) | `fogparms (r g b) depth` |
 | [`surfaceparm`](../40-shader-directives-reference/01-shader-toplevel-directives.md#surfaceparm) | `surfaceparm keyword` |
 | [`nomipmaps`](../40-shader-directives-reference/01-shader-toplevel-directives.md#nomipmaps) | `nomipmaps` |
 | [`nopicmip`](../40-shader-directives-reference/01-shader-toplevel-directives.md#nopicmip) | `nopicmip` |
 | [`polygonoffset`](../40-shader-directives-reference/01-shader-toplevel-directives.md#polygonoffset) | `polygonoffset [scale]` |
+| [`sort`](../40-shader-directives-reference/01-shader-toplevel-directives.md#sort) | `sort portal|sky|opaque|decal|litdecal|seethrough|unlitdecal|banner|underwater|blend|additive|nearest|ripple|deferredlight|number` |
 | [`deformvertexes`](../40-shader-directives-reference/01-shader-toplevel-directives.md#deformvertexes) | `deformvertexes type ...` |
 | [`portal`](../40-shader-directives-reference/01-shader-toplevel-directives.md#portal) | `portal` |
 | [`entitymergable`](../40-shader-directives-reference/01-shader-toplevel-directives.md#entitymergable) | `entitymergable` |
@@ -2424,12 +2420,6 @@
 | [`hlslprogram`](../40-shader-directives-reference/01-shader-toplevel-directives.md#hlslprogram) | `hlslprogram name` |
 | [`hlsl11program`](../40-shader-directives-reference/01-shader-toplevel-directives.md#hlsl11program) | `hlsl11program name` |
 | [`portalfboscale`](../40-shader-directives-reference/01-shader-toplevel-directives.md#portalfboscale) | `portalfboscale scale` |
-
-### sky\
-
-| Элемент | Сигнатура / Описание |
-|---|---|
-| [`sort`](../40-shader-directives-reference/01-shader-toplevel-directives.md#sort) | `sort portal\ |
 
 ### Директивы уровня стадии
 

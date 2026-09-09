@@ -10,6 +10,6 @@
 - [Карты Half-Life 2 (VBSP)](./half-life-2-vbsp-maps.md)
 - [Карты Doom (WAD)](./doom-wad-maps.md)
 - [Внешние файлы сущностей карты (.ent)](./external-entity-files-ent.md)
-- [Внешние патчи освещения и видимости (.lit/.vis)](./external-lighting-visibility-patches.md)
+- [Внешние патчи освещения и видимости (.lit/.hdr/.lux/.vis)](./external-lighting-visibility-patches.md)
 - [Ландшафт на основе карт высот (heightmap terrain)](./heightmap-terrain.md)
 - [Совместное редактирование ландшафта в реальном времени](./networked-terrain-editing.md)
